@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>配對交易實戰 (Pair Trading) | GugoPro 財經教學學院</title>
+    <title>Clase Maestra de Pairs Trading | GugoPro 財經教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <style>
         .tutorial-container {
             display: grid;
@@ -161,7 +161,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">財經學院</span>
+                <span class="logo-tag">Academia Financiera</span>
             </a>
             
             <!-- Language Selector -->
@@ -185,24 +185,24 @@
     <!-- Main Content -->
     <main style="padding-top: 40px;">
         <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-arrow-left"></i> 返回首頁
+            <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
         </a>
 
         <div class="section-title-container" style="margin-bottom: 16px;">
-            <h1 class="section-title"><i class="fa-solid fa-scale-balanced"></i> 單元二：配對交易實戰 (Pair Trading)</h1>
-            <span class="section-subtitle">進階統計套利策略</span>
+            <h1 class="section-title"><i class="fa-solid fa-scale-balanced"></i> Unit 2: Pairs Trading Masterclass</h1>
+            <span class="section-subtitle">Advanced Statistical Arbitrage</span>
         </div>
 
         <div class="tutorial-container">
             <!-- Sidebar Navigation -->
             <aside class="sidebar">
-                <h4>本單元目錄</h4>
+                <h4>Unit Contents</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. 什麼是配對交易</a></li>
-                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. 統計套利與均值回歸</a></li>
-                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. 標的篩選與協整測試</a></li>
-                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Z-Score 與交易訊號</a></li>
-                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. 實戰風控與策略調校</a></li>
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. What is Pairs Trading</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. Statistical Arbitrage and Mean Reversion</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. Asset Selection & Cointegration Test</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Z-Score and Trading Signals</a></li>
+                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. Risk Management & Adjustments</a></li>
                 </ul>
             </aside>
 
@@ -210,60 +210,57 @@
             <div class="content-body">
                 <!-- Section 1 -->
                 <section id="section-1">
-                    <h2>1. 什麼是配對交易？</h2>
+                    <h2>1. What is Pairs Trading?</h2>
                     <p><strong>配對交易 (Pair Trading)</strong> 是一種市場中性 (Market Neutral) 的投資策略，最早由華爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代開發。其核心概念是尋找歷史上價格走勢高度相關的兩檔商品（如兩檔同產業的股票，或相關性極高的期貨合約），並在它們之間的價格差距（價差 Spread）出現異常擴大時進行操作：</p>
                     <div class="highlight-card">
-                        <p style="margin-bottom: 0;"><strong>交易核心公式：</strong><br>當價差擴大到異常水平 ➡️ <strong>賣出（放空）高估的商品，同時買進（做多）低估的商品</strong>，等待兩者價差回歸正常時平倉，賺取中間的價差收斂利潤。</p>
+                        <p style="margin-bottom: 0;"><strong>Core Trading Rule:</strong><br>When spread widens anomaly ➡️ **Short the overvalued asset & Long the undervalued asset**, waiting for the spread to converge to its mean.</p>
                     </div>
-                    <p>這種策略的最大優勢在於：<strong>不論整體市場是大漲還是大跌，只要兩檔商品的價格相對關係回歸歷史常態，策略就能獲利。</strong>這就是所謂的「市場中性」。</p>
+                    <p>The main benefit: **No matter if the market rises or crashes, as long as the relative spread reverts to normal, you profit.** This is "market neutrality".</p>
                 </section>
 
                 <!-- Section 2 -->
                 <section id="section-2">
-                    <h2>2. 統計套利與均值回歸</h2>
-                    <p>配對交易之所以能成立，立足於統計學上的<strong>均值回歸 (Mean Reversion)</strong> 原理。當我們將兩個高度相關的商品價格進行線性組合後，其價差序列在長期來看應該會在一個穩定的平均值上下擺動。</p>
+                    <h2>2. Statistical Arbitrage and Mean Reversion</h2>
+                    <p>Pairs trading relies on **Mean Reversion**. A linear combination of two correlated assets yields a spread series that fluctuates around a stable historical mean.</p>
                     <h3>均值回歸示意圖概念</h3>
-                    <p>想像一隻小狗（商品 A）和牽著牠的主人（商品 B）在公園散步。雖然小狗會跑來跑去，有時跑到主人前面，有時落在主人後面，但由於繩子（相關性）的牽引，小狗最終還是會回到主人身邊。在金融市場中，這條「繩子」就是產業基本面、上下游關係或是期貨同標的不同月份的套利機制。</p>
+                    <p>Imagine a puppy (Asset A) walked by its owner (Asset B). Though the puppy runs ahead or lags behind, the leash (correlation) pulls it back. In markets, the leash is the industrial fundamentals or arbitrage forces.</p>
                 </section>
 
                 <!-- Section 3 -->
                 <section id="section-3">
-                    <h2>3. 標的篩選與協整測試</h2>
-                    <p>如何尋找適合配對交易的標的？僅僅看「相關係數 (Correlation)」是不夠的，因為相關係數高可能只是因為兩檔股票都在牛市上漲，但它們的價差可能會越走越遠（發散）。</p>
-                    <p>量化交易中更嚴謹的方法是使用<strong>協整性測試 (Cointegration Test)</strong>，例如 Engle-Granger 兩階段法：</p>
+                    <h2>3. Asset Selection & Cointegration Test</h2>
+                    <p>Selecting assets requires more than basic correlation, which can diverge during market transitions. We need a mathematical guarantee of convergence.</p>
+                    <p>Quant trading uses the **Cointegration Test** (like Engle-Granger two-step method):</p>
                     <div class="formula-box">
-                        Step 1: 進行普通最小二乘法 (OLS) 回歸：<br>
-                        Price_A = β * Price_B + α + Residual (殘差)<br><br>
-                        Step 2: 對殘差序列 (Residual) 進行單位根檢定 (ADF Test)。若殘差序列是平穩的 (Stationary)，則說明 A 與 B 具有協整關係。
+                        Step 1: OLS regression:<br>Price_A = β * Price_B + α + Residual<br><br>Step 2: Perform ADF Test on Residuals. If residuals are Stationary, the assets are cointegrated.
                     </div>
-                    <p>常見的配對組合有：同產業競爭對手（如：台積電 vs 聯電）、產業鏈上下游、以及具有高度替代性的期貨品種（如：大豆 vs 大豆油）。</p>
+                    <p>Common pairs: direct competitors (e.g. KO vs PEP), supply chain partners, or highly substitutable futures (Soybeans vs Soyoil).</p>
                 </section>
 
                 <!-- Section 4 -->
                 <section id="section-4">
-                    <h2>4. Z-Score 與交易訊號</h2>
-                    <p>一旦確定兩檔商品具有協整關係，我們就可以計算價差的 <strong>Z-Score</strong> 來作為我們的交易信號。Z-Score 代表目前的價差偏離歷史平均值多少個標準差：</p>
+                    <h2>4. Z-Score and Trading Signals</h2>
+                    <p>Once cointegration is proven, we compute the **Z-Score** of the spread. It measures how many standard deviations the current spread is from the mean:</p>
                     <div class="formula-box">
-                        Spread = Price_A - (β * Price_B)<br>
-                        Z-Score = (Spread - Mean(Spread)) / StdDev(Spread)
+                        Spread = Price_A - (β * Price_B)<br>Z-Score = (Spread - Mean) / StdDev
                     </div>
-                    <h3>進出場信號範例：</h3>
+                    <h3>Entry and Exit Signals Example:</h3>
                     <ul>
-                        <li><strong>建倉信號</strong>：當 Z-Score > +2.0 時，表示價差異常擴大，此時放空商品 A，做多商品 B。</li>
-                        <li><strong>建倉信號</strong>：當 Z-Score < -2.0 時，表示價差異常收縮，此時做多商品 A，放空商品 B。</li>
-                        <li><strong>平倉信號</strong>：當 Z-Score 回歸到 0 附近（歷史均值）時，雙邊平倉落袋為安。</li>
+                        <li>**Entry Signal**: When Z-Score > +2.0 (spread is over-widened), Short A and Long B.</li>
+                        <li>**Entry Signal**: When Z-Score < -2.0 (spread is over-narrowed), Long A and Short B.</li>
+                        <li>**Exit Signal**: When Z-Score reverts back to 0 (mean), close both sides to take profit.</li>
                     </ul>
                 </section>
 
                 <!-- Section 5 -->
                 <section id="section-5">
-                    <h2>5. 實戰風控與策略調校</h2>
-                    <p>儘管配對交易風險相對單邊交易低，但絕非「無風險套利」。在實戰中，最大的風險在於<strong>「協整關係破裂」</strong>。例如某一檔股票發生嚴重的公司治理危機或財務黑天鵝，導致兩者價差無限擴大，永遠不再回歸。</p>
-                    <h3>配對交易三大風控守則：</h3>
+                    <h2>5. Risk Management & Adjustments</h2>
+                    <p>Though lower risk than outright trades, pairs trading is not risk-free arbitrage. The main risk is **breakdown of cointegration** (e.g., corporate scandals or regulatory black swans).</p>
+                    <h3>Three Pillars of Pairs Trading Risk Control:</h3>
                     <ol>
-                        <li><strong>強制停損點</strong>：當 Z-Score 超過 ±3.0 且持續發散時，必須果斷手動平倉，防止單邊黑天鵝造成毀滅性打擊。</li>
-                        <li><strong>時間停損（Time Stop）</strong>：如果價差在建倉後超過 30 個交易日仍未收斂，代表市場結構可能已變，應主動撤出。</li>
-                        <li><strong>資金管理</strong>：由於配對交易是雙邊開倉，保證金的使用效率與合約乘數換算需要格外精確，建議單次配對交易不超過總資金的 10%。</li>
+                        <li>**Hard Stop**: If Z-Score exceeds ±3.0 and continues diverging, cut losses manually.</li>
+                        <li>**Time Stop**: If the spread does not converge within 30 days, exit as the market dynamics may have structurally changed.</li>
+                        <li>**Capital Allocation**: Pairs trade involves two legs; keep total position allocation under 10% of equity for a single pair.</li>
                     </ol>
                 </section>
             </div>
@@ -273,12 +270,12 @@
         <div class="card amazon-affiliate-card">
             <div class="card-header-flex">
                 <h2>
-                    <i class="fa-brands fa-amazon"></i> 🛒 本單元推薦閱讀：配對交易與量化分析書籍 (Amazon Reader Hub)
+                    <i class="fa-brands fa-amazon"></i> 🛒 Unit 2 Recommendations: Pairs Trading & Quant Books (Amazon Reader Hub)
                 </h2>
-                <span class="badge-promo">精選書單</span>
+                <span class="badge-promo">Libros Recomendados</span>
             </div>
             <p class="amazon-desc">
-                想更深入探討配對交易與統計套利背後的數學模型和實戰代碼嗎？以下是全球量化交易員公認的經典必讀著作（透過專屬連結購買支持本站）：
+                Want to dive into the mathematical models and backtesting codes? Here are the must-reads recognized by global quant traders:
             </p>
             <div class="amz-grid">
                 <!-- Book 1 -->
@@ -287,13 +284,13 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-book"></i>
                         </div>
-                        <strong>Pairs Trading 經典指南</strong>
+                        <strong>Pairs Trading: Quantitative Methods</strong>
                     </div>
                     <p>
-                        由 Ganapathy Vidyamurthy 撰寫，系統性介紹配對交易的數學基礎、協整性模型與統計套利實務。
+                        Written by Ganapathy Vidyamurthy, systematically covering mathematical bases, cointegration models, and stat-arb practices.
                     </p>
                     <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
+                        Comprar en Amazon ➡️
                     </div>
                 </a>
 
@@ -303,13 +300,13 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-book-open"></i>
                         </div>
-                        <strong>Ernie Chan 量化交易聖經</strong>
+                        <strong>Ernie Chan's Quantitative Trading</strong>
                     </div>
                     <p>
-                        《Quantitative Trading》經典著作，包含均值回歸策略、回測框架以及如何開始獨立量化交易。
+                        Ernie Chan's classic, covering mean-reversion, backtesting frameworks, and how to set up your retail quant business.
                     </p>
                     <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
+                        Comprar en Amazon ➡️
                     </div>
                 </a>
 
@@ -319,13 +316,13 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-gears"></i>
                         </div>
-                        <strong>統計套利與演算法交易</strong>
+                        <strong>Statistical Arbitrage & Algorithmic Trading</strong>
                     </div>
                     <p>
-                        Andrew Pole 著作《Statistical Arbitrage》，深入探索統計套利模型、市場微觀結構與演算法執行策略。
+                        Andrew Pole's "Statistical Arbitrage", exploring quant models, market microstructure, and algorithmic executions.
                     </p>
                     <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
+                        Comprar en Amazon ➡️
                     </div>
                 </a>
 
@@ -335,13 +332,13 @@
                         <div class="amz-icon-box">
                             <i class="fa-brands fa-python"></i>
                         </div>
-                        <strong>Python 金融實戰大作</strong>
+                        <strong>Python for Finance Masterpiece</strong>
                     </div>
                     <p>
-                        Yves Hilpisch 著作，利用 Python 進行金融數據分析、回測、量化建模的必備教科書。
+                        Yves Hilpisch's bestseller, the ultimate textbook for data analysis, backtesting, and modeling using Python.
                     </p>
                     <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
+                        Comprar en Amazon ➡️
                     </div>
                 </a>
             </div>
@@ -351,14 +348,14 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-            <a href="index.html">首頁</a>
-            <a href="futures-stocks.html">期貨與股票基礎</a>
-            <a href="pair-trading.html">配對交易實戰</a>
+            <a href="index.html">Inicio</a>
+            <a href="futures-stocks.html">Fundamentos de Futuros y Acciones</a>
+            <a href="pair-trading.html">Pairs Trading Práctico</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Descargo de responsabilidad: Todo el contenido es solo para referencia educativa. Operar conlleva un alto riesgo; por favor evalúe con cuidado.</p>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="../app.js"></script>
 </body>
 </html>
