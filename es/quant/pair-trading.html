@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pairs Trading (Pair Trading) | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Academia Financiera</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Curso Quant
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-scale-balanced"></i> Unit 2: Pairs Trading Masterclass</h1>
+            <span class="section-subtitle">Advanced Statistical Arbitrage</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>Unit Contents</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. What is Pairs Trading</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. Statistical Arbitrage and Mean Reversion</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. Asset Selection & Cointegration Test</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Z-Score and Trading Signals</a></li>
+                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. Risk Management & Adjustments</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. What is Pairs Trading?</h2>
+                    <p><strong>配對交易 (Pair Trading)</strong> 是一種市場中性 (Market Neutral) 的投資策略，最早由華爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代開發。其核心概念是尋找歷史上價格走勢高度相關的兩檔商品（如兩檔同產業的股票，或相關性極高的期貨合約），並在它們之間的價格差距（價差 Spread）出現異常擴大時進行操作：</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>Core Trading Rule:</strong><br>When spread widens anomaly ➡️ **Short the overvalued asset & Long the undervalued asset**, waiting for the spread to converge to its mean.</p>
+                    </div>
+                    <p>The main benefit: **No matter if the market rises or crashes, as long as the relative spread reverts to normal, you profit.** This is "market neutrality".</p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. Statistical Arbitrage and Mean Reversion</h2>
+                    <p>Pairs trading relies on **Mean Reversion**. A linear combination of two correlated assets yields a spread series that fluctuates around a stable historical mean.</p>
+                    <h3>均值回歸示意圖概念</h3>
+                    <p>Imagine a puppy (Asset A) walked by its owner (Asset B). Though the puppy runs ahead or lags behind, the leash (correlation) pulls it back. In markets, the leash is the industrial fundamentals or arbitrage forces.</p>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. Asset Selection & Cointegration Test</h2>
+                    <p>Selecting assets requires more than basic correlation, which can diverge during market transitions. We need a mathematical guarantee of convergence.</p>
+                    <p>Quant trading uses the **Cointegration Test** (like Engle-Granger two-step method):</p>
+                    <div class="formula-box">
+                        Step 1: OLS regression:<br>Price_A = β * Price_B + α + Residual<br><br>Step 2: Perform ADF Test on Residuals. If residuals are Stationary, the assets are cointegrated.
+                    </div>
+                    <p>Common pairs: direct competitors (e.g. KO vs PEP), supply chain partners, or highly substitutable futures (Soybeans vs Soyoil).</p>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4">
+                    <h2>4. Z-Score and Trading Signals</h2>
+                    <p>Once cointegration is proven, we compute the **Z-Score** of the spread. It measures how many standard deviations the current spread is from the mean:</p>
+                    <div class="formula-box">
+                        Spread = Price_A - (β * Price_B)<br>Z-Score = (Spread - Mean) / StdDev
+                    </div>
+                    <h3>Entry and Exit Signals Example:</h3>
+                    <ul>
+                        <li>**Entry Signal**: When Z-Score > +2.0 (spread is over-widened), Short A and Long B.</li>
+                        <li>**Entry Signal**: When Z-Score < -2.0 (spread is over-narrowed), Long A and Short B.</li>
+                        <li>**Exit Signal**: When Z-Score reverts back to 0 (mean), close both sides to take profit.</li>
+                    </ul>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="section-5">
+                    <h2>5. Risk Management & Adjustments</h2>
+                    <p>Though lower risk than outright trades, pairs trading is not risk-free arbitrage. The main risk is **breakdown of cointegration** (e.g., corporate scandals or regulatory black swans).</p>
+                    <h3>Three Pillars of Pairs Trading Risk Control:</h3>
+                    <ol>
+                        <li>**Hard Stop**: If Z-Score exceeds ±3.0 and continues diverging, cut losses manually.</li>
+                        <li>**Time Stop**: If the spread does not converge within 30 days, exit as the market dynamics may have structurally changed.</li>
+                        <li>**Capital Allocation**: Pairs trade involves two legs; keep total position allocation under 10% of equity for a single pair.</li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Pair Trading & Quantitative Trading) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Unit 2 Recommendations: Pairs Trading & Quant Books (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">Editor's Picks</span>
+            </div>
+            <p class="amazon-desc">
+                Want to dive into the mathematical models and backtesting codes? Here are the must-reads recognized by global quant traders:
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471460672?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Pairs Trading: Quantitative Methods</strong>
+                    </div>
+                    <p>
+                        Written by Ganapathy Vidyamurthy, systematically covering mathematical bases, cointegration models, and stat-arb practices.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>Ernie Chan's Quantitative Trading</strong>
+                    </div>
+                    <p>
+                        Ernie Chan's classic, covering mean-reversion, backtesting frameworks, and how to set up your retail quant business.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0470073861?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <strong>Statistical Arbitrage & Algorithmic Trading</strong>
+                    </div>
+                    <p>
+                        Andrew Pole's "Statistical Arbitrage", exploring quant models, market microstructure, and algorithmic executions.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1492024333?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Python for Finance Masterpiece</strong>
+                    </div>
+                    <p>
+                        Yves Hilpisch's bestseller, the ultimate textbook for data analysis, backtesting, and modeling using Python.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <strong>Algorithmic Trading & Money Mgmt</strong>
+                    </div>
+                    <p>
+                        Ernie Chan's second book, detailing momentum, mean-reversion strategies, and Kelly formula capital management.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1839217715?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <strong>ML for Financial Trading</strong>
+                    </div>
+                    <p>
+                        Stefan Jansen's book on applying ML models (decision trees, random forests, neural networks) to trading strategy design and backtesting.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Inicio</a>
+            <a href="../fundamentals/index.html">Fundamentos</a>
+            <a href="../stocks/index.html">Curso de Acciones</a>
+            <a href="../futures/index.html">Curso de Futuros</a>
+            <a href="index.html">Curso de Quant</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Descargo de responsabilidad: Todo el contenido es educativo. Operar conlleva un alto riesgo; evalúe con cuidado.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

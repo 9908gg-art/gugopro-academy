@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GugoPro 금융 아카데미 | 주식, 선물 및 페어 트레이딩 학습 포럼</title>
+    <title>GugoPro 금융 아카데미 | 체계적 트레이딩 학습 포럼</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Language Redirect Script -->
     <script>
         (function() {
@@ -78,70 +78,95 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-badge">
-            <i class="fa-solid fa-chart-line"></i> Professional Quantitative Strategy & Pairs Trading Education
+            <i class="fa-solid fa-diagram-next"></i> 진급 제도 ‧ 체계적 트레이딩 학습 경로
         </div>
-        <h1>Journey of Strategy Trading from Scratch</h1>
-        <p>Welcome to GugoPro Academy. Here, we guide you to master futures, stocks, and core statistical arbitrage & pairs trading to build systematic trading logic.</p>
+        <h1>처음부터 시작하는 전략 거래 학습 여정</h1>
+        <p>GugoPro 아카데미에 오신 것을 환영합니다. 여기서는 진급 제도에 따라 4단계 학습 과정을 계획하여 체계적인 거래 논리를 구축하도록 안내합니다.</p>
     </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Course Modules Section -->
-        <div class="section-title-container">
-            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> 학습 모듈 가이드</h2>
-            <span class="section-subtitle">학습할 모듈을 선택하십시오</span>
-        </div>
-
+    <!-- Main Content Grid -->
+    <main class="container">
+        <h2 class="section-heading"><i class="fa-solid fa-map-signs"></i> Academy Learning Map</h2>
+        <p class="section-sub">현재 학습 진행 상태를 클릭하여 해당하는 체계적 과정에 진입하십시오:</p>
+        
         <div class="modules-grid">
-            <!-- Module 1: Futures & Stocks -->
-            <div class="module-card">
-                <div class="module-meta">
-                    <span class="module-badge badge-easy">초급 입문</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4개 장</span>
-                </div>
-                <h3>선물 및 주식 기초 교육</h3>
-                <p>Explore core mechanisms of stocks & futures. Learn margin systems, long/short, contract specs, and risk management.</p>
-                <a href="futures-stocks.html" class="module-btn">
-                    학습 시작 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Module 2: Pair Trading (Featured) -->
+            <!-- Level 1 -->
             <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-hard" style="background: rgba(255, 153, 0, 0.12); color: var(--accent);">핵심 고급</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5개 장</span>
+                    <span class="module-badge badge-easy">Level 1: 🌟 기초 단계</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3개 과목</span>
                 </div>
-                <h3>페어 트레이딩 실전</h3>
-                <p>The academy's core strategy. Dive into statistical arbitrage and mean reversion, calculate Z-Score signals, and run pairs trades.</p>
-                <a href="pair-trading.html" class="module-btn">
-                    학습 시작 <i class="fa-solid fa-arrow-right"></i>
+                <h3>트레이딩 기초 및 자금 관리</h3>
+                <p>시장 작동의 본질을 탐구합니다. 주식과 선물의 정의부터 증거금 리스크, 손절매 규율을 배웁니다.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.1 Market Basics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.2 Trading Mindsets & 3 Taboos</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.3 Risk Control & Capital Management</li>
+                    </ul>
+                </div>
+                <a href="fundamentals/index.html" class="module-btn">
+                    과정 입장 <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <!-- Module 3: Quantitative & Coding (Coming Soon) -->
-            <div class="module-card" style="opacity: 0.8;">
+            <!-- Level 2 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">중급 확장</span>
-                    <span class="module-duration"><i class="fa-solid fa-hourglass-half"></i> 준비 중</span>
+                    <span class="module-badge badge-medium">Level 2: 📈 주식 과정</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3개 과목</span>
                 </div>
-                <h3>계량화 전략 및 Python 백테스팅</h3>
-                <p>Learn how to use Python to fetch data, calculate indicators, and backtest pairs trading strategies using historical data.</p>
-                <button class="module-btn" style="cursor: not-allowed;" disabled>
-                    출시 예정 <i class="fa-solid fa-lock"></i>
-                </button>
+                <h3>주식 전략 및 가치 투자</h3>
+                <p>주식 투자 전략에 초점을 맞춥니다. 가치 투자의 안전 마진, 재무 분석, 고배당주 선정, 기술적 분석을 배웁니다.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.1 Value Investing Masterclass</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.2 Dividend Investing Strategy</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.3 Technical Analysis & Swing Trading</li>
+                    </ul>
+                </div>
+                <a href="stocks/index.html" class="module-btn">
+                    과정 입장 <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
-            <!-- Module 4: Legendary Traders' Methods -->
-            <div class="module-card">
+            <!-- Level 3 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">클래식 전략</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3명의 대가</span>
+                    <span class="module-badge badge-hard">Level 3: 🌪️ 선물 과정</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3개 과목</span>
                 </div>
-                <h3>전설적인 대가의 투자 심법</h3>
-                <p>Deconstruct Jesse Livermore's Pivotal Points, Richard Dennis's Turtle Rules, and George Soros's Reflexivity Theory.</p>
-                <a href="master-strategies.html" class="module-btn">
-                    학습 시작 <i class="fa-solid fa-arrow-right"></i>
+                <h3>선물 스프레드 및 시장 헤지</h3>
+                <p>深入期貨市場的微觀機制。從保證金槓桿計算，學習多空方向操作、Contract Multiplier換算，進而掌握跨期價差套利（Calendar Spread）與如何利用衍生性商品進行避險。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.1 Futures Contract & Margin Mechanics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.2 Calendar Spreads & Arbitrage</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.3 Cross-Market Hedging & Risk Balancing</li>
+                    </ul>
+                </div>
+                <a href="futures/index.html" class="module-btn">
+                    과정 입장 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="module-card featured">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard" style="background:rgba(156,39,176,0.1); color:#e040fb; border:1px solid rgba(156,39,176,0.2);">Level 4: ⚖️ 양적 과정</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3개 과목</span>
+                </div>
+                <h3>양적 거래 및 통계적 차익거래</h3>
+                <p>Step into systematic quantitative trading. Use statistical cointegration to screen pairs, generate mean-reversion signals via Z-Score, and backtest with Python.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.1 Pairs Trading Masterclass</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.2 Python Quant Coding Basics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.3 Legendary Traders' Methods</li>
+                    </ul>
+                </div>
+                <a href="quant/index.html" class="module-btn">
+                    과정 입장 <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -157,6 +182,7 @@
             <p class="amazon-desc">
                 Explore classic financial books and trading gear through our affiliate links below to support our free high-quality content!
             </p>
+            
             <div class="amz-grid">
                 <!-- Bestsellers -->
                 <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
@@ -196,7 +222,7 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-heart"></i>
                         </div>
-                        <strong>Most Wished For Trading Bibles</strong>
+                        <strong>最想擁有的交易聖經</strong>
                     </div>
                     <p>
                         Benjamin Graham's legendary classic "The Intelligent Investor", laying the foundation of value investing and margin of safety.
@@ -261,14 +287,15 @@
     <footer>
         <div class="footer-links">
             <a href="index.html">홈</a>
-            <a href="futures-stocks.html">선물 및 주식 기초</a>
-            <a href="pair-trading.html">페어 트레이딩 실전</a>
-            <a href="master-strategies.html">전설적인 대가의 투자 심법</a>
+            <a href="fundamentals/index.html">기초 단계</a>
+            <a href="stocks/index.html">주식 과정</a>
+            <a href="futures/index.html">선물 과정</a>
+            <a href="quant/index.html">양적 과정</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">면책 조항: 본 사이트의 모든 교육 내용은 학술 연구 및 교육 참고용이며, 투자 권유에 해당하지 않습니다. 거래에는 높은 위험이 따르므로 신중하게 평가하십시오.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">면책 조항: 모든 내용은 교육용 참고용입니다. 거래는 높은 위험을 수반하므로 신중하게 평가하십시오.</p>
     </footer>
 
-    <script src="../app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

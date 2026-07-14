@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2: 📈 株式コース | GugoPro アカデミー</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(33, 150, 243, 0.15);">
+        <div class="hero-badge" style="background: rgba(33, 150, 243, 0.12); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.2);">
+            <i class="fa-solid fa-chart-line"></i> Level 2コース ‧ 株式取引と資産配分
+        </div>
+        <h1>株式取引コース</h1>
+        <p>Level 2へようこそ。バリュー投資、高配当複利投資、テクニカル分析スイングトレードなどの株式戦略を学びます。</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> アカデミーマップに戻る
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 2.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 2.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>價值投資大師心法</h3>
+                <p>バリュー投資の本質。P/E、P/B、ROEから割安銘柄を選定し、安全の余白を構築します。</p>
+                <a href="value-investing.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 2.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 2.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>高配当長期投資戦略</h3>
+                <p>配当再投資による複利効果。安定高配当株の選別、利回り計算、埋める確率の読み方をマスターします。</p>
+                <a href="dividend-strategy.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 2.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 2.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>テクニカル分析とスイングトレード</h3>
+                <p>スイングトレード実戦。ローソク足型、移動平均交差、MACD&RSI指標、支持・抵抗線の引き方を習得します。</p>
+                <a href="swing-trading.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 推奨書籍：株式投資と財務諸表の名著
+                </h2>
+                <span class="badge-promo">厳選された書籍</span>
+            </div>
+            <p class="amazon-desc">
+                不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <strong>ベストセラー財務書籍</strong>
+                    </div>
+                    <p>
+                        レイ・ダリオの『原則（Principles）』を読み、客観的論理とシステム思考による意思決定方法を学びます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/B076VNFZJG?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <strong>トレーダー設備と周辺機器</strong>
+                    </div>
+                    <p>
+                        マルチモニターのトレードルーム向けに、反射のない照明を提供するBenQ ScreenBarスマートアイケアモニター掛け式ライトを厳選。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <strong>最も欲しいトレードの聖書</strong>
+                    </div>
+                    <p>
+                        バリュー投資の父ベンジャミン・グレアムの不朽の名著『賢明なる投資家』。安全の余白の概念を確立します。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <strong>クオンツ取引の最新作</strong>
+                    </div>
+                    <p>
+                        マルコス・ロペス・デ・プラド著『Advances in Financial Machine Learning』。最先端の金融機械学習戦略をマスターします。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/149205335X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>システムトレード入門</strong>
+                    </div>
+                    <p>
+                        Yves Hilpisch著『Python for Algorithmic Trading』。Pythonによる取引アルゴリズム構築、データ処理、API連携を学びます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>トレードメンタル不朽の名作</strong>
+                    </div>
+                    <p>
+                        マーク・ダグラス著『ゾーン』。トレード心理学をマスターし、確率的思考と強固な規律を身につけます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">基礎ステージ</a>
+            <a href="index.html">株式コース</a>
+            <a href="../futures/index.html">先物コース</a>
+            <a href="../quant/index.html">クオンツコース</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

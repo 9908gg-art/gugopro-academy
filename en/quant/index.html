@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4: ⚖️ Quant Path | GugoPro Academy</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(156, 39, 176, 0.15);">
+        <div class="hero-badge" style="background: rgba(156, 39, 176, 0.12); color: #e040fb; border: 1px solid rgba(156, 39, 176, 0.2);">
+            <i class="fa-solid fa-graduation-cap"></i> Level 4 Path ‧ Quant Trading & Stat Arbitrage
+        </div>
+        <h1>Quantitative Trading Path</h1>
+        <p>Welcome to Level 4. The crown jewel of GugoPro Academy. Master quantitative analysis, Python backtesting, and systematic risk controls.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> Back to Academy Map
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 4.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard">Module 4.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個章節</span>
+                </div>
+                <h3>Pairs Trading (Pairs Trading)</h3>
+                <p>深入探討統計套利與均值回歸原理，學習協整性測試、Z-Score 價差信號計算，以及配對交易的建倉、平倉與風險控管原則。</p>
+                <a href="pair-trading.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 4.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>Python 量化交易入門</h3>
+                <p>Learn Python coding to fetch market history, calculate stats, and construct automatic backtesting engines to verify setups.</p>
+                <a href="quant-coding.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Coming Soon <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 4.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個大師</span>
+                </div>
+                <h3>Legendary Traders應用</h3>
+                <p>解構傑西·李佛摩的Pivotal Point Breakout與資金管理、理查·丹尼斯的Way of the Turtle (Dennis & Turtles)、以及喬治·索羅斯的市場反身性理論與泡沫週期操作。</p>
+                <a href="legendary-traders.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Recommended: Quant Trading & Statistical Arbitrage Classics
+                </h2>
+                <span class="badge-promo">Editor's Picks</span>
+            </div>
+            <p class="amazon-desc">
+                想更深入探討配對交易與統計套利背後的數學模型和實戰代碼嗎？以下是全球量化交易員公認的經典必讀著作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471460672?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Pairs Trading: Quantitative Methods</strong>
+                    </div>
+                    <p>
+                        Written by Ganapathy Vidyamurthy, systematically covering mathematical bases, cointegration models, and stat-arb practices.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>Ernie Chan's Quantitative Trading</strong>
+                    </div>
+                    <p>
+                        Ernie Chan's classic, covering mean-reversion, backtesting frameworks, and how to set up your retail quant business.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0470073861?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <strong>Statistical Arbitrage & Algorithmic Trading</strong>
+                    </div>
+                    <p>
+                        Andrew Pole's "Statistical Arbitrage", exploring quant models, market microstructure, and algorithmic executions.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1492024333?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Python for Finance Masterpiece</strong>
+                    </div>
+                    <p>
+                        Yves Hilpisch's bestseller, the ultimate textbook for data analysis, backtesting, and modeling using Python.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <strong>Algorithmic Trading & Money Mgmt</strong>
+                    </div>
+                    <p>
+                        Ernie Chan's second book, detailing momentum, mean-reversion strategies, and Kelly formula capital management.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1839217715?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <strong>ML for Financial Trading</strong>
+                    </div>
+                    <p>
+                        Stefan Jansen's book on applying ML models (decision trees, random forests, neural networks) to trading strategy design and backtesting.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../fundamentals/index.html">Fundamentals</a>
+            <a href="../stocks/index.html">Stock Path</a>
+            <a href="../futures/index.html">Futures Path</a>
+            <a href="index.html">Quant Path</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Disclaimer: All content is for educational reference only. Trading involves high risk; evaluate carefully.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>傳奇大師交易心法 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財經學院</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> 返回量化學程
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-crown"></i> 單元四：傳奇大師交易心法 (Legendary Traders)</h1>
+            <span class="section-subtitle">學習贏家的交易思維</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>本單元目錄</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-user-tie"></i> 1. 傑西·李佛摩關鍵點</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-shuttle-space"></i> 2. 理查·丹尼斯與海龜</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-globe"></i> 3. 索羅斯反身性理論</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. 傑西·李佛摩 —— 關鍵點操盤術與資金管理</h2>
+                    <p><strong>傑西·李佛摩 (Jesse Livermore)</strong> 被譽為有史以來最偉大的個人股票作手。他在 1929 年大蕭條中放空美股賺取了 1 億美元。他的操盤思維著重於**價格趨勢**、**關鍵點 (Pivotal Points)** 與**嚴格的資金管理**。</p>
+                    <h3>核心操作原則：</h3>
+                    <ul>
+                        <li><strong>關鍵點突破</strong>：不要在盤整市場中交易。只有當價格突破歷史阻力位或支撐位（即「關鍵點」）時，才建立首筆頭寸。這代表價格即將展開新一輪趨勢。</li>
+                        <li><strong>試探性建倉 (Pyramiding)</strong>：不要一次買足。先建立 20% 的試探性部位，只有當這筆部位產生利潤（證明您的判斷正確）時，才繼續加碼。</li>
+                        <li><strong>截斷虧損，讓利潤奔跑</strong>：李佛摩是首位提出「10% 限制停損」的操盤手。如果一筆交易虧損達 10%，無條件平倉。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. 理查·丹尼斯 —— 海龜交易法則與趨勢追蹤</h2>
+                    <p>在 1983 年，商品交易大師<strong>理查·丹尼斯 (Richard Dennis)</strong> 進行了一場著名的實驗：他招募了一群完全沒有交易經驗的普通人（稱為「海龜 Turtles」），並在兩週內教會他們一套**系統化的趨勢追蹤交易法**。結果海龜們在隨後的幾年中為他賺取了數千萬美元，證明了交易能力是可以透過後天訓練培養的。</p>
+                    <h3>海龜交易核心系統 (Turtle Rules)：</h3>
+                    <div class="formula-box">
+                        <ul>
+                            <li><strong>市場篩選</strong>：只挑選具有高流動性、高波動性的市場（商品期貨、外匯、國債）。</li>
+                            <li><strong>唐奇安通道突破 (Donchian Channel)</strong>：
+                                <ul>
+                                    <li>系統一（短線）：價格突破過去 20 天最高價時買入做多，跌破過去 10 天最低價時平倉。</li>
+                                    <li>系統二（長線）：價格突破過去 55 天最高價時買入做多，跌破過去 20 天最低價時平倉。</li>
+                                </ul>
+                            </li>
+                            <li><strong>基於波動率的頭寸管理 (N 值 / ATR)</strong>：使用真實波動幅度均值 (ATR) 來計算每一筆交易的建倉大小，使每個市場的風險波動等值化。</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. 喬治·索羅斯 —— 宏觀交易與反身性理論</h2>
+                    <p>量子基金創辦人<strong>喬治·索羅斯 (George Soros)</strong> 以 1992 年擊潰英格蘭銀行而聞名。他的投資哲學基於哲學思考，尤其是他提出的**「反身性理論 (Theory of Reflexivity)」**。</p>
+                    <h3>反身性理論的核心：</h3>
+                    <p>傳統經濟學假設「市場是理性的，價格會圍繞價值波動」。但索羅斯認為：<strong>參與者的偏見會直接改變市場的基本面，進而改變價格；而價格的改變又會反過來加深參與者的偏見。</strong>這是一個雙向的環形反饋過程。</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>索羅斯的泡沫形成模型：</strong><br>參與者偏見 ➡️ 價格上漲 ➡️ 基本面被扭曲（如信貸擴張） ➡️ 價格進一步暴漲（形成泡沫） ➡️ 偏見被戳破 ➡️ 泡沫崩潰。</p>
+                    </div>
+                    <p>索羅斯的策略是：<strong>尋找市場偏見與基本面嚴重脫節的轉折點，在泡沫形成的中後期順勢做多，並在泡沫即將破裂的臨界點進行大規模的反向獵殺。</strong></p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Trading Legends) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 本單元推薦閱讀：傳奇大師的交易心法與傳記 (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">大師必讀</span>
+            </div>
+            <p class="amazon-desc">
+                透過閱讀大師們的自傳與操盤準則，您可以直接借鑑他們數十年的市場智慧，建立自己的交易世界觀（點擊下方連結搜尋購買）：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>股票作手回憶錄 (李佛摩)</strong>
+                    </div>
+                    <p>
+                        被評為百年來最經典的交易書籍，生動記錄了李佛摩一生的起落與無價的投機心法。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0071469796?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-pen-fancy"></i>
+                        </div>
+                        <strong>李佛摩親筆：如何交易股票</strong>
+                    </div>
+                    <p>
+                        傑西·李佛摩親自撰寫的操盤手冊，詳細揭示了他的關鍵點公式與手動記錄表格方法。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/007148664X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-turtle"></i>
+                        </div>
+                        <strong>海龜交易法則</strong>
+                    </div>
+                    <p>
+                        由最成功的海龜學員 Curtis Faith 撰寫，首度完整公開海龜計畫的所有進出場、風控與加碼細節。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471445495?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <strong>金融煉金術 (索羅斯)</strong>
+                    </div>
+                    <p>
+                        索羅斯的思想巨著，詳細闡述了「反身性理論」以及他在市場中進行宏觀博弈的日記記錄。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118273051?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-wand-magic"></i>
+                        </div>
+                        <strong>市場奇才：大師訪談錄</strong>
+                    </div>
+                    <p>
+                        Jack D. Schwager 著作《Market Wizards》，訪談全球最頂尖的傳奇交易大師，探尋他們獲得超額回報的共通心法與風險控制準則。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1119371872?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <strong>趨勢追蹤交易指南</strong>
+                    </div>
+                    <p>
+                        Michael Covel 著作《Trend Following》，系統性分析趨勢追蹤大師們如何在牛市與熊市中，透過系統化交易規則獲得巨額利潤。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 購買 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首頁</a>
+            <a href="../fundamentals/index.html">啟盟階段</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="../futures/index.html">期貨學程</a>
+            <a href="index.html">量化學程</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

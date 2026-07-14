@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3: 🌪️ Futures Path | GugoPro Academy</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Học viện Tài chính</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(255, 153, 0, 0.15);">
+        <div class="hero-badge" style="background: rgba(255, 153, 0, 0.12); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.2);">
+            <i class="fa-solid fa-bolt"></i> Level 3 Path ‧ Futures & Derivatives
+        </div>
+        <h1>Futures Trading Path</h1>
+        <p>Welcome to Level 3. This path explores margin systems, leverage mechanisms, and calendar/cross-market spread trading to build robust hedging mindsets.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> Trở lại Bản đồ
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 3.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-easy">Module 3.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4 個章節</span>
+                </div>
+                <h3>期貨合約與保證金運作</h3>
+                <p>探索期貨交易的底層規則。學習保證金制度、多空方向操作、合約規格換算、最小跳動點價值，以及最重要的維持保證金風險防線。</p>
+                <a href="futures-basics.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 3.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>價差與跨期套利實務</h3>
+                <p>Explore spread trading. Understand Contango vs. Backwardation, roll yields, and calendar arbitrage strategies.</p>
+                <a href="spread-trading.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Sắp ra mắt <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 3.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>跨市場對沖與風險平衡</h3>
+                <p>Learn how to use index or commodity futures to hedge stock portfolios against systemic market drops during bear phases.</p>
+                <a href="hedging.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Sắp ra mắt <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Recommended: Futures Trading & Risk Management Classics
+                </h2>
+                <span class="badge-promo">Editor's Picks</span>
+            </div>
+            <p class="amazon-desc">
+                不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Technical Analysis of the Financial Markets</strong>
+                    </div>
+                    <p>
+                        John J. Murphy's masterpiece, considered the bible of technical analysis, covering trends, candlestick patterns, and indicators.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>Trading in the Zone (Trading Mindset)</strong>
+                    </div>
+                    <p>
+                        Mark Douglas's "Trading in the Zone", teaching you how to overcome fear and greed and master trading probabilities.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <strong>Options, Futures, and Other Derivatives</strong>
+                    </div>
+                    <p>
+                        John C. Hull's textbook, standard reading in business schools and Wall Street firms for derivatives pricing.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>Reminiscences of a Stock Operator</strong>
+                    </div>
+                    <p>
+                        Edwin Lefèvre's biography of Jesse Livermore, capturing the timeless wisdom and psychology of speculation.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <strong>Core of Professional Trading</strong>
+                    </div>
+                    <p>
+                        Mike Bellafiore's "One Good Trade", offering a look into proprietary trading and how to build a robust process.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>The Intelligent Investor</strong>
+                    </div>
+                    <p>
+                        Benjamin Graham's legendary classic "The Intelligent Investor", laying the foundation of value investing and margin of safety.
+                    </p>
+                    <div class="amz-action-text">
+                        Mua trên Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Trang chủ</a>
+            <a href="../fundamentals/index.html">Cơ bản</a>
+            <a href="../stocks/index.html">Khóa học Cổ phiếu</a>
+            <a href="index.html">Khóa học Tương lai</a>
+            <a href="../quant/index.html">Khóa học Quant</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Tuyên bố miễn trừ: Mọi nội dung chỉ mang tính tham khảo giáo dục. Giao dịch có rủi ro cao; hãy đánh giá cẩn thận.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

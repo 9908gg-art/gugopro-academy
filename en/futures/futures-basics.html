@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futures & Stocks教學 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Futures Path
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-chart-line"></i> Unit 1: Futures & Stocks Basics</h1>
+            <span class="section-subtitle">Build a Solid Trading Foundation</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>Unit Contents</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. Core Differences</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-vault"></i> 2. Margin and Leverage Mechanism</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-repeat"></i> 3. Long & Short Market Operations</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calendar-days"></i> 4. Contract Specs & Settlement</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. Stock vs. Futures Differences</h2>
+                    <p>Before starting complex strategy trading (like pairs trading), we must distinguish the underlying differences between **stocks** and **futures**:</p>
+                    <ul>
+                        <li><strong>股票 (Stocks)</strong>：代表您購買了公司的「所有權份額」。您是公司的股東，可以享有配股配息的權利。持有股票沒有時間限制（除非公司倒閉下市）。</li>
+                        <li><strong>期貨 (Futures)</strong>：本質上是一種「合約」，是買賣雙方約定在未來的某個特定時間，以特定價格交易某種資產的協議。期貨具有**到期日 (Expiration Date)**，合約到期後必須結算。</li>
+                    </ul>
+                    <p>Stocks trade physical assets, whereas futures trade future expectations and price volatility.</p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. Margin and Leverage Mechanism</h2>
+                    <p>The core feature of futures trading is **Margin Trading**. You do not pay the full contract value, but a percentage as collateral to control highly leveraged assets.</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>槓桿倍數公式：</strong><br>Leverage = Contract Value / Initial Margin</p>
+                    </div>
+                    <p>例如，若一個台股期貨合約總價值為 300 萬台幣，而交易所規定的原始保證金為 15 萬台幣，則該合約的資金槓桿倍數為：<strong>300 / 15 = 20 倍</strong>。</p>
+                    <p>⚠️ **Risk Warning**: Leverage is a double-edged sword. A 1% price change scale gains or losses by 20x. If your account drops below the Maintenance Margin, you will receive a Margin Call or face liquidation.</p>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. Long & Short Market Operations</h2>
+                    <p>In stock markets, typical trading is "buy first, sell later" (Long). In futures markets, Shorting is just as easy and cost-effective as Longing:</p>
+                    <ul>
+                        <li><strong>做多 (Long)</strong>：預期未來價格上漲。先以低價買入合約，未來再以高價賣出平倉。</li>
+                        <li><strong>做空 (Short)</strong>：預期未來價格下跌。先以高價賣出合約（無須持有現貨），未來再以低價買回平倉。</li>
+                    </ul>
+                    <p>Pairs trading utilizes this symmetry: Short the overvalued contract and Long the undervalued one to hedge market direction risk.</p>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4">
+                    <h2>4. Contract Specs & Settlement</h2>
+                    <p>Futures trading follows strict exchange rules. Key elements include:</p>
+                    <div class="formula-box">
+                        <ul>
+                            <li><strong>Contract Multiplier</strong>：點數與金額的換算比例（如台指期 1 點 = 200 元）。</li>
+                            <li><strong>Tick Size (Minimum Price Move)</strong>：價格波動的最小單位。</li>
+                            <li><strong>Settlement/Expiration Date</strong>：合約到期的日子，通常在結算日下午會由交易所強制進行現金結算或實物交割。</li>
+                        </ul>
+                    </div>
+                    <p>When pairs trading, choose contracts with the same expiration month (typically nearby contracts) to avoid spread distortions.</p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Stock & Futures Trading) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Unit 1 Recommendations: Stocks & Futures Classics (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">Editor's Picks</span>
+            </div>
+            <p class="amazon-desc">
+                Whether in stocks or futures, reading classics saves you years of mistakes. Here are our selected foundational works:
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Technical Analysis of the Financial Markets</strong>
+                    </div>
+                    <p>
+                        John J. Murphy's masterpiece, considered the bible of technical analysis, covering trends, candlestick patterns, and indicators.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>Trading in the Zone (Trading Mindset)</strong>
+                    </div>
+                    <p>
+                        Mark Douglas's "Trading in the Zone", teaching you how to overcome fear and greed and master trading probabilities.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <strong>Options, Futures, and Other Derivatives</strong>
+                    </div>
+                    <p>
+                        John C. Hull's textbook, standard reading in business schools and Wall Street firms for derivatives pricing.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>Reminiscences of a Stock Operator</strong>
+                    </div>
+                    <p>
+                        Edwin Lefèvre's biography of Jesse Livermore, capturing the timeless wisdom and psychology of speculation.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <strong>Core of Professional Trading</strong>
+                    </div>
+                    <p>
+                        Mike Bellafiore's "One Good Trade", offering a look into proprietary trading and how to build a robust process.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>The Intelligent Investor</strong>
+                    </div>
+                    <p>
+                        Benjamin Graham's legendary classic "The Intelligent Investor", laying the foundation of value investing and margin of safety.
+                    </p>
+                    <div class="amz-action-text">
+                        Buy on Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../fundamentals/index.html">啟盟階段</a>
+            <a href="../stocks/index.html">Stock Path</a>
+            <a href="index.html">Futures Path</a>
+            <a href="../quant/index.html">Quant Path</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Disclaimer: All content is for educational reference only. Trading involves high risk; evaluate carefully.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期货与股票基礎教学 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> 返回期货学程
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-chart-line"></i> 单元一：期货与股票基礎教学</h1>
+            <span class="section-subtitle">建立紮实的交易基礎</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>本单元目录</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. 股票与期货本质差異</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-vault"></i> 2. 保证金与杠杆機制</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-repeat"></i> 3. 多头与空头市场操作</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calendar-days"></i> 4. 合约规格与结算日</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. 股票与期货的本质差異</h2>
+                    <p>在开始进行複雜的策略交易（如配对交易）前，我们必須先分清**股票**与**期货**這兩大金融工具的底層邏輯差異：</p>
+                    <ul>
+                        <li><strong>股票 (Stocks)</strong>：代表您购买了公司的「所有權份額」。您是公司的股東，可以享有配股配息的權利。持有股票沒有时间限制（除非公司倒閉下市）。</li>
+                        <li><strong>期货 (Futures)</strong>：本质上是一種「合约」，是买賣双方约定在未來的某個特定时间，以特定价格交易某種资产的協议。期货具有**到期日 (Expiration Date)**，合约到期後必須结算。</li>
+                    </ul>
+                    <p>股票是交易「現货资产」，而期货是交易「未來的預期与价格波動」。</p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. 保证金与杠杆機制</h2>
+                    <p>期货交易最重要的特色在於<strong>保证金交易 (Margin Trading)</strong>。您不需要支付合约的全部价值，只需要繳納一定比例的资金作為履约擔保，即可控制价值數倍甚至數十倍的合约。</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>杠杆倍數公式：</strong><br>杠杆倍數 = 合约總价值 / 原始保证金</p>
+                    </div>
+                    <p>例如，若一個台股期货合约總价值為 300 萬台幣，而交易所规定的原始保证金為 15 萬台幣，则該合约的资金杠杆倍數為：<strong>300 / 15 = 20 倍</strong>。</p>
+                    <p>⚠️ <strong>风险提示</strong>：杠杆是一把双刃劍。如果标的价格變動 1%，您的资金收益或虧损就會被放大 20 倍。當虧损导致您的帳戶餘額低於交易所规定的「維持保证金」时，您會收到補繳通知（追繳 Margin Call），否则将面臨強制平倉（斷头）。</p>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. 多头与空头市场操作</h2>
+                    <p>在股票市场中，一般的交易習慣是「先买後賣」（做多 Long）。但在期货市场中，做空 (Short) 与做多一樣方便且成本相同：</p>
+                    <ul>
+                        <li><strong>做多 (Long)</strong>：預期未來价格上漲。先以低价买入合约，未來再以高价賣出平倉。</li>
+                        <li><strong>做空 (Short)</strong>：預期未來价格下跌。先以高价賣出合约（無須持有現货），未來再以低价买回平倉。</li>
+                    </ul>
+                    <p>配对交易正是利用了期货多空对稱的優勢：我们放空一档被高估的期货，同时做多一档被低估的期货，兩边的合约规格互相对沖掉市场大盤上漲或下跌的风险。</p>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4">
+                    <h2>4. 期货合约规格与结算日</h2>
+                    <p>期货交易必須嚴格遵守交易所制定的合约规格。每一档期货合约都有以下核心要素：</p>
+                    <div class="formula-box">
+                        <ul>
+                            <li><strong>合约乘數</strong>：点數与金額的換算比例（如台指期 1 点 = 200 元）。</li>
+                            <li><strong>最小跳動点 (Tick Size)</strong>：价格波動的最小单位。</li>
+                            <li><strong>结算日 (Settlement Date)</strong>：合约到期的日子，通常在结算日下午會由交易所強制进行現金结算或实物交割。</li>
+                        </ul>
+                    </div>
+                    <p>在进行配对交易时，我们通常會挑选**同一個月份到期（通常是近月合约）**的兩档商品进行配对，以避免因為结算时间不同而产生不必要的价差扭曲。</p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Stock & Futures Trading) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 本单元推荐阅读：期货与股票入门经典 (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">精选书单</span>
+            </div>
+            <p class="amazon-desc">
+                不论是股票投资還是期货交易，阅读经典著作能讓您少走許多彎路。以下是我们為您挑选的奠基之作（透过专属連结购买支持本站）：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>金融市场技术分析</strong>
+                    </div>
+                    <p>
+                        John J. Murphy 的经典之作，被譽為技术分析的圣经，完整涵蓋趨勢線、K 線形态与指标。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>紀律交易者 (心态鍛鍊)</strong>
+                    </div>
+                    <p>
+                        Mark Douglas 著作《Trading in the Zone》，教导如何克服恐懼与貪婪，建立贏家的機率思維。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <strong>期權与衍生性商品</strong>
+                    </div>
+                    <p>
+                        John C. Hull 著作，全球商学院与華爾街金融機构指定的衍生性金融商品教科书。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>股票作手回憶录</strong>
+                    </div>
+                    <p>
+                        描述传奇交易大师杰西·李佛摩（Jesse Livermore）一生的投资智慧与心路歷程。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <strong>专业交易策略精髓</strong>
+                    </div>
+                    <p>
+                        Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真实生活，以及如何建立一個好的交易流程与风险紀律。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>投资必读经典</strong>
+                    </div>
+                    <p>
+                        价值投资大师葛拉漢（Benjamin Graham）的传世经典《聰明的投资人》，奠定安全边際觀念。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟盟阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：本站所有教学內容仅供学术研究与教育參考，不构成任何投资建议。交易具有高风险，请审慎评估。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

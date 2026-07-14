@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4: ⚖️ クオンツコース | GugoPro アカデミー</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(156, 39, 176, 0.15);">
+        <div class="hero-badge" style="background: rgba(156, 39, 176, 0.12); color: #e040fb; border: 1px solid rgba(156, 39, 176, 0.2);">
+            <i class="fa-solid fa-graduation-cap"></i> Level 4コース ‧ クオンツ取引と統計的裁定
+        </div>
+        <h1>クオンツ取引コース</h1>
+        <p>Level 4へようこそ。数学・統計学に基づく市場中立型戦略、Pythonバックテスト、大師のリスク・資金管理を学びます。</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> アカデミーマップに戻る
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 4.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard">ユニット 4.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個章節</span>
+                </div>
+                <h3>ペアトレード実戦 (Pairs Trading)</h3>
+                <p>深入探討統計套利與均值回歸原理，學習協整性測試、Z-Score 價差信號計算，以及配對交易的建倉、平倉與風險控管原則。</p>
+                <a href="pair-trading.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 4.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>Python 量化交易入門</h3>
+                <p>Pythonコーディングの基礎。市場データの取得、統計量計算、バックテストフレームワークの構築を学びます。</p>
+                <a href="quant-coding.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 4.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個大師</span>
+                </div>
+                <h3>伝説のトレーダー手法應用</h3>
+                <p>解構傑西·李佛摩的ピボタル・ポイント・ブレイクアウト與資金管理、理查·丹尼斯的ザ・タートルズのルール、以及喬治·索羅斯的市場反身性理論與泡沫週期操作。</p>
+                <a href="legendary-traders.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 推奨書籍：クオンツ取引と統計的裁定の名著
+                </h2>
+                <span class="badge-promo">厳選された書籍</span>
+            </div>
+            <p class="amazon-desc">
+                想更深入探討配對交易與統計套利背後的數學模型和實戰代碼嗎？以下是全球量化交易員公認的經典必讀著作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471460672?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>ペアトレードの数理と実践</strong>
+                    </div>
+                    <p>
+                        ガナパシー・ヴィジャヤムルシー著。ペアトレードの数学的基礎、共和分モデル、統計的裁定の実践を網羅。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>アーニー・チャン著：クオンツ取引の極意</strong>
+                    </div>
+                    <p>
+                        アーニー・チャンの名著。平均回帰戦略、バックテスト手法、リテールクオンツビジネスの始め方を解説。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0470073861?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <strong>統計的裁定とアルゴリズム取引</strong>
+                    </div>
+                    <p>
+                        アンドリュー・ポール著。統計的裁定モデル、市場の微細構造、およびアルゴリズム実行戦略を深く掘り下げます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1492024333?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Pythonによるファイナンスの極意</strong>
+                    </div>
+                    <p>
+                        イヴ・ヒルピッシュ著。Pythonを使用したデータ分析、バックテスト、金融モデリングの決定版教科書。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <strong>アルゴリズム取引と資金管理</strong>
+                    </div>
+                    <p>
+                        アーニー・チャンの第二作。モメンタム戦略、平均回帰戦略、およびケリー基準による資金管理を徹底解説。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1839217715?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <strong>機械学習による財務アプリケーション</strong>
+                    </div>
+                    <p>
+                        ジェンセン著。決定木、ランダムフォレスト、ニューラルネットワークなどの機械学習モデルをアルゴリズム取引に適用する方法。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">基礎ステージ</a>
+            <a href="../stocks/index.html">株式コース</a>
+            <a href="../futures/index.html">先物コース</a>
+            <a href="index.html">クオンツコース</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

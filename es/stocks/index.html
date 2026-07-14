@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2: 📈 Stock Path | GugoPro Academy</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Academia Financiera</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(33, 150, 243, 0.15);">
+        <div class="hero-badge" style="background: rgba(33, 150, 243, 0.12); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.2);">
+            <i class="fa-solid fa-chart-line"></i> Level 2 Path ‧ Stock Trading & Asset Allocation
+        </div>
+        <h1>Stock Trading Path</h1>
+        <p>Welcome to Level 2. This path focuses on stock market strategies. From value investing and long-term dividend compounding to technical indicator breakout strategies.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Mapa
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 2.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 2.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>價值投資大師心法</h3>
+                <p>Learn the economic moat mindset. Understand how to use P/E, P/B, and ROE to value stocks and establish solid margins of safety.</p>
+                <a href="value-investing.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Próximamente <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 2.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 2.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>High-Dividend Investing Strategy</h3>
+                <p>Explore long-term stock saving. Learn how to screen quality dividend stocks, calculate annualized yields, and use compounding to scale capital.</p>
+                <a href="dividend-strategy.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Próximamente <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 2.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">Module 2.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> In Progress</span>
+                </div>
+                <h3>Technical Analysis & Swing Trading</h3>
+                <p>Focus on medium-term swing trading. Master candlestick patterns, moving average crossovers, MACD & RSI indicators, and key support & resistance zones.</p>
+                <a href="swing-trading.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    Próximamente <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Recommended: Stock Investing & Financial Statement Classics
+                </h2>
+                <span class="badge-promo">Editor's Picks</span>
+            </div>
+            <p class="amazon-desc">
+                不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <strong>Bestselling Finance Books</strong>
+                    </div>
+                    <p>
+                        Read Ray Dalio's "Principles" to learn how to make decisions using objective logic and systematic thinking.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/B076VNFZJG?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <strong>Trader Gear & Desk setups</strong>
+                    </div>
+                    <p>
+                        Selected BenQ ScreenBar Smart Eye-Care monitor hanging light to provide glare-free lighting for your multi-monitor desk.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <strong>最想擁有的交易聖經</strong>
+                    </div>
+                    <p>
+                        Benjamin Graham's legendary classic "The Intelligent Investor", laying the foundation of value investing and margin of safety.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <strong>New Releases in Quant Trading</strong>
+                    </div>
+                    <p>
+                        Marcos Lopez de Prado's "Advances in Financial Machine Learning", mastering the cutting-edge financial machine learning strategies.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/149205335X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Python Algo-Trading Guide</strong>
+                    </div>
+                    <p>
+                        Yves Hilpisch's "Python for Algorithmic Trading", learning to build trading algorithms, process data, and connect APIs.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>Must-read Trading Psychology</strong>
+                    </div>
+                    <p>
+                        Mark Douglas's "Trading in the Zone", mastering trading psychology, probability mindsets, and solid discipline.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Inicio</a>
+            <a href="../fundamentals/index.html">Fundamentos</a>
+            <a href="index.html">Curso de Acciones</a>
+            <a href="../futures/index.html">Curso de Futuros</a>
+            <a href="../quant/index.html">Curso de Quant</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Descargo de responsabilidad: Todo el contenido es educativo. Operar conlleva un alto riesgo; evalúe con cuidado.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

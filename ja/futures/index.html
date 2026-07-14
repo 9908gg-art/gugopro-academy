@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3: 🌪️ 先物コース | GugoPro アカデミー</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(255, 153, 0, 0.15);">
+        <div class="hero-badge" style="background: rgba(255, 153, 0, 0.12); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.2);">
+            <i class="fa-solid fa-bolt"></i> Level 3コース ‧ 先物とデリバティブ
+        </div>
+        <h1>先物取引コース</h1>
+        <p>Level 3へようこそ。保証金レバレッジ、限月間/市場間スプレッド取引を学び、リスクヘッジの概念を確立します。</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> アカデミーマップに戻る
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 3.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-easy">ユニット 3.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4 個章節</span>
+                </div>
+                <h3>期貨合約與保證金運作</h3>
+                <p>探索期貨交易的底層規則。學習保證金制度、多空方向操作、合約規格換算、最小跳動點價值，以及最重要的維持保證金風險防線。</p>
+                <a href="futures-basics.html" class="module-btn">
+                    進入學習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 3.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>價差與跨期套利實務</h3>
+                <p>先物特有のスプレッド取引。コンタンゴとバックワーデーション、ロールイールド、限月間裁定戦略。</p>
+                <a href="spread-trading.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">ユニット 3.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 準備中</span>
+                </div>
+                <h3>跨市場對沖與風險平衡</h3>
+                <p>先物ヘッジ戦略。指数または商品先物を用いて、現物株式ポートフォリオのシステムリスクを相殺します。</p>
+                <a href="hedging.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本單元課程正在編寫中，敬請期待！');">
+                    近日公開 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 推奨書籍：先物取引とリスク管理の名著
+                </h2>
+                <span class="badge-promo">厳選された書籍</span>
+            </div>
+            <p class="amazon-desc">
+                不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>マーケットのテクニカル分析</strong>
+                    </div>
+                    <p>
+                        ジョン・J・マーフィーの不朽の名作。トレンドライン、ローソク足チャート、各種指標を網羅したテクニカル分析の聖書。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>ゾーン — 相場心理学入門</strong>
+                    </div>
+                    <p>
+                        マーク・ダグラス著『ゾーン』。恐怖と強欲を克服し、勝者の確率的思考を確立する方法を説きます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <strong>フィナンシャルエンジニアリング</strong>
+                    </div>
+                    <p>
+                        ジョン・ハル著。世界中のビジネススクールやウォール街で採用されているデリバティブ取引の標準教科書。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>投機王ジェシー・リバモアの告白</strong>
+                    </div>
+                    <p>
+                        エドウィン・ルフェーブル著。伝説の相場師ジェシー・リバモアの波乱万丈の生涯と不朽の投機哲学。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <strong>プロフェッショナル取引の真髄</strong>
+                    </div>
+                    <p>
+                        マイク・ベラフィオーレ著『One Good Trade』。プロの自己資金トレーダーの生活、取引プロセスとリスク管理規律を学びます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>投資の聖書：賢明なる投資家</strong>
+                    </div>
+                    <p>
+                        バリュー投資の父ベンジャミン・グレアムの不朽の名著『賢明なる投資家』。安全の余白の概念を確立します。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">基礎ステージ</a>
+            <a href="../stocks/index.html">株式コース</a>
+            <a href="index.html">先物コース</a>
+            <a href="../quant/index.html">クオンツコース</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

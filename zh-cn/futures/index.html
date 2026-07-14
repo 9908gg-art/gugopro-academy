@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3: 🌪️ 期货交易学程 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(255, 153, 0, 0.15);">
+        <div class="hero-badge" style="background: rgba(255, 153, 0, 0.12); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.2);">
+            <i class="fa-solid fa-bolt"></i> Level 3 学程 ‧ 期货与衍生性商品
+        </div>
+        <h1>期货交易学程 (Futures Trading)</h1>
+        <p>欢迎來到 Level 3 学程。本单元专门探讨保证金交易、杠杆機制及跨期与跨市场价差交易，深入期货獨特的多空对稱優勢，建立穩健的对沖避险觀念。</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回学院地圖
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 3.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-easy">单元 3.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4 個章节</span>
+                </div>
+                <h3>期货合约与保证金運作</h3>
+                <p>探索期货交易的底層规则。学習保证金制度、多空方向操作、合约规格換算、最小跳動点价值，以及最重要的維持保证金风险防線。</p>
+                <a href="futures-basics.html" class="module-btn">
+                    进入学習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">单元 3.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 规划中</span>
+                </div>
+                <h3>价差与跨期套利实務</h3>
+                <p>探讨期货特有的价差交易。学習正价差 (Contango) 与逆价差 (Backwardation) 的形成、合约轉倉成本 (Roll Yield)，以及跨期套利规则。</p>
+                <a href="spread-trading.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本单元課程正在編寫中，敬请期待！');">
+                    即将推出 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 3.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">单元 3.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 规划中</span>
+                </div>
+                <h3>跨市场对沖与风险平衡</h3>
+                <p>学習如何在多标的組合中，利用指數期货或商品期货对沖股票現货市场的系统性风险，在熊市中保護您的资产組合淨值。</p>
+                <a href="hedging.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本单元課程正在編寫中，敬请期待！');">
+                    即将推出 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 本学程推荐阅读：期货交易与风险管理经典
+                </h2>
+                <span class="badge-promo">精选书单</span>
+            </div>
+            <p class="amazon-desc">
+                不论是股票投资還是期货交易，阅读经典著作能讓您少走許多彎路。以下是我们為您挑选的奠基之作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>金融市场技术分析</strong>
+                    </div>
+                    <p>
+                        John J. Murphy 的经典之作，被譽為技术分析的圣经，完整涵蓋趨勢線、K 線形态与指标。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <strong>紀律交易者 (心态鍛鍊)</strong>
+                    </div>
+                    <p>
+                        Mark Douglas 著作《Trading in the Zone》，教导如何克服恐懼与貪婪，建立贏家的機率思維。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <strong>期權与衍生性商品</strong>
+                    </div>
+                    <p>
+                        John C. Hull 著作，全球商学院与華爾街金融機构指定的衍生性金融商品教科书。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>股票作手回憶录</strong>
+                    </div>
+                    <p>
+                        描述传奇交易大师杰西·李佛摩（Jesse Livermore）一生的投资智慧与心路歷程。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <strong>专业交易策略精髓</strong>
+                    </div>
+                    <p>
+                        Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真实生活，以及如何建立一個好的交易流程与风险紀律。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>投资必读经典</strong>
+                    </div>
+                    <p>
+                        价值投资大师葛拉漢（Benjamin Graham）的传世经典《聰明的投资人》，奠定安全边際觀念。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟蒙阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：本站所有教学內容仅供学术研究与教育參考，不构成任何投资建议。交易具有高风险，请审慎评估。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

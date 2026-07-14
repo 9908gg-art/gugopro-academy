@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traders Legendarios | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Academia Financiera</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Curso Quant
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-crown"></i> Unit 4: Legendary Traders' Methods</h1>
+            <span class="section-subtitle">Learn the Mindset of Winning Traders</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>Unit Contents</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-user-tie"></i> 1. Jesse Livermore's Points</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-shuttle-space"></i> 2. Richard Dennis & Turtles</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-globe"></i> 3. George Soros's Reflexivity</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. Jesse Livermore - Pivotal Points & Money Management</h2>
+                    <p>**Jesse Livermore** is legendary. He shorted the 1929 crash making $100M. His core trading focused on price trends, **Pivotal Points**, and strict capital rules.</p>
+                    <h3>Core Trading Principles:</h3>
+                    <ul>
+                        <li><strong>Pivotal Point Breakout</strong>：Do not trade range markets. Enter only when price breaks historical support/resistance levels. This signals a new trend.</li>
+                        <li><strong>Testing Entry (Pyramiding)</strong>：Never buy all at once. Build a 20% pilot position, and add more only if the trade shows a profit to prove you are correct.</li>
+                        <li><strong>Cut Losses, Let Profits Run</strong>：Livermore pioneered the 10% hard stop-loss. If a position drops 10%, exit unconditionally.</li>
+                    </ul>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. Richard Dennis - The Turtle Trading System</h2>
+                    <p>In 1983, commodities master **Richard Dennis** recruited novices ("Turtles") and taught them a systematic trend-following strategy in two weeks. They generated tens of millions, proving trading can be taught.</p>
+                    <h3>Turtle Trading Rules:</h3>
+                    <div class="formula-box">
+                        <ul>
+                            <li><strong>Markets Selection</strong>：Trade only highly liquid and volatile markets (commodities futures, FX, bonds).</li>
+                            <li><strong>唐奇安通道突破 (Donchian Channel)</strong>：
+                                <ul>
+                                    <li>System 1 (Short-term): Enter on a 20-day high breakout; exit on a 10-day low breakout.</li>
+                                    <li>System 2 (Long-term): Enter on a 55-day high breakout; exit on a 20-day low breakout.</li>
+                                </ul>
+                            </li>
+                            <li><strong>基於波動率的頭寸管理 (N 值 / ATR)</strong>：Use Average True Range (ATR) to calculate position size, normalizing volatility risk across different markets.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. George Soros - Macro Trading & Reflexivity</h2>
+                    <p>George Soros is famous for "breaking the Bank of England" in 1992. His strategy is built on his philosophical model: **Reflexivity**.</p>
+                    <h3>Core of Reflexivity Theory:</h3>
+                    <p>Traditional economics assumes market rationality. Soros argues that **participants' biases change the market fundamentals, which shifts prices, which in turn reinforces biases.** It is a circular feedback loop.</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>Soros's Bubble Cycle:</strong><br>Bias ➡️ Price Rises ➡️ Fundamentals Distorted ➡️ Exponential Price Boom (Bubble) ➡️ Bias Popped ➡️ Market Crashes.</p>
+                    </div>
+                    <p>Soros's strategy: **Find inflection points where biases diverge severely from reality, ride the bubble, and execute massive counter-attacks near the popping point.**</p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Trading Legends) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 Unit 4 Recommendations: Master Biographies & Methods (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">Legends' Classics</span>
+            </div>
+            <p class="amazon-desc">
+                By reading the biographies and principles of the legends, you can directly adopt their decades of wisdom to build your own market view:
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Reminiscences of a Stock Operator</strong>
+                    </div>
+                    <p>
+                        Rated the most classic trading book of the century, recording Livermore's rise and fall and speculation wisdom.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0071469796?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-pen-fancy"></i>
+                        </div>
+                        <strong>How to Trade in Stocks (Jesse Livermore)</strong>
+                    </div>
+                    <p>
+                        Jesse Livermore's official trading manual, detailing his Pivotal Point formulas and hand-written ledger methods.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/007148664X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-turtle"></i>
+                        </div>
+                        <strong>Way of the Turtle (Dennis & Turtles)</strong>
+                    </div>
+                    <p>
+                        Written by the most successful Turtle student Curtis Faith, revealing the inner workings of Dennis's program.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471445495?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <strong>The Alchemy of Finance (George Soros)</strong>
+                    </div>
+                    <p>
+                        Soros's masterwork, detailing Reflexivity Theory and his real-time journals during historic macro campaigns.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118273051?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-wand-magic"></i>
+                        </div>
+                        <strong>Market Wizards: Master Interviews</strong>
+                    </div>
+                    <p>
+                        Jack D. Schwager's "Market Wizards", interviewing top traders to find common paths to exceptional returns and risk control.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1119371872?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <strong>Trend Following Trading Guide</strong>
+                    </div>
+                    <p>
+                        Michael Covel's "Trend Following", analyzing how trend followers capture massive profits across bull and bear markets.
+                    </p>
+                    <div class="amz-action-text">
+                        Comprar en Amazon ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Inicio</a>
+            <a href="../fundamentals/index.html">啟盟階段</a>
+            <a href="../stocks/index.html">Curso de Acciones</a>
+            <a href="../futures/index.html">Curso de Futuros</a>
+            <a href="index.html">Curso de Quant</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Descargo de responsabilidad: Todo el contenido es educativo. Operar conlleva un alto riesgo; evalúe con cuidado.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

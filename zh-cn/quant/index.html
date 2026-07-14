@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4: ⚖️ 量化交易学程 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(156, 39, 176, 0.15);">
+        <div class="hero-badge" style="background: rgba(156, 39, 176, 0.12); color: #e040fb; border: 1px solid rgba(156, 39, 176, 0.2);">
+            <i class="fa-solid fa-graduation-cap"></i> Level 4 学程 ‧ 量化交易与统计套利
+        </div>
+        <h1>量化交易学程 (Quantitative Trading)</h1>
+        <p>欢迎來到 Level 4 学程。本单元是学院的核心精華，专注於利用數学与统计学建立市场中性策略，並利用 Python 进行资料分析与策略回測，最終学習大师的资金控管心法。</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回学院地圖
+        </a>
+
+        <div class="modules-grid" style="margin-top: 16px;">
+            <!-- Course 4.1 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard">单元 4.1</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個章节</span>
+                </div>
+                <h3>配对交易实战 (Pairs Trading)</h3>
+                <p>深入探讨统计套利与均值回归原理，学習協整性測試、Z-Score 价差信号计算，以及配对交易的建倉、平倉与风险控管原则。</p>
+                <a href="pair-trading.html" class="module-btn">
+                    进入学習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.2 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">单元 4.2</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 规划中</span>
+                </div>
+                <h3>Python 量化交易入门</h3>
+                <p>学習使用 Python 抓取金融歷史數據、计算技术指标与统计量，並建立自動化策略回測框架，用數據驗证交易策略的有效性。</p>
+                <a href="quant-coding.html" class="module-btn" style="opacity: 0.6; cursor: not-allowed;" onclick="event.preventDefault(); alert('本单元課程正在編寫中，敬请期待！');">
+                    即将推出 <i class="fa-solid fa-lock"></i>
+                </a>
+            </div>
+
+            <!-- Course 4.3 -->
+            <div class="module-card">
+                <div class="module-meta">
+                    <span class="module-badge badge-medium">单元 4.3</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個大师</span>
+                </div>
+                <h3>传奇大师交易心法應用</h3>
+                <p>解构杰西·李佛摩的關鍵点突破与资金管理、理查·丹尼斯的海龟交易法则、以及乔治·索罗斯的市场反身性理论与泡沫週期操作。</p>
+                <a href="legendary-traders.html" class="module-btn">
+                    进入学習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 本学程推荐阅读：量化交易与统计套利经典
+                </h2>
+                <span class="badge-promo">精选书单</span>
+            </div>
+            <p class="amazon-desc">
+                想更深入探讨配对交易与统计套利背後的數学模型和实战代碼嗎？以下是全球量化交易員公認的经典必读著作：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471460672?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>Pairs Trading 经典指南</strong>
+                    </div>
+                    <p>
+                        由 Ganapathy Vidyamurthy 撰寫，系统性介紹配对交易的數学基礎、協整性模型与统计套利实務。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>Ernie Chan 量化交易圣经</strong>
+                    </div>
+                    <p>
+                        《Quantitative Trading》经典著作，包含均值回归策略、回測框架以及如何开始獨立量化交易。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0470073861?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <strong>统计套利与演算法交易</strong>
+                    </div>
+                    <p>
+                        Andrew Pole 著作《Statistical Arbitrage》，深入探索统计套利模型、市场微觀结构与演算法執行策略。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1492024333?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Python 金融实战大作</strong>
+                    </div>
+                    <p>
+                        Yves Hilpisch 著作，利用 Python 进行金融數據分析、回測、量化建模的必備教科书。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <strong>演算法交易与资金管理</strong>
+                    </div>
+                    <p>
+                        Ernie Chan 的第二本力作，深入介紹動量策略、均值回归策略以及凱利公式资金管理。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1839217715?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <strong>機器学習金融應用</strong>
+                    </div>
+                    <p>
+                        Stefan Jansen 著作，系统性介紹如何将機器学習模型（決策樹、隨機森林、神经网路）應用於演算法交易策略的设计与回測。
+                    </p>
+                    <div class="amz-action-text">
+                        在 Amazon 购买 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟蒙阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="../futures/index.html">期货学程</a>
+            <a href="index.html">量化学程</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：本站所有教学內容仅供学术研究与教育參考，不构成任何投资建议。交易具有高风险，请审慎评估。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

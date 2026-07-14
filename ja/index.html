@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GugoPro 財務アカデミー | 株式・先物・ペアトレード学習フォーラム</title>
+    <title>GugoPro 財務アカデミー | 体系的トレード学習の殿堂</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Language Redirect Script -->
     <script>
         (function() {
@@ -78,70 +78,95 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-badge">
-            <i class="fa-solid fa-chart-line"></i> プロのクオンツ戦略とペアトレードの教育
+            <i class="fa-solid fa-diagram-next"></i> 進級制度 ‧ 体系的トレード学習パス
         </div>
         <h1>ゼロから始める戦略取引の学習の旅</h1>
         <p>GugoPro 財務アカデミーへようこそ。ここでは、基礎から応用までのユニットを通じて、先物、株式、そしてコアとなる統計的裁定とペアトレード戦略を習得し、独自の体系的な取引ロジックを確立するお手伝いをします。</p>
     </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Course Modules Section -->
-        <div class="section-title-container">
-            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> 学習ユニットガイド</h2>
-            <span class="section-subtitle">学習したいユニットの進捗を選択してください</span>
-        </div>
-
+    <!-- Main Content Grid -->
+    <main class="container">
+        <h2 class="section-heading"><i class="fa-solid fa-map-signs"></i> アカデミー学習マップ</h2>
+        <p class="section-sub">現在の学習進捗をクリックして、対応する体系的コースユニットに入ってください：</p>
+        
         <div class="modules-grid">
-            <!-- Module 1: Futures & Stocks -->
-            <div class="module-card">
-                <div class="module-meta">
-                    <span class="module-badge badge-easy">初級入門</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4つの章</span>
-                </div>
-                <h3>先物と株式の基礎教育</h3>
-                <p>株式と先物のコアメカニズムを探索します。保証金制度、買い・売り注文、取引契約の仕様、熱心なリスク管理を学び、応用取引への強固な基礎を築きます。</p>
-                <a href="futures-stocks.html" class="module-btn">
-                    学習を開始 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Module 2: Pair Trading (Featured) -->
+            <!-- Level 1 -->
             <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-hard" style="background: rgba(255, 153, 0, 0.12); color: var(--accent);">コア応用</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5つの章</span>
+                    <span class="module-badge badge-easy">Level 1: 🌟 基礎ステージ</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3科目</span>
                 </div>
-                <h3>ペアトレード実戦</h3>
-                <p>当アカデミーのコア取引戦略。統計的裁定と平均回帰の原理を深く掘り下げ、相関銘柄の選定、Zスコアのスプレッドシグナルの計算、および実戦ペアトレード操作を学びます。</p>
-                <a href="pair-trading.html" class="module-btn">
-                    学習を開始 <i class="fa-solid fa-arrow-right"></i>
+                <h3>トレード基礎とマインド・資金管理</h3>
+                <p>市場運用の本質を探索します。定義から保証金リスク、損切り規律、メンタル管理を学び、安全の余白の基礎を築きます。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.1 取引の基本常識</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.2 取引マインドと3大タブー</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.3 リスク管理と資金管理</li>
+                    </ul>
+                </div>
+                <a href="fundamentals/index.html" class="module-btn">
+                    コースに入る <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <!-- Module 3: Quantitative & Coding (Coming Soon) -->
-            <div class="module-card" style="opacity: 0.8;">
+            <!-- Level 2 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">中級拡張</span>
-                    <span class="module-duration"><i class="fa-solid fa-hourglass-half"></i> 準備中</span>
+                    <span class="module-badge badge-medium">Level 2: 📈 株式コース</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3科目</span>
                 </div>
-                <h3>クオンツ戦略と Python バックテスト</h3>
-                <p>Pythonを使用して履歴データを取得し、テクニカル指標を計算し、ペアトレード戦略のバックテストを行い、実際のデータで取引策略を検証する方法を学びます。</p>
-                <button class="module-btn" style="cursor: not-allowed;" disabled>
-                    近日公開 <i class="fa-solid fa-lock"></i>
-                </button>
+                <h3>株式戦略とバリュー投資</h3>
+                <p>株式投資戦略に焦点を当てます。バリュー投資の安全余白、財務分析、高配当銘柄選定、テクニカル分析を学びます。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.1 バリュー投資大師の手法</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.2 高配当長期投資戦略</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.3 テクニカル分析とスイングトレード</li>
+                    </ul>
+                </div>
+                <a href="stocks/index.html" class="module-btn">
+                    コースに入る <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
-            <!-- Module 4: Legendary Traders' Methods -->
-            <div class="module-card">
+            <!-- Level 3 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">古典戦略</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3人のマスター</span>
+                    <span class="module-badge badge-hard">Level 3: 🌪️ 先物コース</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3科目</span>
                 </div>
-                <h3>伝説のマスター取引手法</h3>
-                <p>ジェシー・リバモアのピボタル・ポイント手法、リチャード・デニスのタートル・ルール、ジョージ・ソロスの再帰性理論を解剖し、彼らの資金管理とメンタルの極意を学びます。</p>
-                <a href="master-strategies.html" class="module-btn">
-                    学習を開始 <i class="fa-solid fa-arrow-right"></i>
+                <h3>先物スプレッドと市場ヘッジ</h3>
+                <p>深入期貨市場的微觀機制。從保證金槓桿計算，學習多空方向操作、契約倍率換算，進而掌握跨期價差套利（Calendar Spread）與如何利用衍生性商品進行避險。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.1 先物契約と保証金運用</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.2 限月間スプレッドと裁定取引</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.3 市場間ヘッジとリスクバランス</li>
+                    </ul>
+                </div>
+                <a href="futures/index.html" class="module-btn">
+                    コースに入る <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="module-card featured">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard" style="background:rgba(156,39,176,0.1); color:#e040fb; border:1px solid rgba(156,39,176,0.2);">Level 4: ⚖️ クオンツコース</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3科目</span>
+                </div>
+                <h3>クオンツ取引と統計的裁定取引</h3>
+                <p>体系的クオンツ取引へ。統計的共和分テストでペアを選定、Zスコアで平均回帰シグナル計算、Pythonでバックテストを学びます。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.1 ペアトレード実戦</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.2 Pythonクオンツ取引入門</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.3 伝説のトレーダー手法</li>
+                    </ul>
+                </div>
+                <a href="quant/index.html" class="module-btn">
+                    コースに入る <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -157,6 +182,7 @@
             <p class="amazon-desc">
                 以下の専用リンクから厳選された投資の名著や取引関連グッズをご覧いただき、質の高い無料コンテンツの制作へのサポートをお願いします！
             </p>
+            
             <div class="amz-grid">
                 <!-- Bestsellers -->
                 <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
@@ -261,14 +287,15 @@
     <footer>
         <div class="footer-links">
             <a href="index.html">ホーム</a>
-            <a href="futures-stocks.html">先物と株式の基礎</a>
-            <a href="pair-trading.html">ペアトレード実戰</a>
-            <a href="master-strategies.html">伝説のマスター取引手法</a>
+            <a href="fundamentals/index.html">基礎ステージ</a>
+            <a href="stocks/index.html">株式コース</a>
+            <a href="futures/index.html">先物コース</a>
+            <a href="quant/index.html">クオンツコース</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
         <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
     </footer>
 
-    <script src="../app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

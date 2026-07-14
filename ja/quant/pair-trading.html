@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ペアトレード実戦 (Pair Trading) | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.08);
+            font-weight: 600;
+        }
+        
+        .content-body {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .content-body section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 40px;
+        }
+        
+        .content-body section:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .content-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .content-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .content-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .formula-box {
+            background: rgba(255, 153, 0, 0.04);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-primary);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        
+        .back-btn:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> クオンツコースに戻る
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-scale-balanced"></i> ユニット2：ペアトレード実戰</h1>
+            <span class="section-subtitle">高度な統計的裁定取引戦略</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>ユニットの目次</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. ペアトレードとは</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. 統計的裁定と平均回帰</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. 銘柄選定と共和分テスト</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Zスコアと取引シグナル</a></li>
+                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. 実戦リスク管理と戦略の微調整</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="content-body">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. ペアトレードとは？</h2>
+                    <p><strong>配對交易 (Pair Trading)</strong> 是一種市場中性 (Market Neutral) 的投資策略，最早由華爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代開發。其核心概念是尋找歷史上價格走勢高度相關的兩檔商品（如兩檔同產業的股票，或相關性極高的期貨合約），並在它們之間的價格差距（價差 Spread）出現異常擴大時進行操作：</p>
+                    <div class="highlight-card">
+                        <p style="margin-bottom: 0;"><strong>取引ルールの核心：</strong><br>スプレッドが異常に拡大した時 ➡️ **割高な銘柄を売り（ショート）、割安な銘柄を買う（ロング）**。スプレッドが平均回帰した時点で決済し利益を得ます。</p>
+                    </div>
+                    <p>最大のメリット：**市場全体が上昇しても下落しても、2銘柄の相対的関係が平均回帰すれば利益を得られます。** これが「マーケットニュートラル」です。</p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. 統計的裁定と平均回帰</h2>
+                    <p>ペアトレードが成り立つのは、統計学上の**平均回帰（Mean Reversion）**の原理に基づいています。高度に相関する2つの価格を線形結合すると、その価格差は長期的に安定した平均値の周りで変動します。</p>
+                    <h3>均值回歸示意圖概念</h3>
+                    <p>公園を散歩する飼い主（銘柄B）と犬（銘柄A）をイメージしてください。犬は前後に走り回りますが、リード（相関性）があるため、最終的には飼い主の元に戻ります。市場におけるリードは、ファンダメンタルズや裁定力です。</p>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. 銘柄選定と共和分テスト</h2>
+                    <p>適切な銘柄を選ぶには、単純な相関係数だけでは不十分です。両銘柄がともに上昇トレンドにあっても、スプレッドは乖離し続ける（発散する）可能性があるからです。</p>
+                    <p>クオンツ取引における厳格な方法は、**共和分テスト（Cointegration Test）**を使用することです（Engle-Grangerの2段階法など）：</p>
+                    <div class="formula-box">
+                        ステップ1：OLS回帰分析：<br>Price_A = β * Price_B + α + Residual（残差）<br><br>ステップ2：残差に対してADF検定を実施。残差が定常（Stationary）であれば、AとBには共和分関係が存在します。
+                    </div>
+                    <p>代表的なペア：同業のライバル企業（例：コカコーラ対ペプシ）、サプライチェーン関係、または高度に代替性のある先物（大豆対大豆油）。</p>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4">
+                    <h2>4. Zスコアと取引シグナル</h2>
+                    <p>共和分関係が確認されたら、スプレッドの **Zスコア（Z-Score）** を計算して取引シグナルとします。Zスコアはスプレッドが平均値から標準偏差の何倍離れているかを示します：</p>
+                    <div class="formula-box">
+                        Spread = Price_A - (β * Price_B)<br>Z-Score = (Spread - 平均) / 標準偏差
+                    </div>
+                    <h3>エントリーおよびエグジットシグナルの例：</h3>
+                    <ul>
+                        <li>**エントリーシグナル**：Zスコアが +2.0 を超えた場合（スプレッドが異常に拡大）、Aを売り、Bを買う。</li>
+                        <li>**エントリーシグナル**：Zスコアが -2.0 を下回った場合（スプレッドが異常に縮小）、Aを買い、Bを売る。</li>
+                        <li>**エグジットシグナル**：Zスコアが0（平均）に戻った時点で、両銘柄を決済し利益確定します。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="section-5">
+                    <h2>5. 実戦リスク管理と戦略の微調整</h2>
+                    <p>儘管配對交易風險相對單邊交易低，但絕非「無風險套利」。在實戰中，最大的風險在於<strong>「協整關係破裂」</strong>。例如某一檔股票發生嚴重的公司治理危機或財務黑天鵝，導致兩者價差無限擴大，永遠不再回歸。</p>
+                    <h3>ペアトレードのリスク管理の3原則：</h3>
+                    <ol>
+                        <li>**ハード損切り**：Zスコアが ±3.0 を超えて乖離し続ける場合、速やかに手動で全決済します。</li>
+                        <li>**タイムストップ**：エントリー後30営業日経っても収束しない場合、構造変化とみなして撤退します。</li>
+                        <li>**資金管理**：ペアトレードは2つのポジションを同時に持ちます。1ペアあたりの必要資金は総運用の10%以下に留めることを推奨します。</li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section (Specific to Pair Trading & Quantitative Trading) -->
+        <div class="card amazon-affiliate-card">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 ユニット2 推奨書籍：ペアトレードとクオンツ分析 (Amazon Reader Hub)
+                </h2>
+                <span class="badge-promo">厳選された書籍</span>
+            </div>
+            <p class="amazon-desc">
+                数理モデルやコードを深く学びたいですか？以下はクオンツトレーダーに広く認められている名著です：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0471460672?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>ペアトレードの数理と実践</strong>
+                    </div>
+                    <p>
+                        ガナパシー・ヴィジャヤムルシー著。ペアトレードの数学的基礎、共和分モデル、統計的裁定の実践を網羅。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>アーニー・チャン著：クオンツ取引の極意</strong>
+                    </div>
+                    <p>
+                        アーニー・チャンの名著。平均回帰戦略、バックテスト手法、リテールクオンツビジネスの始め方を解説。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0470073861?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <strong>統計的裁定とアルゴリズム取引</strong>
+                    </div>
+                    <p>
+                        アンドリュー・ポール著。統計的裁定モデル、市場の微細構造、およびアルゴリズム実行戦略を深く掘り下げます。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/1492024333?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <strong>Pythonによるファイナンスの極意</strong>
+                    </div>
+                    <p>
+                        イヴ・ヒルピッシュ著。Pythonを使用したデータ分析、バックテスト、金融モデリングの決定版教科書。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <strong>アルゴリズム取引と資金管理</strong>
+                    </div>
+                    <p>
+                        アーニー・チャンの第二作。モメンタム戦略、平均回帰戦略、およびケリー基準による資金管理を徹底解説。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1839217715?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <strong>機械学習による財務アプリケーション</strong>
+                    </div>
+                    <p>
+                        ジェンセン著。決定木、ランダムフォレスト、ニューラルネットワークなどの機械学習モデルをアルゴリズム取引に適用する方法。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">基礎ステージ</a>
+            <a href="../stocks/index.html">株式コース</a>
+            <a href="../futures/index.html">先物コース</a>
+            <a href="index.html">クオンツコース</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

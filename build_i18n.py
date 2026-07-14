@@ -11,8 +11,8 @@ LANGUAGES = {
     'vi': 'Tiếng Việt'
 }
 
-# Source pages (Traditional Chinese)
-SRC_PAGES = ['index.html', 'futures-stocks.html', 'pair-trading.html', 'master-strategies.html']
+# Directories to ignore during walking (existing translation dirs and system dirs)
+IGNORE_DIRS = set(LANGUAGES.keys()) | {'.git', '.github', 'templates', 'scratch'}
 
 def convert_to_simplified_chinese(text):
     # Dictionary for common conversion of Traditional to Simplified Chinese terms in finance
@@ -52,37 +52,54 @@ def convert_to_simplified_chinese(text):
 # Global Translations Dictionary
 TRANSLATIONS = {
     'en': {
-        "GugoPro 財經教學學院 | 股票期貨與配對交易學習論壇": "GugoPro Academy | Stocks, Futures & Pairs Trading Forum",
+        "GugoPro 財經教學學院 | 系統化交易學習殿堂": "GugoPro Academy | Systematic Trading Learning Hall",
         "GugoPro Academy": "GugoPro Academy",
         "財經學院": "Finance Academy",
         "首頁": "Home",
-        "期貨與股票基礎": "Futures & Stocks Basics",
+        "啟蒙階段": "Fundamentals",
+        "股票學程": "Stock Path",
+        "期貨學程": "Futures Path",
+        "量化學程": "Quant Path",
+        "期貨與股票基礎": "Futures & Stocks",
         "配對交易實戰": "Pairs Trading",
         "傳奇大師交易心法": "Legendary Traders",
         "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Disclaimer: All content is for educational reference only. Trading involves high risk; evaluate carefully.",
-        "專業量化策略與配對交易教學": "Professional Quantitative Strategy & Pairs Trading Education",
+        "學程晉級制 ‧ 系統化交易學習路徑": "Advancement System ‧ Systematic Trading Learning Path",
         "從零開始的策略交易學習之旅": "Journey of Strategy Trading from Scratch",
-        "歡迎來到 GugoPro 財經教學學院。在這裡，我們將透過由淺入深的單元，帶您掌握期貨、股票以及核心的統計套利與配對交易策略，建立屬於您的系統化交易邏輯。": "Welcome to GugoPro Academy. Here, we guide you to master futures, stocks, and core statistical arbitrage & pairs trading to build systematic trading logic.",
-        "學習單元導覽": "Learning Modules Guide",
-        "請選擇您想學習的單元進度": "Select your learning module",
-        "初階入門": "Beginner",
-        "4 個章節": "4 Chapters",
-        "期貨與股票基礎教學": "Futures & Stocks Basics",
-        "探索股票與期貨的核心機制。學習保證金制度、多空操作、合約規格以及如何進行風險管理，為進階交易打下紮實的基礎。": "Explore core mechanisms of stocks & futures. Learn margin systems, long/short, contract specs, and risk management.",
-        "開始學習": "Start Learning",
-        "核心進階": "Core Advanced",
-        "5 個章節": "5 Chapters",
-        "配對交易實戰 (Pair Trading)": "Pairs Trading Masterclass",
-        "本院的核心交易策略。深入探討統計套利與均值回歸原理，學習如何挑選相關標的、計算 Z-Score 價差訊號，並進行實戰配對交易操作。": "The academy's core strategy. Dive into statistical arbitrage and mean reversion, calculate Z-Score signals, and run pairs trades.",
-        "中階擴展": "Intermediate",
-        "規劃中": "In Progress",
-        "量化策略與 Python 回測": "Quant Strategy & Python Backtesting",
-        "學習如何使用 Python 抓取歷史數據、計算技術指標，並對配對交易策略進行歷史回測，用真實的數據檢驗您的交易策略。": "Learn how to use Python to fetch data, calculate indicators, and backtest pairs trading strategies using historical data.",
-        "即將推出": "Coming Soon",
-        "經典策略": "Classic Strategy",
-        "3 個大師": "3 Masters",
-        "傳奇大師交易心法": "Legendary Traders' Methods",
-        "解構傑西·李佛摩的關鍵點操盤術、理查·丹尼斯的海龜交易法則及索羅斯的反身性理論，學習大師們的資金管理與心態心法。": "Deconstruct Jesse Livermore's Pivotal Points, Richard Dennis's Turtle Rules, and George Soros's Reflexivity Theory.",
+        "歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。": "Welcome to GugoPro Academy. Here, we plan four learning stages based on our advancement system, starting from basic mindsets to stocks, futures, and finally advanced statistical arbitrage & quant trading.",
+        "學院學習地圖": "Academy Learning Map",
+        "請點選您目前的學習進度，進入對應的系統化學程單元：": "Click on your current learning progress to enter the corresponding systematic path:",
+        
+        "Level 1: 🌟 啟蒙階段": "Level 1: 🌟 Fundamentals",
+        "3 個科目": "3 Courses",
+        "交易啟蒙與心態資金管理": "Trading Fundamentals & Risk Management",
+        "探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律及克服恐懼與貪婪的心態鍛鍊，奠定最關鍵的安全邊際基礎。": "Explore the nature of market operations. Starting from definitions, learn margin risks, stop-loss discipline, and psychological exercises to build the margin of safety.",
+        "進入學程": "Enter Path",
+        "1.1 交易基本常識 (Market Basics)": "1.1 Market Basics",
+        "1.2 交易心態與三大禁忌": "1.2 Trading Mindsets & 3 Taboos",
+        "1.3 風險控制與資金管理": "1.3 Risk Control & Capital Management",
+        
+        "Level 2: 📈 股票學程": "Level 2: 📈 Stock Path",
+        "股票策略與存股價值投資": "Stock Strategies & Value investing",
+        "專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。": "Focus on core equity investment strategies. Learn Graham's margin of safety, financial statements, high-dividend stock picking, and technical analysis.",
+        "2.1 價值投資大師心法": "2.1 Value Investing Masterclass",
+        "2.2 高殖利率存股策略": "2.2 Dividend Investing Strategy",
+        "2.3 技術分析與波動交易": "2.3 Technical Analysis & Swing Trading",
+        
+        "Level 3: 🌪️ 期貨學程": "Level 3: 🌪️ Futures Path",
+        "期貨價差與跨期對沖避險": "Futures Spreads & Market Hedging",
+        "深入期貨市場的微觀機制。從保證金槓桿計算，學習多空方向操作、合約規格換算，進而掌握跨期價差套利（Calendar Spread）與如何利用衍生性商品進行避險。": "Deep dive into futures micro-mechanisms. Learn margin leverage, long/short, contract specs, calendar spreads, and derivatives hedging.",
+        "3.1 期貨合約與保證金運作": "3.1 Futures Contract & Margin Mechanics",
+        "3.2 價差與跨期套利實務": "3.2 Calendar Spreads & Arbitrage",
+        "3.3 跨市場對沖與風險平衡": "3.3 Cross-Market Hedging & Risk Balancing",
+        
+        "Level 4: ⚖️ 量化學程": "Level 4: ⚖️ Quant Path",
+        "量化交易與統計套利實戰": "Quant Trading & Stat Arbitrage",
+        "踏入最前沿的系統化交易殿堂。利用統計學協整性測試（Cointegration）篩選配對標的，透過 Z-Score 產生均值回歸交易信號，並運用 Python 進行歷史數據回測。": "Step into systematic quantitative trading. Use statistical cointegration to screen pairs, generate mean-reversion signals via Z-Score, and backtest with Python.",
+        "4.1 配對交易實戰 (Pairs Trading)": "4.1 Pairs Trading Masterclass",
+        "4.2 Python 量化交易入門": "4.2 Python Quant Coding Basics",
+        "4.3 傳奇大師交易心法應用": "4.3 Legendary Traders' Methods",
+        
         "學院精選書單與產品推薦 (Amazon Hub)": "Selected Booklist & Product Recommendations (Amazon Hub)",
         "推廣專區": "Sponsored Hub",
         "歡迎透過以下專屬連結探索精選的財經經典書籍與交易周邊商品，支持我們持續創作高質量的免費教學內容！": "Explore classic financial books and trading gear through our affiliate links below to support our free high-quality content!",
@@ -91,7 +108,7 @@ TRANSLATIONS = {
         "在 Amazon 購買": "Buy on Amazon",
         "交易員設備與周邊": "Trader Gear & Desk setups",
         "精選 BenQ ScreenBar 螢幕懸掛智慧護眼閱讀燈，為您的多螢幕交易室提供無反光照明。": "Selected BenQ ScreenBar Smart Eye-Care monitor hanging light to provide glare-free lighting for your multi-monitor desk.",
-        "最想擁有的交易聖經": "Most Wished For Trading Bibles",
+        "最想擁建立的交易聖經": "Most Wished For Trading Bibles",
         "價值投資大師葛拉漢（Benjamin Graham）的傳世經典《聰明的投資人》，奠定安全邊際觀念。": "Benjamin Graham's legendary classic \"The Intelligent Investor\", laying the foundation of value investing and margin of safety.",
         "量化交易最新力作": "New Releases in Quant Trading",
         "Marcos Lopez de Prado 著作《Advances in Financial Machine Learning》，掌握最前沿的金融機器學習策略。": "Marcos Lopez de Prado's \"Advances in Financial Machine Learning\", mastering the cutting-edge financial machine learning strategies.",
@@ -99,17 +116,67 @@ TRANSLATIONS = {
         "Yves Hilpisch 著作《Python for Algorithmic Trading》，學習如何使用 Python 建立交易演算法、處理資料與串接 API。": "Yves Hilpisch's \"Python for Algorithmic Trading\", learning to build trading algorithms, process data, and connect APIs.",
         "交易心態經典必讀": "Must-read Trading Psychology",
         "Mark Douglas 著作《Trading in the Zone》，掌握交易心理學，培養贏家的機率思維與堅強的紀律。": "Mark Douglas's \"Trading in the Zone\", mastering trading psychology, probability mindsets, and solid discipline.",
-        "專業交易策略精髓": "Core of Professional Trading",
-        "Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真實生活，以及如何建立一個好的交易流程與風險紀律。": "Mike Bellafiore's \"One Good Trade\", offering a look into proprietary trading and how to build a robust process.",
-        "演算法交易與資金管理": "Algorithmic Trading & Money Mgmt",
-        "Ernie Chan 的第二本力作，深入介紹動量策略、均值回歸策略以及凱利公式資金管理。": "Ernie Chan's second book, detailing momentum, mean-reversion strategies, and Kelly formula capital management.",
-        "機器學習金融應用": "ML for Financial Trading",
-        "Stefan Jansen 著作，系統性介紹如何將機器學習模型（決策樹、隨機森林、神經網路）應用於演算法交易策略的設計與回測。": "Stefan Jansen's book on applying ML models (decision trees, random forests, neural networks) to trading strategy design and backtesting.",
-        "市場奇才：大師訪談錄": "Market Wizards: Master Interviews",
-        "Jack D. Schwager 著作《Market Wizards》，訪談全球最頂尖的傳奇交易大師，探尋他們獲得超額回報的共通心法與風險控制準則。": "Jack D. Schwager's \"Market Wizards\", interviewing top traders to find common paths to exceptional returns and risk control.",
-        "趨勢追蹤交易指南": "Trend Following Trading Guide",
-        "Michael Covel 著作《Trend Following》，系統性分析趨勢追蹤大師們如何在牛市與熊市中，透過系統化交易規則獲得巨額利潤。": "Michael Covel's \"Trend Following\", analyzing how trend followers capture massive profits across bull and bear markets.",
         "返回首頁": "Back to Home",
+        "返回學院地圖": "Back to Academy Map",
+        "返回量化學程": "Back to Quant Path",
+        "返回期貨學程": "Back to Futures Path",
+        "即將推出": "Coming Soon",
+        
+        # Level 1 Landing overrides
+        "Level 1: 🌟 交易啟蒙階段 | GugoPro 財經教學學院": "Level 1: 🌟 Fundamentals | GugoPro Academy",
+        "Level 1 學程 ‧ 交易啟蒙與心態資金管理": "Level 1 Path ‧ Fundamentals & Risk Management",
+        "交易啟蒙學程 (Fundamentals)": "Trading Fundamentals Path",
+        "歡迎來到 Level 1 學程。本單元是每位交易員成功之旅的起點。在此，我們不談複雜的程式或高深的數學模型，而是把重點放在金融工具的本質、風控制度的防線，以及在大風大浪中克服人性弱點的交易心態心法。": "Welcome to Level 1. This path is the starting point for every trader. We focus on asset mechanics, strict risk controls, and trading psychology to help you conquer greed and fear.",
+        "單元 1.1": "Module 1.1",
+        "規劃中": "In Progress",
+        "探索各類主流金融工具。從股票的所有權份額定義，到期貨合約的本質及到期交割機制，建立全面的市場全景認知，避免因規則不清造成的非交易虧損。": "Explore financial assets. From equity definition of stocks to expiration settlements of futures. Build a market view to avoid rule-based trading losses.",
+        "單元 1.2": "Module 1.2",
+        "交易心態與三大禁忌": "Trading Mindsets & 3 Taboos",
+        "深入心態鍛鍊的難關。解讀散戶在實戰中最容易犯下的三大禁忌：過度交易、凹單不認賠、盲目跟單。學習如何培養客觀的「贏家機率思維」，克服貪婪與恐懼。": "Deep dive into trading psychology. Learn to avoid overtrading, holding losing positions, and blindly copying others. Develop a probability mindset.",
+        "單元 1.3": "Module 1.3",
+        "風險控制與資金管理": "Risk Control & Capital Management",
+        "學習交易員的生存關鍵：風控。介紹單筆交易停損比率限制（如 2% 規則）、部位大小計算公式、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "Learn the most critical survival skill: Risk Control. Master the 2% stop-loss limit, position sizing formulas, Kelly criterion, and macro exposure management.",
+        "本學程推薦閱讀：交易心態與風險管理經典": "Recommended: Trading Mindsets & Risk Management Classics",
+        
+        # Level 2 Landing overrides
+        "Level 2: 📈 股票交易學程 | GugoPro 財經教學學院": "Level 2: 📈 Stock Path | GugoPro Academy",
+        "Level 2 學程 ‧ 股票交易與資產配置": "Level 2 Path ‧ Stock Trading & Asset Allocation",
+        "股票交易學程 (Stock Trading)": "Stock Trading Path",
+        "歡迎來到 Level 2 學程。本單元專注於股票市場的策略方法。從傳統價值投資的安全邊際、存股高股息長期複利，到利用技術指標進行中短期波段交易，為您規劃完整的現貨配置方案。": "Welcome to Level 2. This path focuses on stock market strategies. From value investing and long-term dividend compounding to technical indicator breakout strategies.",
+        "單元 2.1": "Module 2.1",
+        "學習價值投資之父葛拉漢與巴菲特的護城河思維。如何透過本益比、股價淨值比及股東權益報酬率 (ROE) 評估股票內在價值，建立抗震的安全邊際。": "Learn the economic moat mindset. Understand how to use P/E, P/B, and ROE to value stocks and establish solid margins of safety.",
+        "單元 2.2": "Module 2.2",
+        "高殖利率存股策略": "High-Dividend Investing Strategy",
+        "探索長線存股與高股息配置。學習如何篩選優質穩健的存股標的、計算真實年化殖利率、解讀填息機率，以及利用股利自動再投資產生的巨大複利威力。": "Explore long-term stock saving. Learn how to screen quality dividend stocks, calculate annualized yields, and use compounding to scale capital.",
+        "單元 2.3": "Module 2.3",
+        "技術分析與波動交易": "Technical Analysis & Swing Trading",
+        "專注於中短期波段獲利。學習主力K線型態、均線黃金交叉與死亡交叉的買賣訊號、MACD與RSI強弱指標的黃金組合，以及如何設定關鍵的支撐與壓力區。": "Focus on medium-term swing trading. Master candlestick patterns, moving average crossovers, MACD & RSI indicators, and key support & resistance zones.",
+        "本學程推薦閱讀：股票投資與財務報表經典": "Recommended: Stock Investing & Financial Statement Classics",
+        
+        # Level 3 Landing overrides
+        "Level 3: 🌪️ 期貨交易學程 | GugoPro 財經教學學院": "Level 3: 🌪️ Futures Path | GugoPro Academy",
+        "Level 3 學程 ‧ 期貨與衍生性商品": "Level 3 Path ‧ Futures & Derivatives",
+        "期貨交易學程 (Futures Trading)": "Futures Trading Path",
+        "歡迎來到 Level 3 學程。本單元專門探討保證金交易、槓桿機制及跨期與跨市場價差交易，深入期貨獨特的多空對稱優勢，建立穩健的對沖避險觀念。": "Welcome to Level 3. This path explores margin systems, leverage mechanisms, and calendar/cross-market spread trading to build robust hedging mindsets.",
+        "單元 3.1": "Module 3.1",
+        "單元 3.2": "Module 3.2",
+        "探討期貨特有的價差交易。學習正價差 (Contango) 與逆價差 (Backwardation) 的形成、合約轉倉成本 (Roll Yield)，以及跨期套利規則。": "Explore spread trading. Understand Contango vs. Backwardation, roll yields, and calendar arbitrage strategies.",
+        "單元 3.3": "Module 3.3",
+        "學習如何在多標的組合中，利用指數期貨或商品期貨對沖股票現貨市場的系統性風險，在熊市中保護您的資產組合淨值。": "Learn how to use index or commodity futures to hedge stock portfolios against systemic market drops during bear phases.",
+        "本學程推薦閱讀：期貨交易與風險管理經典": "Recommended: Futures Trading & Risk Management Classics",
+        
+        # Level 4 Landing overrides
+        "Level 4: ⚖️ 量化交易學程 | GugoPro 財經教學學院": "Level 4: ⚖️ Quant Path | GugoPro Academy",
+        "Level 4 學程 ‧ 量化交易與統計套利": "Level 4 Path ‧ Quant Trading & Stat Arbitrage",
+        "量化交易學程 (Quantitative Trading)": "Quantitative Trading Path",
+        "歡迎來到 Level 4 學程。本單元是學院的核心精華，專注於利用數學與統計學建立市場中性策略，並利用 Python 進行資料分析與策略回測，最終學習大師的資金控管心法。": "Welcome to Level 4. The crown jewel of GugoPro Academy. Master quantitative analysis, Python backtesting, and systematic risk controls.",
+        "單元 4.1": "Module 4.1",
+        "單元 4.2": "Module 4.2",
+        "學習使用 Python 抓取金融歷史數據、計算技術指標與統計量，並建立自動化策略回測框架，用數據驗證交易策略的有效性。": "Learn Python coding to fetch market history, calculate stats, and construct automatic backtesting engines to verify setups.",
+        "單元 4.3": "Module 4.3",
+        "本學程推薦閱讀：量化交易與統計套利經典": "Recommended: Quant Trading & Statistical Arbitrage Classics",
+        
+        # Page Title Headers
         "單元一：期貨與股票基礎教學": "Unit 1: Futures & Stocks Basics",
         "建立紮實的交易基礎": "Build a Solid Trading Foundation",
         "本單元目錄": "Unit Contents",
@@ -125,7 +192,7 @@ TRANSLATIONS = {
         "2. 保證金與槓桿機制": "2. Margin and Leverage Mechanism",
         "期貨交易最重要的特色在於<strong>保證金交易 (Margin Trading)</strong>。您不需要支付合約的全部價值，只需要繳納一定比例的資金作為履約擔保，即可控制價值數倍甚至數十倍的合約。": "The core feature of futures trading is **Margin Trading**. You do not pay the full contract value, but a percentage as collateral to control highly leveraged assets.",
         "槓桿倍數 = 合約總價值 / 原始保證金": "Leverage = Contract Value / Initial Margin",
-        "例如，若一個台股期貨合約總價值為 300 萬台幣，而交易所規定的原始保證金為 15 萬台幣，則該合約的資金槓桿倍數為：<strong>300 / 15 = 20 倍</strong>。": "For example, if a futures contract value is $100,000, and the initial margin is $5,000, your leverage is **100,000 / 5,000 = 20x**.",
+        "例如，若一個台股期貨合約總價值為 300 萬台幣，而交易所規規定了原始保證金為 15 萬台幣，則該合約的資金槓桿倍數為：<strong>300 / 15 = 20 倍</strong>。": "For example, if a futures contract value is $100,000, and the initial margin is $5,000, your leverage is **100,000 / 5,000 = 20x**.",
         "⚠️ <strong>風險提示</strong>：槓桿是一把雙刃劍。如果標的價格變動 1%，您的資金收益或虧損就會被放大 20 倍。當虧損導致您的帳戶餘額低於交易所規定的「維持保證金」時，您會收到補繳通知（追繳 Margin Call），否則將面臨強制平倉（斷頭）。": "⚠️ **Risk Warning**: Leverage is a double-edged sword. A 1% price change scale gains or losses by 20x. If your account drops below the Maintenance Margin, you will receive a Margin Call or face liquidation.",
         "3. 多頭與空頭市場操作": "3. Long & Short Market Operations",
         "在股票市場中，一般的交易習慣是「先買後賣」（做多 Long）。但在期貨市場中，做空 (Short) 與做多一樣方便且成本相同：": "In stock markets, typical trading is \"buy first, sell later\" (Long). In futures markets, Shorting is just as easy and cost-effective as Longing:",
@@ -149,6 +216,12 @@ TRANSLATIONS = {
         "John C. Hull 著作，全球商學院與華爾街金融機構指定的衍生性金融商品教科書。": "John C. Hull's textbook, standard reading in business schools and Wall Street firms for derivatives pricing.",
         "股票作手回憶錄": "Reminiscences of a Stock Operator",
         "描述傳奇交易大師傑西·李佛摩（Jesse Livermore）一生的投資智慧與心路歷程。": "Edwin Lefèvre's biography of Jesse Livermore, capturing the timeless wisdom and psychology of speculation.",
+        "專業交易策略精髓": "Core of Professional Trading",
+        "Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真實生活，以及如何建立一個好的交易流程與風險紀律。": "Mike Bellafiore's \"One Good Trade\", offering a look into proprietary trading and how to build a robust process.",
+        "投資必讀經典": "The Intelligent Investor",
+        "價值投資大師葛拉漢（Benjamin Graham）的傳世經典《聰明的投資人》，奠定安全邊際觀念。": "Benjamin Graham's legendary classic \"The Intelligent Investor\", laying the foundation of value investing and margin of safety.",
+        
+        # Unit 2 Title Headers
         "單元二：配對交易實戰 (Pair Trading)": "Unit 2: Pairs Trading Masterclass",
         "進階統計套利策略": "Advanced Statistical Arbitrage",
         "1. 什麼是配對交易": "1. What is Pairs Trading",
@@ -192,6 +265,12 @@ TRANSLATIONS = {
         "Andrew Pole 著作《Statistical Arbitrage》，深入探索統計套利模型、市場微觀結構與演算法執行策略。": "Andrew Pole's \"Statistical Arbitrage\", exploring quant models, market microstructure, and algorithmic executions.",
         "Python 金融實戰大作": "Python for Finance Masterpiece",
         "Yves Hilpisch 著作，利用 Python 進行金融數據分析、回測、量化建模的必備教科書。": "Yves Hilpisch's bestseller, the ultimate textbook for data analysis, backtesting, and modeling using Python.",
+        "演算法交易與資金管理": "Algorithmic Trading & Money Mgmt",
+        "Ernie Chan 的第二本力作，深入介紹動量策略、均值回歸策略以及凱利公式資金管理。": "Ernie Chan's second book, detailing momentum, mean-reversion strategies, and Kelly formula capital management.",
+        "機器學習金融應用": "ML for Financial Trading",
+        "Stefan Jansen 著作，系統性介紹如何將機器學習模型（決策樹、隨機森林、神經網路）應用於演算法交易策略的設計與回測。": "Stefan Jansen's book on applying ML models (decision trees, random forests, neural networks) to trading strategy design and backtesting.",
+        
+        # Unit 4 Title Headers
         "單元四：傳奇大師交易心法 (Legendary Traders)": "Unit 4: Legendary Traders' Methods",
         "學習贏家的交易思維": "Learn the Mindset of Winning Traders",
         "1. 傑西·李佛摩關鍵點": "1. Jesse Livermore's Points",
@@ -233,40 +312,61 @@ TRANSLATIONS = {
         "海龜交易法則": "Way of the Turtle (Dennis & Turtles)",
         "由最成功的海龜學員 Curtis Faith 撰寫，首度完整公開海龜計畫的所有進出場、風控與加碼細節。": "Written by the most successful Turtle student Curtis Faith, revealing the inner workings of Dennis's program.",
         "金融煉金術 (索羅斯)": "The Alchemy of Finance (George Soros)",
-        "索羅斯的思想巨著，詳細闡述了「反身性理論」以及他在市場中進行宏觀博弈的日記記錄。": "Soros's masterwork, detailing Reflexivity Theory and his real-time journals during historic macro campaigns."
+        "索羅斯的思想巨著，詳細闡述了「反身性理論」以及他在市場中進行宏觀博弈的日記記錄。": "Soros's masterwork, detailing Reflexivity Theory and his real-time journals during historic macro campaigns.",
+        "市場奇才：大師訪談錄": "Market Wizards: Master Interviews",
+        "Jack D. Schwager 著作《Market Wizards》，訪談全球最頂尖的傳奇交易大師，探尋他們獲得超額回報的共通心法與風險控制準則。": "Jack D. Schwager's \"Market Wizards\", interviewing top traders to find common paths to exceptional returns and risk control.",
+        "趨勢追蹤交易指南": "Trend Following Trading Guide",
+        "Michael Covel 著作《Trend Following》，系統性分析趨勢追蹤大師們如何在牛市與熊市中，透過系統化交易規則獲得巨額利潤。": "Michael Covel's \"Trend Following\", analyzing how trend followers capture massive profits across bull and bear markets."
     },
     'ja': {
-        "GugoPro 財經教學學院 | 股票期貨與配對交易學習論壇": "GugoPro 財務アカデミー | 株式・先物・ペアトレード学習フォーラム",
+        "GugoPro 財經教學學院 | 系統化交易學習殿堂": "GugoPro 財務アカデミー | 体系的トレード学習の殿堂",
         "GugoPro Academy": "GugoPro Academy",
         "財經學院": "財務アカデミー",
         "首頁": "ホーム",
+        "啟蒙階段": "基礎ステージ",
+        "股票學程": "株式コース",
+        "期貨學程": "先物コース",
+        "量化學程": "クオンツコース",
         "期貨與股票基礎": "先物と株式の基礎",
-        "配對交易實戰": "ペアトレード実戰",
+        "配對交易實戰": "ペアトレード実戦",
         "傳奇大師交易心法": "伝説のトレーダー手法",
         "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。",
-        "專業量化策略與配對交易教學": "プロのクオンツ戦略とペアトレードの教育",
+        "學程晉級制 ‧ 系統化交易學習路徑": "進級制度 ‧ 体系的トレード学習パス",
         "從零開始的策略交易學習之旅": "ゼロから始める戦略取引の学習の旅",
-        "歡迎來到 GugoPro 財經教學學院。在這裡，我們將透過由淺入深的單元，帶您掌握期貨、股票以及核心的統計套利與配對交易策略，建立屬於您的系統化交易邏輯。": "GugoPro 財務アカデミーへようこそ。ここでは、基礎から応用までのユニットを通じて、先物、株式、そしてコアとなる統計的裁定とペアトレード戦略を習得し、独自の体系的な取引ロジックを確立するお手伝いをします。",
-        "學習單元導覽": "学習ユニットガイド",
-        "請選擇您想學習的單元進度": "学習したいユニットの進捗を選択してください",
-        "初階入門": "初級入門",
-        "4 個章節": "4つの章",
-        "期貨與股票基礎教學": "先物と株式の基礎教育",
-        "探索股票與期貨的核心機制。學習保證金制度、多空操作、合約規格以及如何進行風險管理，為進階交易打下紮實的基礎。": "株式と先物のコアメカニズムを探索します。保証金制度、買い・売り注文、取引契約の仕様、熱心なリスク管理を学び、応用取引への強固な基礎を築きます。",
-        "開始學習": "学習を開始",
-        "核心進階": "コア応用",
-        "5 個章節": "5つの章",
-        "配對交易實戰 (Pair Trading)": "ペアトレード実戦",
-        "本院的核心交易策略。深入探討統計套利與均值回歸原理，學習如何挑選相關標的、計算 Z-Score 價差訊號，並進行實戰配對交易操作。": "当アカデミーのコア取引戦略。統計的裁定と平均回帰の原理を深く掘り下げ、相関銘柄の選定、Zスコアのスプレッドシグナルの計算、および実戦ペアトレード操作を学びます。",
-        "中階擴展": "中級拡張",
-        "規劃中": "準備中",
-        "量化策略與 Python 回測": "クオンツ戦略と Python バックテスト",
-        "學習如何使用 Python 抓取歷史數據、計算技術指標，並對配對交易策略進行歷史回測，用真實的數據檢驗您的交易策略。": "Pythonを使用して履歴データを取得し、テクニカル指標を計算し、ペアトレード戦略のバックテストを行い、実際のデータで取引策略を検証する方法を学びます。",
-        "即將推出": "近日公開",
-        "經典策略": "古典戦略",
-        "3 個大師": "3人のマスター",
-        "傳奇大師交易心法": "伝説のマスター取引手法",
-        "解構傑西·李佛摩的關鍵點操盤術、理查·丹尼斯的海龜交易法則及索羅斯的反身性理論，學習大師們的資金管理與心態心法。": "ジェシー・リバモアのピボタル・ポイント手法、リチャード・デニスのタートル・ルール、ジョージ・ソロスの再帰性理論を解剖し、彼らの資金管理とメンタルの極意を学びます。",
+        "歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。": "GugoPro 財務アカデミーへようこそ。ここでは、基礎から応用までのユニットを通じて、先物、株式、そしてコアとなる統計的裁定とペアトレード戦略を習得し、独自の体系的な取引ロジックを確立するお手伝いをします。",
+        "學院學習地圖": "アカデミー学習マップ",
+        "請點選您目前的學習進度，進入對應的系統化學程單元：": "現在の学習進捗をクリックして、対応する体系的コースユニットに入ってください：",
+        
+        "Level 1: 🌟 啟蒙階段": "Level 1: 🌟 基礎ステージ",
+        "3 個科目": "3科目",
+        "交易啟蒙與心態資金管理": "トレード基礎とマインド・資金管理",
+        "探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律及克服恐懼與貪婪的心態鍛鍊，奠定最關鍵的安全邊際基礎。": "市場運用の本質を探索します。定義から保証金リスク、損切り規律、メンタル管理を学び、安全の余白の基礎を築きます。",
+        "進入學程": "コースに入る",
+        "1.1 交易基本常識 (Market Basics)": "1.1 取引の基本常識",
+        "1.2 交易心態與三大禁忌": "1.2 取引マインドと3大タブー",
+        "1.3 風險控制與資金管理": "1.3 リスク管理と資金管理",
+        
+        "Level 2: 📈 股票學程": "Level 2: 📈 株式コース",
+        "股票策略與存股價值投資": "株式戦略とバリュー投資",
+        "專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。": "株式投資戦略に焦点を当てます。バリュー投資の安全余白、財務分析、高配当銘柄選定、テクニカル分析を学びます。",
+        "2.1 價值投資大師心法": "2.1 バリュー投資大師の手法",
+        "2.2 高殖利率存股策略": "2.2 高配当長期投資戦略",
+        "2.3 技術分析與波動交易": "2.3 テクニカル分析とスイングトレード",
+        
+        "Level 3: 🌪️ 期貨學程": "Level 3: 🌪️ 先物コース",
+        "期貨價差與跨期對沖避險": "先物スプレッドと市場ヘッジ",
+        "深入期貨市場的微觀機制。從保證金槓桿計算，學習多空方向操作、合約規格換算，進而掌握跨期價差套利（Calendar Spread）與如何利用衍生性商品進行避險。": "先物マイクロメカニズムを深掘りします。保証金レバレッジ、ロング/ショート、限月間スプレッド、デリバティブヘッジを学びます。",
+        "3.1 期貨合約與保證金運作": "3.1 先物契約と保証金運用",
+        "3.2 價差與跨期套利實務": "3.2 限月間スプレッドと裁定取引",
+        "3.3 跨市場對沖與風險平衡": "3.3 市場間ヘッジとリスクバランス",
+        
+        "Level 4: ⚖️ 量化學程": "Level 4: ⚖️ クオンツコース",
+        "量化交易與統計套利實戰": "クオンツ取引と統計的裁定取引",
+        "踏入最前沿的系統化交易殿堂。利用統計學協整性測試（Cointegration）篩選配對標的，透過 Z-Score 產生均值回歸交易信號，並運用 Python 進行歷史數據回測。": "体系的クオンツ取引へ。統計的共和分テストでペアを選定、Zスコアで平均回帰シグナル計算、Pythonでバックテストを学びます。",
+        "4.1 配對交易實戰 (Pairs Trading)": "4.1 ペアトレード実戦",
+        "4.2 Python 量化交易入門": "4.2 Pythonクオンツ取引入門",
+        "4.3 傳奇大師交易心法應用": "4.3 伝説のトレーダー手法",
+        
         "學院精選書單與產品推薦 (Amazon Hub)": "アカデミー厳選書籍・推奨商品 (Amazon Hub)",
         "推廣專區": "プロモーションエリア",
         "歡迎透過以下專屬連結探索精選的財經經典書籍與交易周邊商品，支持我們持續創作高質量的免費教學內容！": "以下の専用リンクから厳選された投資の名著や取引関連グッズをご覧いただき、質の高い無料コンテンツの制作へのサポートをお願いします！",
@@ -283,17 +383,67 @@ TRANSLATIONS = {
         "Yves Hilpisch 著作《Python for Algorithmic Trading》，學習如何使用 Python 建立交易演算法、處理資料與串接 API。": "Yves Hilpisch著『Python for Algorithmic Trading』。Pythonによる取引アルゴリズム構築、データ処理、API連携を学びます。",
         "交易心態經典必讀": "トレードメンタル不朽の名作",
         "Mark Douglas 著作《Trading in the Zone》，掌握交易心理學，培養贏家的機率思維與堅強的紀律。": "マーク・ダグラス著『ゾーン』。トレード心理学をマスターし、確率的思考と強固な規律を身につけます。",
-        "專業交易策略精髓": "プロフェッショナル取引の真髄",
-        "Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真實生活，以及如何建立一個好的交易流程與風險紀律。": "マイク・ベラフィオーレ著『One Good Trade』。プロの自己資金トレーダーの生活、取引プロセスとリスク管理規律を学びます。",
-        "演算法交易與資金管理": "アルゴリズム取引と資金管理",
-        "Ernie Chan 的第二本力作，深入介紹動量策略、均值回歸策略以及凱利公式資金管理。": "アーニー・チャンの第二作。モメンタム戦略、平均回帰戦略、およびケリー基準による資金管理を徹底解説。",
-        "機器學習金融應用": "機械学習による財務アプリケーション",
-        "Stefan Jansen 著作，系統性介紹如何將機器學習模型（決策樹、隨機森林、神經網路）應用於演算法交易策略的設計與回測。": "ジェンセン著。決定木、ランダムフォレスト、ニューラルネットワークなどの機械学習モデルをアルゴリズム取引に適用する方法。",
-        "市場奇才：大師訪談錄": "マーケットの魔術師",
-        "Jack D. Schwager 著作《Market Wizards》，訪談全球最頂尖的傳奇交易大師，探尋他們獲得超額回報的共通心法與風險控制準則。": "ジャック・シュワッガー著『マーケットの魔術師』。一流のトレーダーへのインタビューから非凡なリターンとリスク管理の極意を探ります。",
-        "趨勢追蹤交易指南": "トレンドフォロー取引ガイド",
-        "Michael Covel 著作《Trend Following》，系統性分析趨勢追蹤大師們如何在牛市與熊市中，透過系統化交易規則獲得巨額利潤。": "マイケル・コベル著『トレンドフォロー』。上昇相場と下落相場でシステム的な規則により巨額の利益を上げる方法を分析。",
         "返回首頁": "ホームに戻る",
+        "返回學院地圖": "アカデミーマップに戻る",
+        "返回量化學程": "クオンツコースに戻る",
+        "返回期貨學程": "先物コースに戻る",
+        "即將推出": "近日公開",
+        
+        # Level 1 Landing overrides
+        "Level 1: 🌟 交易啟盟階段 | GugoPro 財經教學學院": "Level 1: 🌟 基礎ステージ | GugoPro アカデミー",
+        "Level 1 學程 ‧ 交易啟蒙與心態資金管理": "Level 1コース ‧ トレード基礎と資金管理",
+        "交易啟蒙學程 (Fundamentals)": "取引基礎コース",
+        "歡迎來到 Level 1 學程。本單元是每位交易員成功之旅的起點。在此，我們不談複雜的程式或高深的數學模型，而是把重點放在金融工具的本質、風控制度的防線，以及在大風大浪中克服人性弱點的交易心態心法。": "Level 1へようこそ。トレード基礎、厳格なリスク管理、貪欲と恐怖を克服するマインドセットに焦点を当てます。",
+        "單元 1.1": "ユニット1.1",
+        "規劃中": "準備中",
+        "探索各類主流金融工具。從股票的所有權份額定義，到期貨合約的本質及到期交割機制，建立全面的市場全景認知，避免因規則不清造成的非交易虧損。": "金融商品の基礎。株式の定義から先物決済ルールまで。不要な損失を避ける全体像を確立します。",
+        "單元 1.2": "ユニット 1.2",
+        "交易心態與三大禁忌": "取引マインドと3大タブー",
+        "深入心態鍛鍊的難關。解讀散戶在實戰中最容易犯下的三大禁忌：過度交易、凹單不認賠、盲目跟單。學習如何培養客觀的「贏家機率思維」，克服貪婪與恐懼。": "トレード心理の難関。過剰取引、ロスカット拒否、コピートレードの3大タブーを回避。確率的思考を養います。",
+        "單元 1.3": "ユニット 1.3",
+        "風險控制與資金管理": "リスク管理と資金管理",
+        "學習交易員的生存關鍵：風控。介紹單筆交易停損比率限制（如 2% 規則）、部位大小計算公式、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "最大サバイバルスキル：リスク管理。2%ストップ、ポジションサイジング、ケリー基準、マクロ露出管理を習得。",
+        "本學程推薦閱讀：交易心態與風險管理經典": "推奨書籍：マインドとリスク管理の名著",
+        
+        # Level 2 Landing overrides
+        "Level 2: 📈 股票交易學程 | GugoPro 財經教學學院": "Level 2: 📈 株式コース | GugoPro アカデミー",
+        "Level 2 學程 ‧ 股票交易與資產配置": "Level 2コース ‧ 株式取引と資産配分",
+        "股票交易學程 (Stock Trading)": "株式取引コース",
+        "歡迎來到 Level 2 學程。本單元專注於股票市場的策略方法。從傳統價值投資的安全邊際、存股高股息長期複利，到利用技術指標進行中短期波段交易，為您規劃完整的現貨配置方案。": "Level 2へようこそ。バリュー投資、高配当複利投資、テクニカル分析スイングトレードなどの株式戦略を学びます。",
+        "單元 2.1": "ユニット 2.1",
+        "學習價值投資之父葛拉漢與巴菲特的護城河思維。如何透過本益比、股價淨值比及股東權益報酬率 (ROE) 評估股票內在價值，建立抗震的安全邊際。": "バリュー投資の本質。P/E、P/B、ROEから割安銘柄を選定し、安全の余白を構築します。",
+        "單元 2.2": "ユニット 2.2",
+        "高殖利率存股策略": "高配当長期投資戦略",
+        "探索長線存股與高股息配置。學習如何篩選優質穩健的存股標的、計算真實年化殖利率、解讀填息機率，以及利用股利自動再投資產生的巨大複利威力。": "配当再投資による複利効果。安定高配当株の選別、利回り計算、埋める確率の読み方をマスターします。",
+        "單元 2.3": "ユニット 2.3",
+        "技術分析與波動交易": "テクニカル分析とスイングトレード",
+        "專注於中短期波段獲利。學習主力K線型態、均線黃金交叉與死亡交叉的買賣訊號、MACD與RSI強弱指標的黃金組合，以及如何設定關鍵的支撐與壓力區。": "スイングトレード実戦。ローソク足型、移動平均交差、MACD&RSI指標、支持・抵抗線の引き方を習得します。",
+        "本學程推薦閱讀：股票投資與財務報表經典": "推奨書籍：株式投資と財務諸表の名著",
+        
+        # Level 3 Landing overrides
+        "Level 3: 🌪️ 期貨交易學程 | GugoPro 財經教學學院": "Level 3: 🌪️ 先物コース | GugoPro アカデミー",
+        "Level 3 學程 ‧ 期貨與衍生性商品": "Level 3コース ‧ 先物とデリバティブ",
+        "期貨交易學程 (Futures Trading)": "先物取引コース",
+        "歡迎來到 Level 3 學程。本單元專門探討保證金交易、槓桿機制及跨期與跨市場價差交易，深入期貨獨特的多空對稱優勢，建立穩健的對沖避險觀念。": "Level 3へようこそ。保証金レバレッジ、限月間/市場間スプレッド取引を学び、リスクヘッジの概念を確立します。",
+        "單元 3.1": "ユニット 3.1",
+        "單元 3.2": "ユニット 3.2",
+        "探討期貨特有的價差交易。學習正價差 (Contango) 與逆價差 (Backwardation) 的形成、合約轉倉成本 (Roll Yield)，以及跨期套利規則。": "先物特有のスプレッド取引。コンタンゴとバックワーデーション、ロールイールド、限月間裁定戦略。",
+        "單元 3.3": "ユニット 3.3",
+        "學習如何在多標的組合中，利用指數期貨或商品期貨對沖股票現貨市場的系統性風險，在熊市中保護您的資產組合淨值。": "先物ヘッジ戦略。指数または商品先物を用いて、現物株式ポートフォリオのシステムリスクを相殺します。",
+        "本學程推薦閱讀：期貨交易與風險管理經典": "推奨書籍：先物取引とリスク管理の名著",
+        
+        # Level 4 Landing overrides
+        "Level 4: ⚖️ 量化交易學程 | GugoPro 財經教學學院": "Level 4: ⚖️ クオンツコース | GugoPro アカデミー",
+        "Level 4 學程 ‧ 量化交易與統計套利": "Level 4コース ‧ クオンツ取引と統計的裁定",
+        "量化交易學程 (Quantitative Trading)": "クオンツ取引コース",
+        "歡迎來到 Level 4 學程。本單元是學院的核心精華，專注於利用數學與統計學建立市場中性策略，並利用 Python 進行資料分析與策略回測，最終學習大師的資金控管心法。": "Level 4へようこそ。数学・統計学に基づく市場中立型戦略、Pythonバックテスト、大師のリスク・資金管理を学びます。",
+        "單元 4.1": "ユニット 4.1",
+        "單元 4.2": "ユニット 4.2",
+        "學習使用 Python 抓取金融歷史數據、計算技術指標與統計量，並建立自動化策略回測框架，用數據驗證交易策略的有效性。": "Pythonコーディングの基礎。市場データの取得、統計量計算、バックテストフレームワークの構築を学びます。",
+        "單元 4.3": "ユニット 4.3",
+        "本學程推薦閱讀：量化交易與統計套利經典": "推奨書籍：クオンツ取引と統計的裁定の名著",
+        
+        # Unit 1 Content Page
         "單元一：期貨與股票基礎教學": "ユニット1：先物と株式の基礎教育",
         "建立紮實的交易基礎": "強固な取引基礎の構築",
         "本單元目錄": "ユニットの目次",
@@ -307,24 +457,24 @@ TRANSLATIONS = {
         "**期貨 (Futures)**：本質上是一種「合約」，是買賣雙方約定在未來的某個特定時間，以特定價格交易某種資產的協議。期貨具有**到期日 (Expiration Date)**，合約到期後必須結算。": "**先物（Futures）**：本質的には一種の「契約」です。買い手と売り手が将来の特定の時点で、特定の価格で特定の資産を取引することに同意する合意です。先物には**期限（満期日）**があり、期限が来ると決済が必要です。",
         "股票是交易「現貨資產」，而期貨是交易「未來的預期與價格波動」。": "株式は「現物資産」を取引し、先物は「将来の予想と価格変動」を取引します。",
         "2. 保證金與槓桿機制": "2. 保証金とレバレッジのメカニズム",
-        "期貨交易最重要的特色在於<strong>保證金交易 (Margin Trading)</strong>。您不需要支付合約的全部價值，只需要繳納一定比例 of 原始保證金作為履約擔保，即可控制價值數倍甚至數十倍的合約。": "先物取引の最も重要な特徴は**保証金取引（Margin Trading）**です。契約の全額を支払う必要はなく、一定割合の資金を契約履行の保証金として預けることで、その数倍から数十倍の価値の契約をコントロールできます。",
+        "期貨交易最重要的特色在於<strong>保證金交易 (Margin Trading)</strong>。您不需要支付合約的全部價值，只需要繳納一定比例 of 原始保證金作為履約擔保，即可控制價值數倍甚至數十倍的合約。": "先物取引の最も重要な特徴は**保証金取引（Margin Trading）**です。契約の全額を支払う必要はなく、一定割合の資金を契約履行の保証金として預けることで、その数倍から数十倍 of 価値の契約をコントロールできます。",
         "槓桿倍數 = 合約總價值 / 原始保證金": "レバレッジ倍率 = 契約総価値 / 必要保証金",
-        "例如，若一個台股期貨合約總價值為 300 萬台幣，而交易所規定的原始保證金為 15 萬台幣，則該合約的資金槓桿倍數為：<strong>300 / 15 = 20 倍</strong>。": "たとえば、先物契約の総額が1,000万円で、取引所の必要保証金が50万円の場合、その契約のレバレッジ倍率は **1,000 / 50 = 20倍** となります。",
+        "例如，若一個台股期貨合約總價值為 300 萬台幣，而交易所規定了原始保證金為 15 萬台幣，則該合約的資金槓桿倍數為：<strong>300 / 15 = 20 倍</strong>。": "たとえば、先物契約の総額が1,000万円で、取引所の必要保証金が50万円の場合、その契約のレバレッジ倍率は **1,000 / 50 = 20倍** となります。",
         "⚠️ <strong>風險提示</strong>：槓桿是一把雙刃劍。如果標的價格變動 1%，您的資金收益或虧損就會被放大 20 倍。當虧損導致您的帳戶餘額低於交易所規定的「維持保證金」時，您會收到補繳通知（追繳 Margin Call），否則將面臨強制平倉（斷頭）。": "⚠️ **Risk Warning**：レバレッジは諸刃の剣です。価格が1%変動すれば、資金の利益または損失は20倍に拡大します。損失により口座残高が維持保証金を下回ると、追加証拠金の請求（追証）が発生し、従わない場合は強制決済（ロスカット）されます。",
         "3. 多頭與空頭市場操作": "3. 買い・売り市場の操作",
         "在股票市場中，一般的交易習慣是「先買後賣」（做多 Long）。但在期貨市場中，做空 (Short) 與做多一樣方便且成本相同：": "株式市場では一般的に「買ってから売る（ロング）」のが普通です。しかし、先物市場では空売り（ショート）もロングと同様に容易で、同じコストで行うことができます。",
         "**做多 (Long)**：預期未來價格上漲。先以低價買入合約，未來再以高價賣出平倉。": "**ロング（Long）**：将来の価格上昇を予想。最初に安値で買い、将来高値で売却して決済します。",
         "**做空 (Short)**：預期未來價格下跌。先以高價賣出合約（無須持有現貨），未來再以低價買回平倉。": "**ショート（Short）**：将来の価格下落を予想。最初に高値で売り（現物保有は不要）、将来安値で買い戻して決済します。",
         "配對交易正是利用了期貨多空對稱的優勢：我們放空一檔被高估的期貨，同時做多一檔被低估的期貨，兩邊的合約規格互相對沖掉市場大盤上漲或下跌的風險。": "ペアトレードはまさにこの先物の多空対称性の優位性を利用しています：割高な先物をショートし、割安な先物をロングすることで、市場全体の上下リスクを相殺（ヘッジ）します。",
-        "4. 期貨合約規格與結算日": "4. 契約仕様と決済日（満期日）",
+        "4. 期貨合約規格與結算日": "4. 契約仕様と決済日（SQ日）",
         "期貨交易必須嚴格遵守交易所制定的合約規格。每一檔期貨合約都有以下核心要素：": "先物取引は取引所が定めた契約仕様を厳格に遵守する必要があります。主要な要素は以下の通りです：",
         "合約乘數": "契約倍率",
         "最小跳動點 (Tick Size)": "呼値の刻み幅 (Tick Size)",
-        "結算日 (Settlement Date)": "決済日（満期日・SQ日）",
+        "結算日 (Settlement Date)": "決済日（ SQ日）",
         "在進行配對交易時，我們通常會挑選**同一個月份到期（通常是近月合約）**的兩檔商品進行配對，以避免因為結算時間不同而產生不必要的價差扭曲。": "ペアトレードを行う際、決済期限の違いによる不必要なスプレッドの歪みを防ぐため、通常は**同一限月（通常は期近）**の2つの契約を選択してペアにします。",
         "本單元推薦閱讀：期貨與股票入門經典 (Amazon Reader Hub)": "ユニット1 推奨書籍：先物と株式の入門書 (Amazon Reader Hub)",
-        "精選書單": "厳選された書書",
-        "不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作（透過專屬連結購買支持本站）：": "株式投資であれ先物取引であれ、名著を読むことで許多の回り道を避けることができます。以下は私たちが選んだ名著です：",
+        "精選書單": "厳選された書籍",
+        "不論是股票投資還是期貨交易，閱讀經典著作能讓您少走許多彎路。以下是我們為您挑選的奠基之作（透過專屬連結購買支持本站）：": "株式投資であれ先物取引であれ、名著を読むことで多くの回り道を避けることができます。以下は私たちが選んだ名著です：",
         "金融市場技術分析": "マーケットのテクニカル分析",
         "John J. Murphy 的經典之作，被譽為技術分析的聖經，完整涵蓋趨勢線、K 線形態與指標。": "ジョン・J・マーフィーの不朽の名作。トレンドライン、ローソク足チャート、各種指標を網羅したテクニカル分析の聖書。",
         "紀律交易者 (心態鍛鍊)": "ゾーン — 相場心理学入門",
@@ -333,18 +483,23 @@ TRANSLATIONS = {
         "John C. Hull 著作，全球商學院與華爾街金融機構指定的衍生性金融商品教科書。": "ジョン・ハル著。世界中のビジネススクールやウォール街で採用されているデリバティブ取引の標準教科書。",
         "股票作手回憶錄": "投機王ジェシー・リバモアの告白",
         "描述傳奇交易大師傑西·李佛摩（Jesse Livermore）一生的投資智慧與心路歷程。": "エドウィン・ルフェーブル著。伝説の相場師ジェシー・リバモアの波乱万丈の生涯と不朽の投機哲学。",
-        "單元二：配對交易實戰 (Pair Trading)": "ユニット2：ペアトレード実戦",
+        "專業交易策略精髓": "プロフェッショナル取引の真髄",
+        "Mike Bellafiore 著作《One Good Trade》，深入了解自營交易員的真實生活，以及如何建立一個好的交易流程與風險紀律。": "マイク・ベラフィオーレ著『One Good Trade』。プロの自己資金トレーダーの生活、取引プロセスとリスク管理規律を学びます。",
+        "投資必讀經典": "投資の聖書：賢明なる投資家",
+        
+        # Unit 2 Title Headers
+        "單元二：配對交易實戰 (Pair Trading)": "ユニット2：ペアトレード実戰",
         "進階統計套利策略": "高度な統計的裁定取引戦略",
         "1. 什麼是配對交易": "1. ペアトレードとは",
         "2. 統計套利與均值回歸": "2. 統計的裁定と平均回帰",
         "3. 標的篩選與協整測試": "3. 銘柄選定と共和分テスト",
         "4. Z-Score 與交易訊號": "4. Zスコアと取引シグナル",
-        "5. 實戰風控與策略調校": "5. 実戦リスク管理と調整",
+        "5. 實戰風控與策略調校": "5. 実戰リスク管理と調整",
         "1. 什麼是配對交易？": "1. ペアトレードとは？",
         "配對交易 (Pair Trading) 是一種市場中性 (Market Neutral) 的投資策略，最早由華爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代開發。其核心概念是尋找歷史上價格走勢高度相關的兩檔商品（如兩檔同產業的股票，或相關性極高的期貨合約），並在它們之間的價格差距（價差 Spread）出現異常擴大時進行操作：": "ペアトレードは、1980年代にモルガン・スタンレーによって開発された市場中立型（マーケットニュートラル）の投資戦略です。その核心は、歴史的に価格動向が強く関連している2つの銘柄を選択し、その価格差（スプレッド）が異常に拡大した際に取引を行うことです：",
         "交易核心公式：": "取引ルールの核心：",
         "當價差擴大到異常水平 ➡️ <strong>賣出（放空）高估的商品，同時買進（做多）低估的商品</strong>，等待兩者價差回歸正常時平倉，賺取中間的價差收斂利潤。": "スプレッドが異常に拡大した時 ➡️ **割高な銘柄を売り（ショート）、割安な銘柄を買う（ロング）**。スプレッドが平均回帰した時点で決済し利益を得ます。",
-        "這種策略的最大優勢在於：<strong>不論整體市場是大漲還是大跌，只要兩檔商品的價格相對關係回歸歷史常態，策略就能獲利。</strong>這就是所謂的「市場中性」。": "最大のメリット：**市場全体が上昇しても下落しても、2銘柄の相対的關係が平均回帰すれば利益を得られます。** これが「マーケットニュートラル」です。",
+        "這種策略的最大優勢在於：<strong>不論整體市場是大漲還是大跌，只要兩檔商品的價格相對關係回歸歷史常態，策略就能獲利。</strong>這就是所謂的「市場中性」。": "最大のメリット：**市場全体が上昇しても下落しても、2銘柄の相対的関係が平均回帰すれば利益を得られます。** これが「マーケットニュートラル」です。",
         "2. 統計套利與均值回歸": "2. 統計的裁定と平均回帰",
         "配對交易之所以能成立，立足於統計學上的<strong>均值回歸 (Mean Reversion)</strong> 原理。當我們將兩個高度相關的商品價格進行線性組合後，其價差序列在長期來看應該會在一個穩定的平均值上下擺動。": "ペアトレードが成り立つのは、統計学上の**平均回帰（Mean Reversion）**の原理に基づいています。高度に相関する2つの価格を線形結合すると、その価格差は長期的に安定した平均値の周りで変動します。",
         "想像一隻小狗（商品 A）和牽著牠的主人（商品 B）在公園散步。雖然小狗會跑來跑去，有時跑到主人前面，有時落在主人後面，但由於繩子（相關性）的牽引，小狗最終還是會回到主人身邊。在金融市場中，這條「繩子」就是產業基本面、上下游關係或是期貨同標的不同月份的套利機制。": "公園を散歩する飼い主（銘柄B）と犬（銘柄A）をイメージしてください。犬は前後に走り回りますが、リード（相関性）があるため、最終的には飼い主の元に戻ります。市場におけるリードは、ファンダメンタルズや裁定力です。",
@@ -361,7 +516,7 @@ TRANSLATIONS = {
         "<strong>建倉信號</strong>：當 Z-Score < -2.0 時，表示價差異常收縮，此時做多商品 A，放空商品 B。": "**エントリーシグナル**：Zスコアが -2.0 を下回った場合（スプレッドが異常に縮小）、Aを買い、Bを売る。",
         "<strong>平倉信號</strong>：當 Z-Score 回歸到 0 附近（歷史均值）時，雙邊平倉落袋為安。": "**エグジットシグナル**：Zスコアが0（平均）に戻った時点で、両銘柄を決済し利益確定します。",
         "5. 實戰風控與策略調校": "5. 実戦リスク管理と戦略の微調整",
-        "儘管配對交易風險相對單邊交易低，但絕非「無風險套利」。在實戰中，最大的風險在於<strong>「協整關係破裂」</strong>。例如某一檔股票發生嚴重的公司治理危機或財務黑天鵝，導致兩者價差無限擴大，永遠不再回歸。": "ペアトレードは通常取引より低リスクですが、「無リスク裁定」ではありません。最大のリスクは**「共和分関係の崩壊」**です（企業の不祥事や規制などのブラックスワン）。",
+        "儘管配對交易風險相對單邊交易低，但專注於實戰中，最大的風險在於<strong>「協整關係破裂」</strong>。例如某一檔股票發生嚴重的公司治理危機或財務黑天鵝，導致兩者價差無限擴大，永遠不再回歸。": "ペアトレードは通常取引より低リスクですが、「無リスク裁定」ではありません。最大のリスクは**「共和分関係の崩壊」**です（企業の不祥事や規制などのブラックスワン）。",
         "配對交易三大風控守則：": "ペアトレードのリスク管理の3原則：",
         "<strong>強制停損點</strong>：當 Z-Score 超過 ±3.0 且持續發散時，必須果斷手動平倉，防止單邊黑天鵝造成毀滅性打擊。": "**ハード損切り**：Zスコアが ±3.0 を超えて乖離し続ける場合、速やかに手動で全決済します。",
         "<strong>時間停損（Time Stop）</strong>：如果價差在建倉後超過 30 個交易日仍未收斂，代表市場結構可能已變，應主動撤出。": "**タイムストップ**：エントリー後30営業日経っても収束しない場合、構造変化とみなして撤退します。",
@@ -376,22 +531,28 @@ TRANSLATIONS = {
         "Andrew Pole 著作《Statistical Arbitrage》，深入探索統計套利模型、市場微觀結構與演算法執行策略。": "アンドリュー・ポール著。統計的裁定モデル、市場の微細構造、およびアルゴリズム実行戦略を深く掘り下げます。",
         "Python 金融實戰大作": "Pythonによるファイナンスの極意",
         "Yves Hilpisch 著作，利用 Python 進行金融數據分析、回測、量化建模的必備教科書。": "イヴ・ヒルピッシュ著。Pythonを使用したデータ分析、バックテスト、金融モデリングの決定版教科書。",
+        "演算法交易與資金管理": "アルゴリズム取引と資金管理",
+        "Ernie Chan 的第二本力作，深入介紹動量策略、均值回歸策略以及凱利公式資金管理。": "アーニー・チャンの第二作。モメンタム戦略、平均回帰戦略、およびケリー基準による資金管理を徹底解説。",
+        "機器學習金融應用": "機械学習による財務アプリケーション",
+        "Stefan Jansen 著作，系統性介紹如何將機器學習模型（決策樹、隨機森林、神經網路）應用於演算法交易策略的設計與回測。": "ジェンセン著。決定木、ランダムフォレスト、ニューラルネットワークなどの機械学習モデルをアルゴリズム取引に適用する方法。",
+        
+        # Unit 4 Title Headers
         "單元四：傳奇大師交易心法 (Legendary Traders)": "ユニット4：伝説のトレーダー手法",
         "學習贏家的交易思維": "勝ち組トレーダーの思考法を学ぶ",
         "1. 傑西·李佛摩關鍵點": "1. リバモアのピボタル・ポイント",
         "2. 理查·丹尼斯與海龜": "2. デニスとタートルズのルール",
         "3. 索羅斯反身性理論": "3. ソロスの再帰性理論",
         "1. 傑西·李佛摩 —— 關鍵點操盤術與資金管理": "1. ジェシー・リバモア：ピボタル・ポイントと資金管理",
-        "<strong>傑西·李佛摩 (Jesse Livermore)</strong> 被譽為有史以來最偉大的個人股票作手。他在 1929 年大蕭條中放空美股賺取了 1 億美元。他的操盤思維著重於**價格趨勢**、**關鍵點 (Pivotal Points)** 與**嚴格的資金管理**。": "ジェシー・リバモアは伝説的な相場師です。1929年の大恐慌で1億ドルを稼ぎました。彼の取引はトレンド、**ピボタル・ポイント**、そして厳格な資金管理に集中していました。",
+        "<strong>傑西·李佛摩 (Jesse Livermore)</strong> 被譽為有史以來最偉大的個人股票作手。他在 1929 年大蕭條中放空美股賺取了 1 億美元。他的操盤思維著重於**價格趨勢**、**關鍵點 (Pivotal Points)** 與**嚴格的資金管理**。": "ジェシー・リバモアは伝説的な相場師です。1929年の大恐慌で1億ドルを稼ぎました。彼の取引はトレンド、**ピボタル・ポイント**、投機と厳格な資金管理に集中していました。",
         "核心操作原則：": "コア取引原則：",
         "關鍵點突破": "ピボタル・ポイント・ブレイクアウト",
         "不要在盤整市場中交易。只有當價格突破歷史阻力位或支撐位（即「關鍵點」）時，才建立首筆頭寸。這代表價格即將展開新一輪趨勢。": "レンジ相場では取引しない。過去の支持・抵抗レベル（ピボタル・ポイント）を上抜けた／下抜けた時のみエントリーします。",
         "試探性建倉 (Pyramiding)": "ピラミッディング（試し玉）",
-        "不要一次買足。先建立 20% 的試探性部位，只有當這筆部位產生利潤（證明您的判斷正確）時，才繼續加碼。": "一度に全額を買わない。まず20%の試し玉を入れ、含み益が出て（自分の正しさが証明されて）から買い増します。",
+        "不要一次買足。先建立 20% 的試探性部位，只有當這筆部位產生利潤（證明您的判斷正確）時，才繼續加碼。": "一度に全額を買わない。まず20%の試し玉を入れ、含み益が出てから買い増します。",
         "截斷虧損，讓利潤奔跑": "損切りを早く、利益を伸ばす",
         "李佛摩是首位提出「10% 限制停損」的操盤手。如果一筆交易虧損達 10%，無條件平倉。": "リバモアは10%の損切りルールを提唱しました。ポジションが10%逆行した場合は無条件で撤退します。",
         "2. 理查·丹尼斯 —— 海龜交易法則與趨勢追蹤": "2. リチャード・デニス：タートル・ルールとトレンドフォロー",
-        "在 1983 年，商品交易大師<strong>理查·丹尼斯 (Richard Dennis)</strong> 進行了一場著名的實驗：他招募了一群完全沒有交易經驗的普通人（稱為「海龜 Turtles」），並在兩週內教會他們一套**系統化的趨勢追蹤交易法**。結果海龜們在隨後的幾年中為他賺取了數千萬美元，證明了交易能力是可以透過後天訓練培養的。": "1983年、商品取引の覇者リチャード・デニスは素人集団（「タートルズ」）を募集し、トレンドフォロー手法を伝授しました。彼らは数千万ドルを稼ぎ出し、取引能力は訓練可能であることを証明しました。",
+        "在 1983 年，商品交易大師<strong>理查·丹尼斯 (Richard Dennis)</strong> 進行了一場著名的實驗：他招募了一群完全沒有交易經驗的普通人（稱為「海龜 Turtles」），並在兩週內教會他們一套**系統化的趨勢追蹤交易法**。結果海龜們在隨後的幾年中為他賺取了數千萬美元，證明了交易能力是可以透過後天訓練培養的。": "1983年、商品取引の覇者リチャード・デニスは素人集団を募集し、トレンドフォロー手法を伝授しました。彼らは数千万ドルを稼ぎ出し、取引能力は訓練可能であることを証明しました。",
         "海龜交易核心系統 (Turtle Rules)：": "タートルズの取引ルール：",
         "市場篩選": "市場の選択",
         "只挑選具有高流動性、高波動性的市場（商品期貨、外匯、國債）。": "流動性が高く、ボラティリティの大きい市場（コモディティ先物、為替、国債）のみを取引します。",
@@ -413,151 +574,197 @@ TRANSLATIONS = {
         "股票作手回憶錄 (李佛摩)": "投資の聖書：世紀の相場師ジェシー・リバモア",
         "被評為百年來最經典的交易書籍，生動記錄了李佛摩一生的起落與無價的投機心法。": "100年間で最高の投資名著と評価され、リバモアの栄光と挫折、投機の心理を鮮明に記録。",
         "李佛摩親筆：如何交易股票": "孤高の相場師リバモアの株式投資法",
-        "傑西·李佛摩親自撰寫的操盤手冊，詳細揭示了他的關鍵點公式與手動記錄表格方法。": "ジェシー・リバモア自身が執筆した唯一の手引書。ピボタル・ポイントの公式と記録方法を公開。",
+        "傑西·李佛摩親力操盤手冊，詳細揭示了他的關鍵點公式與手動記錄表格方法。": "ジェシー・リバモア自身が執筆した唯一の手引書。ピボタル・ポイントの公式と記録方法を公開。",
         "海龜交易法則": "ザ・タートルズのルール",
         "由最成功的海龜學員 Curtis Faith 撰寫，首度完整公開海龜計畫的所有進出場、風控與加碼細節。": "タートルズの最年少メンバーが明かす。デニスの実験プログラムにおけるすべてのエントリー・風控・加増手法。",
         "金融煉金術 (索羅斯)": "ソロスの錬金術",
-        "索羅斯的思想巨著，詳細闡述了「反身性理論」以及他在市場中進行宏觀博弈的日記記錄。": "ソロ斯的哲学と投資戦略を解き明かす主著。再帰性理論と、世紀のヘッジファンド取引の現場記録。"
+        "索羅斯的思想巨著，詳細闡述了「反身性理論」以及他在市場中進行宏觀博弈的日記記錄。": "ソロスの哲学と投資戦略を解き明かす主著。再帰性理論と、世紀のヘッジファンド取引の現場記録。",
+        "市場奇才：大師訪談錄": "マーケットの魔術師",
+        "Jack D. Schwager 著作《Market Wizards》，訪談全球最頂尖的傳奇交易大師，探尋他們獲得超額回報的共通心法與風險控制準則。": "ジャック・シュワッガー著『マーケットの魔術師』。一流のトレーダーへのインタビューから非凡なリターンとリスク管理の極意を探ります。",
+        "趨勢追蹤交易指南": "トレンドフォロー取引ガイド",
+        "Michael Covel 著作《Trend Following》，系統性分析趨勢追蹤大師們如何在牛市與熊市中，透過系統化交易規則獲得巨額利潤。": "マイケル・コベル著『トレンドフォロー』。上昇相場と下落相場でシステム的な規則により巨額の利益を上げる方法を分析。"
     }
 }
 
-# Add fallbacks for other requested languages to maintain site integrity
+# Generate fallback definitions for remaining languages
 for lang in ['ko', 'es', 'vi']:
-    # Generate translation mappings for target language using English fallback for content,
-    # but localized UI terms (headers, footers, etc.)
     TRANSLATIONS[lang] = TRANSLATIONS['en'].copy()
 
-# Add explicit Korean UI overrides
+# Add Korean UI translations
 TRANSLATIONS['ko'].update({
-    "GugoPro 財經教學學院 | 股票期貨與配對交易學習論壇": "GugoPro 금융 아카데미 | 주식, 선물 및 페어 트레이딩 학습 포럼",
+    "GugoPro 財經教學學院 | 系統化交易學習殿堂": "GugoPro 금융 아카데미 | 체계적 트레이딩 학습 포럼",
     "財經學院": "금융 아카데미",
     "首頁": "홈",
+    "啟蒙階段": "기초 단계",
+    "股票學程": "주식 과정",
+    "期貨學程": "선물 과정",
+    "量化學程": "양적 과정",
     "期貨與股票基礎": "선물 및 주식 기초",
     "配對交易實戰": "페어 트레이딩 실전",
     "傳奇大師交易心法": "전설적인 트레이더",
-    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "면책 조항: 본 사이트의 모든 교육 내용은 학술 연구 및 교육 참고용이며, 투자 권유에 해당하지 않습니다. 거래에는 높은 위험이 따르므로 신중하게 평가하십시오.",
-    "學習單元導覽": "학습 모듈 가이드",
-    "請選擇您想學習的單元進度": "학습할 모듈을 선택하십시오",
-    "初階入門": "초급 입문",
-    "4 個章節": "4개 장",
-    "期貨與股票基礎教學": "선물 및 주식 기초 교육",
-    "開始學習": "학습 시작",
-    "核心進階": "핵심 고급",
-    "5 個章節": "5개 장",
-    "配對交易實戰 (Pair Trading)": "페어 트레이딩 실전",
-    "中階擴展": "중급 확장",
-    "規劃中": "준비 중",
-    "量化策略與 Python 回測": "계량화 전략 및 Python 백테스팅",
-    "即將推出": "출시 예정",
-    "經典策略": "클래식 전략",
-    "3 個大師": "3명의 대가",
-    "傳奇大師交易心法": "전설적인 대가의 투자 심법",
-    "返回首頁": "홈으로 돌아가기",
+    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "면책 조항: 모든 내용은 교육용 참고용입니다. 거래는 높은 위험을 수반하므로 신중하게 평가하십시오.",
+    "學程晉級制 ‧ 系統化交易學習路徑": "진급 제도 ‧ 체계적 트레이딩 학습 경로",
+    "從零開始的策略交易學習之旅": "처음부터 시작하는 전략 거래 학습 여정",
+    "歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。": "GugoPro 아카데미에 오신 것을 환영합니다. 여기서는 진급 제도에 따라 4단계 학습 과정을 계획하여 체계적인 거래 논리를 구축하도록 안내합니다.",
+    "學員學習地圖": "학습 지도",
+    "請點選您目前的學習進度，進入對應的系統化學程單元：": "현재 학습 진행 상태를 클릭하여 해당하는 체계적 과정에 진입하십시오:",
+    
+    "Level 1: 🌟 啟蒙階段": "Level 1: 🌟 기초 단계",
+    "3 個科目": "3개 과목",
+    "交易啟蒙與心態資金管理": "트레이딩 기초 및 자금 관리",
+    "探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律及克服恐懼與貪婪的心態鍛鍊，奠定最關鍵的安全邊際基礎。": "시장 작동의 본질을 탐구합니다. 주식과 선물의 정의부터 증거금 리스크, 손절매 규율을 배웁니다.",
+    "進入學程": "과정 입장",
+    
+    "Level 2: 📈 股票學程": "Level 2: 📈 주식 과정",
+    "股票策略與存股價值投資": "주식 전략 및 가치 투자",
+    "專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。": "주식 투자 전략에 초점을 맞춥니다. 가치 투자의 안전 마진, 재무 분석, 고배당주 선정, 기술적 분석을 배웁니다.",
+    
+    "Level 3: 🌪️ 期貨學程": "Level 3: 🌪️ 선물 과정",
+    "期貨價差與跨期對沖避險": "선물 스프레드 및 시장 헤지",
+    
+    "Level 4: ⚖️ 量化學程": "Level 4: ⚖️ 양적 과정",
+    "量化交易與統計套利實戰": "양적 거래 및 통계적 차익거래",
+    
     "在 Amazon 購買": "Amazon에서 구매",
-    "精選書單": "엄선 도서",
-    "大師必讀": "대가의 필독서"
+    "返回首頁": "홈으로 돌아가기",
+    "返回學院地圖": "학습 지도로 돌아가기",
+    "返回量化學程": "양적 과정으로 돌아가기",
+    "返回期貨學程": "선물 과정으로 돌아가기",
+    "即將推出": "출시 예정"
 })
 
-# Add explicit Spanish UI overrides
+# Add Spanish UI translations
 TRANSLATIONS['es'].update({
-    "GugoPro 財經教學學院 | 股票期貨與配對交易學習論壇": "GugoPro Academia Financiera | Foro de Acciones, Futuros y Pairs Trading",
+    "GugoPro 財經教學學院 | 系統化交易學習殿堂": "GugoPro Academia | Aula de Trading Sistemático",
     "財經學院": "Academia Financiera",
     "首頁": "Inicio",
-    "期貨與股票基礎": "Fundamentos de Futuros y Acciones",
-    "配對交易實戰": "Pairs Trading Práctico",
-    "傳奇大師交易心法": "Métodos de Traders Legendarios",
-    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Descargo de responsabilidad: Todo el contenido es solo para referencia educativa. Operar conlleva un alto riesgo; por favor evalúe con cuidado.",
-    "學習單元導覽": "Guía de Módulos de Aprendizaje",
-    "請選擇您想學習的單元進度": "Seleccione su progreso de aprendizaje",
-    "初階入門": "Principiante",
-    "4 個章節": "4 Capítulos",
-    "期貨與股票基礎教學": "Fundamentos de Futuros y Acciones",
-    "開始學習": "Comenzar a Aprender",
-    "核心進階": "Avanzado",
-    "5 個章節": "5 Capítulos",
-    "配對交易實戰 (Pair Trading)": "Clase Maestra de Pairs Trading",
-    "中階擴展": "Intermedio",
-    "規劃中": "En Planificación",
-    "量化策略與 Python 回測": "Estrategias Cuantitativas y Backtesting con Python",
-    "即將推出": "Próximamente",
-    "經典策略": "Estrategia Clásica",
-    "3 個大師": "3 Maestros",
-    "傳奇大師交易心法": "Métodos de Traders Legendarios",
-    "返回首頁": "Volver al Inicio",
+    "啟蒙階段": "Fundamentos",
+    "股票學程": "Curso de Acciones",
+    "期貨學程": "Curso de Futuros",
+    "量化學程": "Curso de Quant",
+    "期貨與股票基礎": "Futuros y Acciones Basics",
+    "配對交易實戰": "Pairs Trading",
+    "傳奇大師交易心法": "Traders Legendarios",
+    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Descargo de responsabilidad: Todo el contenido es educativo. Operar conlleva un alto riesgo; evalúe con cuidado.",
+    "學程晉級制 ‧ 系統化交易學習路徑": "Sistema de Niveles ‧ Ruta de Aprendizaje de Trading Sistemático",
+    "歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。": "Bienvenido a GugoPro Academia. Aquí, planificamos cuatro etapas de aprendizaje según el sistema de niveles para construir una lógica de trading sistemática.",
+    "學員學習地圖": "Mapa de Aprendizaje de la Academia",
+    "請點選您目前的學習進度，進入對應的系統化學程單元：": "Haga clic en su progreso de aprendizaje para ingresar al curso correspondiente:",
+    
+    "Level 1: 🌟 啟蒙階段": "Level 1: 🌟 Fundamentos",
+    "3 個科目": "3 Cursos",
+    "交易啟蒙與心態資金管理": "Fundamentos de Trading y Gestión de Riesgo",
+    "探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律及克服恐懼與貪婪的心態鍛鍊，奠定最關鍵的安全邊際基礎。": "Explore la naturaleza del mercado. Aprenda definiciones, riesgos de margen, disciplina de stop-loss y psicología de trading.",
+    "進入學程": "Ingresar al Curso",
+    
+    "Level 2: 📈 股票學程": "Level 2: 📈 Curso de Acciones",
+    "股票策略與存股價值投資": "Estrategias de Acciones y Valor",
+    "專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。": "Estrategias clave de acciones. Aprenda margen de seguridad, estados financieros, selección de dividendos y análisis técnico.",
+    
+    "Level 3: 🌪️ 期貨學程": "Level 3: 🌪️ Curso de Futuros",
+    "期貨價差與跨期對沖避險": "Spreads de Futuros y Cobertura",
+    
+    "Level 4: ⚖️ 量化學程": "Level 4: ⚖️ Curso de Quant",
+    "量化交易與統計套利實戰": "Trading Cuantitativo y Arbitraje",
+    
     "在 Amazon 購買": "Comprar en Amazon",
-    "精選書單": "Libros Recomendados",
-    "大師必讀": "Lecturas Clásicas"
+    "返回首頁": "Volver al Inicio",
+    "返回學院地圖": "Volver al Mapa",
+    "返回量化學程": "Volver al Curso Quant",
+    "返回期貨學程": "Volver al Curso Futuros",
+    "即將推出": "Próximamente"
 })
 
-# Add explicit Vietnamese UI overrides
+# Add Vietnamese UI translations
 TRANSLATIONS['vi'].update({
-    "GugoPro 財經教學學院 | 股票期貨與配對交易學習論壇": "Học viện GugoPro | Diễn đàn Cổ phiếu, Tương lai & Giao dịch Cặp",
+    "GugoPro 財經教學學院 | 系統化交易學習殿堂": "Học viện GugoPro | Học viện Giao dịch Hệ thống",
     "財經學院": "Học viện Tài chính",
     "首頁": "Trang chủ",
+    "啟蒙階段": "Cơ bản",
+    "股票學程": "Khóa học Cổ phiếu",
+    "期貨學程": "Khóa học Tương lai",
+    "量化學程": "Khóa học Quant",
     "期貨與股票基礎": "Cơ bản Cổ phiếu & Tương lai",
     "配對交易實戰": "Giao dịch Cặp Thực tế",
-    "傳奇大師交易心法": "Phương pháp của Huyền thoại",
-    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Tuyên bố miễn trừ trách nhiệm: Tất cả nội dung chỉ dành cho nghiên cứu học thuật. Giao dịch có rủi ro cao; hãy đánh giá cẩn thận.",
-    "學習單元導覽": "Hướng dẫn các mô-đun học tập",
-    "請選擇您想學習的單元進度": "Vui lòng chọn tiến trình học tập của bạn",
-    "初階入門": "Cơ bản",
-    "4 個章節": "4 Chương",
-    "期貨與股票基礎教學": "Cơ bản Cổ phiếu & Tương lai",
-    "開始學習": "Bắt đầu học",
-    "核心進階": "Nâng cao",
-    "5 個章節": "5 Chương",
-    "配對交易實戰 (Pair Trading)": "Hướng dẫn Giao dịch Cặp",
-    "中階擴展": "Trung cấp",
-    "規劃中": "Đang lập kế hoạch",
-    "量化策略與 Python 回測": "Chiến lược Định lượng & Backtest Python",
-    "即將推出": "Sắp ra mắt",
-    "經典策略": "Chiến lược Cổ điển",
-    "3 個大師": "3 Đại sư",
-    "傳奇大師交易心法": "Tư duy Giao dịch của Huyền thoại",
-    "返回首頁": "Trở lại Trang chủ",
+    "傳奇大師交易心法": "Tư duy của Huyền thoại",
+    "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Tuyên bố miễn trừ: Mọi nội dung chỉ mang tính tham khảo giáo dục. Giao dịch có rủi ro cao; hãy đánh giá cẩn thận.",
+    "學程晉級制 ‧ 系統化交易學習路徑": "Hệ thống Cấp bậc ‧ Lộ trình Học Giao dịch Hệ thống",
+    "歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。": "Chào mừng đến với Học viện GugoPro. Chúng tôi thiết lập lộ trình học 4 cấp bậc để giúp bạn xây dựng tư duy giao dịch hệ thống.",
+    "學員學習地圖": "Bản đồ học tập học viện",
+    "請點選您目前的學習進度，進入對應的系統化學程單元：": "Vui lòng chọn tiến trình học tập của bạn để bắt đầu:",
+    
+    "Level 1: 🌟 啟蒙階段": "Level 1: 🌟 Cơ bản",
+    "3 個科目": "3 Môn học",
+    "交易啟蒙與心態資金管理": "Cơ bản Giao dịch & Quản lý rủi ro",
+    "探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律及克服恐懼與貪婪的心態鍛鍊，奠定最關鍵的安全邊際基礎。": "Khám phá bản chất thị trường. Học định nghĩa, rủi ro ký quỹ, kỷ luật cắt lỗ và rèn luyện tâm lý giao dịch.",
+    "進入學程": "Bắt đầu Học",
+    
+    "Level 2: 📈 股票學程": "Level 2: 📈 Khóa Cổ phiếu",
+    "股票策略與存股價值投資": "Chiến lược Cổ phiếu & Đầu tư giá trị",
+    "專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。": "Chiến lược cổ phiếu. Học biên an toàn, phân tích tài chính, lọc cổ tức và phân tích kỹ thuật swing.",
+    
+    "Level 3: 🌪️ 期貨學程": "Level 3: 🌪️ Khóa Tương lai",
+    "期貨價差與跨期對沖避險": "Chênh lệch Tương lai & Phòng ngừa",
+    
+    "Level 4: ⚖️ 量化學程": "Level 4: ⚖️ Khóa Quant",
+    "量化交易與統計套利實戰": "Giao dịch Định lượng & Arbitrage",
+    
     "在 Amazon 購買": "Mua trên Amazon",
-    "精選書單": "Sách Chọn lọc",
-    "大師必讀": "Huyền thoại đọc"
+    "返回首頁": "Trở lại Trang chủ",
+    "返回學院地圖": "Trở lại Bản đồ",
+    "返回量化學程": "Trở lại Khóa Quant",
+    "返回期貨學程": "Trở lại Khóa Tương lai",
+    "即將推出": "Sắp ra mắt"
 })
 
 def build_translated_pages():
-    for lang, lang_name in LANGUAGES.items():
-        print(f"Building pages for: {lang_name} ({lang})...")
-        dest_dir = f"/root/gugopro-academy/{lang}"
-        os.makedirs(dest_dir, exist_ok=True)
+    root_dir = "/root/gugopro-academy"
+    
+    # We walk the directory structure to find all HTML source files
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        # Filter out ignored directories to prevent infinite loops
+        # dirnames[:] modifies in-place to prune directories from os.walk traversal
+        dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
         
-        for page in SRC_PAGES:
-            src_path = f"/root/gugopro-academy/{page}"
-            dest_path = f"{dest_dir}/{page}"
-            
-            with open(src_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
-            # 1. Adjust relative resource paths for subdirectory level
-            content = content.replace('href="style.css"', 'href="../style.css"')
-            content = content.replace('src="app.js"', 'src="../app.js"')
-            
-            # 2. Apply translation logic based on target language
-            if lang == 'zh-cn':
-                # Simplified Chinese
-                translated_content = convert_to_simplified_chinese(content)
-                translated_content = translated_content.replace('lang="zh-TW"', 'lang="zh-CN"')
-            else:
-                # Other languages: Translate using dictionary lookup
-                translated_content = content
-                lang_dict = TRANSLATIONS.get(lang, {})
-                sorted_keys = sorted(lang_dict.keys(), key=len, reverse=True)
-                for cn_str in sorted_keys:
-                    target_str = lang_dict[cn_str]
-                    translated_content = translated_content.replace(cn_str, target_str)
+        for filename in filenames:
+            if not filename.endswith('.html'):
+                continue
                 
-                translated_content = re.sub(r'lang="zh-TW"', f'lang="{lang}"', translated_content)
+            src_path = os.path.join(dirpath, filename)
+            
+            # Determine the relative path from root_dir
+            rel_path = os.path.relpath(src_path, root_dir)
+            
+            # For each language, translate and save
+            for lang, lang_name in LANGUAGES.items():
+                dest_dir = os.path.join(root_dir, lang, os.path.dirname(rel_path))
+                os.makedirs(dest_dir, exist_ok=True)
+                dest_path = os.path.join(dest_dir, filename)
                 
-            # 3. Save the translated file
-            with open(dest_path, 'w', encoding='utf-8') as f:
-                f.write(translated_content)
+                with open(src_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
                 
-    print("Done! All internationalization pages have been generated.")
+                # Apply translation logic
+                if lang == 'zh-cn':
+                    # Simplified Chinese conversion
+                    translated_content = convert_to_simplified_chinese(content)
+                    translated_content = translated_content.replace('lang="zh-TW"', 'lang="zh-CN"')
+                else:
+                    # Look up translation replacements
+                    translated_content = content
+                    lang_dict = TRANSLATIONS.get(lang, {})
+                    sorted_keys = sorted(lang_dict.keys(), key=len, reverse=True)
+                    for cn_str in sorted_keys:
+                        target_str = lang_dict[cn_str]
+                        translated_content = translated_content.replace(cn_str, target_str)
+                    
+                    translated_content = re.sub(r'lang="zh-TW"', f'lang="{lang}"', translated_content)
+                
+                # Save translated HTML file
+                with open(dest_path, 'w', encoding='utf-8') as f:
+                    f.write(translated_content)
+                    
+    print("Done! All nested multi-language pages generated recursively.")
 
 if __name__ == "__main__":
     build_translated_pages()

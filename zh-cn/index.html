@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GugoPro 财经教学学院 | 股票期货与配对交易学習论壇</title>
+    <title>GugoPro 财经教学学院 | 系统化交易学習殿堂</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Language Redirect Script -->
     <script>
         (function() {
@@ -78,70 +78,95 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-badge">
-            <i class="fa-solid fa-chart-line"></i> 专业量化策略与配对交易教学
+            <i class="fa-solid fa-diagram-next"></i> 学程晉級制 ‧ 系统化交易学習路徑
         </div>
         <h1>從零开始的策略交易学習之旅</h1>
-        <p>欢迎來到 GugoPro 财经教学学院。在這裡，我们将透过由淺入深的单元，帶您掌握期货、股票以及核心的统计套利与配对交易策略，建立属於您的系统化交易邏輯。</p>
+        <p>欢迎來到 GugoPro 财经教学学院。在這裡，我们依據「学程晉級制」规划了四個学習阶段，從最基礎的觀念心态到股票、期货实務，最後进入高阶的统计套利与量化交易，為您建立全面且系统性的交易邏輯。</p>
     </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Course Modules Section -->
-        <div class="section-title-container">
-            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> 学習单元导览</h2>
-            <span class="section-subtitle">请选择您想学習的单元进度</span>
-        </div>
-
+    <!-- Main Content Grid -->
+    <main class="container">
+        <h2 class="section-heading"><i class="fa-solid fa-map-signs"></i> 学院学習地圖</h2>
+        <p class="section-sub">请点选您目前的学習进度，进入对應的系统化学程单元：</p>
+        
         <div class="modules-grid">
-            <!-- Module 1: Futures & Stocks -->
-            <div class="module-card">
-                <div class="module-meta">
-                    <span class="module-badge badge-easy">初阶入门</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4 個章节</span>
-                </div>
-                <h3>期货与股票基礎教学</h3>
-                <p>探索股票与期货的核心機制。学習保证金制度、多空操作、合约规格以及如何进行风险管理，為进阶交易打下紮实的基礎。</p>
-                <a href="futures-stocks.html" class="module-btn">
-                    开始学習 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Module 2: Pair Trading (Featured) -->
+            <!-- Level 1 -->
             <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-hard" style="background: rgba(255, 153, 0, 0.12); color: var(--accent);">核心进阶</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個章节</span>
+                    <span class="module-badge badge-easy">Level 1: 🌟 啟蒙阶段</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個科目</span>
                 </div>
-                <h3>配对交易实战 (Pair Trading)</h3>
-                <p>本院的核心交易策略。深入探讨统计套利与均值回归原理，学習如何挑选相關标的、计算 Z-Score 价差讯号，並进行实战配对交易操作。</p>
-                <a href="pair-trading.html" class="module-btn">
-                    开始学習 <i class="fa-solid fa-arrow-right"></i>
+                <h3>交易啟蒙与心态资金管理</h3>
+                <p>探索市场運作的本质。從股票与期货的定義开始，学習保证金交易风险、停损紀律及克服恐懼与貪婪的心态鍛鍊，奠定最關鍵的安全边際基礎。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.1 交易基本常識 (Market Basics)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.2 交易心态与三大禁忌</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.3 风险控制与资金管理</li>
+                    </ul>
+                </div>
+                <a href="fundamentals/index.html" class="module-btn">
+                    进入学程 <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <!-- Module 3: Quantitative & Coding (Coming Soon) -->
-            <div class="module-card" style="opacity: 0.8;">
+            <!-- Level 2 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">中阶擴展</span>
-                    <span class="module-duration"><i class="fa-solid fa-hourglass-half"></i> 规划中</span>
+                    <span class="module-badge badge-medium">Level 2: 📈 股票学程</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個科目</span>
                 </div>
-                <h3>量化策略与 Python 回測</h3>
-                <p>学習如何使用 Python 抓取歷史數據、计算技术指标，並对配对交易策略进行歷史回測，用真实的數據檢驗您的交易策略。</p>
-                <button class="module-btn" style="cursor: not-allowed;" disabled>
-                    即将推出 <i class="fa-solid fa-lock"></i>
-                </button>
+                <h3>股票策略与存股价值投资</h3>
+                <p>专注於股權投资的核心策略。学習葛拉漢价值投资的安全边際、财報分析要領，以及如何篩选高股息标的进行長線存股，並輔以技术分析寻找波段进出场点。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.1 价值投资大师心法</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.2 高殖利率存股策略</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.3 技术分析与波動交易</li>
+                    </ul>
+                </div>
+                <a href="stocks/index.html" class="module-btn">
+                    进入学程 <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
-            <!-- Module 4: Legendary Traders' Methods -->
-            <div class="module-card">
+            <!-- Level 3 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">经典策略</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個大师</span>
+                    <span class="module-badge badge-hard">Level 3: 🌪️ 期货学程</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個科目</span>
                 </div>
-                <h3>传奇大师交易心法</h3>
-                <p>解构杰西·李佛摩的關鍵点操盤术、理查·丹尼斯的海龟交易法则及索罗斯的反身性理论，学習大师们的资金管理与心态心法。</p>
-                <a href="master-strategies.html" class="module-btn">
-                    开始学習 <i class="fa-solid fa-arrow-right"></i>
+                <h3>期货价差与跨期对沖避险</h3>
+                <p>深入期货市场的微觀機制。從保证金杠杆计算，学習多空方向操作、合约乘數換算，进而掌握跨期价差套利（Calendar Spread）与如何利用衍生性商品进行避险。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.1 期货合约与保证金運作</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.2 价差与跨期套利实務</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.3 跨市场对沖与风险平衡</li>
+                    </ul>
+                </div>
+                <a href="futures/index.html" class="module-btn">
+                    进入学程 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="module-card featured">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard" style="background:rgba(156,39,176,0.1); color:#e040fb; border:1px solid rgba(156,39,176,0.2);">Level 4: ⚖️ 量化学程</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個科目</span>
+                </div>
+                <h3>量化交易与统计套利实战</h3>
+                <p>踏入最前沿的系统化交易殿堂。利用统计学協整性測試（Cointegration）篩选配对标的，透过 Z-Score 产生均值回归交易信号，並運用 Python 进行歷史數據回測。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.1 配对交易实战 (Pairs Trading)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.2 Python 量化交易入门</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.3 传奇大师交易心法應用</li>
+                    </ul>
+                </div>
+                <a href="quant/index.html" class="module-btn">
+                    进入学程 <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -157,6 +182,7 @@
             <p class="amazon-desc">
                 欢迎透过以下专属連结探索精选的财经经典书籍与交易周边商品，支持我们持续创作高质量的免費教学內容！
             </p>
+            
             <div class="amz-grid">
                 <!-- Bestsellers -->
                 <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
@@ -261,14 +287,15 @@
     <footer>
         <div class="footer-links">
             <a href="index.html">首页</a>
-            <a href="futures-stocks.html">期货与股票基礎</a>
-            <a href="pair-trading.html">配对交易实战</a>
-            <a href="master-strategies.html">传奇大师交易心法</a>
+            <a href="fundamentals/index.html">啟蒙阶段</a>
+            <a href="stocks/index.html">股票学程</a>
+            <a href="futures/index.html">期货学程</a>
+            <a href="quant/index.html">量化学程</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
         <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：本站所有教学內容仅供学术研究与教育參考，不构成任何投资建议。交易具有高风险，请审慎评估。</p>
     </footer>
 
-    <script src="../app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

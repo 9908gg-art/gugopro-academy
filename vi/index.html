@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học viện GugoPro | Diễn đàn Cổ phiếu, Tương lai & Giao dịch Cặp</title>
+    <title>Học viện GugoPro | Học viện Giao dịch Hệ thống</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Language Redirect Script -->
     <script>
         (function() {
@@ -78,70 +78,95 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-badge">
-            <i class="fa-solid fa-chart-line"></i> Professional Quantitative Strategy & Pairs Trading Education
+            <i class="fa-solid fa-diagram-next"></i> Hệ thống Cấp bậc ‧ Lộ trình Học Giao dịch Hệ thống
         </div>
         <h1>Journey of Strategy Trading from Scratch</h1>
-        <p>Welcome to GugoPro Academy. Here, we guide you to master futures, stocks, and core statistical arbitrage & pairs trading to build systematic trading logic.</p>
+        <p>Chào mừng đến với Học viện GugoPro. Chúng tôi thiết lập lộ trình học 4 cấp bậc để giúp bạn xây dựng tư duy giao dịch hệ thống.</p>
     </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Course Modules Section -->
-        <div class="section-title-container">
-            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> Hướng dẫn các mô-đun học tập</h2>
-            <span class="section-subtitle">Vui lòng chọn tiến trình học tập của bạn</span>
-        </div>
-
+    <!-- Main Content Grid -->
+    <main class="container">
+        <h2 class="section-heading"><i class="fa-solid fa-map-signs"></i> Academy Learning Map</h2>
+        <p class="section-sub">Vui lòng chọn tiến trình học tập của bạn để bắt đầu:</p>
+        
         <div class="modules-grid">
-            <!-- Module 1: Futures & Stocks -->
-            <div class="module-card">
-                <div class="module-meta">
-                    <span class="module-badge badge-easy">Cơ bản</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 4 Chương</span>
-                </div>
-                <h3>Cơ bản Cổ phiếu & Tương lai</h3>
-                <p>Explore core mechanisms of stocks & futures. Learn margin systems, long/short, contract specs, and risk management.</p>
-                <a href="futures-stocks.html" class="module-btn">
-                    Bắt đầu học <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Module 2: Pair Trading (Featured) -->
+            <!-- Level 1 -->
             <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-hard" style="background: rgba(255, 153, 0, 0.12); color: var(--accent);">Nâng cao</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 Chương</span>
+                    <span class="module-badge badge-easy">Level 1: 🌟 Cơ bản</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 Môn học</span>
                 </div>
-                <h3>Hướng dẫn Giao dịch Cặp</h3>
-                <p>The academy's core strategy. Dive into statistical arbitrage and mean reversion, calculate Z-Score signals, and run pairs trades.</p>
-                <a href="pair-trading.html" class="module-btn">
-                    Bắt đầu học <i class="fa-solid fa-arrow-right"></i>
+                <h3>Cơ bản Giao dịch & Quản lý rủi ro</h3>
+                <p>Khám phá bản chất thị trường. Học định nghĩa, rủi ro ký quỹ, kỷ luật cắt lỗ và rèn luyện tâm lý giao dịch.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.1 Market Basics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.2 Trading Mindsets & 3 Taboos</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1.3 Risk Control & Capital Management</li>
+                    </ul>
+                </div>
+                <a href="fundamentals/index.html" class="module-btn">
+                    Bắt đầu Học <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <!-- Module 3: Quantitative & Coding (Coming Soon) -->
-            <div class="module-card" style="opacity: 0.8;">
+            <!-- Level 2 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">Trung cấp</span>
-                    <span class="module-duration"><i class="fa-solid fa-hourglass-half"></i> Đang lập kế hoạch</span>
+                    <span class="module-badge badge-medium">Level 2: 📈 Khóa Cổ phiếu</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 Môn học</span>
                 </div>
-                <h3>Chiến lược Định lượng & Backtest Python</h3>
-                <p>Learn how to use Python to fetch data, calculate indicators, and backtest pairs trading strategies using historical data.</p>
-                <button class="module-btn" style="cursor: not-allowed;" disabled>
-                    Sắp ra mắt <i class="fa-solid fa-lock"></i>
-                </button>
+                <h3>Chiến lược Cổ phiếu & Đầu tư giá trị</h3>
+                <p>Chiến lược cổ phiếu. Học biên an toàn, phân tích tài chính, lọc cổ tức và phân tích kỹ thuật swing.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.1 Value Investing Masterclass</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.2 Dividend Investing Strategy</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2.3 Technical Analysis & Swing Trading</li>
+                    </ul>
+                </div>
+                <a href="stocks/index.html" class="module-btn">
+                    Bắt đầu Học <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
-            <!-- Module 4: Legendary Traders' Methods -->
-            <div class="module-card">
+            <!-- Level 3 -->
+            <div class="module-card featured">
                 <div class="module-meta">
-                    <span class="module-badge badge-medium">Chiến lược Cổ điển</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 Đại sư</span>
+                    <span class="module-badge badge-hard">Level 3: 🌪️ Khóa Tương lai</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 Môn học</span>
                 </div>
-                <h3>Tư duy Giao dịch của Huyền thoại</h3>
-                <p>Deconstruct Jesse Livermore's Pivotal Points, Richard Dennis's Turtle Rules, and George Soros's Reflexivity Theory.</p>
-                <a href="master-strategies.html" class="module-btn">
-                    Bắt đầu học <i class="fa-solid fa-arrow-right"></i>
+                <h3>Chênh lệch Tương lai & Phòng ngừa</h3>
+                <p>深入期貨市場的微觀機制。從保證金槓桿計算，學習多空方向操作、Contract Multiplier換算，進而掌握跨期價差套利（Calendar Spread）與如何利用衍生性商品進行避險。</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.1 Futures Contract & Margin Mechanics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.2 Calendar Spreads & Arbitrage</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 3.3 Cross-Market Hedging & Risk Balancing</li>
+                    </ul>
+                </div>
+                <a href="futures/index.html" class="module-btn">
+                    Bắt đầu Học <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="module-card featured">
+                <div class="module-meta">
+                    <span class="module-badge badge-hard" style="background:rgba(156,39,176,0.1); color:#e040fb; border:1px solid rgba(156,39,176,0.2);">Level 4: ⚖️ Khóa Quant</span>
+                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 Môn học</span>
+                </div>
+                <h3>Giao dịch Định lượng & Arbitrage</h3>
+                <p>Step into systematic quantitative trading. Use statistical cointegration to screen pairs, generate mean-reversion signals via Z-Score, and backtest with Python.</p>
+                <div class="course-list-preview">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.1 Pairs Trading Masterclass</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.2 Python Quant Coding Basics</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 4.3 Legendary Traders' Methods</li>
+                    </ul>
+                </div>
+                <a href="quant/index.html" class="module-btn">
+                    Bắt đầu Học <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -157,6 +182,7 @@
             <p class="amazon-desc">
                 Explore classic financial books and trading gear through our affiliate links below to support our free high-quality content!
             </p>
+            
             <div class="amz-grid">
                 <!-- Bestsellers -->
                 <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
@@ -196,7 +222,7 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-heart"></i>
                         </div>
-                        <strong>Most Wished For Trading Bibles</strong>
+                        <strong>最想擁有的交易聖經</strong>
                     </div>
                     <p>
                         Benjamin Graham's legendary classic "The Intelligent Investor", laying the foundation of value investing and margin of safety.
@@ -261,14 +287,15 @@
     <footer>
         <div class="footer-links">
             <a href="index.html">Trang chủ</a>
-            <a href="futures-stocks.html">Cơ bản Cổ phiếu & Tương lai</a>
-            <a href="pair-trading.html">Giao dịch Cặp Thực tế</a>
-            <a href="master-strategies.html">Tư duy Giao dịch của Huyền thoại</a>
+            <a href="fundamentals/index.html">Cơ bản</a>
+            <a href="stocks/index.html">Khóa học Cổ phiếu</a>
+            <a href="futures/index.html">Khóa học Tương lai</a>
+            <a href="quant/index.html">Khóa học Quant</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Tuyên bố miễn trừ trách nhiệm: Tất cả nội dung chỉ dành cho nghiên cứu học thuật. Giao dịch có rủi ro cao; hãy đánh giá cẩn thận.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">Tuyên bố miễn trừ: Mọi nội dung chỉ mang tính tham khảo giáo dục. Giao dịch có rủi ro cao; hãy đánh giá cẩn thận.</p>
     </footer>
 
-    <script src="../app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
