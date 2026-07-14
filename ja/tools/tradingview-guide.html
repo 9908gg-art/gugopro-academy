@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradingView 登録・実戦導入ガイド | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .promo-hero {
+            background: linear-gradient(135deg, rgba(29, 96, 240, 0.15) 0%, rgba(13, 110, 253, 0.05) 100%);
+            border: 1px solid rgba(29, 96, 240, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 96, 240, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .promo-badge {
+            background: #ff9900;
+            color: #121214;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .cta-btn-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, #1d60f0 0%, #0d6efd 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 16px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 24px;
+            box-shadow: 0 4px 20px rgba(29, 96, 240, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(29, 96, 240, 0.6);
+            color: #ffffff;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .step-timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 32px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .step-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .step-number {
+            position: absolute;
+            left: -44px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            color: #121214;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--bg-primary);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 実戦ツール <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="compound-interest.html">高配当複利計算機</a>
+                    <a href="tradingview-guide.html">TradingView 推薦登録</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('このツールは開発中です。しばらくお待ちください！');">大師の銘柄スクリーナー (準備中)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('このツールは開発中です。しばらくお待ちください！');">Zスコア・スプレッド分析器 (準備中)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px; max-width: 900px;">
+        <a href="../index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> ホームに戻る
+        </a>
+
+        <!-- Hero Header -->
+        <div class="promo-hero">
+            <div class="promo-badge"><i class="fa-solid fa-gift"></i> GugoPro 學員限定プロモーション</div>
+            <h1 style="color: var(--text-primary); margin-top: 0; font-size: 2.2rem; font-weight: 700;">世界最強チャートツール TradingView</h1>
+            <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 16px auto 0;">
+                配当金再投資、カレンダースプレッド、統計的ペアトレードのいずれを行う場合でも、<strong>TradingView</strong> はトレーダーにとって不可欠なツールです。今すぐ登録して特典を受け取りましょう！
+            </p>
+            <div style="background: rgba(255, 153, 0, 0.1); border: 1px solid rgba(255, 153, 0, 0.2); padding: 12px 24px; border-radius: 8px; display: inline-block; margin-top: 16px;">
+                <span style="color: #ff9900; font-weight: 700;">🎁 受講生限定特典：</span>
+                以下のGugoPro専用リンクから登録すると、有料プランへのアップグレード時に <strong style='color:#ffffff;'>15ドル分</strong> の割引クーポンが適用されます！
+            </div>
+            <br>
+            <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="cta-btn-large">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> 15ドル割引でTradingViewに登録する
+            </a>
+        </div>
+
+        <!-- Section 1: Advantages -->
+        <h2 style="border-left: 4px solid var(--accent); padding-left: 12px; margin-top: 48px;">🌟 なぜ多くのトレーダーがTradingViewを選ぶのか？</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>圧倒的に滑らかなリアルタイムチャート</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    日本株、米国株、先物、暗号資産に対応。ブラウザ上の快適な操作性で、引いたラインやインジケーター設定は自動で同期されます。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>Pine Script 自動化回測</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    シンプルで強力なスクリプト言語。本アカデミーで学ぶペアトレードやZスコア指標をTradingViewで記述し、簡単にバックテストできます。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                <h3>クラウドアラートシステム</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    画面に張り付く必要はありません。価格やインジケーターの交差条件を設定すれば、メールやスマホアプリにプッシュ通知が届きます。
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 2: Step by step -->
+        <h2 style="border-left: 4px solid var(--accent); padding-left: 12px; margin-top: 48px;">📝 簡単4ステップ：登録と特典の受け取り方</h2>
+        <div class="step-timeline">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-title">1. 専用リンクをクリック</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    ページ内の <a href='https://www.tradingview.com/?aff_id=168714' target='_blank' style='color:var(--accent); font-weight:600;'>GugoPro専用リンク</a> をクリックします。これで15ドルの割引資格が有効になります。
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-title">2. 無料アカウントを作成</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    画面右上の「開始」または「ログイン」から「新規登録」を選択。Google、Facebook、またはメールアドレスで登録します。
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-title">3. メール認証と初期設定</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    メール登録の場合は、届いた認証メールからリンクを開いて有効化します。ログインしてユーザー名を設定すれば、無料で使い始めることができます。
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-title">4. アップグレードで15ドル割引</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    チャート表示数の増加、アラート件数追加、複数Pineスクリプト指標の実行などで有料プランに移行する際、<strong>15ドル</strong> が自動で割引かれます。
+                </p>
+            </div>
+        </div>
+
+        <!-- Call to Action Footer -->
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; text-align: center; margin-top: 48px; margin-bottom: 48px;">
+            <h3 style="margin-top: 0; color: var(--text-primary);">市場分析を次のステージへ引き上げませんか？</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">世界5,000万人以上のトレーダーが集まるコミュニティに参加し、システマティックな戦略運用を始めましょう。</p>
+            <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; padding: 12px 32px; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> 今すぐ登録して15ドル割引を受け取る ➡️
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../privacy-policy.html">プライバシーポリシー</a>
+            <a href="../terms-of-service.html">免責事項と利用規約</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

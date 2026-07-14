@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradingView Signup & Charting Guide | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .promo-hero {
+            background: linear-gradient(135deg, rgba(29, 96, 240, 0.15) 0%, rgba(13, 110, 253, 0.05) 100%);
+            border: 1px solid rgba(29, 96, 240, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 96, 240, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .promo-badge {
+            background: #ff9900;
+            color: #121214;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .cta-btn-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, #1d60f0 0%, #0d6efd 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 16px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 24px;
+            box-shadow: 0 4px 20px rgba(29, 96, 240, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(29, 96, 240, 0.6);
+            color: #ffffff;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .step-timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 32px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .step-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .step-number {
+            position: absolute;
+            left: -44px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            color: #121214;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--bg-primary);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">금융 아카데미</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px; max-width: 900px;">
+        <a href="../index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
+        </a>
+
+        <!-- Hero Header -->
+        <div class="promo-hero">
+            <div class="promo-badge"><i class="fa-solid fa-gift"></i> GugoPro Student Exclusive Offer</div>
+            <h1 style="color: var(--text-primary); margin-top: 0; font-size: 2.2rem; font-weight: 700;">TradingView: World's Leading Charting Platform</h1>
+            <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 16px auto 0;">
+                Whether you do value dividend stock saving, calendar spreads, or advanced pairs trading, <strong>TradingView</strong> is the essential analysis tool for traders worldwide. Sign up now for exclusive discounts!
+            </p>
+            <div style="background: rgba(255, 153, 0, 0.1); border: 1px solid rgba(255, 153, 0, 0.2); padding: 12px 24px; border-radius: 8px; display: inline-block; margin-top: 16px;">
+                <span style="color: #ff9900; font-weight: 700;">🎁 Student Benefit:</span>
+                Sign up through our exclusive link below to receive a <strong style='color:#ffffff;'>$15 coupon</strong> when upgrading to any paid plan!
+            </div>
+            <br>
+            <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="cta-btn-large">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Sign Up & Get $15 Discount on TradingView
+            </a>
+        </div>
+
+        <!-- Section 1: Advantages -->
+        <h2 style="border-left: 4px solid var(--accent); padding-left: 12px; margin-top: 48px;">🌟 Why do Traders Choose TradingView?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Fluid Real-time Charting</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    Supports global markets. Fast browser charts sync your annotations and layouts instantly across all devices.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>Pine Script 自動化回測</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    Easy scripting language. Write and backtest pairs trading and Z-Score spread scripts directly on TradingView.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                <h3>Cloud Alerts</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    No need to watch charts all day. Set alerts for price levels or indicator crosses to get mobile notifications or email alerts.
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 2: Step by step -->
+        <h2 style="border-left: 4px solid var(--accent); padding-left: 12px; margin-top: 48px;">📝 4 Steps: Signup & Discount Guide</h2>
+        <div class="step-timeline">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-title">1. Click Exclusive Link</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    Click our <a href='https://www.tradingview.com/?aff_id=168714' target='_blank' style='color:var(--accent); font-weight:600;'>Exclusive Link</a>. This activates your $15 discount coupon eligibility.
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-title">2. Sign Up a Free Account</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    Click 'Get Started' or 'Log In', select 'Sign Up'. Connect via Google, Facebook, or your email.
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-title">3. Verify & Configure</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    Verify your account via the activation link sent to your email. Set your username and start charting for free.
+                </p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-title">4. Upgrade & Save $15</div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">
+                    When upgrading to paid plans (Essential/Plus/Premium) for extra charts or pine script indicators, your <strong>$15 discount</strong> will be automatically applied.
+                </p>
+            </div>
+        </div>
+
+        <!-- Call to Action Footer -->
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; text-align: center; margin-top: 48px; margin-bottom: 48px;">
+            <h3 style="margin-top: 0; color: var(--text-primary);">Ready to Upgrade Your Market Analysis?</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">Join over 50 million traders worldwide and start plotting your systematic trading journey today.</p>
+            <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; padding: 12px 32px; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Sign Up Now & Save $15 ➡️
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">홈</a>
+            <a href="../privacy-policy.html">개인정보처리방침</a>
+            <a href="../terms-of-service.html">면책조항 및 이용약관</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>
