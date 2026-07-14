@@ -553,6 +553,71 @@ footer {
     display: block;
 }
 
+/* Tools Selector Dropdown */
+.tools-selector {
+    position: relative;
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.tools-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.tools-btn:hover {
+    background: rgba(255, 153, 0, 0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.tools-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    min-width: 220px;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+}
+
+.tools-dropdown a {
+    color: var(--text-secondary);
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.85rem;
+    transition: var(--transition);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.tools-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.tools-dropdown a:hover {
+    background: rgba(255, 153, 0, 0.08);
+    color: var(--accent);
+}
+
+.tools-selector:hover .tools-dropdown {
+    display: block;
+}
+
 /* Course List Preview in Module Cards */
 .course-list-preview {
     margin-top: 16px;
