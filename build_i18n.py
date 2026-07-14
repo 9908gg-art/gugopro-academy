@@ -1,5 +1,18 @@
 import os
 import re
+import json
+
+# Load config for affiliate URLs and tracking tags
+config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+if os.path.exists(config_path):
+    with open(config_path, 'r', encoding='utf-8') as f:
+        config = json.load(f)
+else:
+    config = {
+        "amazon_tag": "9908qq-20",
+        "tradingview_url": "https://www.tradingview.com/",
+        "ibkr_url": "https://www.interactivebrokers.com/"
+    }
 
 # Supported languages and their display names
 LANGUAGES = {
@@ -70,6 +83,12 @@ TRANSLATIONS = {
         "大師選股篩選器 (Coming Soon)": "Master Stock Screener (Coming Soon)",
         "Z-Score 價差分析儀 (Coming Soon)": "Z-Score Spread Analyzer (Coming Soon)",
         "本工具正在開發中，敬請期待！": "This tool is under development, coming soon!",
+        "實戰圖表工具推薦": "Recommended Charting Tool",
+        "在進行配對交易時，我們需要繪製兩檔商品的價差走勢與計算協整。我們極力推薦使用全球最強的圖表工具 <strong>TradingView</strong>。它支援多標的價差繪製與 Pine Script 自動化回測。": "When trading pairs, we need to plot the spread of two assets and test for cointegration. We highly recommend using the world's most powerful charting tool, <strong>TradingView</strong>. It supports multi-asset spread charts and automated backtesting via Pine Script.",
+        "使用 TradingView 進行圖表分析 ➡️": "Analyze Charts on TradingView ➡️",
+        "實戰交易券商推薦": "Recommended Trading Broker",
+        "進行全球期貨與美股配對交易時，我們需要一家低交易成本、高軟體穩定度且支援強大 API 的券商。全球量化與期貨交易員首選推薦使用 <strong>盈透證券 (Interactive Brokers)</strong>。": "For global futures and stock pair trading, a broker with low transaction costs, high software stability, and powerful API support is essential. Interactive Brokers (IBKR) is the premier choice for quantitative and futures traders worldwide.",
+        "前往 盈透證券 官方網站 ➡️": "Go to Interactive Brokers Website ➡️",
         "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "Disclaimer: All content is for educational reference only. Trading involves high risk; evaluate carefully.",
         "學程晉級制 ‧ 系統化交易學習路徑": "Advancement System ‧ Systematic Trading Learning Path",
         "從零開始的策略交易學習之旅": "Journey of Strategy Trading from Scratch",
@@ -365,6 +384,12 @@ TRANSLATIONS = {
         "在設定理財目標時，使用「倒推」能讓目標更具體：": "資産運用の目標設定において、「逆算」を用いることでロードマップが具体化します。",
         "例如，如果您希望在 15 年內存到 1000 萬，而目前手頭有 50 萬且每月能存 3 萬。利用「倒推報酬率」，您會發現您需要年化 7.2% 的回報。": "例えば、15年後に1000万円を貯めたいとし、現在手元に50万円があり、毎月3万円を積み立てるとします。必要利回りを逆算すると、年利7.2%が必要であることがわかります。",
         "此時，一般的定存或高股息 ETF（約 5%-6%）可能稍嫌不足，您就需要搭配約 15% 的個股配置，或學習進階的「配對交易策略」來提高回報率。": "この場合、通常の定期預金や高配当ETF（年利5〜6%）では不十分となり、一部を成長株に配分するか、高度な「ペアトレード戦略」を取り入れて利回りを高める必要があります。",
+        "實戰圖表工具推薦": "実戰チャートツール推奨",
+        "在進行配對交易時，我們需要繪製兩檔商品的價差走勢與計算協整。我們極力推薦使用全球最強的圖表工具 <strong>TradingView</strong>。它支援多標的價差繪製與 Pine Script 自動化回測。": "ペアトレードを行う際、2つの銘柄のスプレッドを描画し、共和分を検証する必要があります。世界最強のチャートツールである <strong>TradingView</strong> の使用を強くお勧めします。複数の銘柄のスプレッド描画や、Pineスクリプトによる自動バックテストをサポートしています。",
+        "使用 TradingView 進行圖表分析 ➡️": "TradingViewでチャート分析を行う ➡️",
+        "實戰交易券商推薦": "実戰取引ブローカー推奨",
+        "進行全球期貨與美股配對交易時，我們需要一家低交易成本、高軟體穩定度且支援強大 API 的券商。全球量化與期貨交易員首選推薦使用 <strong>盈透證券 (Interactive Brokers)</strong>。": "グローバルな先物や米国株のペアトレードを行う際、低い取引コスト、高いソフトウェアの安定性、そして強力なAPIをサポートするブローカーが必要です。世界のクオンツおよび先物トレーダーの第一選択肢として、<strong>インタラクティブ・ブローカーズ（Interactive Brokers）</strong>をお勧めします。",
+        "前往 盈透證券 官方網站 ➡️": "インタラクティブ・ブローカーズ公式サイトへ ➡️",
         "免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。": "免責事項：当サイトの全ての教育内容は學術研究および教育の參考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。",
         "學程晉級制 ‧ 系統化交易學習路徑": "進級制度 ‧ 体系的トレード学習パス",
         "從零開始的策略交易學習之旅": "ゼロから始める戦略取引の学習の旅",
@@ -784,6 +809,11 @@ def build_translated_pages():
                 
                 with open(src_path, 'r', encoding='utf-8') as f:
                     content = f.read()
+                
+                # Substitute configuration overrides (affiliate tags & URLs)
+                content = content.replace('9908qq-20', config.get('amazon_tag', '9908qq-20'))
+                content = content.replace('https://www.tradingview.com/?aff_id=YOUR_TRADINGVIEW_AFFILIATE_ID', config.get('tradingview_url', 'https://www.tradingview.com/'))
+                content = content.replace('https://ibkr.com/referral/YOUR_IBKR_REFERRAL_ID', config.get('ibkr_url', 'https://www.interactivebrokers.com/'))
                 
                 # Apply translation logic
                 if lang == 'zh-cn':
