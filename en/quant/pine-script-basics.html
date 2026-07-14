@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4.2: TradingView Pine Script 程式交易入門 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .code-box {
+            background: #1e1e24;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #a9b7c6;
+            line-height: 1.5;
+            position: relative;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-box::before {
+            content: "Pine Script v5";
+            position: absolute;
+            top: 4px;
+            right: 12px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .code-comment { color: #808080; }
+        .code-keyword { color: #cc7832; font-weight: bold; }
+        .code-function { color: #ffc66d; }
+        .code-string { color: #6a8759; }
+        .code-number { color: #6897bb; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>Quant Path單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">Quant PathHome</a></li>
+                    <li><a href="pair-trading.html">4.1 Pairs Trading</a></li>
+                    <li><a href="pine-script-basics.html" class="active">4.2 Pine Script 程式入門</a></li>
+                    <li><a href="strategy-backtesting.html">4.3 策略回測與跟單實務</a></li>
+                    <li><a href="legendary-traders.html">4.4 Legendary Traders</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Quant Path
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 4.2</span>
+                    <h1>TradingView Pine Script 程式交易入門與指標開發</h1>
+                    <p class="lead">
+                        學習如何使用 TradingView 專屬的 Pine Script 腳本語言，編寫屬於您的技術指標、自動化劃線，並為未來的程式化自動交易打下穩固基礎。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 什麼是 Pine Script？</h2>
+                    <p>
+                        <strong>Pine Script</strong> 是由 TradingView 官方開發的輕量級腳本語言。它的語法非常簡單好學，類似於 Python，但針對「金融圖表」與「技術指標」做了極致的優化。
+                    </p>
+                    <p>
+                        以往在 Python 中需要寫上百行代碼才能載入歷史 K 線、計算均線並畫圖；但在 Pine Script 中，<strong>您只需要不到 5 行代碼</strong>，就能完美計算並繪製出一條自訂技術指標！
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. Pine Script 的兩大運行模式</h2>
+                    <p>在開始寫程式前，您必須區分 Pine Script 的兩種主要程式結構：</p>
+                    <ul>
+                        <li><strong>指標 (indicator)</strong>：用於在圖表上繪製視覺輔助工具。例如自訂的 MACD、多重均線通道或我們在配對交易中使用的 Z-Score 價差線。</li>
+                        <li><strong>策略 (strategy)</strong>：除了畫圖，還包含了「買入 (Buy)」與「賣出 (Sell)」的邏輯，可用於在歷史數據上自動執行交易模擬並跑出績效報表。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 實戰：編寫您的第一個 Pine 均線策略</h2>
+                    <p>
+                        我們以最經典的「黃金交叉與死亡交叉」均線策略為例。當 5 日均線往上突破 20 日均線時做多，往下突破時做空。以下是完整的 Pine Script 原始碼：
+                    </p>
+
+                    <div class="code-box">
+                        <span class="code-keyword">//@version=5</span><br>
+                        <span class="code-function">strategy</span>(<span class="code-string">"GugoPro 均線交叉戰術"</span>, overlay=<span class="code-keyword">true</span>)<br><br>
+                        <span class="code-comment">// 1. 設定輸入參數</span><br>
+                        fastLength = <span class="code-function">input.int</span>(<span class="code-number">5</span>, title=<span class="code-string">"快線天數"</span>)<br>
+                        slowLength = <span class="code-function">input.int</span>(<span class="code-number">20</span>, title=<span class="code-string">"慢線天數"</span>)<br><br>
+                        <span class="code-comment">// 2. 計算移動平均線 (SMA)</span><br>
+                        fastMA = <span class="code-function">ta.sma</span>(close, fastLength)<br>
+                        slowMA = <span class="code-function">ta.sma</span>(close, slowLength)<br><br>
+                        <span class="code-comment">// 3. 繪製均線到圖表上</span><br>
+                        <span class="code-function">plot</span>(fastMA, color=color.aqua, title=<span class="code-string">"快線"</span>)<br>
+                        <span class="code-function">plot</span>(slowMA, color=color.orange, title=<span class="code-string">"慢線"</span>)<br><br>
+                        <span class="code-comment">// 4. 定義進出場交叉訊號</span><br>
+                        longCondition = <span class="code-function">ta.crossover</span>(fastMA, slowMA)<br>
+                        shortCondition = <span class="code-function">ta.crossunder</span>(fastMA, slowMA)<br><br>
+                        <span class="code-comment">// 5. 執行策略模擬</span><br>
+                        <span class="code-keyword">if</span> (longCondition)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-function">strategy.entry</span>(<span class="code-string">"做多"</span>, <span class="code-keyword">strategy.long</span>)<br><br>
+                        <span class="code-keyword">if</span> (shortCondition)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-function">strategy.close</span>(<span class="code-string">"做多"</span>)
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section>
+                    <h2>4. 如何在 TradingView 中執行這段程式？</h2>
+                    <ol>
+                        <li>打開您的 **[TradingView 圖表頁面](https://www.tradingview.com/?aff_id=168714)**。</li>
+                        <li>點選底部的 **「Pine 編輯器 (Pine Editor)」** 頁籤。</li>
+                        <li>清除所有默認文字，將上方那段程式碼**複製並貼上**進去。</li>
+                        <li>點擊右上角的 **「儲存 (Save)」**，接著點擊 **「添加到圖表 (Add to Chart)」**。</li>
+                        <li>此時您的圖表上就會繪製出快慢均線，並且在底下會多出 **「策略測試器 (Strategy Tester)」** 看板，展示這套策略在過去歷史中的盈虧成效！</li>
+                    </ol>
+                </section>
+
+                <!-- Promo Banner -->
+                <div class="info-card" style="margin-top: 40px; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.02);">
+                    <h4 style="margin-top:0; color: var(--accent);"><i class="fa-solid fa-gift"></i> GugoPro 學員專屬推薦優惠</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 16px;">
+                        要在 TradingView 上編寫複雜的 Pine Script 程式，或是需要同時載入多個策略進行多視窗對照，您需要強大的進階功能。點選下方連結註冊，享 <strong>30 天免費試用與 15 美元</strong> 付費升級折扣！
+                    </p>
+                    <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; display: inline-flex; padding: 10px 20px; font-size: 0.9rem;">
+                        立即註冊 TradingView 領取優惠 ➡️
+                    </a>
+                </div>
+            </article>
+
+            <!-- Bottom Navigation Links -->
+            <div style="display: flex; justify-content: space-between; margin-top: 48px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+                <a href="pair-trading.html" style="color: var(--text-secondary); text-decoration: none;"><i class="fa-solid fa-chevron-left"></i> 上一單元: Pairs Trading</a>
+                <a href="strategy-backtesting.html" style="color: var(--accent); text-decoration: none; font-weight: bold;">下一單元: 策略回測與跟單實務 <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../terms-of-service.html">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

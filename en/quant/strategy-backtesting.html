@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4.3: TradingView 策略回測與自動化跟單實務 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>Quant Path單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">Quant PathHome</a></li>
+                    <li><a href="pair-trading.html">4.1 Pairs Trading</a></li>
+                    <li><a href="pine-script-basics.html">4.2 Pine Script 程式入門</a></li>
+                    <li><a href="strategy-backtesting.html" class="active">4.3 策略回測與跟單實務</a></li>
+                    <li><a href="legendary-traders.html">4.4 Legendary Traders</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Quant Path
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 4.3</span>
+                    <h1>TradingView 策略歷史回測與 Webhook 自動化跟單</h1>
+                    <p class="lead">
+                        深入學習量化交易的核心環節：如何科學解讀策略回測報告，以及如何利用 Webhook 技術將 TradingView 訊號對接至盈透證券等券商，實現無人值守的自動化程式交易。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 量化交易的核心：歷史回測 (Backtesting)</h2>
+                    <p>
+                        在量化交易中，我們絕對不憑感覺下單。任何交易邏輯在投入實戰資金前，都必須通過**歷史數據回測**的檢驗。
+                    </p>
+                    <p>
+                        當我們在 TradingView 載入一個 Pine Script 策略後，下方的 **「策略測試器 (Strategy Tester)」** 會瞬間模擬過去幾年、甚至十幾年該策略的每次進出場，並跑出多項關鍵績效指標：
+                    </p>
+                    <ul>
+                        <li><strong>淨利潤 (Net Profit)</strong>：策略在整個回測期間賺取或虧損的總金額。</li>
+                        <li><strong>勝率 (Win Rate)</strong>：獲利交易筆數占總交易筆數的百分比。</li>
+                        <li><strong>最大回撤 (Max Drawdown)</strong>：帳戶淨值從歷史最高點回落到最低點的最大百分比，這是評估帳戶是否會「斷頭爆倉」的關鍵風控指標。</li>
+                        <li><strong>獲利因子 (Profit Factor)</strong>：總獲利金額 / 總虧損金額。大於 1.5 代表這是一個相對穩健的策略。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 如何防範「過度擬合 (Overfitting)」？</h2>
+                    <p>
+                        許多初學者在寫 Pine Script 策略時，會拼命優化參數，讓歷史回測圖表看起來非常完美，這在量化領域稱為「過度擬合（過度優化）」。
+                    </p>
+                    <p>
+                        ⚠️ **警告**：過度擬合的策略在歷史數據中賺大錢，但在未來的真實市場中，往往會遭遇嚴重的虧損。
+                    </p>
+                    <h3>健全策略的三大黃金法則：</h3>
+                    <ol>
+                        <li><strong>少即是多</strong>：限制您的過濾條件。條件越簡單、參數越少，策略的通用性越強。</li>
+                        <li><strong>樣本外測試 (Out-of-Sample Testing)</strong>：使用 2018-2023 年的數據開發策略，然後拿 2024-2026 年「完全未參與優化」的數據進行驗證。</li>
+                        <li><strong>多標的測試</strong>：將您的策略套用在台指期、小道瓊、黃金期貨等不同市場，驗證其是否具備跨市場的生命力。</li>
+                    </ol>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 自動化程式交易：Webhook 跟單運作原理</h2>
+                    <p>
+                        當您在 TradingView 驗證好一套具有優勢的策略後，不需要人工手動下單。我們可以透過 **Webhook 警示** 實現自動跟單：
+                    </p>
+                    <div class="formula-box" style="line-height: 1.6;">
+                        <strong>自動化交易路徑：</strong><br>
+                        1. TradingView 策略觸發買入訊號 📈<br>
+                        2. TradingView 伺服器發送 JSON 警示通知到指定的 **Webhook URL** 🌐<br>
+                        3. 接收端伺服器（例如 Python 雲端主機）收到通知，向您的券商 API 下達交易指令 📲<br>
+                        4. <strong>盈透證券 (Interactive Brokers)</strong> 帳戶自動執行買入下單 🏛️
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section>
+                    <h2>4. 如何設定 Webhook 自動下單警示？</h2>
+                    <ol>
+                        <li>打開您的 TradingView 策略圖表。</li>
+                        <li>點擊圖表右上方的 **「警示 (Alert)」** 圖示。</li>
+                        <li>在條件中選擇您的 **「自訂策略 (Strategy)」**，此時會自動綁定策略的買賣買賣訊號。</li>
+                        <li>在「通知」頁籤中，勾選 **「Webhook URL」**，並輸入您的交易機器人網址（例如 AutoView, TradingView-to-Broker API 連接器等）。</li>
+                        <li>在訊息框中，使用 JSON 變數代碼設定下單規格（例如合約口數、委託價格），點擊建立。當訊號來臨時，下單將在 1 秒內自動完成！</li>
+                    </ol>
+                </section>
+
+                <!-- Promo Banner -->
+                <div class="info-card" style="margin-top: 40px; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.02);">
+                    <h4 style="margin-top:0; color: var(--accent);"><i class="fa-solid fa-gift"></i> GugoPro Student Exclusive Offer</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 16px;">
+                        要在 TradingView 上執行自動化 Webhook 下單功能，必須訂閱付費套餐（Essential 以上版本）。現在透過 GugoPro 專屬推薦網址註冊，即享 <strong>30 天免費試用與 15 美元</strong> 折抵優惠！
+                    </p>
+                    <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; display: inline-flex; padding: 10px 20px; font-size: 0.9rem;">
+                        立即註冊 TradingView 領取優惠 ➡️
+                    </a>
+                </div>
+            </article>
+
+            <!-- Bottom Navigation Links -->
+            <div style="display: flex; justify-content: space-between; margin-top: 48px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+                <a href="pine-script-basics.html" style="color: var(--text-secondary); text-decoration: none;"><i class="fa-solid fa-chevron-left"></i> 上一單元: Pine Script 程式入門</a>
+                <a href="legendary-traders.html" style="color: var(--text-secondary); text-decoration: none;">下一單元: Legendary Traders <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../terms-of-service.html">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>
