@@ -2,30 +2,36 @@
 function changeLanguage(lang) {
     localStorage.setItem('user-language', lang);
     
-    // Determine target URL path based on current path and selected language
+    // Get current pathname (e.g. "/tools/tradingview-guide.html" or "/en/tools/tradingview-guide.html")
     var currentPath = window.location.pathname;
-    
-    // Normalize path to get the filename
-    var filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-    if (filename === '' || filename === '/' || filename.indexOf('.') === -1) {
-        filename = 'index.html';
-    }
     
     // Supported language directories
     var langs = ['en', 'ja', 'ko', 'es', 'zh-cn', 'vi'];
+    
+    // Split the path into parts
+    var pathParts = currentPath.split('/');
+    
+    // Remove the language prefix if it exists in the URL
+    if (pathParts.length > 1 && langs.includes(pathParts[1])) {
+        pathParts.splice(1, 1); // remove the language folder part
+    }
     
     // Build the target path
     var targetPath = '';
     if (lang === 'zh-tw') {
         // Redirect to root level
-        targetPath = '/' + filename;
+        targetPath = pathParts.join('/');
     } else {
         // Redirect to language subdirectory
-        targetPath = '/' + lang + '/' + filename;
+        pathParts.splice(1, 0, lang); // insert new language folder at index 1
+        targetPath = pathParts.join('/');
     }
     
-    // If running in development with relative paths, handle appropriately
-    // For GitHub Pages, it's relative to the repository name or custom domain root
+    // Ensure we don't end up with empty path or double slashes
+    if (targetPath === '' || targetPath === '/') {
+        targetPath = '/index.html';
+    }
+    
     window.location.href = targetPath;
 }
 
@@ -66,9 +72,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Close dropdowns on outside click
-    document.addEventListener('click', function() {
-        if (langSelector) langSelector.classList.remove('show-dropdown');
-        if (toolsSelector) toolsSelector.classList.remove('show-dropdown');
+    // Intercept language clicks to prevent '#' hash navigation from closing dropdown early
+    var langLinks = document.querySelectorAll('.lang-dropdown a');
+    langLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var onclickAttr = this.getAttribute('onclick');
+            if (onclickAttr) {
+                // Extract language code, e.g. "changeLanguage('en')" -> "en"
+                var match = onclickAttr.match(/changeLanguage\(['"]([^'"]+)['"]\)/);
+                if (match && match[1]) {
+                    changeLanguage(match[1]);
+                }
+            }
+        });
+    });
+
+    // Close dropdowns only on outside click to prevent browser from aborting navigation
+    document.addEventListener('click', function(e) {
+        if (langSelector && !langSelector.contains(e.target)) {
+            langSelector.classList.remove('show-dropdown');
+        }
+        if (toolsSelector && !toolsSelector.contains(e.target)) {
+            toolsSelector.classList.remove('show-dropdown');
+        }
     });
 });
