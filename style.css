@@ -549,6 +549,15 @@ footer {
     color: var(--accent);
 }
 
+.lang-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+}
+
 .lang-selector:hover .lang-dropdown {
     display: block;
 }
@@ -614,6 +623,15 @@ footer {
     color: var(--accent);
 }
 
+.tools-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+}
+
 .tools-selector:hover .tools-dropdown {
     display: block;
 }
@@ -650,3 +668,8 @@ footer {
     font-size: 0.85rem;
 }
 
+/* Mobile Click Fallbacks */
+.lang-selector.show-dropdown .lang-dropdown,
+.tools-selector.show-dropdown .tools-dropdown {
+    display: block;
+}

@@ -29,11 +29,11 @@ function changeLanguage(lang) {
     window.location.href = targetPath;
 }
 
-// Sidebar Active Link Tracker
+// Sidebar Active Link Tracker & Dropdown Toggle for Mobile/Click
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. Sidebar Tracker
     var sidebarLinks = document.querySelectorAll('.sidebar-menu a');
     if (sidebarLinks.length > 0) {
-        // Handle scroll spy or active link tracking
         sidebarLinks.forEach(link => {
             link.addEventListener('click', function() {
                 sidebarLinks.forEach(l => l.classList.remove('active'));
@@ -41,4 +41,34 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // 2. Dropdown Toggles (Click Support for Mobile / Safe Hover)
+    var langBtn = document.querySelector('.lang-btn');
+    var langSelector = document.querySelector('.lang-selector');
+    var toolsBtn = document.querySelector('.tools-btn');
+    var toolsSelector = document.querySelector('.tools-selector');
+
+    if (langBtn && langSelector) {
+        langBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (toolsSelector) toolsSelector.classList.remove('show-dropdown');
+            langSelector.classList.toggle('show-dropdown');
+        });
+    }
+
+    if (toolsBtn && toolsSelector) {
+        toolsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (langSelector) langSelector.classList.remove('show-dropdown');
+            toolsSelector.classList.toggle('show-dropdown');
+        });
+    }
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function() {
+        if (langSelector) langSelector.classList.remove('show-dropdown');
+        if (toolsSelector) toolsSelector.classList.remove('show-dropdown');
+    });
 });
