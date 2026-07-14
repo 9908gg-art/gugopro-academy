@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免責事項と利用規約 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .legal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 32px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .legal-content h2 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent);
+            padding-left: 12px;
+        }
+
+        .legal-content p {
+            margin-bottom: 16px;
+        }
+
+        .legal-content ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 実戦ツール <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="tools/compound-interest.html">高配当複利計算機</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('このツールは開発中です。しばらくお待ちください！');">大師の銘柄スクリーナー (準備中)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('このツールは開発中です。しばらくお待ちください！');">Zスコア・スプレッド分析器 (準備中)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px; max-width: 900px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> ホームに戻る
+        </a>
+
+        <div class="legal-content">
+            <h1 style="color: var(--text-primary); margin-top: 0; margin-bottom: 24px;"><i class="fa-solid fa-scale-unbalanced"></i> 免責事項と利用規約 (Terms of Service)</h1>
+            <p>最後更新日期：2026 年 7 月 14 日</p>
+            
+            <p>
+                歡迎使用 GugoPro 財經教學學院（以下簡稱「本網站」）。在瀏覽或使用本網站提供的教學內容、模擬工具或推薦連結前，請仔細閱讀本條款。當您繼續使用本網站，即代表您已閱讀、理解並完全同意本聲明的所有條款。
+            </p>
+
+            <h2>1. 投資免責聲明 (Financial Disclaimer)</h2>
+            <p style="color: var(--text-primary); font-weight: 500;">
+                ⚠️ 重要提示：本網站上的所有內容，包括但不限於教學文章、統計數據、量化策略分析及任何計算工具（如複利計算機）的模擬結果，僅供教育與學術研究參考，絕不構成任何投資建議、買賣邀約或推薦。
+            </p>
+            <ul>
+                <li>金融市場交易具有極高風險。槓桿商品（如期貨、選擇權）與衍生性策略可能導致您損失全部本金。</li>
+                <li>本網站展示的歷史績效或策略回測數據，均屬歷史紀錄，不代表未來的實際收益回報。</li>
+                <li>讀者應依據自身的財務狀況、風險承受能力與投資經驗進行獨立判斷，並自行承擔所有交易的盈虧與風險。本網站及作者對您因參考本網站資訊所產生的任何直接或間接虧損，不承擔任何法律責任。</li>
+            </ul>
+
+            <h2>2. 實戰工具模擬限制</h2>
+            <p>
+                本網站所提供的「高殖利率複利與退休目標規劃計算機」等互動工具，其計算公式是基於理想化的數學模型（例如按年滾存、股息完全再投資且不扣除稅務與交易成本）。
+                實際市場運作中，可能會面臨「公司停發股利」、「股價無法填息」、「交易手續費」、「股利所得稅」等變數，因此計算結果與真實情況必定存在偏差，僅供財務規劃規劃參考。
+            </p>
+
+            <h2>3. 聯盟行銷與廣告聲明</h2>
+            <p>
+                本網站含有第三方電商平台（如 Amazon）的推廣連結。當您點擊並購買這些商品時，本網站可能會獲得部分佣金回饋，此項佣金有助於維持本網站的免費營運。我們不對第三方平台的商品品質、售後服務或物流配送承擔任何責任。
+            </p>
+
+            <h2>4. 智慧財產權</h2>
+            <p>
+                本網站發表之所有原創教學文章、程式碼範例、網頁設計排版與工具演算法，均屬 GugoPro 財經教學學院所有。未經明確書面授權，禁止任何形式的複製、轉載、抄襲或用於商業目的。
+            </p>
+
+            <h2>5. 條款修改權利</h2>
+            <p>
+                我們保留隨時修改本條款的權利。修改後的條款一旦公布即時生效，恕不另行通知。
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">ホーム</a>
+            <a href="privacy-policy.html">プライバシーポリシー</a>
+            <a href="terms-of-service.html">免責事項と利用規約</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
