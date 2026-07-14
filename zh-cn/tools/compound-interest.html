@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高殖利率複利计算機 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tool-container {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+
+        .tool-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-field-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field-wrapper input[type="number"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 10px 14px;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-field-wrapper input[type="number"]:focus {
+            border-color: var(--accent);
+            background: rgba(255, 153, 0, 0.03);
+        }
+
+        .input-range {
+            width: 100%;
+            margin-top: 8px;
+            accent-color: var(--accent);
+        }
+
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .summary-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+        }
+
+        .summary-card.accent-card::before {
+            background: linear-gradient(90deg, #ff9900, #ff5500);
+        }
+
+        .summary-card span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .summary-card.accent-card strong {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 153, 0, 0.2);
+        }
+
+        .chart-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+        svg.compounding-chart {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .grid-line {
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 1px;
+            stroke-dasharray: 4;
+        }
+
+        .axis-label {
+            fill: var(--text-secondary);
+            font-size: 0.75rem;
+            font-family: inherit;
+        }
+
+        .line-principal {
+            stroke: #757575;
+            stroke-width: 2px;
+            fill: none;
+            stroke-dasharray: 4;
+        }
+
+        .line-total {
+            stroke: var(--accent);
+            stroke-width: 3px;
+            fill: none;
+        }
+
+        .area-total {
+            fill: url(#chart-gradient);
+            opacity: 0.15;
+        }
+
+        .chart-point {
+            fill: var(--accent);
+            stroke: var(--bg-secondary);
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: r 0.2s;
+        }
+
+        .chart-point:hover {
+            r: 7px;
+        }
+
+        /* Tooltip style */
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(17, 20, 26, 0.95);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            pointer-events: none;
+            display: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .chart-tooltip div {
+            margin-bottom: 4px;
+        }
+
+        .chart-tooltip div:last-child {
+            margin-bottom: 0;
+        }
+
+        .chart-tooltip strong {
+            color: var(--accent);
+        }
+
+        @media (max-width: 992px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(255, 153, 0, 0.15); padding: 40px 0;">
+        <div class="hero-badge">
+            <i class="fa-solid fa-calculator"></i> 实战互動工具 ‧ 存股複利模擬
+        </div>
+        <h1>高殖利率存股複利计算機</h1>
+        <p>這款工具能幫助您模擬高殖利率存股与股息再投资（Compound Interest）的長線滾雪球效應。輸入您的资金规划，即时預估未來的资产成長曲線。</p>
+    </section>
+
+    <!-- Tool Area -->
+    <main class="container">
+        <a href="../stocks/index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回股票学程
+        </a>
+
+        <div class="tool-container">
+            <!-- Left panel: Parameters input -->
+            <div class="tool-panel">
+                <h3 style="margin-top:0; margin-bottom:20px; font-size:1.1rem;"><i class="fa-solid fa-sliders"></i> 參數设定</h3>
+                
+                <!-- Initial Capital -->
+                <div class="input-group">
+                    <label for="initial-principal">初始资金 (元)</label>
+                    <div class="input-field-wrapper">
+                        <input type="number" id="initial-principal" value="100000" min="0" step="10000" oninput="calculateCompounding()">
+                    </div>
+                    <input type="range" id="initial-range" min="0" max="1000000" step="10000" value="100000" class="input-range" oninput="syncInputs('initial')">
+                </div>
+
+                <!-- Monthly Contribution -->
+                <div class="input-group">
+                    <label for="monthly-deposit">每月固定投入 (元)</label>
+                    <div class="input-field-wrapper">
+                        <input type="number" id="monthly-deposit" value="10000" min="0" step="1000" oninput="calculateCompounding()">
+                    </div>
+                    <input type="range" id="monthly-range" min="0" max="100000" step="1000" value="10000" class="input-range" oninput="syncInputs('monthly')">
+                </div>
+
+                <!-- Annual Yield -->
+                <div class="input-group">
+                    <label for="annual-yield">年化報酬率/殖利率 (%)</label>
+                    <div class="input-field-wrapper">
+                        <input type="number" id="annual-yield" value="6" min="0" max="30" step="0.5" oninput="calculateCompounding()">
+                    </div>
+                    <input type="range" id="yield-range" min="1" max="25" step="0.5" value="6" class="input-range" oninput="syncInputs('yield')">
+                </div>
+
+                <!-- Years -->
+                <div class="input-group">
+                    <label for="investment-years">投资年限 (年)</label>
+                    <div class="input-field-wrapper">
+                        <input type="number" id="investment-years" value="20" min="1" max="40" step="1" oninput="calculateCompounding()">
+                    </div>
+                    <input type="range" id="years-range" min="1" max="40" step="1" value="20" class="input-range" oninput="syncInputs('years')">
+                </div>
+            </div>
+
+            <!-- Right panel: Results and Curve -->
+            <div class="results-panel">
+                <!-- Summary cards -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <span>總投入本金</span>
+                        <strong id="stat-principal">NT$ 2,500,000</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span>累積複利收益</span>
+                        <strong id="stat-earnings" style="color: #2196f3;">NT$ 2,110,381</strong>
+                    </div>
+                    <div class="summary-card accent-card">
+                        <span>最終资产總值</span>
+                        <strong id="stat-total">NT$ 4,610,381</strong>
+                    </div>
+                </div>
+
+                <!-- Chart Card -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>资产成長曲線 (年)</h3>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background:#757575;"></div>
+                                <span>本金</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background:var(--accent);"></div>
+                                <span>最終资产總值</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-wrapper" id="chart-container">
+                        <svg class="compounding-chart" id="svg-chart"></svg>
+                        <div class="chart-tooltip" id="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Note and links -->
+        <div class="card" style="margin-top: 32px;">
+            <h3><i class="fa-solid fa-circle-info"></i> 複利滾雪球小知識</h3>
+            <p>
+                愛因斯坦曾說：「複利是世界第八大奇蹟。」本计算機預设以「按年滾存、股息全數再投资」进行模擬。
+                從圖表中您可以發現，在投资前期（约前 5 - 8 年），累積本金与總资产差距並不明顯；但隨著时间拉長，複利效益产生的「黄金剪刀差」會越拉越开，這也是長期存股投资者的利潤來源。
+            </p>
+            <div style="margin-top: 20px;">
+                <a href="../stocks/dividend-strategy.html" class="module-btn" style="display: inline-flex; width: auto;">
+                    学習高殖利率存股理论 ➡️
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟盟阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="../futures/index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：计算機模擬结果仅供教育与学术參考，不保证实際市场收益。歷史績效不代表未來回報，请审慎评估投资风险。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+    <script>
+        // Sync sliders with inputs
+        function syncInputs(type) {
+            if (type === 'initial') {
+                document.getElementById('initial-principal').value = document.getElementById('initial-range').value;
+            } else if (type === 'monthly') {
+                document.getElementById('monthly-deposit').value = document.getElementById('monthly-range').value;
+            } else if (type === 'yield') {
+                document.getElementById('annual-yield').value = document.getElementById('yield-range').value;
+            } else if (type === 'years') {
+                document.getElementById('investment-years').value = document.getElementById('years-range').value;
+            }
+            calculateCompounding();
+        }
+
+        // Main compounding logic and custom SVG graph plotting
+        function calculateCompounding() {
+            var initialPrincipal = parseFloat(document.getElementById('initial-principal').value) || 0;
+            var monthlyDeposit = parseFloat(document.getElementById('monthly-deposit').value) || 0;
+            var annualRate = (parseFloat(document.getElementById('annual-yield').value) || 0) / 100;
+            var totalYears = parseInt(document.getElementById('investment-years').value) || 10;
+
+            // Sync ranges
+            document.getElementById('initial-range').value = initialPrincipal;
+            document.getElementById('monthly-range').value = monthlyDeposit;
+            document.getElementById('yield-range').value = annualRate * 100;
+            document.getElementById('years-range').value = totalYears;
+
+            var yearlyData = [];
+            var currentTotal = initialPrincipal;
+            var currentPrincipal = initialPrincipal;
+
+            // Year 0
+            yearlyData.push({
+                year: 0,
+                principal: currentPrincipal,
+                total: currentTotal
+            });
+
+            for (var y = 1; y <= totalYears; y++) {
+                // Monthly deposit added, compounding at the end of each month
+                for (var m = 0; m < 12; m++) {
+                    currentTotal += monthlyDeposit;
+                    currentTotal *= (1 + annualRate / 12);
+                    currentPrincipal += monthlyDeposit;
+                }
+                yearlyData.push({
+                    year: y,
+                    principal: Math.round(currentPrincipal),
+                    total: Math.round(currentTotal)
+                });
+            }
+
+            // Update stats text
+            var lastYear = yearlyData[yearlyData.length - 1];
+            document.getElementById('stat-principal').innerText = 'NT$ ' + lastYear.principal.toLocaleString();
+            document.getElementById('stat-earnings').innerText = 'NT$ ' + (lastYear.total - lastYear.principal).toLocaleString();
+            document.getElementById('stat-total').innerText = 'NT$ ' + lastYear.total.toLocaleString();
+
+            plotSVGChart(yearlyData);
+        }
+
+        // Beautiful SVG plotter
+        function plotSVGChart(data) {
+            var svg = document.getElementById('svg-chart');
+            svg.innerHTML = ''; // Clear existing
+
+            // Add linear gradient definition
+            var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            var grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            grad.setAttribute('id', 'chart-gradient');
+            grad.setAttribute('x1', '0%');
+            grad.setAttribute('y1', '0%');
+            grad.setAttribute('x2', '0%');
+            grad.setAttribute('y2', '100%');
+            
+            var stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#ff9900');
+            stop1.setAttribute('stop-opacity', '0.25');
+            
+            var stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#ff9900');
+            stop2.setAttribute('stop-opacity', '0.00');
+
+            grad.appendChild(stop1);
+            grad.appendChild(stop2);
+            defs.appendChild(grad);
+            svg.appendChild(defs);
+
+            var width = svg.clientWidth || 600;
+            var height = svg.clientHeight || 320;
+            var padding = { top: 20, right: 20, bottom: 40, left: 70 };
+
+            var plotWidth = width - padding.left - padding.right;
+            var plotHeight = height - padding.top - padding.bottom;
+
+            var maxVal = Math.max.apply(Math, data.map(function(d) { return d.total; })) * 1.1;
+
+            // X and Y scaler helper functions
+            var getX = function(index) {
+                return padding.left + (index / (data.length - 1)) * plotWidth;
+            };
+            var getY = function(value) {
+                return padding.top + plotHeight - (value / maxVal) * plotHeight;
+            };
+
+            // 1. Draw horizontal grid lines and Y-axis labels
+            var yTicks = 5;
+            for (var i = 0; i <= yTicks; i++) {
+                var val = (maxVal / yTicks) * i;
+                var y = getY(val);
+
+                // Grid line
+                var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                svg.appendChild(line);
+
+                // Label
+                var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', padding.left - 10);
+                label.setAttribute('y', y + 4);
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('class', 'axis-label');
+                
+                // Format large values
+                var labelText = '';
+                if (val >= 1000000) {
+                    labelText = (val / 1000000).toFixed(1) + 'M';
+                } else if (val >= 1000) {
+                    labelText = (val / 1000).toFixed(0) + 'k';
+                } else {
+                    labelText = Math.round(val);
+                }
+                label.textContent = labelText;
+                svg.appendChild(label);
+            }
+
+            // 2. Draw X-axis year labels (show every few years depending on length)
+            var step = Math.ceil(data.length / 10);
+            for (var i = 0; i < data.length; i += step) {
+                var x = getX(i);
+                var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x);
+                label.setAttribute('y', height - padding.bottom + 20);
+                label.setAttribute('text-anchor', 'middle');
+                label.setAttribute('class', 'axis-label');
+                label.textContent = 'Yr ' + data[i].year;
+                svg.appendChild(label);
+            }
+
+            // Also draw last year label if not already drawn
+            if ((data.length - 1) % step !== 0) {
+                var x = getX(data.length - 1);
+                var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x);
+                label.setAttribute('y', height - padding.bottom + 20);
+                label.setAttribute('text-anchor', 'middle');
+                label.setAttribute('class', 'axis-label');
+                label.textContent = 'Yr ' + data[data.length - 1].year;
+                svg.appendChild(label);
+            }
+
+            // 3. Draw Principal path (grey line)
+            var principalPathStr = '';
+            for (var i = 0; i < data.length; i++) {
+                var prefix = (i === 0) ? 'M' : 'L';
+                principalPathStr += prefix + ' ' + getX(i) + ' ' + getY(data[i].principal) + ' ';
+            }
+            var principalPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            principalPath.setAttribute('d', principalPathStr);
+            principalPath.setAttribute('class', 'line-principal');
+            svg.appendChild(principalPath);
+
+            // 4. Draw Total path (orange line + area)
+            var totalPathStr = '';
+            for (var i = 0; i < data.length; i++) {
+                var prefix = (i === 0) ? 'M' : 'L';
+                totalPathStr += prefix + ' ' + getX(i) + ' ' + getY(data[i].total) + ' ';
+            }
+            
+            // Area path starts at (getX(0), getY(0)), goes to end point, then to bottom-right, then bottom-left, then closes
+            var areaPathStr = totalPathStr + 
+                              'L ' + getX(data.length - 1) + ' ' + (padding.top + plotHeight) + ' ' +
+                              'L ' + getX(0) + ' ' + (padding.top + plotHeight) + ' Z';
+            
+            var areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            areaPath.setAttribute('d', areaPathStr);
+            areaPath.setAttribute('class', 'area-total');
+            svg.appendChild(areaPath);
+
+            var totalPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            totalPath.setAttribute('d', totalPathStr);
+            totalPath.setAttribute('class', 'line-total');
+            svg.appendChild(totalPath);
+
+            // 5. Draw Interactive points
+            for (var i = 0; i < data.length; i++) {
+                var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', getX(i));
+                circle.setAttribute('cy', getY(data[i].total));
+                circle.setAttribute('r', '4');
+                circle.setAttribute('class', 'chart-point');
+
+                // Closure to pass variables to event listeners
+                (function(d, index) {
+                    circle.addEventListener('mousemove', function(e) {
+                        var tooltip = document.getElementById('tooltip');
+                        tooltip.style.display = 'block';
+                        
+                        var containerRect = document.getElementById('chart-container').getBoundingClientRect();
+                        var posX = e.clientX - containerRect.left + 15;
+                        var posY = e.clientY - containerRect.top - 50;
+                        
+                        tooltip.style.left = posX + 'px';
+                        tooltip.style.top = posY + 'px';
+                        
+                        var earnings = d.total - d.principal;
+                        tooltip.innerHTML = '<div><strong>第 ' + d.year + ' 年模擬结果</strong></div>' +
+                                            '<div>本金: NT$ ' + d.principal.toLocaleString() + '</div>' +
+                                            '<div>收益: NT$ ' + earnings.toLocaleString() + '</div>' +
+                                            '<div><strong>资产總计: NT$ ' + d.total.toLocaleString() + '</strong></div>';
+                    });
+                    
+                    circle.addEventListener('mouseleave', function() {
+                        document.getElementById('tooltip').style.display = 'none';
+                    });
+                })(data[i], i);
+
+                svg.appendChild(circle);
+            }
+        }
+
+        // Initialize calculation on load
+        window.addEventListener('load', function() {
+            calculateCompounding();
+            // Replot on resize to keep responsive
+            window.addEventListener('resize', calculateCompounding);
+        });
+    </script>
+</body>
+</html>

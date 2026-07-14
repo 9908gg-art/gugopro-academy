@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高配当長期投資戦略 (Dividend Strategy) | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--accent);
+        }
+
+        .tutorial-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+        }
+
+        .tutorial-content section {
+            margin-bottom: 48px;
+            scroll-margin-top: 100px;
+        }
+
+        .tutorial-content section:last-child {
+            margin-bottom: 0;
+        }
+
+        .tutorial-content h2 {
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 12px;
+        }
+
+        .tutorial-content p {
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .formula-box {
+            background: rgba(255, 153, 0, 0.03);
+            border: 1px solid rgba(255, 153, 0, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .formula-box code {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .info-card h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .tool-link-card {
+            background: linear-gradient(135deg, rgba(255, 153, 0, 0.1) 0%, rgba(17, 20, 26, 0.95) 100%);
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .tool-link-text h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .tool-link-text p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 24px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .tool-link-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px;">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> 返回株式コース
+        </a>
+
+        <div class="section-title-container" style="margin-bottom: 16px;">
+            <h1 class="section-title"><i class="fa-solid fa-chart-line"></i> 單元二：高配当長期投資戦略 (Dividend Strategy)</h1>
+            <span class="section-subtitle">長線複利滾雪球的核心方法</span>
+        </div>
+
+        <div class="tutorial-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h4>ユニットの目次</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-seedling"></i> 1. 什麼是存股與殖利率</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-scale-balanced"></i> 2. 存股篩選三大指標</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-arrows-spin"></i> 3. 複利滾雪球與再投資</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. 實戰複利工具模擬</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Lesson Content -->
+            <div class="tutorial-content">
+                <!-- Section 1 -->
+                <section id="section-1">
+                    <h2>1. 什麼是存股與殖利率</h2>
+                    <p>
+                        <strong>存股策略 (Dividend Stock Saving)</strong> 是一種專注於取得穩定股利回報，而非短期價差波段的投資策略。
+                        它的核心邏輯類似於「在銀行存錢以換取利息」，但存股是將資金買入具有穩定獲利、且願意將盈餘大方分享給股東的企業股票。
+                    </p>
+                    <p>
+                        存股族最關注的指標就是<strong>現金股利殖利率 (Dividend Yield)</strong>，代表每投入一元，預估能分回多少現金：
+                    </p>
+                    <div class="formula-box">
+                        <span>現金殖利率公式</span><br>
+                        <code>現金殖利率 = 現金股利 / 買入股價</code>
+                    </div>
+                    <p>
+                        例如，某股票目前股價為 100 元，今年宣告發放現金股利（俗稱配息）5 元，則該股此時的現金殖利率為 5 / 100 = 5%。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2">
+                    <h2>2. 存股篩選三大指標</h2>
+                    <p>
+                        並非所有「殖利率高」的股票都適合存股。如果企業是因為一次性的變賣土地或黑天鵝爆發導致股價暴跌，其殖利率看似很高，但未來可能「賺了股息、賠了價差」。
+                        評估一個健康的存股標的，必須同時符合以下三大指標：
+                    </p>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4>殖利率 > 5%</h4>
+                            <p>合理的殖利率能對抗通貨膨脹。通常高於 5% 且長期穩定配發的企業，代表營運現金流充足。</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>盈餘分配率 50%-80%</h4>
+                            <p>盈餘分配率 (Payout Ratio) 代表公司把賺到的錢分給股東的比例。若過高 (如 100%) 代表公司完全不留資金研發；若過低代表公司小氣。</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>填息率與填息天數</h4>
+                            <p>除息後股價會下跌對應的股利金額，股價漲回除息前價格稱為「填息」。唯有成功填息，股利才是真正的利潤。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3">
+                    <h2>3. 複利滾雪球與再投資</h2>
+                    <p>
+                        存股要發揮巨大的威力，必須搭配<strong>股利再投資計劃 (DRIP - Dividend Reinvestment Plan)</strong>。
+                        當公司發放股利到您的帳戶時，如果您選擇把這筆現金「拿去消費」，這只會是「單利」增長。
+                    </p>
+                    <p>
+                        反之，如果您在拿到股利的當下，將這筆資金<strong>重新買回該股票</strong>，您的持股張數就會增加。下一年度，這些新買入的股份又會為您產生更多的新股息，這就形成了滾雪球般的「複利 (Compound Interest)」效應。
+                    </p>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4">
+                    <h2>4. 實戰複利工具模擬</h2>
+                    <p>
+                        為了讓您具體感受複利滾存的威力，我們設計了一款實戰計算機。您可以輸入不同的初始本金、每月定期定額金額以及年化殖利率，計算出 10 年、20 年後資產增長的成果。
+                    </p>
+                    
+                    <!-- Link Card -->
+                    <div class="tool-link-card">
+                        <div class="tool-link-text">
+                            <h3><i class="fa-solid fa-calculator"></i> 存股複利線上計算機</h3>
+                            <p>輸入您的月存股計畫，即時繪製資產滾存成長曲線。</p>
+                        </div>
+                        <a href="../tools/compound-interest.html" class="module-btn" style="width: auto; flex-shrink: 0;">
+                            開啟計算機 <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Amazon Affiliate Section -->
+        <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+            <div class="card-header-flex">
+                <h2>
+                    <i class="fa-brands fa-amazon"></i> 🛒 本學程推薦閱讀：價值投資與長期存股指南
+                </h2>
+                <span class="badge-promo">厳選された書籍</span>
+            </div>
+            <p class="amazon-desc">
+                存股是一場耐力賽，穩健的心理素質與正確的選股眼光至關重要。以下是精選的價值投資與長期存股必讀圖書：
+            </p>
+            <div class="amz-grid">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <strong>聰明的投資人</strong>
+                    </div>
+                    <p>
+                        價值投資之父班傑明·葛拉漢經典著作，奠定了安全邊際、市場先生等長線投資的核心基石。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/0470128771?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <strong>巴菲特寫給股東的信</strong>
+                    </div>
+                    <p>
+                        集結巴菲特數十年的投資精華，深入淺出地解讀如何挑選具有持久護城河與優質團隊的標的。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/0062856561?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <strong>致富心態 (Psychology of Money)</strong>
+                    </div>
+                    <p>
+                        Morgan Housel 著作，探討人與錢的關係，幫助您在漫長的存股投資旅程中保持正確的財務觀念與耐心。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/0471380962?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <strong>非常潛力股 (Common Stocks)</strong>
+                    </div>
+                    <p>
+                        Philip Fisher 經典，巴菲特自稱有15%繼承了費雪。介紹如何挑選具有高成長潛力的偉大公司。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/1119800064?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <strong>量化價值投資指南</strong>
+                    </div>
+                    <p>
+                        介紹如何利用客觀的數據與公式篩選價值股，排除感性干擾，實現機械化的長期資產配置。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+
+                <!-- Book 6 -->
+                <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
+                    <div class="amz-title-flex">
+                        <div class="amz-icon-box">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <strong>原則 (Principles)</strong>
+                    </div>
+                    <p>
+                        雷·達里歐的思考精華，指引讀者如何通過理性與客觀建立自我原則，並對應至生活與投資管理。
+                    </p>
+                    <div class="amz-action-text">
+                        Amazonで購入 ➡️
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">啟盟階段</a>
+            <a href="index.html">株式コース</a>
+            <a href="../futures/index.html">先物コース</a>
+            <a href="../quant/index.html">クオンツコース</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責事項：当サイトの全ての教育内容は学術研究および教育の参考用であり、投資アドバイスを構成するものではありません。取引には高いリスクが伴いますので、慎重に評価してください。</p>
+    </footer>
+
+    <script src="../app.js"></script>
+    <script>
+        // Simple scrollspy to highlight active sidebar menu item
+        window.addEventListener('DOMContentLoaded', function() {
+            var sections = document.querySelectorAll('.tutorial-content section');
+            var menuLinks = document.querySelectorAll('.sidebar-menu a');
+            
+            window.addEventListener('scroll', function() {
+                var current = '';
+                sections.forEach(function(section) {
+                    var sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 120) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                menuLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
