@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>高殖利率複利計算機 | GugoPro 財經教學學院</title>
+    <title>高殖利率複利與退休規劃計算機 | GugoPro 財經教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -11,7 +11,7 @@
     <style>
         .tool-container {
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 380px 1fr;
             gap: 32px;
             margin-top: 32px;
         }
@@ -24,8 +24,44 @@
             height: fit-content;
         }
 
+        /* Tabs styling */
+        .calculator-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 6px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #000;
+        }
+
         .input-group {
             margin-bottom: 20px;
+            transition: opacity 0.3s ease, display 0.3s ease;
         }
 
         .input-group label {
@@ -71,6 +107,31 @@
             gap: 24px;
         }
 
+        /* Large calculated answer box */
+        .answer-box {
+            background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            display: none;
+        }
+
+        .answer-box span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .answer-box strong {
+            display: block;
+            font-size: 2.2rem;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(255, 153, 0, 0.25);
+            font-weight: 800;
+        }
+
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -110,14 +171,13 @@
 
         .summary-card strong {
             display: block;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--text-primary);
             font-weight: 700;
         }
 
         .summary-card.accent-card strong {
             color: var(--accent);
-            text-shadow: 0 0 10px rgba(255, 153, 0, 0.2);
         }
 
         .chart-card {
@@ -213,7 +273,6 @@
             r: 7px;
         }
 
-        /* Tooltip style */
         .chart-tooltip {
             position: absolute;
             background: rgba(17, 20, 26, 0.95);
@@ -296,10 +355,10 @@
     <!-- Hero Section -->
     <section class="hero" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%); border-bottom: 1px solid rgba(255, 153, 0, 0.15); padding: 40px 0;">
         <div class="hero-badge">
-            <i class="fa-solid fa-calculator"></i> 實戰互動工具 ‧ 存股複利模擬
+            <i class="fa-solid fa-calculator"></i> 實戰互動工具 ‧ 雙向理財規劃
         </div>
-        <h1>高殖利率存股複利計算機</h1>
-        <p>這款工具能幫助您模擬高殖利率存股與股息再投資（Compound Interest）的長線滾雪球效應。輸入您的資金規劃，即時預估未來的資產成長曲線。</p>
+        <h1>進階複利與退休目標規劃計算機</h1>
+        <p>除了累積本金模擬，本工具支援「雙向逆推功能」。輸入您的退休金目標與預計達成年限，倒推您需要的「年化報酬率」、「每月存股金額」或「需要花費的年限」，為您量身打造理財路徑。</p>
     </section>
 
     <!-- Tool Area -->
@@ -309,21 +368,39 @@
         </a>
 
         <div class="tool-container">
-            <!-- Left panel: Parameters input -->
+            <!-- Left panel: Parameters & Tab Switcher -->
             <div class="tool-panel">
-                <h3 style="margin-top:0; margin-bottom:20px; font-size:1.1rem;"><i class="fa-solid fa-sliders"></i> 參數設定</h3>
+                <h3 style="margin-top:0; margin-bottom:16px; font-size:1.1rem;"><i class="fa-solid fa-sliders"></i> 計算模式</h3>
                 
-                <!-- Initial Capital -->
-                <div class="input-group">
+                <div class="calculator-tabs">
+                    <button class="tab-btn active" id="tab-forward" onclick="switchMode('forward')">累積模擬</button>
+                    <button class="tab-btn" id="tab-rate" onclick="switchMode('rate')">倒推報酬率</button>
+                    <button class="tab-btn" id="tab-years" onclick="switchMode('years')">倒推年限</button>
+                    <button class="tab-btn" id="tab-monthly" onclick="switchMode('monthly')">倒推存股額</button>
+                </div>
+
+                <!-- Parameters list -->
+                
+                <!-- Target Amount (For Back Calculations) -->
+                <div class="input-group" id="group-target" style="display: none;">
+                    <label for="target-amount">目標退休金 (元)</label>
+                    <div class="input-field-wrapper">
+                        <input type="number" id="target-amount" value="5000000" min="0" step="100000" oninput="calculateCompounding()">
+                    </div>
+                    <input type="range" id="target-range" min="100000" max="30000000" step="100000" value="5000000" class="input-range" oninput="syncInputs('target')">
+                </div>
+
+                <!-- Initial Capital (All modes) -->
+                <div class="input-group" id="group-initial">
                     <label for="initial-principal">初始資金 (元)</label>
                     <div class="input-field-wrapper">
                         <input type="number" id="initial-principal" value="100000" min="0" step="10000" oninput="calculateCompounding()">
                     </div>
-                    <input type="range" id="initial-range" min="0" max="1000000" step="10000" value="100000" class="input-range" oninput="syncInputs('initial')">
+                    <input type="range" id="initial-range" min="0" max="2000000" step="10000" value="100000" class="input-range" oninput="syncInputs('initial')">
                 </div>
 
-                <!-- Monthly Contribution -->
-                <div class="input-group">
+                <!-- Monthly Deposit (Forward, Rate, Years) -->
+                <div class="input-group" id="group-monthly">
                     <label for="monthly-deposit">每月固定投入 (元)</label>
                     <div class="input-field-wrapper">
                         <input type="number" id="monthly-deposit" value="10000" min="0" step="1000" oninput="calculateCompounding()">
@@ -331,17 +408,17 @@
                     <input type="range" id="monthly-range" min="0" max="100000" step="1000" value="10000" class="input-range" oninput="syncInputs('monthly')">
                 </div>
 
-                <!-- Annual Yield -->
-                <div class="input-group">
+                <!-- Annual Yield (Forward, Years, Monthly) -->
+                <div class="input-group" id="group-yield">
                     <label for="annual-yield">年化報酬率/殖利率 (%)</label>
                     <div class="input-field-wrapper">
-                        <input type="number" id="annual-yield" value="6" min="0" max="30" step="0.5" oninput="calculateCompounding()">
+                        <input type="number" id="annual-yield" value="6" min="0.1" max="50" step="0.5" oninput="calculateCompounding()">
                     </div>
                     <input type="range" id="yield-range" min="1" max="25" step="0.5" value="6" class="input-range" oninput="syncInputs('yield')">
                 </div>
 
-                <!-- Years -->
-                <div class="input-group">
+                <!-- Years (Forward, Rate, Monthly) -->
+                <div class="input-group" id="group-years">
                     <label for="investment-years">投資年限 (年)</label>
                     <div class="input-field-wrapper">
                         <input type="number" id="investment-years" value="20" min="1" max="40" step="1" oninput="calculateCompounding()">
@@ -352,17 +429,23 @@
 
             <!-- Right panel: Results and Curve -->
             <div class="results-panel">
+                <!-- Highlight Answer Box for Back Calculations -->
+                <div class="answer-box" id="calculated-answer-box">
+                    <span id="answer-title">您需要的年化報酬率為</span>
+                    <strong id="answer-value">6.50%</strong>
+                </div>
+
                 <!-- Summary cards -->
                 <div class="summary-cards">
-                    <div class="summary-card">
+                    <div class="summary-card" id="card-principal-box">
                         <span>總投入本金</span>
                         <strong id="stat-principal">NT$ 2,500,000</strong>
                     </div>
-                    <div class="summary-card">
+                    <div class="summary-card" id="card-earnings-box">
                         <span>累積複利收益</span>
                         <strong id="stat-earnings" style="color: #2196f3;">NT$ 2,110,381</strong>
                     </div>
-                    <div class="summary-card accent-card">
+                    <div class="summary-card accent-card" id="card-total-box">
                         <span>最終資產總值</span>
                         <strong id="stat-total">NT$ 4,610,381</strong>
                     </div>
@@ -371,7 +454,7 @@
                 <!-- Chart Card -->
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3>資產成長曲線 (年)</h3>
+                        <h3 id="chart-title-text">資產成長曲線 (年)</h3>
                         <div class="chart-legend">
                             <div class="legend-item">
                                 <div class="legend-color" style="background:#757575;"></div>
@@ -392,12 +475,13 @@
             </div>
         </div>
 
-        <!-- Educational Note and links -->
+        <!-- Educational Note -->
         <div class="card" style="margin-top: 32px;">
-            <h3><i class="fa-solid fa-circle-info"></i> 複利滾雪球小知識</h3>
+            <h3><i class="fa-solid fa-circle-info"></i> 退休規劃逆推心法</h3>
             <p>
-                愛因斯坦曾說：「複利是世界第八大奇蹟。」本計算機預設以「按年滾存、股息全數再投資」進行模擬。
-                從圖表中您可以發現，在投資前期（約前 5 - 8 年），累積本金與總資產差距並不明顯；但隨著時間拉長，複利效益產生的「黃金剪刀差」會越拉越開，這也是長期存股投資者的利潤來源。
+                在設定理財目標時，使用「倒推」能讓目標更具體：
+                例如，如果您希望在 15 年內存到 1000 萬，而目前手頭有 50 萬且每月能存 3 萬。利用<strong>「倒推報酬率」</strong>，您會發現您需要年化 7.2% 的回報。
+                此時，一般的定存或高股息 ETF（約 5%-6%）可能稍嫌不足，您就需要搭配約 15% 的個股配置，或學習進階的「配對交易策略」來提高回報率。
             </p>
             <div style="margin-top: 20px;">
                 <a href="../stocks/dividend-strategy.html" class="module-btn" style="display: inline-flex; width: auto;">
@@ -422,7 +506,31 @@
 
     <script src="../app.js"></script>
     <script>
-        // Sync sliders with inputs
+        var currentMode = 'forward'; // 'forward', 'rate', 'years', 'monthly'
+
+        // Switch active tab and adjust input fields visibility
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Toggle active classes on tab buttons
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.getElementById('tab-' + mode).classList.add('active');
+
+            // Hide/Show inputs dynamically
+            document.getElementById('group-target').style.display = (mode === 'forward') ? 'none' : 'block';
+            document.getElementById('group-monthly').style.display = (mode === 'monthly') ? 'none' : 'block';
+            document.getElementById('group-yield').style.display = (mode === 'rate') ? 'none' : 'block';
+            document.getElementById('group-years').style.display = (mode === 'years') ? 'none' : 'block';
+
+            // Show/Hide calculated answer box
+            document.getElementById('calculated-answer-box').style.display = (mode === 'forward') ? 'none' : 'block';
+
+            calculateCompounding();
+        }
+
+        // Sync range slider with text input
         function syncInputs(type) {
             if (type === 'initial') {
                 document.getElementById('initial-principal').value = document.getElementById('initial-range').value;
@@ -432,63 +540,241 @@
                 document.getElementById('annual-yield').value = document.getElementById('yield-range').value;
             } else if (type === 'years') {
                 document.getElementById('investment-years').value = document.getElementById('years-range').value;
+            } else if (type === 'target') {
+                document.getElementById('target-amount').value = document.getElementById('target-range').value;
             }
             calculateCompounding();
         }
 
-        // Main compounding logic and custom SVG graph plotting
+        // Main calculation entry point
         function calculateCompounding() {
             var initialPrincipal = parseFloat(document.getElementById('initial-principal').value) || 0;
             var monthlyDeposit = parseFloat(document.getElementById('monthly-deposit').value) || 0;
             var annualRate = (parseFloat(document.getElementById('annual-yield').value) || 0) / 100;
             var totalYears = parseInt(document.getElementById('investment-years').value) || 10;
+            var targetAmount = parseFloat(document.getElementById('target-amount').value) || 1000000;
 
-            // Sync ranges
+            // Update range values
             document.getElementById('initial-range').value = initialPrincipal;
-            document.getElementById('monthly-range').value = monthlyDeposit;
-            document.getElementById('yield-range').value = annualRate * 100;
-            document.getElementById('years-range').value = totalYears;
+            document.getElementById('target-range').value = targetAmount;
+            if (currentMode !== 'monthly') document.getElementById('monthly-range').value = monthlyDeposit;
+            if (currentMode !== 'rate') document.getElementById('yield-range').value = annualRate * 100;
+            if (currentMode !== 'years') document.getElementById('years-range').value = totalYears;
 
             var yearlyData = [];
-            var currentTotal = initialPrincipal;
-            var currentPrincipal = initialPrincipal;
+            var finalTotal = 0;
+            var finalPrincipal = 0;
 
-            // Year 0
-            yearlyData.push({
+            if (currentMode === 'forward') {
+                // Forward Compound Mode
+                yearlyData = simulateGrowth(initialPrincipal, monthlyDeposit, annualRate, totalYears);
+                var lastYear = yearlyData[yearlyData.length - 1];
+                finalTotal = lastYear.total;
+                finalPrincipal = lastYear.principal;
+            } 
+            else if (currentMode === 'rate') {
+                // 1. Back-calculate Return Rate
+                var requiredRate = solveForRate(targetAmount, initialPrincipal, monthlyDeposit, totalYears);
+                document.getElementById('answer-title').innerText = "您需要的年化報酬率為";
+                if (requiredRate > 2.0) {
+                    document.getElementById('answer-value').innerText = (requiredRate * 100).toFixed(2) + "%";
+                    // Plot growth chart with this calculated rate
+                    yearlyData = simulateGrowth(initialPrincipal, monthlyDeposit, requiredRate, totalYears);
+                } else {
+                    document.getElementById('answer-value').innerText = "已達成目標或無法計算";
+                    yearlyData = simulateGrowth(initialPrincipal, monthlyDeposit, 0.01, totalYears);
+                }
+                var lastYear = yearlyData[yearlyData.length - 1];
+                finalTotal = lastYear.total;
+                finalPrincipal = lastYear.principal;
+            } 
+            else if (currentMode === 'years') {
+                // 2. Back-calculate Years
+                var result = solveForYears(targetAmount, initialPrincipal, monthlyDeposit, annualRate);
+                document.getElementById('answer-title').innerText = "您預計需要";
+                
+                if (result.months > 0) {
+                    var yText = Math.floor(result.months / 12);
+                    var mText = result.months % 12;
+                    document.getElementById('answer-value').innerText = yText + " 年 " + mText + " 個月";
+                    // Plot growth curve up to that year
+                    yearlyData = result.yearlyData;
+                } else {
+                    document.getElementById('answer-value').innerText = "已達成目標！";
+                    yearlyData = simulateGrowth(initialPrincipal, monthlyDeposit, annualRate, 1);
+                }
+                var lastYear = yearlyData[yearlyData.length - 1];
+                finalTotal = lastYear.total;
+                finalPrincipal = lastYear.principal;
+            } 
+            else if (currentMode === 'monthly') {
+                // 3. Back-calculate Monthly Saving
+                var requiredMonthly = solveForMonthly(targetAmount, initialPrincipal, annualRate, totalYears);
+                document.getElementById('answer-title').innerText = "您每月需要固定投入";
+                if (requiredMonthly > 0) {
+                    document.getElementById('answer-value').innerText = "NT$ " + Math.round(requiredMonthly).toLocaleString();
+                    yearlyData = simulateGrowth(initialPrincipal, requiredMonthly, annualRate, totalYears);
+                } else {
+                    document.getElementById('answer-value').innerText = "無需投入，本金利息已足夠";
+                    yearlyData = simulateGrowth(initialPrincipal, 0, annualRate, totalYears);
+                }
+                var lastYear = yearlyData[yearlyData.length - 1];
+                finalTotal = lastYear.total;
+                finalPrincipal = lastYear.principal;
+            }
+
+            // Update stats text
+            document.getElementById('stat-principal').innerText = 'NT$ ' + finalPrincipal.toLocaleString();
+            document.getElementById('stat-earnings').innerText = 'NT$ ' + (finalTotal - finalPrincipal).toLocaleString();
+            document.getElementById('stat-total').innerText = 'NT$ ' + finalTotal.toLocaleString();
+
+            plotSVGChart(yearlyData);
+        }
+
+        // Simulates compound interest growth month-by-month and compiles into yearly milestones
+        function simulateGrowth(initial, monthly, rate, years) {
+            var data = [];
+            var currentTotal = initial;
+            var currentPrincipal = initial;
+
+            data.push({
                 year: 0,
-                principal: currentPrincipal,
-                total: currentTotal
+                principal: Math.round(currentPrincipal),
+                total: Math.round(currentTotal)
             });
 
-            for (var y = 1; y <= totalYears; y++) {
-                // Monthly deposit added, compounding at the end of each month
+            for (var y = 1; y <= years; y++) {
                 for (var m = 0; m < 12; m++) {
-                    currentTotal += monthlyDeposit;
-                    currentTotal *= (1 + annualRate / 12);
-                    currentPrincipal += monthlyDeposit;
+                    currentTotal += monthly;
+                    currentTotal *= (1 + rate / 12);
+                    currentPrincipal += monthly;
                 }
-                yearlyData.push({
+                data.push({
                     year: y,
                     principal: Math.round(currentPrincipal),
                     total: Math.round(currentTotal)
                 });
             }
-
-            // Update stats text
-            var lastYear = yearlyData[yearlyData.length - 1];
-            document.getElementById('stat-principal').innerText = 'NT$ ' + lastYear.principal.toLocaleString();
-            document.getElementById('stat-earnings').innerText = 'NT$ ' + (lastYear.total - lastYear.principal).toLocaleString();
-            document.getElementById('stat-total').innerText = 'NT$ ' + lastYear.total.toLocaleString();
-
-            plotSVGChart(yearlyData);
+            return data;
         }
 
-        // Beautiful SVG plotter
+        // Solver 1: Binary Search to solve for Rate (Target amount, Initial, Monthly, Years)
+        function solveForRate(target, initial, monthly, years) {
+            if (initial >= target) return 0;
+            var low = 0.0;
+            var high = 3.0; // max rate 300%
+            var ans = 0;
+
+            for (var i = 0; i < 40; i++) {
+                var mid = (low + high) / 2;
+                var currentTotal = initial;
+                for (var y = 0; y < years; y++) {
+                    for (var m = 0; m < 12; m++) {
+                        currentTotal += monthly;
+                        currentTotal *= (1 + mid / 12);
+                    }
+                }
+                if (currentTotal >= target) {
+                    ans = mid;
+                    high = mid;
+                } else {
+                    low = mid;
+                }
+            }
+            return ans;
+        }
+
+        // Solver 2: Calculate Years by looping month-by-month
+        function solveForYears(target, initial, monthly, rate) {
+            var currentTotal = initial;
+            var currentPrincipal = initial;
+            var months = 0;
+            var yearlyData = [];
+            
+            yearlyData.push({
+                year: 0,
+                principal: Math.round(currentPrincipal),
+                total: Math.round(currentTotal)
+            });
+
+            if (currentTotal >= target) {
+                return { months: 0, yearlyData: yearlyData };
+            }
+
+            // Cap at 45 years to prevent infinite loops
+            var maxMonths = 45 * 12;
+            
+            while (currentTotal < target && months < maxMonths) {
+                months++;
+                currentTotal += monthly;
+                currentTotal *= (1 + rate / 12);
+                currentPrincipal += monthly;
+
+                // Push yearly milestone
+                if (months % 12 === 0) {
+                    yearlyData.push({
+                        year: months / 12,
+                        principal: Math.round(currentPrincipal),
+                        total: Math.round(currentTotal)
+                    });
+                }
+            }
+
+            // If ended mid-year, push the final month as the last milestone
+            if (months % 12 !== 0) {
+                yearlyData.push({
+                    year: parseFloat((months / 12).toFixed(1)),
+                    principal: Math.round(currentPrincipal),
+                    total: Math.round(currentTotal)
+                });
+            }
+
+            return {
+                months: months,
+                yearlyData: yearlyData
+            };
+        }
+
+        // Solver 3: Binary Search for Monthly Contribution
+        function solveForMonthly(target, initial, rate, years) {
+            // Check if initial grows to target by itself
+            var currentTotal = initial;
+            for (var y = 0; y < years; y++) {
+                for (var m = 0; m < 12; m++) {
+                    currentTotal *= (1 + rate / 12);
+                }
+            }
+            if (currentTotal >= target) return 0;
+
+            var low = 0;
+            var high = target;
+            var ans = 0;
+
+            for (var i = 0; i < 40; i++) {
+                var mid = (low + high) / 2;
+                var testTotal = initial;
+                for (var y = 0; y < years; y++) {
+                    for (var m = 0; m < 12; m++) {
+                        testTotal += mid;
+                        testTotal *= (1 + rate / 12);
+                    }
+                }
+                if (testTotal >= target) {
+                    ans = mid;
+                    high = mid;
+                } else {
+                    low = mid;
+                }
+            }
+            return ans;
+        }
+
+        // Custom SVG plotting logic
         function plotSVGChart(data) {
             var svg = document.getElementById('svg-chart');
-            svg.innerHTML = ''; // Clear existing
+            svg.innerHTML = ''; // Clear existing content
 
-            // Add linear gradient definition
+            // Add gradient definition
             var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
             var grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
             grad.setAttribute('id', 'chart-gradient');
@@ -514,14 +800,18 @@
 
             var width = svg.clientWidth || 600;
             var height = svg.clientHeight || 320;
-            var padding = { top: 20, right: 20, bottom: 40, left: 70 };
+            var padding = { top: 20, right: 20, bottom: 40, left: 75 };
 
             var plotWidth = width - padding.left - padding.right;
             var plotHeight = height - padding.top - padding.bottom;
 
             var maxVal = Math.max.apply(Math, data.map(function(d) { return d.total; })) * 1.1;
+            // Ensure target line fits if visible
+            if (currentMode !== 'forward') {
+                var targetAmount = parseFloat(document.getElementById('target-amount').value) || 0;
+                if (targetAmount > maxVal) maxVal = targetAmount * 1.1;
+            }
 
-            // X and Y scaler helper functions
             var getX = function(index) {
                 return padding.left + (index / (data.length - 1)) * plotWidth;
             };
@@ -551,7 +841,6 @@
                 label.setAttribute('text-anchor', 'end');
                 label.setAttribute('class', 'axis-label');
                 
-                // Format large values
                 var labelText = '';
                 if (val >= 1000000) {
                     labelText = (val / 1000000).toFixed(1) + 'M';
@@ -564,7 +853,33 @@
                 svg.appendChild(label);
             }
 
-            // 2. Draw X-axis year labels (show every few years depending on length)
+            // 2. Draw Target amount line if not in forward mode
+            if (currentMode !== 'forward') {
+                var targetAmount = parseFloat(document.getElementById('target-amount').value) || 0;
+                var targetY = getY(targetAmount);
+
+                var targetLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                targetLine.setAttribute('x1', padding.left);
+                targetLine.setAttribute('y1', targetY);
+                targetLine.setAttribute('x2', width - padding.right);
+                targetLine.setAttribute('y2', targetY);
+                targetLine.setAttribute('stroke', '#f44336');
+                targetLine.setAttribute('stroke-width', '1.5px');
+                targetLine.setAttribute('stroke-dasharray', '5 3');
+                svg.appendChild(targetLine);
+
+                var targetText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                targetText.setAttribute('x', width - padding.right - 5);
+                targetText.setAttribute('y', targetY - 6);
+                targetText.setAttribute('text-anchor', 'end');
+                targetText.setAttribute('fill', '#f44336');
+                targetText.setAttribute('font-size', '0.75rem');
+                targetText.setAttribute('font-weight', '600');
+                targetText.textContent = '目標金額: NT$ ' + targetAmount.toLocaleString();
+                svg.appendChild(targetText);
+            }
+
+            // 3. Draw X-axis labels
             var step = Math.ceil(data.length / 10);
             for (var i = 0; i < data.length; i += step) {
                 var x = getX(i);
@@ -576,8 +891,6 @@
                 label.textContent = 'Yr ' + data[i].year;
                 svg.appendChild(label);
             }
-
-            // Also draw last year label if not already drawn
             if ((data.length - 1) % step !== 0) {
                 var x = getX(data.length - 1);
                 var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -589,7 +902,7 @@
                 svg.appendChild(label);
             }
 
-            // 3. Draw Principal path (grey line)
+            // 4. Draw Principal path
             var principalPathStr = '';
             for (var i = 0; i < data.length; i++) {
                 var prefix = (i === 0) ? 'M' : 'L';
@@ -600,14 +913,13 @@
             principalPath.setAttribute('class', 'line-principal');
             svg.appendChild(principalPath);
 
-            // 4. Draw Total path (orange line + area)
+            // 5. Draw Total path + gradient area
             var totalPathStr = '';
             for (var i = 0; i < data.length; i++) {
                 var prefix = (i === 0) ? 'M' : 'L';
                 totalPathStr += prefix + ' ' + getX(i) + ' ' + getY(data[i].total) + ' ';
             }
             
-            // Area path starts at (getX(0), getY(0)), goes to end point, then to bottom-right, then bottom-left, then closes
             var areaPathStr = totalPathStr + 
                               'L ' + getX(data.length - 1) + ' ' + (padding.top + plotHeight) + ' ' +
                               'L ' + getX(0) + ' ' + (padding.top + plotHeight) + ' Z';
@@ -622,7 +934,7 @@
             totalPath.setAttribute('class', 'line-total');
             svg.appendChild(totalPath);
 
-            // 5. Draw Interactive points
+            // 6. Interactive points
             for (var i = 0; i < data.length; i++) {
                 var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', getX(i));
@@ -630,8 +942,7 @@
                 circle.setAttribute('r', '4');
                 circle.setAttribute('class', 'chart-point');
 
-                // Closure to pass variables to event listeners
-                (function(d, index) {
+                (function(d) {
                     circle.addEventListener('mousemove', function(e) {
                         var tooltip = document.getElementById('tooltip');
                         tooltip.style.display = 'block';
@@ -653,16 +964,15 @@
                     circle.addEventListener('mouseleave', function() {
                         document.getElementById('tooltip').style.display = 'none';
                     });
-                })(data[i], i);
+                })(data[i]);
 
                 svg.appendChild(circle);
             }
         }
 
-        // Initialize calculation on load
+        // Initialize calculator on page load
         window.addEventListener('load', function() {
             calculateCompounding();
-            // Replot on resize to keep responsive
             window.addEventListener('resize', calculateCompounding);
         });
     </script>
