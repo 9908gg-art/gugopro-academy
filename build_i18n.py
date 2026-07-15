@@ -196,7 +196,7 @@ TRANSLATIONS = {
         "深入心態鍛鍊的難關。解讀散戶在實戰中最容易犯下的三大禁忌：過度交易、凹單不認賠、盲目跟單。學習如何培養客觀的「贏家機率思維」，克服貪婪與恐懼。": "Deep dive into trading psychology. Learn to avoid overtrading, holding losing positions, and blindly copying others. Develop a probability mindset.",
         "單元 1.3": "Module 1.3",
         "風險控制與資金管理": "Risk Control & Capital Management",
-        "學習交易員的生存關鍵：風控。介紹單筆交易停損比率限制（如 2% 規則）、部位大小計算公式、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "Learn the most critical survival skill: Risk Control. Master the 2% stop-loss limit, position sizing formulas, Kelly criterion, and macro exposure management.",
+        "學習交易員的生存關鍵：風控。介紹技術點位停損、依商品波動度調整部位、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "Learn the most critical survival skill: Risk Control. Master technical stop-losses, volatility-based sizing, Kelly criterion, and macro exposure management.",
         "本學程推薦閱讀：交易心態與風險管理經典": "Recommended: Trading Mindsets & Risk Management Classics",
         
         # Level 2 Landing overrides
@@ -532,7 +532,7 @@ TRANSLATIONS = {
         "深入心態鍛鍊的難關。解讀散戶在實戰中最容易犯下的三大禁忌：過度交易、凹單不認賠、盲目跟單。學習如何培養客觀的「贏家機率思維」，克服貪婪與恐懼。": "トレード心理の難関。過剰取引、ロスカット拒否、コピートレードの3大タブーを回避。確率的思考を養います。",
         "單元 1.3": "ユニット 1.3",
         "風險控制與資金管理": "リスク管理と資金管理",
-        "學習交易員的生存關鍵：風控。介紹單筆交易停損比率限制（如 2% 規則）、部位大小計算公式、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "最大サバイバルスキル：リスク管理。2%ストップ、ポジションサイジング、ケリー基準、マクロ露出管理を習得。",
+        "學習交易員的生存關鍵：風控。介紹技術點位停損、依商品波動度調整部位、凱利公式基本概念，以及如何管理多帳戶的多空總曝險暴露度。": "最大サバイバルスキル：リスク管理。技術的ストップ、ボラティリティ調整サイズ、ケリー基準、マクロ露出管理を習得。",
         "本學程推薦閱讀：交易心態與風險管理經典": "推奨書籍：マインドとリスク管理の名著",
         
         # Level 2 Landing overrides
