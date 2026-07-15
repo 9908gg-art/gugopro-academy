@@ -80,6 +80,7 @@ TRANSLATIONS = {
         "傳奇大師交易心法": "Legendary Traders",
         "實戰工具 / Tools": "Trading Tools",
         "高殖利率複利計算機": "Dividend Compounding Calculator",
+        "支撐壓力與風報比計算機": "Support/Resistance & R:R Calculator",
         "大師選股篩選器 (Coming Soon)": "Master Stock Screener (Coming Soon)",
         "Z-Score 價差分析儀 (Coming Soon)": "Z-Score Spread Analyzer (Coming Soon)",
         "本工具正在開發中，敬請期待！": "This tool is under development, coming soon!",
@@ -412,6 +413,7 @@ TRANSLATIONS = {
         "傳奇大師交易心法": "伝説のトレーダー手法",
         "實戰工具 / Tools": "実戦ツール",
         "高殖利率複利計算機": "高配当複利計算機",
+        "支撐壓力與風報比計算機": "サポレジ＆リスクリワード計算機",
         "大師選股篩選器 (Coming Soon)": "大師の銘柄スクリーナー (準備中)",
         "Z-Score 價差分析儀 (Coming Soon)": "Zスコア・スプレッド分析器 (準備中)",
         "本工具正在開發中，敬請期待！": "このツールは開発中です。しばらくお待ちください！",
@@ -796,7 +798,8 @@ TRANSLATIONS['ko'].update({
     "返回學院地圖": "학습 지도로 돌아가기",
     "返回量化學程": "양적 과정으로 돌아가기",
     "返回期貨學程": "선물 과정으로 돌아가기",
-    "即將推出": "출시 예정"
+    "即將推出": "출시 예정",
+    "支撐壓力與風報比計算機": "지지저항 및 손익비 계산기"
 })
 
 # Add Spanish UI translations
@@ -840,7 +843,8 @@ TRANSLATIONS['es'].update({
     "返回學院地圖": "Volver al Mapa",
     "返回量化學程": "Volver al Curso Quant",
     "返回期貨學程": "Volver al Curso Futuros",
-    "即將推出": "Próximamente"
+    "即將推出": "Próximamente",
+    "支撐壓力與風報比計算機": "Calculadora de Soporte/Resistencia y R:R"
 })
 
 # Add Vietnamese UI translations
@@ -884,7 +888,8 @@ TRANSLATIONS['vi'].update({
     "返回學院地圖": "Trở lại Bản đồ",
     "返回量化學程": "Trở lại Khóa Quant",
     "返回期貨學程": "Trở lại Khóa Tương lai",
-    "即將推出": "Sắp ra mắt"
+    "即將推出": "Sắp ra mắt",
+    "支撐壓力與風報比計算機": "Công cụ tính Kháng cự/Hỗ trợ và R:R"
 })
 
 def build_translated_pages():
