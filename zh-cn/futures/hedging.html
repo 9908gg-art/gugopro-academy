@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3.3: 跨市场对沖与风险平衡 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">大师选股篩选器 (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">Z-Score 价差分析儀 (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>期货学程单元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">期货学程首页</a></li>
+                    <li><a href="futures-basics.html">3.1 期货合约与保证金運作</a></li>
+                    <li><a href="spread-trading.html">3.2 价差与跨期套利实務</a></li>
+                    <li><a href="hedging.html" class="active">3.3 跨市场对沖与风险平衡</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回期货学程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 3.3</span>
+                    <h1>跨市场对沖与投资組合风险平衡</h1>
+                    <p class="lead">
+                        如何在大盤暴跌时保護您的現货资产？本单元将教授 Beta 对沖原理，以及利用股价指數期货鎖定利潤、规避系统性风险的機构級风控技术。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 什麼是对沖 (Hedging)？</h2>
+                    <p>
+                        **对沖（避险）**是指：**在持有一筆资产（如股票現货多头）的同时，建立一筆反方向或負相關的部位（如期货空头），以抵消全部或部分的价格波動风险**。
+                    </p>
+                    <p>
+                        对沖的目的不在於賺取超額暴利，而是在市场前景不明朗或面臨系统性危機时，**「鎖定利潤、限制最大下行风险」**。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. Beta 对沖原理与合约數量计算</h2>
+                    <p>
+                        不同股票对於大盤的敏感度並不相同，我们用 **貝他係數 (Beta, $\beta$)** 來衡量。例如某档科技股的 $\beta = 1.5$，代表大盤上漲或下跌 1% 时，該個股預期會波動 1.5%。
+                    </p>
+                    <p>
+                        當您持有一筆股票組合，並希望利用指數期货（如台指期、标普 500 E-mini 期货）來进行完全对沖时，需要放空的期货合约數量计算公式如下：
+                    </p>
+                    <div class="formula-box">
+                        $$对沖合约數量 = \frac{股票組合總价值 \times 組合加權 \beta}{期货指數价格 \times 合约乘數}$$
+                    </div>
+                    <h3>💡 实战计算範例：</h3>
+                    <ul>
+                        <li><strong>股票組合總价值</strong>：$1,000,000 美元</li>
+                        <li><strong>組合加權 Beta ($\beta$)</strong>：1.2</li>
+                        <li><strong>标普 500 指數期货价格</strong>：$4,000 美元</li>
+                        <li><strong>合约乘數</strong>：$50 美元 / 点 (每口合约總价值為 $4000 \times 50 = $200,000 美元)</li>
+                        <li><strong>计算结果</strong>：您應該賣出空单 $\frac{1000000 \times 1.2}{200000} = $ **6 口合约**。</li>
+                    </ul>
+                    <p>
+                        當市场大盤暴跌 10% 时，您的股票組合預期會下跌 12%（损失 $120,000 美元）；但与此同时，您的期货空头部位會獲利约 $120,000 美元。兩者相互抵消，将您的资产淨值成功鎖定！
+                    </p>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 跨市场对沖与宏觀资产平衡</h2>
+                    <p>
+                        除了股指期货外，宏觀对沖還包含了 **跨商品与跨市场的风险平衡**：
+                    </p>
+                    <ul>
+                        <li><strong>通膨对沖</strong>：在持有紙幣或債券资产的同时，利用黄金期货、原油期货对沖惡性通膨导致的货幣购买力貶值风险。</li>
+                        <li><strong>匯率对沖</strong>：當您持有大量海外股票現货时，為防範非美货幣大跌产生的匯损，在期货市场建立对應的外匯期货空头头寸（如放空歐元期货、日圓期货）。</li>
+                    </ul>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推荐学習书籍：对沖基金风控与资产配置</h2>
+                    </div>
+                    <p class="amazon-desc">学習专业機构如何构建多元化资产，规避尾端风险 (Tail Risk)：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
+                                <strong>期權与其他衍生性商品</strong>
+                            </div>
+                            <p>John C. Hull 著。深入解析期權 delta、gamma 对沖避险策略，以及動态风险对沖的極限与防範。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-calculator"></i></div>
+                                <strong>资产管理与演算法交易</strong>
+                            </div>
+                            <p>Ernie Chan 著。指导量化交易員如何在包含多種高杠杆标的的投资組合中，利用數学公式计算相關係數並进行最優风险配平。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟盟阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+            <a href="../privacy-policy.html">隱私權政策</a>
+            <a href="../terms-of-service.html">免责声明与使用條款</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

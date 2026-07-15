@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1.3: Risk Control & Capital Management | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">금융 아카데미</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>啟蒙學程單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">啟蒙學程홈</a></li>
+                    <li><a href="market-basics.html">1.1 交易基本常識</a></li>
+                    <li><a href="psychology.html">1.2 Trading Mindsets & 3 Taboos</a></li>
+                    <li><a href="risk-management.html" class="active">1.3 Risk Control & Capital Management</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回啟蒙學程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 1.3</span>
+                    <h1>風險控制與部位資金管理</h1>
+                    <p class="lead">
+                        交易不是看誰賺得多，而是看誰活得久。本單元將帶您學習頂級機構與職業交易員所使用的量化風險控制與資金分配模型。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 單筆防線：2% 風控原則</h2>
+                    <p>
+                        許多新手交易員習慣每次交易都全倉投入（All-in），這在統計學上等於「破產機率 100%」。
+                    </p>
+                    <p>
+                        **2% 原則**規定：在任何單筆交易中，您的最大可能虧損（當觸及停損時）不能超過您帳戶總資金的 **2%**（保守交易員通常設定為 1% 或 0.5%）。
+                    </p>
+                    <p>
+                        這樣做的好處是：即使您連續遭遇 10 次錯誤停損，您的帳戶資金也只會減少約 18%，依然擁有充足的本金在未來的機會中賺回來。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 如何精確計算您的「部位大小 (Position Sizing)」？</h2>
+                    <p>
+                        每次下單買幾股或幾口，不應該憑感覺，而應該透過以下公式進行精確的數學計算：
+                    </p>
+                    <div class="formula-box">
+                        $$部位大小 (股數) = \frac{總帳戶資金 \times 單筆承受風險 \%}{進場價 - 停損價}$$
+                    </div>
+                    <h3>💡 實戰計算範例：</h3>
+                    <ul>
+                        <li><strong>帳戶總資金</strong>：$10,000 美元</li>
+                        <li><strong>單筆承受風險比率</strong>：2% ($200 美元)</li>
+                        <li><strong>股票 A 進場價格</strong>：$100 美元</li>
+                        <li><strong>預定停損價格</strong>：$90 美元 (價差 $10 美元)</li>
+                        <li><strong>計算結果</strong>：您應該購買 $200 / $10 = **20 股**。</li>
+                    </ul>
+                    <p>
+                        透過這個公式，即使股價跌到 $90 美元停損出場，您也僅僅虧損了 $200 美元，這完全符合您的風控預期。
+                    </p>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 凱利公式與資金利用效率</h2>
+                    <p>
+                        在量化交易中，**凱利公式 (Kelly Criterion)** 常被用來計算最優的單筆下單資金比例，以最大化資金增長率：
+                    </p>
+                    <div class="formula-box">
+                        $$K = W - \frac{1 - W}{R}$$
+                        <span style="font-size: 0.85rem; opacity: 0.8;">其中 $K$ 為最優資金比率，$W$ 為勝率，$R$ 為盈虧比（平均獲利金額 / 平均虧損金額）。</span>
+                    </div>
+                    <p>
+                        當您的策略勝率為 50%，且盈虧比為 2:1 時，最優下單比例為 $0.5 - (0.5 / 2) = 25\%$。但在實戰中，為了防止波動風險（Drawdown），一般會採用 **「半凱利 (Half-Kelly)」** 即公式計算值的 1/2 作為安全基準。
+                    </p>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推薦學習書籍：部位規模與資產管理</h2>
+                    </div>
+                    <p class="amazon-desc">專業交易員最在意的往往不是如何尋找買點，而是如何管理部位。以下是風控必讀經典：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-calculator"></i></div>
+                                <strong>資產管理與演算法交易</strong>
+                            </div>
+                            <p>Ernie Chan 著。詳細拆解了凱利公式、凱利公式的實戰修正以及多策略下的資金優化配置技術。</p>
+                            <div class="amz-action-text">Amazon에서 구매 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                                <strong>交易心理與風控實務</strong>
+                            </div>
+                            <p>Mark Douglas 著《Trading in the Zone》。教您接受隨機虧損，將風控條款化作無情購物的肌肉記憶。</p>
+                            <div class="amz-action-text">Amazon에서 구매 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">홈</a>
+            <a href="index.html">기초 단계</a>
+            <a href="../stocks/index.html">주식 과정</a>
+            <a href="../futures/index.html">선물 과정</a>
+            <a href="../quant/index.html">양적 과정</a>
+            <a href="../privacy-policy.html">개인정보처리방침</a>
+            <a href="../terms-of-service.html">면책조항 및 이용약관</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

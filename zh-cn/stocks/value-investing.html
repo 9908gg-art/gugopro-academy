@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2.1: 价值投资大师心法 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">大师选股篩选器 (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">Z-Score 价差分析儀 (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>股票学程单元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">股票学程首页</a></li>
+                    <li><a href="value-investing.html" class="active">2.1 价值投资心法</a></li>
+                    <li><a href="dividend-strategy.html">2.2 高殖利率存股策略</a></li>
+                    <li><a href="swing-trading.html">2.3 技术分析与波動交易</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回股票学程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 2.1</span>
+                    <h1>价值投资大师心法 (Value Investing)</h1>
+                    <p class="lead">
+                        「买股票就是买企业的一部份。」本单元将帶您学習本杰明·葛拉漢与華倫·巴菲特的核心投资哲学，並介紹如何寻找擁有寬廣護城河的優质标的。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 安全边際 (Margin of Safety)：价值投资的基石</h2>
+                    <p>
+                        本杰明·葛拉漢（Benjamin Graham）指出，价值投资的核心可以用三個詞來概括：**安全边際**。
+                    </p>
+                    <p>
+                        安全边際是指：**企业的「內在价值 (Intrinsic Value)」与其「市场价格 (Market Price)」之间的差額**。
+                    </p>
+                    <div class="formula-box" style="text-align: center; font-size: 1.1rem; font-weight: 700;">
+                        安全边際 = 企业估算內在价值 - 當前股票市场价格
+                    </div>
+                    <p>
+                        如果一家優质企业经过估值後，每股內在价值為 $100 元，但由於市场恐慌，股价跌到了 $70 元。此时买入，您就擁有了 $30 元（30%）的安全边際。這能有效防範估值誤差，並在市场回归理性时帶來丰厚的回報。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 大师选股必看的三大财務指标</h2>
+                    <p>
+                        如何挑选具有安全边際的個股？我们可以透过以下三個關鍵财務比率來进行初步篩选：
+                    </p>
+                    <ul>
+                        <li><strong>本益比 (Price-to-Earnings Ratio, P/E)</strong>
+                            <br>公式：股价 / 每股盈餘 (EPS)。代表买入該股票後，需要幾年才能回本。在同业比較中，較低的本益比往往代表估值相对便宜。
+                        </li>
+                        <li><strong>股价淨值比 (Price-to-Book Ratio, P/B)</strong>
+                            <br>公式：股价 / 每股淨资产。通常低於 1.2 倍或甚至低於 1 倍（破淨）时，代表股价低於公司的帳面资产价值，具備高度安全边際。
+                        </li>
+                        <li><strong>股東權益報酬率 (Return on Equity, ROE)</strong>
+                            <br>公式：稅後淨利 / 股東權益。巴菲特最看重的指标，代表公司利用股東资金賺錢的效率。穩健的企业 ROE 通常能長期維持在 15% 以上。
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 经濟護城河 (Economic Moat)</h2>
+                    <p>
+                        巴菲特（Warren Buffett）将价值投资延伸到了企业營運優勢的定性分析，稱之為 **经濟護城河**。這指的是企业防範競爭对手侵蝕其利潤的结构性優勢：
+                    </p>
+                    <ol>
+                        <li><strong>無形资产</strong>：如強大的品牌影響力（可樂、蘋果）、专利技术或政府特許牌照。</li>
+                        <li><strong>轉換成本</strong>：客戶更換供應商时需要面臨的高昂成本（如微軟 Windows 系统、企业 ERP 系统）。</li>
+                        <li><strong>网絡效應</strong>：使用該产品的用戶越多，产品的价值就越高（如 Visa 信用卡网絡、社交媒體平台）。</li>
+                        <li><strong>成本優勢</strong>：通过规模效應或獨特资源，实現比对手更低的生产成本。</li>
+                    </ol>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推荐学習书籍：价值投资经典必读</h2>
+                    </div>
+                    <p class="amazon-desc">学習大师心法，從阅读他们的经典著述与致股東信开始：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-book"></i></div>
+                                <strong>聰明的投资人 (修訂版)</strong>
+                            </div>
+                            <p>Benjamin Graham 著。巴菲特稱其為「有史以來最偉大的投资书」，徹底奠定安全边際与市场先生 (Mr. Market) 的核心哲学。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+                                <strong>巴菲特致股東信</strong>
+                            </div>
+                            <p>匯集巴菲特歷年致波克夏哈薩威股東的信件，用最白話的語言解构企业護城河、资本配置与经理人誠信评估。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟蒙阶段</a>
+            <a href="index.html">股票学程</a>
+            <a href="../futures/index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+            <a href="../privacy-policy.html">隱私權政策</a>
+            <a href="../terms-of-service.html">免责声明与使用條款</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

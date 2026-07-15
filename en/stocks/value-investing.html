@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2.1: 價值投資大師心法 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>Stock Path單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">Stock PathHome</a></li>
+                    <li><a href="value-investing.html" class="active">2.1 價值投資心法</a></li>
+                    <li><a href="dividend-strategy.html">2.2 Dividend Investing Strategy</a></li>
+                    <li><a href="swing-trading.html">2.3 Technical Analysis & Swing Trading</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回Stock Path
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 2.1</span>
+                    <h1>價值投資大師心法 (Value Investing)</h1>
+                    <p class="lead">
+                        「買股票就是買企業的一部份。」本單元將帶您學習本傑明·葛拉漢與華倫·巴菲特的核心投資哲學，並介紹如何尋找擁有寬廣護城河的優質標的。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 安全邊際 (Margin of Safety)：價值投資的基石</h2>
+                    <p>
+                        本傑明·葛拉漢（Benjamin Graham）指出，價值投資的核心可以用三個詞來概括：**安全邊際**。
+                    </p>
+                    <p>
+                        安全邊際是指：**企業的「內在價值 (Intrinsic Value)」與其「市場價格 (Market Price)」之間的差額**。
+                    </p>
+                    <div class="formula-box" style="text-align: center; font-size: 1.1rem; font-weight: 700;">
+                        安全邊際 = 企業估算內在價值 - 當前股票市場價格
+                    </div>
+                    <p>
+                        如果一家優質企業經過估值後，每股內在價值為 $100 元，但由於市場恐慌，股價跌到了 $70 元。此時買入，您就擁有了 $30 元（30%）的安全邊際。這能有效防範估值誤差，並在市場回歸理性時帶來豐厚的回報。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 大師選股必看的三大財務指標</h2>
+                    <p>
+                        如何挑選具有安全邊際的個股？我們可以透過以下三個關鍵財務比率來進行初步篩選：
+                    </p>
+                    <ul>
+                        <li><strong>本益比 (Price-to-Earnings Ratio, P/E)</strong>
+                            <br>公式：股價 / 每股盈餘 (EPS)。代表買入該股票後，需要幾年才能回本。在同業比較中，較低的本益比往往代表估值相對便宜。
+                        </li>
+                        <li><strong>股價淨值比 (Price-to-Book Ratio, P/B)</strong>
+                            <br>公式：股價 / 每股淨資產。通常低於 1.2 倍或甚至低於 1 倍（破淨）時，代表股價低於公司的帳面資產價值，具備高度安全邊際。
+                        </li>
+                        <li><strong>股東權益報酬率 (Return on Equity, ROE)</strong>
+                            <br>公式：稅後淨利 / 股東權益。巴菲特最看重的指標，代表公司利用股東資金賺錢的效率。穩健的企業 ROE 通常能長期維持在 15% 以上。
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 經濟護城河 (Economic Moat)</h2>
+                    <p>
+                        巴菲特（Warren Buffett）將價值投資延伸到了企業營運優勢的定性分析，稱之為 **經濟護城河**。這指的是企業防範競爭對手侵蝕其利潤的結構性優勢：
+                    </p>
+                    <ol>
+                        <li><strong>無形資產</strong>：如強大的品牌影響力（可樂、蘋果）、專利技術或政府特許牌照。</li>
+                        <li><strong>轉換成本</strong>：客戶更換供應商時需要面臨的高昂成本（如微軟 Windows 系統、企業 ERP 系統）。</li>
+                        <li><strong>網絡效應</strong>：使用該產品的用戶越多，產品的價值就越高（如 Visa 信用卡網絡、社交媒體平台）。</li>
+                        <li><strong>成本優勢</strong>：通過規模效應或獨特資源，實現比對手更低的生產成本。</li>
+                    </ol>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推薦學習書籍：價值投資經典必讀</h2>
+                    </div>
+                    <p class="amazon-desc">學習大師心法，從閱讀他們的經典著述與致股東信開始：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-book"></i></div>
+                                <strong>聰明的投資人 (修訂版)</strong>
+                            </div>
+                            <p>Benjamin Graham 著。巴菲特稱其為「有史以來最偉大的投資書」，徹底奠定安全邊際與市場先生 (Mr. Market) 的核心哲學。</p>
+                            <div class="amz-action-text">Buy on Amazon ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+                                <strong>巴菲特致股東信</strong>
+                            </div>
+                            <p>匯集巴菲特歷年致波克夏哈薩威股東的信件，用最白話的語言解構企業護城河、資本配置與經理人誠信評估。</p>
+                            <div class="amz-action-text">Buy on Amazon ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../fundamentals/index.html">Fundamentals</a>
+            <a href="index.html">Stock Path</a>
+            <a href="../futures/index.html">Futures Path</a>
+            <a href="../quant/index.html">Quant Path</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../terms-of-service.html">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

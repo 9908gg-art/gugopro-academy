@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2.3: 技術分析與波動交易 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財經學院</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 實戰工具 / Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">高殖利率複利計算機</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在開發中，敬請期待！');">大師選股篩選器 (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在開發中，敬請期待！');">Z-Score 價差分析儀 (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>股票學程單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">股票學程首頁</a></li>
+                    <li><a href="value-investing.html">2.1 價值投資心法</a></li>
+                    <li><a href="dividend-strategy.html">2.2 高殖利率存股策略</a></li>
+                    <li><a href="swing-trading.html" class="active">2.3 技術分析與波動交易</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回股票學程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 2.3</span>
+                    <h1>技術分析與中短期波動交易</h1>
+                    <p class="lead">
+                        利用市場歷史走勢圖表，分析買賣雙方的力量對比。本單元將為您拆解 K 線型態、均線戰術、關鍵支撐與壓力，以及熱門技術指標。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. K 線的靈魂：支撐與壓力 (Support & Resistance)</h2>
+                    <p>
+                        市場上所有的技術指標，都是由 **價格** 和 **成交量** 衍生而來的次要數據。因此，最核心的分析技術非 **「裸 K 價格行為 (Price Action)」** 莫屬。
+                    </p>
+                    <ul>
+                        <li><strong>支撐區 (Support)</strong>：價格下跌時，買盤開始湧入阻止進一步下跌的區域。通常對應歷史低點或大量區。</li>
+                        <li><strong>壓力區 (Resistance)</strong>：價格上漲時，賣盤開始湧現阻止進一步上漲的區域。通常對應歷史高點或套牢區。</li>
+                    </ul>
+                    <p>
+                        波動交易（Swing Trading）的精髓在於：**在支撐位附近買入，在壓力位附近賣出**，以追求高期望值的風險回報比（Risk-to-Reward Ratio）。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 移動平均線 (MA) 與技術指標雙劍客</h2>
+                    <p>移動平均線 (Moving Average) 是過濾短期雜訊、捕捉市場趨勢的黃金工具：</p>
+                    <ul>
+                        <li><strong>均線交叉戰術</strong>：當快線（如 20 日均線）由下往上穿越慢線（如 60 日季線），稱為「黃金交叉」，暗示趨勢偏多；反之，往下穿越則為「死亡交叉」。</li>
+                        <li><strong>RSI 強弱指標 (Relative Strength Index)</strong>：數值介於 0 到 100。通常大於 70 代表市場處於「超買區域」，可能隨時拉回；低於 30 代表市場處於「超賣區域」，可能蘊含反彈機會。</li>
+                        <li><strong>MACD 指標 (Moving Average Convergence Divergence)</strong>：通過快慢均線的離散程度判斷動能。當 MACD 柱狀圖由綠翻紅、黃金交叉穿過零軸，通常是強勢多頭確立的訊號。</li>
+                    </ul>
+                </section>
+
+                <!-- Promo Card for TradingView -->
+                <div class="info-card" style="margin: 32px 0; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.02); border-radius: 8px; padding: 24px;">
+                    <h4 style="margin-top: 0; color: #ff9900;"><i class="fa-solid fa-chart-area"></i> 技術分析首選神兵利器</h4>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-secondary);">
+                        想要實踐完美的波動交易與多視窗均線對照，您需要全球交易員首選的圖表平台 **TradingView**。它支援毫秒級的實時數據，並提供完整的技術指標資料庫。現在透過本院專屬推薦網址註冊，即享 <strong>30 天免費試用與 15 美元</strong> 付費訂閱優惠！
+                    </p>
+                    <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; display: inline-flex; padding: 10px 20px; font-size: 0.9rem;">
+                        領取 30 天免費試用與 $15 折扣註冊 ➡️
+                    </a>
+                </div>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 交易計畫的黃金三元素</h2>
+                    <p>一套合格的波動交易必須具備三個計畫元素，在進場前就必須決定：</p>
+                    <ol>
+                        <li><strong>進場點 (Entry Trigger)</strong>：基於特定型態（如雙底突破或均線支撐）觸發的進場時機。</li>
+                        <li><strong>停損點 (Stop Loss)</strong>：當價格跌破該點位時，證明您原本的交易邏輯失效，必須立刻無條件認賠出場。</li>
+                        <li><strong>停利點 (Take Profit)</strong>：原定獲利平倉的目標價位，通常設在下一道關鍵壓力區前方。</li>
+                    </ol>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推薦學習書籍：技術分析實務必讀</h2>
+                    </div>
+                    <p class="amazon-desc">學習波動交易與趨勢跟隨，以下是全球自營交易部指定的經典讀物：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-book"></i></div>
+                                <strong>金融市場技術分析</strong>
+                            </div>
+                            <p>John J. Murphy 著。最經典的技術指標聖經，全面解讀形態學與多指標交叉驗證的交易技巧。</p>
+                            <div class="amz-action-text">在 Amazon 購買 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/0471770884?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-user-check"></i></div>
+                                <strong>股票作手回憶錄 (經典版)</strong>
+                            </div>
+                            <p>傑西·李佛摩口述歷史。教導讀者如何看清市場大趨勢、耐心等待時機以及如何順勢交易。</p>
+                            <div class="amz-action-text">在 Amazon 購買 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首頁</a>
+            <a href="../fundamentals/index.html">啟蒙階段</a>
+            <a href="index.html">股票學程</a>
+            <a href="../futures/index.html">期貨學程</a>
+            <a href="../quant/index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私權政策</a>
+            <a href="../terms-of-service.html">免責聲明與使用條款</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

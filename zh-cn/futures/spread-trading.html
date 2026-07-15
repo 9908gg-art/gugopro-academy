@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3.2: 价差与跨期套利实務 | GugoPro 财经教学学院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">财经学院</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">大师选股篩选器 (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('本工具正在开發中，敬请期待！');">Z-Score 价差分析儀 (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>期货学程单元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">期货学程首页</a></li>
+                    <li><a href="futures-basics.html">3.1 期货合约与保证金運作</a></li>
+                    <li><a href="spread-trading.html" class="active">3.2 价差与跨期套利实務</a></li>
+                    <li><a href="hedging.html">3.3 跨市场对沖与风险平衡</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回期货学程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 3.2</span>
+                    <h1>期货价差交易与跨期套利实務</h1>
+                    <p class="lead">
+                        期货市场特有的低风险交易模式。本单元将帶您学習正逆价差的经濟学原理、轉倉成本的计算，以及跨期对合约价差（Calendar Spread）的操作实務。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 期货价差的底層结构：正价差与逆价差</h2>
+                    <p>
+                        在期货市场中，同一标的但到期月份不同的合约，价格往往不相同。這種价格的排列结构分為兩種：
+                    </p>
+                    <ul>
+                        <li><strong>正价差 (Contango)</strong>
+                            <br>遠期合约价格高於近期合约价格（即 $遠月价格 > 近月价格$）。這在原物料市场非常常見，因為持有現货需要面臨倉儲、保险和资金利息等 **「持有成本 (Cost of Carry)」**。
+                        </li>
+                        <li><strong>逆价差 (Backwardation)</strong>
+                            <br>近期合约价格高於遠期合约价格（即 $近月价格 > 遠月价格$）。這通常發生在市场供需極度緊張、現货面臨短缺的危機时刻，买方願意溢价购买近期合约以立即取得現货。
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 什麼是轉倉收益/成本 (Roll Yield)？</h2>
+                    <p>
+                        當交易員持有的合约即将到期时，為了維持部位，必須賣出近月合约並买入遠月合约。這個过程产生的损益稱為 **轉倉收益或轉倉成本 (Roll Yield)**：
+                    </p>
+                    <div class="formula-box" style="line-height: 1.7;">
+                        <strong>在正价差 (Contango) 市场下</strong>：买方每次轉倉都需要「低賣近月、高买遠月」，會产生持续的 **轉倉成本**，這會不斷蠶食多头的利潤（例如長期做多 VIX 波動率期货的损耗）。<br>
+                        <strong>在逆价差 (Backwardation) 市场下</strong>：买方轉倉是「高賣近月、低买遠月」，會獲得持续的 **轉倉收益**（例如強勢商品的多头部位）。
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 跨期价差套利 (Calendar Spread) 实務</h2>
+                    <p>
+                        **跨期价差交易 (Calendar Spread)** 是指：**在买入某月份期货合约的同时，賣出同種商品但不同月份的期货合约**。
+                    </p>
+                    <p>
+                        由於多空兩端的标的相同，只是到期日不同，兩者高度相關，因此跨期价差的波動遠小於单边合约的波動。
+                    </p>
+                    <h3>跨期套利優勢：</h3>
+                    <ol>
+                        <li><strong>低风险暴露</strong>：消除了标的资产的单边价格暴漲暴跌风险，利潤來自於「价差的收斂与發散」。</li>
+                        <li><strong>保证金折抵 (Margin Offset)</strong>：由於风险極低，多數期货交易所（如 CME、期交所）會提供高達 70% ~ 90% 的保证金減免，極大提升资金利用效率。</li>
+                    </ol>
+                </section>
+
+                <!-- Promo Card for TradingView -->
+                <div class="info-card" style="margin: 32px 0; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.02); border-radius: 8px; padding: 24px;">
+                    <h4 style="margin-top: 0; color: #ff9900;"><i class="fa-solid fa-chart-line"></i> 专业价差圖表分析首选</h4>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-secondary);">
+                        在 TradingView 中，您可以使用自訂公式直接繪製期货价差。例如在搜寻框輸入 `CL1! - CL2!`，即可直接觀察美油首季与次季合约的价差波動。現在註冊即享 <strong>30 天免費試用与 15 美元</strong> 付費升級折扣！
+                    </p>
+                    <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; display: inline-flex; padding: 10px 20px; font-size: 0.9rem;">
+                        立即註冊 TradingView 領取優惠 ➡️
+                    </a>
+                </div>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推荐学習书籍：衍生性商品与套利</h2>
+                    </div>
+                    <p class="amazon-desc">理解期货定价原理，是进行价差套利的必修学分：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
+                                <strong>期權与其他衍生性商品</strong>
+                            </div>
+                            <p>John C. Hull 著。期權与衍生性商品領域無可爭议的圣经，徹底剖析期货合约定价、持有成本与無风险套利模型。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/0470529407?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-users"></i></div>
+                                <strong>自營交易員交易策略精髓</strong>
+                            </div>
+                            <p>Mike Bellafiore 著。深入探讨自營交易機构的跨期、跨商品价差套利運作流程与风控制度。</p>
+                            <div class="amz-action-text">在 Amazon 购买 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首页</a>
+            <a href="../fundamentals/index.html">啟盟阶段</a>
+            <a href="../stocks/index.html">股票学程</a>
+            <a href="index.html">期货学程</a>
+            <a href="../quant/index.html">量化学程</a>
+            <a href="../privacy-policy.html">隱私權政策</a>
+            <a href="../terms-of-service.html">免责声明与使用條款</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

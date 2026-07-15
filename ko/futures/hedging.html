@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3.3: 跨市場對沖與風險平衡 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">금융 아카데미</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>선물 과정單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">선물 과정홈</a></li>
+                    <li><a href="futures-basics.html">3.1 Futures Contract & Margin Mechanics</a></li>
+                    <li><a href="spread-trading.html">3.2 Calendar Spreads & Arbitrage</a></li>
+                    <li><a href="hedging.html" class="active">3.3 Cross-Market Hedging & Risk Balancing</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 선물 과정으로 돌아가기
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 3.3</span>
+                    <h1>跨市場對沖與投資組合風險平衡</h1>
+                    <p class="lead">
+                        如何在大盤暴跌時保護您的現貨資產？本單元將教授 Beta 對沖原理，以及利用股價指數期貨鎖定利潤、規避系統性風險的機構級風控技術。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 什麼是對沖 (Hedging)？</h2>
+                    <p>
+                        **對沖（避險）**是指：**在持有一筆資產（如股票現貨多頭）的同時，建立一筆反方向或負相關的部位（如期貨空頭），以抵消全部或部分的價格波動風險**。
+                    </p>
+                    <p>
+                        對沖的目的不在於賺取超額暴利，而是在市場前景不明朗或面臨系統性危機時，**「鎖定利潤、限制最大下行風險」**。
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. Beta 對沖原理與合約數量計算</h2>
+                    <p>
+                        不同股票對於大盤的敏感度並不相同，我們用 **貝他係數 (Beta, $\beta$)** 來衡量。例如某檔科技股的 $\beta = 1.5$，代表大盤上漲或下跌 1% 時，該個股預期會波動 1.5%。
+                    </p>
+                    <p>
+                        當您持有一筆股票組合，並希望利用指數期貨（如台指期、標普 500 E-mini 期貨）來進行完全對沖時，需要放空的期貨合約數量計算公式如下：
+                    </p>
+                    <div class="formula-box">
+                        $$對沖合約數量 = \frac{股票組合總價值 \times 組合加權 \beta}{期貨指數價格 \times Contract Multiplier}$$
+                    </div>
+                    <h3>💡 實戰計算範例：</h3>
+                    <ul>
+                        <li><strong>股票組合總價值</strong>：$1,000,000 美元</li>
+                        <li><strong>組合加權 Beta ($\beta$)</strong>：1.2</li>
+                        <li><strong>標普 500 指數期貨價格</strong>：$4,000 美元</li>
+                        <li><strong>Contract Multiplier</strong>：$50 美元 / 點 (每口合約總價值為 $4000 \times 50 = $200,000 美元)</li>
+                        <li><strong>計算結果</strong>：您應該賣出空單 $\frac{1000000 \times 1.2}{200000} = $ **6 口合約**。</li>
+                    </ul>
+                    <p>
+                        當市場大盤暴跌 10% 時，您的股票組合預期會下跌 12%（損失 $120,000 美元）；但與此同時，您的期貨空頭部位會獲利約 $120,000 美元。兩者相互抵消，將您的資產淨值成功鎖定！
+                    </p>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 跨市場對沖與宏觀資產平衡</h2>
+                    <p>
+                        除了股指期貨外，宏觀對沖還包含了 **跨商品與跨市場的風險平衡**：
+                    </p>
+                    <ul>
+                        <li><strong>通膨對沖</strong>：在持有紙幣或債券資產的同時，利用黃金期貨、原油期貨對沖惡性通膨導致的貨幣購買力貶值风险。</li>
+                        <li><strong>匯率對沖</strong>：當您持有大量海外股票現貨時，為防範非美貨幣大跌產生的匯損，在期貨市場建立對應的外匯期貨空頭頭寸（如放空歐元期貨、日圓期貨）。</li>
+                    </ul>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推薦學習書籍：對沖基金風控與資產配置</h2>
+                    </div>
+                    <p class="amazon-desc">學習專業機構如何構建多元化資產，規避尾端風險 (Tail Risk)：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/013447208X?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
+                                <strong>期權與其他衍生性商品</strong>
+                            </div>
+                            <p>John C. Hull 著。深入解析期權 delta、gamma 對沖避險策略，以及動態風險對沖的極限與防範。</p>
+                            <div class="amz-action-text">Amazon에서 구매 ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/1118460146?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-calculator"></i></div>
+                                <strong>資產管理與演算法交易</strong>
+                            </div>
+                            <p>Ernie Chan 著。指導量化交易員如何在包含多種高槓桿標的的投資組合中，利用數學公式計算相關係數並進行最優風險配平。</p>
+                            <div class="amz-action-text">Amazon에서 구매 ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">홈</a>
+            <a href="../fundamentals/index.html">啟盟階段</a>
+            <a href="../stocks/index.html">주식 과정</a>
+            <a href="index.html">선물 과정</a>
+            <a href="../quant/index.html">양적 과정</a>
+            <a href="../privacy-policy.html">개인정보처리방침</a>
+            <a href="../terms-of-service.html">면책조항 및 이용약관</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>

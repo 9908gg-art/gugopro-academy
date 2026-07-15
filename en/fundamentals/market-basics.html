@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1.1: 交易基本常識 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Finance Academy</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Master Stock Screener (Coming Soon)</a>
+                    <a href="#" style="opacity: 0.6;" onclick="event.preventDefault(); alert('This tool is under development, coming soon!');">Z-Score Spread Analyzer (Coming Soon)</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container article-layout" style="padding-top: 40px;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>啟蒙學程單元</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="index.html">啟蒙學程Home</a></li>
+                    <li><a href="market-basics.html" class="active">1.1 交易基本常識</a></li>
+                    <li><a href="psychology.html">1.2 交易心態與禁忌</a></li>
+                    <li><a href="risk-management.html">1.3 Risk Control & Capital Management</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article Body -->
+        <main class="article-content">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> 返回啟蒙學程
+            </a>
+
+            <article>
+                <header>
+                    <span class="badge-accent">Unit 1.1</span>
+                    <h1>交易基本常識 (Market Basics)</h1>
+                    <p class="lead">
+                        進入市場的第一步，是徹底理解我們交易的金融工具有何本質差異。本單元將帶您認識股票、期貨，以及現貨與衍生性商品的核心邏輯。
+                    </p>
+                </header>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 32px 0;">
+
+                <!-- Section 1 -->
+                <section>
+                    <h2>1. 股票的本質：股權與所有權份額</h2>
+                    <p>
+                        當您買入一家公司的 **股票 (Stock)**，代表您買入了該公司的一小部分 **所有權 (Ownership)**。您成了這家公司的股東。
+                    </p>
+                    <p>
+                        作為股東，您享有兩大核心權益：
+                    </p>
+                    <ul>
+                        <li><strong>資產增值（資本利得）</strong>：當公司營運良好、市值提升時，股價上漲，您可以透過賣出持股賺取價差。</li>
+                        <li><strong>盈餘分紅（股利/股息）</strong>：當公司賺錢時，可以選擇將部分利潤以現金股利的形式分發給股東。這是長線存股族的主要收益來源。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 2 -->
+                <section>
+                    <h2>2. 期貨的本質：具有約束力的合約</h2>
+                    <p>
+                        與股票不同，買入 **期貨 (Futures)** 並不代表您擁有任何資產。期貨是一種 **合約 (Contract)**，約定在未來的某個特定時間，以約定的價格買入或賣出某種資產。
+                    </p>
+                    <p>
+                        期貨的核心特點在於：
+                    </p>
+                    <ul>
+                        <li><strong>多空雙向對稱</strong>：您可以先買入合約（做多），也可以先賣出合約（做空）。在期貨市場中，做空的限制與成本與做多完全對稱，這為避險提供了絕佳工具。</li>
+                        <li><strong>槓桿與保證金</strong>：您不需要支付合約的全部價值，只需繳納一定比例的「保證金（Margin）」即可控制整筆交易。槓桿放大了利潤，也成倍放大了風險。</li>
+                        <li><strong>到期交割與轉倉</strong>：期貨合約具有壽命限制。當合約到期時，必須進行實物交割或現金結算。一般交易員會在到期前將部位轉移到下一個月份，這稱為「轉倉 (Roll Over)」。</li>
+                    </ul>
+                </section>
+
+                <!-- Section 3 -->
+                <section>
+                    <h2>3. 現貨與衍生性商品之差異</h2>
+                    <p>
+                        金融市場主要分為 **現貨市場 (Spot Market)** 與 **衍生性商品市場 (Derivatives Market)**：
+                    </p>
+                    <div class="formula-box" style="line-height: 1.7;">
+                        <strong>現貨 (Spot)</strong>：交易的是實體資產，一手交錢一手交貨（如購買台積電股票或購買黃金實物）。<br>
+                        <strong>衍生性商品 (Derivatives)</strong>：其價值源自於底層資產（如期貨、選擇權、差價合約 CFD）。
+                    </div>
+                    <p>
+                        新手交易員常犯的錯誤是：**用交易現貨（股票）的心態去交易衍生性商品（期貨）**。股票在公司不破產的前提下可以無限期持有，且沒有斷頭風險；但期貨如果保證金不足，會被券商強制平倉（斷頭），造成本金瞬間歸零。
+                    </p>
+                </section>
+
+                <!-- Amazon Affiliate Section -->
+                <div class="card amazon-affiliate-card" style="margin-top: 48px;">
+                    <div class="card-header-flex">
+                        <h2><i class="fa-brands fa-amazon"></i> 🛒 推薦學習書籍：打穩交易基本功</h2>
+                    </div>
+                    <p class="amazon-desc">理解金融市場運作規律，是每位贏家必經之路。以下是學院精選奠基指南：</p>
+                    <div class="amz-grid">
+                        <a href="https://www.amazon.com/dp/0735200661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-book"></i></div>
+                                <strong>Technical Analysis of the Financial Markets</strong>
+                            </div>
+                            <p>John J. Murphy 著。最經典的技術分析聖經，教您看懂圖表背後的市場供需與價格行為。</p>
+                            <div class="amz-action-text">Buy on Amazon ➡️</div>
+                        </a>
+                        <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
+                            <div class="amz-title-flex">
+                                <div class="amz-icon-box"><i class="fa-solid fa-gem"></i></div>
+                                <strong>聰明的投資人</strong>
+                            </div>
+                            <p>葛拉漢經典著作，價值投資的基石。建立「安全邊際」的核心觀念，避開市場陷阱。</p>
+                            <div class="amz-action-text">Buy on Amazon ➡️</div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="index.html">Fundamentals</a>
+            <a href="../stocks/index.html">Stock Path</a>
+            <a href="../futures/index.html">Futures Path</a>
+            <a href="../quant/index.html">Quant Path</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../terms-of-service.html">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+</body>
+</html>
