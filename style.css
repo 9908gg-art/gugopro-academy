@@ -673,3 +673,108 @@ footer {
 .tools-selector.show-dropdown .tools-dropdown {
     display: block;
 }
+
+/* Global Link Resets to Prevent Browser Default Blue/Purple Colors */
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:visited {
+    color: var(--accent);
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Sidebar and Article Double-Column Layout */
+.article-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    margin-top: 32px;
+}
+
+.sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    background: rgba(20, 24, 33, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.sidebar-box h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-menu li {
+    margin: 0;
+}
+
+.sidebar-menu a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.sidebar-menu a:hover {
+    color: var(--accent);
+    background: rgba(255, 153, 0, 0.05);
+}
+
+.sidebar-menu a.active {
+    color: var(--accent);
+    font-weight: 600;
+    background: rgba(255, 153, 0, 0.08);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+}
+
+.article-content {
+    background: rgba(20, 24, 33, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Responsive sidebar */
+@media (max-width: 992px) {
+    .article-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .sidebar {
+        position: static;
+        width: 100%;
+    }
+}
+
