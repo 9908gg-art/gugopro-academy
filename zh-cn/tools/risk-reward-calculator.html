@@ -585,18 +585,30 @@
             <div class="display-panel">
                 <!-- Chart Card -->
                 <div class="chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title">
+                    <div class="chart-header" style="flex-wrap: wrap; gap: 12px;">
+                        <div class="chart-title" style="display: flex; align-items: center; gap: 8px;">
                             <span class="chart-symbol" id="display-symbol">BTC/USDT</span>
                             <span class="logo-tag" style="font-size: 0.75rem;" id="data-source-badge">Binance Realtime</span>
+                            <button onclick="fetchChartData()" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; transition: var(--transition); font-size: 0.95rem; display: flex; align-items: center; justify-content: center; padding: 4px;" title="重新整理最新報价"><i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                         
-                        <!-- Timeframe Selector -->
-                        <div class="timeframe-selector" style="display: flex; gap: 4px; background: rgba(255,255,255,0.03); padding: 3px; border-radius: 6px; border: 1px solid var(--border-color);">
-                            <button class="tf-btn" onclick="setTimeframe('1h')" data-tf="1h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1H</button>
-                            <button class="tf-btn" onclick="setTimeframe('4h')" data-tf="4h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">4H</button>
-                            <button class="tf-btn active" onclick="setTimeframe('1d')" data-tf="1d" style="background: var(--accent); color: #000; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1D</button>
-                            <button class="tf-btn" onclick="setTimeframe('1w')" data-tf="1w" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1W</button>
+                        <!-- Controls Group -->
+                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                            <!-- Timeframe Selector -->
+                            <div class="timeframe-selector" style="display: flex; gap: 4px; background: rgba(255,255,255,0.03); padding: 3px; border-radius: 6px; border: 1px solid var(--border-color);">
+                                <button class="tf-btn" onclick="setTimeframe('1h')" data-tf="1h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1H</button>
+                                <button class="tf-btn" onclick="setTimeframe('4h')" data-tf="4h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">4H</button>
+                                <button class="tf-btn active" onclick="setTimeframe('1d')" data-tf="1d" style="background: var(--accent); color: #000; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1D</button>
+                                <button class="tf-btn" onclick="setTimeframe('1w')" data-tf="1w" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1W</button>
+                            </div>
+                            
+                            <!-- Visible Candles Selector -->
+                            <select id="visible-candles" onchange="setVisibleCandles(this.value)" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary); padding: 5px 10px; font-size: 0.8rem; font-weight: bold; outline: none; cursor: pointer; border: 1px solid var(--border-color);">
+                                <option value="30">顯示 30 根 K 線</option>
+                                <option value="60" selected>顯示 60 根 K 線</option>
+                                <option value="100">顯示 100 根 K 線</option>
+                                <option value="150">顯示 150 根 K 線</option>
+                            </select>
                         </div>
 
                         <div class="chart-price-info">
@@ -804,6 +816,7 @@
         let minPriceWindow = 0;
         let maxPriceWindow = 0;
         let currentTimeframe = '1d'; // '1h', '4h', '1d', '1w'
+        let visibleCandlesCount = 60; // 30, 60, 100, 150
 
         // Drag & Drop State Variables
         let isDragging = false;
@@ -813,6 +826,14 @@
         const canvas = document.getElementById('kline-canvas');
         const ctx = canvas.getContext('2d');
         const loader = document.getElementById('chart-loader');
+
+        // Set Visible Candles Range
+        function setVisibleCandles(val) {
+            visibleCandlesCount = parseInt(val);
+            if (chartData.length > 0) {
+                processMarketData();
+            }
+        }
 
         // Initialize Canvas Resize Observer
         function resizeCanvas() {
@@ -863,14 +884,14 @@
 
             try {
                 if (req.type === "crypto") {
-                    document.getElementById('data-source-badge').innerText = "Binance Realtime (" + currentTimeframe.toUpperCase() + ")";
+                    document.getElementById('data-source-badge').innerText = "幣安秒級即时報价 (" + currentTimeframe.toUpperCase() + ")";
                     await fetchBinanceCrypto(req.query);
                 } else {
                     let tfText = currentTimeframe.toUpperCase();
                     if (currentTimeframe === "4h") {
                         tfText = "1D (Yahoo無4H)";
                     }
-                    document.getElementById('data-source-badge').innerText = "Yahoo Finance (" + tfText + ")";
+                    document.getElementById('data-source-badge').innerText = "雅虎财经15分延遲 (" + tfText + ")";
                     await fetchYahooStock(req.query);
                 }
             } catch (err) {
@@ -889,7 +910,8 @@
         }
 
         async function fetchBinanceCrypto(symbol) {
-            const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${currentTimeframe}&limit=60`;
+            // Fetch 200 candles so we always have enough data to slice
+            const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${currentTimeframe}&limit=200`;
             const res = await fetch(url);
             if (!res.ok) throw new Error("Binance API error");
             const data = await res.json();
@@ -906,20 +928,21 @@
         }
 
         async function fetchYahooStock(symbol) {
+            // Fetch larger range to support up to 150 visible candles
             let yahooInterval = "1d";
-            let yahooRange = "3mo";
+            let yahooRange = "6mo"; // extended to 6mo to ensure up to 150 daily bars
             if (currentTimeframe === "1h") {
                 yahooInterval = "60m";
-                yahooRange = "1mo";
+                yahooRange = "2mo"; // extended to 2mo
             } else if (currentTimeframe === "4h") {
                 yahooInterval = "1d";
-                yahooRange = "3mo";
+                yahooRange = "6mo";
             } else if (currentTimeframe === "1d") {
                 yahooInterval = "1d";
-                yahooRange = "3mo";
+                yahooRange = "6mo";
             } else if (currentTimeframe === "1w") {
                 yahooInterval = "1wk";
-                yahooRange = "1y";
+                yahooRange = "2y"; // extended to 2y
             }
 
             const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
@@ -956,55 +979,66 @@
 
         // Run Support / Resistance detection peak algorithms
         function processMarketData() {
+            // Slice the data to get the user's visible range
+            const visibleData = chartData.slice(-visibleCandlesCount);
+            if (visibleData.length === 0) return;
+
             latestPrice = chartData[chartData.length - 1].close;
             entryPrice = latestPrice;
 
-            // Update latest stats in Header
+            // Update latest stats in Header based on visible range
             document.getElementById('price-latest').innerText = formatPrice(latestPrice);
             
-            let highSum = 0;
+            let highSum = -99999999;
             let lowSum = 99999999;
-            chartData.forEach(d => {
+            visibleData.forEach(d => {
                 if (d.high > highSum) highSum = d.high;
                 if (d.low < lowSum) lowSum = d.low;
             });
             document.getElementById('price-high').innerText = formatPrice(highSum);
             document.getElementById('price-low').innerText = formatPrice(lowSum);
 
-            // Pivot Points (波峰波谷分形演算，滾動窗格 N=2)
-            let resistanceLevels = [];
-            let supportLevels = [];
+            // Pivot Points (近期波段最高最低，加大窗格 N=4 进行主要波段篩选，过濾雜讯)
+            const N = 4;
+            let swingHighs = [];
+            let swingLows = [];
 
-            for (let i = 2; i < chartData.length - 2; i++) {
-                const cur = chartData[i];
-                const prev1 = chartData[i-1];
-                const prev2 = chartData[i-2];
-                const next1 = chartData[i+1];
-                const next2 = chartData[i+2];
-
-                // Peak Peak (阻力波峰)
-                if (cur.high > prev1.high && cur.high > prev2.high && cur.high > next1.high && cur.high > next2.high) {
-                    resistanceLevels.push(cur.high);
+            for (let i = N; i < visibleData.length - N; i++) {
+                let isHigh = true;
+                let isLow = true;
+                for (let j = -N; j <= N; j++) {
+                    if (j === 0) continue;
+                    if (visibleData[i].high <= visibleData[i+j].high) isHigh = false;
+                    if (visibleData[i].low >= visibleData[i+j].low) isLow = false;
                 }
-
-                // Valley Valley (支撐波谷)
-                if (cur.low < prev1.low && cur.low < prev2.low && cur.low < next1.low && cur.low < next2.low) {
-                    supportLevels.push(cur.low);
-                }
+                if (isHigh) swingHighs.push(visibleData[i].high);
+                if (isLow) swingLows.push(visibleData[i].low);
             }
 
-            // Find closest support level below current price
-            let finalSupport = latestPrice * 0.95; // Default 5% stop if none detected
-            const belowPrices = supportLevels.filter(p => p < latestPrice).sort((a, b) => b - a);
+            // Find closest support below current price
+            let finalSupport = lowSum; // fallback to absolute lowest in the window
+            const belowPrices = swingLows.filter(p => p < latestPrice).sort((a, b) => b - a);
             if (belowPrices.length > 0) {
                 finalSupport = belowPrices[0];
+            } else {
+                // If no swing lows below price, find the lowest of the last 15 candles
+                const last15 = visibleData.slice(-15);
+                let low15 = 99999999;
+                last15.forEach(d => { if (d.low < low15) low15 = d.low; });
+                finalSupport = low15;
             }
 
-            // Find closest resistance level above current price
-            let finalResistance = latestPrice * 1.08; // Default 8% target if none detected
-            const abovePrices = resistanceLevels.filter(p => p > latestPrice).sort((a, b) => a - b);
+            // Find closest resistance above current price
+            let finalResistance = highSum; // fallback to absolute highest in the window
+            const abovePrices = swingHighs.filter(p => p > latestPrice).sort((a, b) => a - b);
             if (abovePrices.length > 0) {
                 finalResistance = abovePrices[0];
+            } else {
+                // If no swing highs above price, find the highest of the last 15 candles
+                const last15 = visibleData.slice(-15);
+                let high15 = -99999999;
+                last15.forEach(d => { if (d.high > high15) high15 = d.high; });
+                finalResistance = high15;
             }
 
             supportPrice = finalSupport;
@@ -1331,20 +1365,35 @@
             draggedLine = null;
         });
 
+        // Custom Badge Price Formatter (for small asset prices)
+        function formatBadgePrice(val) {
+            if (val >= 100) {
+                return Math.round(val).toString();
+            }
+            if (val >= 1) {
+                return val.toFixed(2);
+            }
+            return val.toFixed(4);
+        }
+
         // Draw custom K-Line chart on HTML5 Canvas
         function drawChart() {
             if (chartData.length === 0) return;
+
+            // Slice the data to get the user's visible range
+            const visibleData = chartData.slice(-visibleCandlesCount);
+            if (visibleData.length === 0) return;
 
             const w = canvas.width / window.devicePixelRatio;
             const h = canvas.height / window.devicePixelRatio;
 
             ctx.clearRect(0, 0, w, h);
 
-            // Establish price boundaries
+            // Establish price boundaries based on visibleData
             let maxHigh = -999999;
             let minLow = 999999;
 
-            chartData.forEach(d => {
+            visibleData.forEach(d => {
                 if (d.high > maxHigh) maxHigh = d.high;
                 if (d.low < minLow) minLow = d.low;
             });
@@ -1403,12 +1452,12 @@
             ctx.fillRect(10, Math.min(yEntryForShade, ySupportForShade), w - 80, Math.abs(yEntryForShade - ySupportForShade));
 
             // Draw Candlesticks bars
-            const barCount = chartData.length;
+            const barCount = visibleData.length;
             const chartWidth = w - 80;
             const barWidth = Math.floor(chartWidth / barCount) - 2;
 
             for (let i = 0; i < barCount; i++) {
-                const d = chartData[i];
+                const d = visibleData[i];
                 const x = 10 + i * (chartWidth / barCount) + 1;
                 const yOpen = getY(d.open);
                 const yClose = getY(d.close);
@@ -1461,26 +1510,38 @@
             ctx.lineTo(w - 70, yEntryForShade);
             ctx.stroke();
 
-            // Labels right side badges backgrounds
-            ctx.font = 'bold 10px Inter, sans-serif';
+            // Draw Price Labels on the right with anti-collision algorithm
+            let labelList = [
+                { type: 'support', price: supportPrice, y: ySupportForShade, color: '#4caf50', textColor: '#000', text: "支撐:" },
+                { type: 'resistance', price: resistancePrice, y: yResistanceForShade, color: '#ff3333', textColor: '#fff', text: "壓力:" },
+                { type: 'entry', price: entryPrice, y: yEntryForShade, color: '#ffeb3b', textColor: '#000', text: "买点:" }
+            ];
 
-            // Support Label
-            ctx.fillStyle = '#4caf50';
-            ctx.fillRect(w - 68, ySupportForShade - 9, 62, 18);
-            ctx.fillStyle = '#000';
-            ctx.fillText("支撐:" + Math.round(supportPrice), w - 64, ySupportForShade + 3);
+            // Sort by raw Y position ascending (highest price line is at the top/minimum Y)
+            labelList.sort((a, b) => a.y - b.y);
 
-            // Resistance Label
-            ctx.fillStyle = '#ff3333';
-            ctx.fillRect(w - 68, yResistanceForShade - 9, 62, 18);
-            ctx.fillStyle = '#fff';
-            ctx.fillText("壓力:" + Math.round(resistancePrice), w - 64, yResistanceForShade + 3);
+            // Adjust overlapping positions (push them apart if distance is < 20px)
+            const minGap = 20;
+            for (let iter = 0; iter < 10; iter++) {
+                for (let i = 0; i < labelList.length - 1; i++) {
+                    let current = labelList[i];
+                    let next = labelList[i+1];
+                    if (next.y - current.y < minGap) {
+                        let overlap = minGap - (next.y - current.y);
+                        current.y -= overlap / 2;
+                        next.y += overlap / 2;
+                    }
+                }
+            }
 
-            // Entry Price Label
-            ctx.fillStyle = '#ffeb3b';
-            ctx.fillRect(w - 68, yEntryForShade - 9, 62, 18);
-            ctx.fillStyle = '#000';
-            ctx.fillText("买点:" + Math.round(entryPrice), w - 64, yEntryForShade + 3);
+            // Draw adjusted badges
+            labelList.forEach(lbl => {
+                ctx.fillStyle = lbl.color;
+                ctx.fillRect(w - 68, lbl.y - 9, 62, 18);
+                ctx.fillStyle = lbl.textColor;
+                ctx.font = 'bold 9px Inter, sans-serif';
+                ctx.fillText(lbl.text + formatBadgePrice(lbl.price), w - 64, lbl.y + 3);
+            });
         }
 
         // ==========================================
@@ -1839,55 +1900,66 @@
 
         // Run Support / Resistance detection peak algorithms
         function processMarketData() {
+            // Slice the data to get the user's visible range
+            const visibleData = chartData.slice(-visibleCandlesCount);
+            if (visibleData.length === 0) return;
+
             latestPrice = chartData[chartData.length - 1].close;
             entryPrice = latestPrice;
 
-            // Update latest stats in Header
+            // Update latest stats in Header based on visible range
             document.getElementById('price-latest').innerText = formatPrice(latestPrice);
             
-            let highSum = 0;
+            let highSum = -99999999;
             let lowSum = 99999999;
-            chartData.forEach(d => {
+            visibleData.forEach(d => {
                 if (d.high > highSum) highSum = d.high;
                 if (d.low < lowSum) lowSum = d.low;
             });
             document.getElementById('price-high').innerText = formatPrice(highSum);
             document.getElementById('price-low').innerText = formatPrice(lowSum);
 
-            // Pivot Points (波峰波谷分形演算，滾動窗格 N=2)
-            let resistanceLevels = [];
-            let supportLevels = [];
+            // Pivot Points (近期波段最高最低，加大窗格 N=4 进行主要波段篩选，过濾雜讯)
+            const N = 4;
+            let swingHighs = [];
+            let swingLows = [];
 
-            for (let i = 2; i < chartData.length - 2; i++) {
-                const cur = chartData[i];
-                const prev1 = chartData[i-1];
-                const prev2 = chartData[i-2];
-                const next1 = chartData[i+1];
-                const next2 = chartData[i+2];
-
-                // Peak Peak (阻力波峰)
-                if (cur.high > prev1.high && cur.high > prev2.high && cur.high > next1.high && cur.high > next2.high) {
-                    resistanceLevels.push(cur.high);
+            for (let i = N; i < visibleData.length - N; i++) {
+                let isHigh = true;
+                let isLow = true;
+                for (let j = -N; j <= N; j++) {
+                    if (j === 0) continue;
+                    if (visibleData[i].high <= visibleData[i+j].high) isHigh = false;
+                    if (visibleData[i].low >= visibleData[i+j].low) isLow = false;
                 }
-
-                // Valley Valley (支撐波谷)
-                if (cur.low < prev1.low && cur.low < prev2.low && cur.low < next1.low && cur.low < next2.low) {
-                    supportLevels.push(cur.low);
-                }
+                if (isHigh) swingHighs.push(visibleData[i].high);
+                if (isLow) swingLows.push(visibleData[i].low);
             }
 
-            // Find closest support level below current price
-            let finalSupport = latestPrice * 0.95; // Default 5% stop if none detected
-            const belowPrices = supportLevels.filter(p => p < latestPrice).sort((a, b) => b - a);
+            // Find closest support below current price
+            let finalSupport = lowSum; // fallback to absolute lowest in the window
+            const belowPrices = swingLows.filter(p => p < latestPrice).sort((a, b) => b - a);
             if (belowPrices.length > 0) {
                 finalSupport = belowPrices[0];
+            } else {
+                // If no swing lows below price, find the lowest of the last 15 candles
+                const last15 = visibleData.slice(-15);
+                let low15 = 99999999;
+                last15.forEach(d => { if (d.low < low15) low15 = d.low; });
+                finalSupport = low15;
             }
 
-            // Find closest resistance level above current price
-            let finalResistance = latestPrice * 1.08; // Default 8% target if none detected
-            const abovePrices = resistanceLevels.filter(p => p > latestPrice).sort((a, b) => a - b);
+            // Find closest resistance above current price
+            let finalResistance = highSum; // fallback to absolute highest in the window
+            const abovePrices = swingHighs.filter(p => p > latestPrice).sort((a, b) => a - b);
             if (abovePrices.length > 0) {
                 finalResistance = abovePrices[0];
+            } else {
+                // If no swing highs above price, find the highest of the last 15 candles
+                const last15 = visibleData.slice(-15);
+                let high15 = -99999999;
+                last15.forEach(d => { if (d.high > high15) high15 = d.high; });
+                finalResistance = high15;
             }
 
             supportPrice = finalSupport;
