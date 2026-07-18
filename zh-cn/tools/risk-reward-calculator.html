@@ -826,6 +826,24 @@
 
         let currentDurationStep = 3; // default step 3
 
+        // Fetch wrapper with strict timeout support to prevent infinite loading
+        async function fetchWithTimeout(resource, options = {}) {
+            const { timeout = 4000 } = options;
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(resource, {
+                    ...options,
+                    signal: controller.signal
+                });
+                clearTimeout(id);
+                return response;
+            } catch (error) {
+                clearTimeout(id);
+                throw error;
+            }
+        }
+
         // Safe localStorage wrappers to prevent crashes in private browsing / sandboxes
         function safeGetItem(key, defaultValue) {
             try {
@@ -1055,16 +1073,22 @@
             const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${currentTimeframe}&limit=250`;
             let data;
             try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error("Binance API error");
+                // Try direct fetch with 4s timeout
+                const res = await fetchWithTimeout(url, { timeout: 4000 });
+                if (!res.ok) throw new Error("Binance API error status " + res.status);
                 data = await res.json();
             } catch (err) {
-                console.warn("Direct Binance fetch failed, trying CORS proxy fallback...", err);
+                console.warn("Direct Binance fetch failed (timeout or block), trying CORS proxy fallback...", err);
                 const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-                const res = await fetch(proxyUrl);
-                if (!res.ok) throw new Error("Binance API CORS proxy fallback error");
-                const jsonWrapper = await res.json();
-                data = JSON.parse(jsonWrapper.contents);
+                try {
+                    const res = await fetchWithTimeout(proxyUrl, { timeout: 7000 });
+                    if (!res.ok) throw new Error("CORS Proxy response status " + res.status);
+                    const jsonWrapper = await res.json();
+                    data = JSON.parse(jsonWrapper.contents);
+                } catch (proxyErr) {
+                    console.error("CORS proxy fallback also failed:", proxyErr);
+                    throw new Error("無法連接交易所 API（直連与代理均超时），请稍後再試。");
+                }
             }
 
             chartData = data.map(d => ({
@@ -1110,8 +1134,8 @@
             try {
                 const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
                 const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-                const res = await fetch(proxyUrl);
-                if (!res.ok) throw new Error("CORS Proxy error");
+                const res = await fetchWithTimeout(proxyUrl, { timeout: 8000 });
+                if (!res.ok) throw new Error("CORS Proxy error status " + res.status);
                 const jsonWrapper = await res.json();
                 const data = JSON.parse(jsonWrapper.contents);
 
@@ -1157,7 +1181,7 @@
                 
                 const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
                 const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-                const res = await fetch(proxyUrl);
+                const res = await fetchWithTimeout(proxyUrl, { timeout: 8000 });
                 if (!res.ok) throw new Error("CORS Proxy error during fallback");
                 const jsonWrapper = await res.json();
                 const data = JSON.parse(jsonWrapper.contents);
