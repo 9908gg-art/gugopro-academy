@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リスクリワード即時スキャナー | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        select option {
+            background-color: #1a1f26 !important;
+            color: #ffffff !important;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .cat-tab {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 153, 0, 0.05);
+        }
+
+        .cat-tab.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .scanner-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto 32px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+            margin-top: 16px;
+        }
+
+        .results-table th, .results-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .results-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .results-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .rank-1 { background: #ffd700; color: #000; }
+        .rank-2 { background: #c0c0c0; color: #000; }
+        .rank-3 { background: #cd7f32; color: #000; }
+        .rank-other { background: rgba(255,255,255,0.08); color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財務アカデミー</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 実戦ツール <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="compound-interest.html">高配当複利計算機</a>
+                    <a href="risk-reward-calculator.html">サポレジ＆リスクリワード計算機</a>
+                    <a href="risk-reward-scanner.html">リスクリワード即時スキャナー</a>
+                    <a href="tradingview-guide.html">TradingView 推薦登録</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main style="padding-top: 40px;">
+        <div class="hero" style="padding: 20px 24px 40px; max-width: 1200px; margin: 0 auto; text-align: center;">
+            <div class="hero-badge">
+                <i class="fa-solid fa-radar"></i> 全球商品掃描 ‧ 尋找高期望值機會
+            </div>
+            <h1>リスクリワード即時スキャナー</h1>
+            <p style="margin-bottom: 20px;">設定目標風報比與歷史K線回測範圍，一鍵批次篩選全市場加密貨幣、美股、台股與全球指數期貨，自動尋找潛在報酬最高的交易機會！</p>
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <a href="../fundamentals/risk-management.html" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 153, 0, 0.1); border: 1px solid rgba(255, 153, 0, 0.2); color: var(--accent); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: var(--transition);">
+                    <i class="fa-solid fa-book-open"></i> 回到 1.3 風報比教學單元 ➔
+                </a>
+                <a href="./risk-reward-calculator.html" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.2); color: #4caf50; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: var(--transition);">
+                    <i class="fa-solid fa-calculator"></i> 使用支撐壓力計算機 ➔
+                </a>
+            </div>
+        </div>
+
+        <div class="scanner-card">
+            <h2 style="font-size: 1.3rem; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #fff;">
+                <i class="fa-solid fa-square-rss" style="color: var(--accent);"></i> 搜尋篩選設定
+            </h2>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="setCategory('all')" id="cat-all">全市場</button>
+                <button class="cat-tab" onclick="setCategory('crypto')" id="cat-crypto">加密貨幣市場</button>
+                <button class="cat-tab" onclick="setCategory('stocks')" id="cat-stocks">全球股票</button>
+                <button class="cat-tab" onclick="setCategory('futures')" id="cat-futures">全球指數期貨</button>
+            </div>
+
+            <!-- Scanner Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: end; margin-bottom: 24px;">
+                <div class="input-group">
+                    <label><span>最低風報比要求 (Min R:R)</span><span id="scan-rr-val" style="color: var(--accent); font-weight: bold;">1 : 3.0</span></label>
+                    <input type="range" id="scan-min-rr" min="1.5" max="5.0" step="0.5" value="3.0" oninput="document.getElementById('scan-rr-val').innerText = '1 : ' + parseFloat(this.value).toFixed(1)" style="-webkit-appearance: none; background: rgba(255, 255, 255, 0.05); height: 6px; border-radius: 3px; outline: none; margin-top: 10px; cursor: pointer;">
+                </div>
+                
+                <div class="input-group">
+                    <label>K線時間週期 (Interval)</label>
+                    <select id="scan-timeframe" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
+                        <option value="15m">15M (十五分鐘)</option>
+                        <option value="30m">30M (三十分鐘)</option>
+                        <option value="1h">1H (一小時)</option>
+                        <option value="4h">4H (四小時)</option>
+                        <option value="1d" selected>1D (日線)</option>
+                        <option value="1w">1W (周線)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>回測K線根數 (Candle Range)</label>
+                    <select id="scan-candles" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
+                        <option value="30">近 30 根 K 線 (短線)</option>
+                        <option value="60" selected>近 60 根 K 線 (標準)</option>
+                        <option value="100">近 100 根 K 線 (中線)</option>
+                        <option value="150">近 150 根 K 線 (長線)</option>
+                    </select>
+                </div>
+                
+                <button onclick="startScanning()" style="background: var(--accent); border: none; border-radius: 8px; color: #000; font-weight: bold; padding: 12px 24px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; height: 42px;">
+                    <i class="fa-solid fa-play"></i> 開始掃描市場
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div id="scan-progress-container" style="display: none; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">
+                    <span id="scan-status-text">正在初始化掃描...</span>
+                    <span id="scan-progress-text">0%</span>
+                </div>
+                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                    <div id="scan-progress-bar" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear;"></div>
+                </div>
+            </div>
+            
+            <!-- Results Table -->
+            <div id="scan-results-container" style="overflow-x: auto;">
+                <table class="results-table">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">
+                            <th style="width: 60px; text-align: center;">排行</th>
+                            <th>商品代碼</th>
+                            <th>市場類型</th>
+                            <th>當前價格</th>
+                            <th>區間支撐 (最低)</th>
+                            <th>區間壓力 (最高)</th>
+                            <th style="color: var(--accent);">計算風報比</th>
+                            <th style="text-align: center;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scan-results-body">
+                        <tr>
+                            <td colspan="8" style="padding: 32px; text-align: center; color: var(--text-secondary);">
+                                <i class="fa-solid fa-circle-info"></i> 尚未開始掃描，請點選「開始掃描市場」按鈕。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">ホーム</a>
+            <a href="../fundamentals/index.html">基礎ステージ</a>
+            <a href="../stocks/index.html">株式コース</a>
+            <a href="../futures/index.html">先物コース</a>
+            <a href="../quant/index.html">クオンツコース</a>
+            <a href="../privacy-policy.html">プライバシーポリシー</a>
+            <a href="../terms-of-service.html">免責事項と利用規約</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../app.js"></script>
+    <script>
+        let currentCategory = 'all';
+
+        const tickersPool = [
+            // Crypto
+            { symbol: "BTC", name: "比特幣", type: "crypto" },
+            { symbol: "ETH", name: "乙太幣", type: "crypto" },
+            { symbol: "SOL", name: "Solana", type: "crypto" },
+            { symbol: "BNB", name: "幣安幣", type: "crypto" },
+            { symbol: "LINK", name: "Chainlink", type: "crypto" },
+            { symbol: "DOGE", name: "狗狗幣", type: "crypto" },
+            // Stocks
+            { symbol: "AAPL", name: "蘋果", type: "stock" },
+            { symbol: "TSLA", name: "特斯拉", type: "stock" },
+            { symbol: "NVDA", name: "輝達", type: "stock" },
+            { symbol: "MSFT", name: "微軟", type: "stock" },
+            { symbol: "2330", name: "台積電", type: "stock" },
+            { symbol: "2317", name: "鴻海", type: "stock" },
+            // Futures
+            { symbol: "ES=F", name: "標普 500 期指", type: "futures" },
+            { symbol: "NQ=F", name: "納斯達克期指", type: "futures" },
+            { symbol: "YM=F", name: "道瓊期指", type: "futures" },
+            { symbol: "GC=F", name: "黃金期貨", type: "futures" },
+            { symbol: "CL=F", name: "原油期貨", type: "futures" }
+        ];
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            const tabs = document.querySelectorAll('.cat-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById('cat-' + cat).classList.add('active');
+        }
+
+        function formatPrice(val) {
+            if (val >= 1000) {
+                return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            if (val >= 1) {
+                return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+            }
+            return val.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 6 });
+        }
+
+        async function analyzeSymbol(symbolObj, timeframe, candlesCount) {
+            let rawQuery = symbolObj.symbol;
+            let type = symbolObj.type;
+            if (type === "stock" && /^\d{4}$/.test(rawQuery)) {
+                rawQuery += ".TW";
+            }
+
+            try {
+                let candles = [];
+                if (type === "crypto") {
+                    const binanceSymbol = rawQuery.endsWith("USDT") ? rawQuery : rawQuery + "USDT";
+                    const binanceInterval = timeframe;
+                    const url = `https://api.binance.com/api/v3/klines?symbol=${binanceSymbol}&interval=${binanceInterval}&limit=250`;
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error("Binance API error");
+                    const data = await res.json();
+                    candles = data.map(d => ({
+                        open: parseFloat(d[1]),
+                        high: parseFloat(d[2]),
+                        low: parseFloat(d[3]),
+                        close: parseFloat(d[4]),
+                        time: d[0]
+                    }));
+                } else {
+                    let yahooInterval = "1d";
+                    let yahooRange = "6mo";
+                    if (timeframe === "15m") {
+                        yahooInterval = "15m";
+                        yahooRange = "1mo";
+                    } else if (timeframe === "30m") {
+                        yahooInterval = "30m";
+                        yahooRange = "1mo";
+                    } else if (timeframe === "1h") {
+                        yahooInterval = "60m";
+                        yahooRange = "2mo";
+                    } else if (timeframe === "4h") {
+                        yahooInterval = "1d";
+                        yahooRange = "6mo";
+                    } else if (timeframe === "1d") {
+                        yahooInterval = "1d";
+                        yahooRange = "6mo";
+                    } else if (timeframe === "1w") {
+                        yahooInterval = "1wk";
+                        yahooRange = "2y";
+                    }
+                    
+                    const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${rawQuery}?interval=${yahooInterval}&range=${yahooRange}`;
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error("CORS Proxy error");
+                    const jsonWrapper = await res.json();
+                    const data = JSON.parse(jsonWrapper.contents);
+
+                    if (!data.chart || !data.chart.result || !data.chart.result[0]) {
+                        throw new Error("No stock data");
+                    }
+                    const result = data.chart.result[0];
+                    const timestamps = result.timestamp || [];
+                    const quotes = result.indicators.quote[0];
+
+                    for (let i = 0; i < timestamps.length; i++) {
+                        if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
+                            candles.push({
+                                open: quotes.open[i],
+                                high: quotes.high[i],
+                                low: quotes.low[i],
+                                close: quotes.close[i],
+                                time: timestamps[i] * 1000
+                            });
+                        }
+                    }
+                }
+
+                if (candles.length < 5) return { success: false };
+
+                // Slice based on candlesCount parameter
+                const visibleData = candles.slice(-candlesCount);
+                if (visibleData.length === 0) return { success: false };
+
+                const latestPrice = visibleData[visibleData.length - 1].close;
+                
+                let highSum = -99999999;
+                let lowSum = 99999999;
+                visibleData.forEach(d => {
+                    if (d.high > highSum) highSum = d.high;
+                    if (d.low < lowSum) lowSum = d.low;
+                });
+
+                const supportPrice = lowSum;
+                const resistancePrice = highSum;
+
+                const riskPct = ((latestPrice - supportPrice) / latestPrice) * 100;
+                const rewardPct = ((resistancePrice - latestPrice) / latestPrice) * 100;
+                let rrRatio = 0;
+                if (riskPct > 0) {
+                    rrRatio = rewardPct / riskPct;
+                }
+
+                return {
+                    success: true,
+                    latestPrice,
+                    supportPrice,
+                    resistancePrice,
+                    rrRatio,
+                    riskPct,
+                    rewardPct
+                };
+
+            } catch (err) {
+                console.error("Error analyzing " + rawQuery, err);
+                return { success: false };
+            }
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startScanning() {
+            const minRR = parseFloat(document.getElementById('scan-min-rr').value);
+            const scanTf = document.getElementById('scan-timeframe').value;
+            const scanCandles = parseInt(document.getElementById('scan-candles').value);
+            const progressContainer = document.getElementById('scan-progress-container');
+            const progressBar = document.getElementById('scan-progress-bar');
+            const statusText = document.getElementById('scan-status-text');
+            const progressText = document.getElementById('scan-progress-text');
+            const resultsBody = document.getElementById('scan-results-body');
+
+            // Filter tickers based on category selection
+            const filteredTickers = tickersPool.filter(ticker => {
+                if (currentCategory === 'all') return true;
+                return ticker.type === currentCategory;
+            });
+
+            progressContainer.style.display = 'block';
+            resultsBody.innerHTML = `<tr><td colspan="8" style="padding: 24px; text-align: center; color: var(--text-secondary);"><i class="fa-solid fa-spinner fa-spin"></i> 正在批次請求並分析市場數據，請稍候...</td></tr>`;
+
+            let scannedList = [];
+
+            for (let i = 0; i < filteredTickers.length; i++) {
+                const ticker = filteredTickers[i];
+                const progressPct = Math.round(((i + 1) / filteredTickers.length) * 100);
+                
+                progressBar.style.width = `${progressPct}%`;
+                progressText.innerText = `${progressPct}%`;
+                statusText.innerText = `正在讀取並分析商品: ${ticker.symbol} (${ticker.name}) [${i+1}/${filteredTickers.length}]`;
+
+                const res = await analyzeSymbol(ticker, scanTf, scanCandles);
+                if (res.success) {
+                    scannedList.push({
+                        ticker: ticker,
+                        data: res
+                    });
+                }
+
+                await sleep(200); // Politeness delay to prevent CORS proxy block
+            }
+
+            progressBar.style.width = `100%`;
+            progressText.innerText = `100%`;
+            statusText.innerText = `掃描完成！共成功讀取並分析了 ${scannedList.length} 款商品！`;
+
+            // Sort all scanned list items by R:R descending
+            scannedList.sort((a, b) => b.data.rrRatio - a.data.rrRatio);
+
+            if (scannedList.length === 0) {
+                resultsBody.innerHTML = `<tr><td colspan="8" style="padding: 32px; text-align: center; color: var(--text-secondary);"><i class="fa-solid fa-circle-question"></i> 無法取得任何商品的數據。請檢查網路或稍後再試。</td></tr>`;
+                return;
+            }
+
+            let finalHtml = "";
+            scannedList.forEach((item, index) => {
+                const rankNum = index + 1;
+                const ticker = item.ticker;
+                const res = item.data;
+
+                const rankClass = rankNum === 1 ? 'rank-1' : (rankNum === 2 ? 'rank-2' : (rankNum === 3 ? 'rank-3' : 'rank-other'));
+                const rrColor = res.rrRatio >= 3.0 ? '#4caf50' : (res.rrRatio >= 1.5 ? 'var(--accent)' : '#ff3333');
+                const badgeText = ticker.type === 'crypto' ? '加密貨幣' : (ticker.type === 'stock' ? (ticker.symbol.match(/^\d+$/) ? '台股' : '美股') : '期貨');
+                const badgeColor = ticker.type === 'crypto' ? '#3f51b5' : (ticker.type === 'stock' ? (ticker.symbol.match(/^\d+$/) ? '#e91e63' : '#4caf50') : '#9c27b0');
+
+                // Apply opacity or warning indicator if below user requested RR filter
+                const meetsFilter = res.rrRatio >= minRR;
+                const rowOpacityStyle = meetsFilter ? "" : "opacity: 0.55;";
+
+                finalHtml += `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); ${rowOpacityStyle}">
+                        <td style="text-align: center; padding: 14px 12px;">
+                            <span class="rank-badge ${rankClass}">${rankNum}</span>
+                        </td>
+                        <td style="padding: 14px 12px; font-weight: bold; color: #fff;">
+                            ${ticker.symbol} 
+                            <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:normal;">(${ticker.name})</span>
+                        </td>
+                        <td style="padding: 14px 12px;">
+                            <span style="background:${badgeColor}15; color:${badgeColor}; border:1px solid ${badgeColor}30; padding:2px 6px; border-radius:4px; font-size:0.75rem;">${badgeText}</span>
+                        </td>
+                        <td style="padding: 14px 12px; font-weight: 500;">${formatPrice(res.latestPrice)}</td>
+                        <td style="padding: 14px 12px; color: #ff3333;">${formatPrice(res.supportPrice)} (-${res.riskPct.toFixed(2)}%)</td>
+                        <td style="padding: 14px 12px; color: #4caf50;">${formatPrice(res.resistancePrice)} (+${res.rewardPct.toFixed(2)}%)</td>
+                        <td style="padding: 14px 12px; font-weight: bold; color: ${rrColor};">1 : ${res.rrRatio.toFixed(2)} ${meetsFilter ? '🔥' : ''}</td>
+                        <td style="padding: 14px 12px; text-align: center;">
+                            <a href="./risk-reward-calculator.html?symbol=${ticker.symbol}&timeframe=${scanTf}&candles=${scanCandles}" class="ticker-btn" style="text-decoration:none; display:inline-block; font-weight:bold; padding: 6px 12px; background: rgba(255,153,0,0.1); color: var(--accent); border-color: rgba(255,153,0,0.3);">
+                                立即畫線看圖 <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            resultsBody.innerHTML = finalHtml;
+        }
+    </script>
+</body>
+</html>
