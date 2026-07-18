@@ -23,6 +23,17 @@
             gap: 32px;
             margin-top: 32px;
         }
+        
+        .tf-btn.active {
+            background: var(--accent) !important;
+            color: #000 !important;
+        }
+        
+        @media (max-width: 992px) {
+            .chart-body {
+                grid-template-columns: 1fr !important;
+            }
+        }
 
         .tool-panel {
             background: var(--bg-secondary);
@@ -579,6 +590,15 @@
                             <span class="chart-symbol" id="display-symbol">BTC/USDT</span>
                             <span class="logo-tag" style="font-size: 0.75rem;" id="data-source-badge">Binance Realtime</span>
                         </div>
+                        
+                        <!-- Timeframe Selector -->
+                        <div class="timeframe-selector" style="display: flex; gap: 4px; background: rgba(255,255,255,0.03); padding: 3px; border-radius: 6px; border: 1px solid var(--border-color);">
+                            <button class="tf-btn" onclick="setTimeframe('1h')" data-tf="1h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1H</button>
+                            <button class="tf-btn" onclick="setTimeframe('4h')" data-tf="4h" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">4H</button>
+                            <button class="tf-btn active" onclick="setTimeframe('1d')" data-tf="1d" style="background: var(--accent); color: #000; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1D</button>
+                            <button class="tf-btn" onclick="setTimeframe('1w')" data-tf="1w" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1W</button>
+                        </div>
+
                         <div class="chart-price-info">
                             <span class="chart-price-item">最新價:<span class="chart-price-value" id="price-latest">-</span></span>
                             <span class="chart-price-item">最高:<span class="chart-price-value" id="price-high">-</span></span>
@@ -586,13 +606,48 @@
                         </div>
                     </div>
 
-                    <!-- Canvas -->
-                    <div class="canvas-container">
-                        <div class="chart-loading" id="chart-loader">
-                            <div class="spinner"></div>
-                            <span style="color: var(--text-secondary); font-size: 0.9rem;">正在向全球交易所拉取歷史 K 線數據...</span>
+                    <!-- Chart Body (Canvas & Live Stats Sidebar) -->
+                    <div class="chart-body" style="display: grid; grid-template-columns: 1fr 280px; gap: 20px;">
+                        <!-- Canvas -->
+                        <div class="canvas-container" style="position: relative; height: 380px;">
+                            <div class="chart-loading" id="chart-loader">
+                                <div class="spinner"></div>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem;">正在向全球交易所拉取歷史 K 線數據...</span>
+                            </div>
+                            <canvas id="kline-canvas"></canvas>
                         </div>
-                        <canvas id="kline-canvas"></canvas>
+                        
+                        <!-- Live Stats Sidebar -->
+                        <div class="chart-sidebar" style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <h4 style="margin: 0; font-size: 0.95rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-square-poll-vertical" style="color: var(--accent);"></i> 即時風報比數據
+                                </h4>
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+                                        <span>進場價 (Entry):</span>
+                                        <span id="side-entry-val" style="color: #fff; font-weight: bold;">-</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+                                        <span>支撐價 (停損):</span>
+                                        <span id="side-support-val" style="color: #ff3333; font-weight: bold;">-</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+                                        <span>壓力價 (停利):</span>
+                                        <span id="side-resistance-val" style="color: #4caf50; font-weight: bold;">-</span>
+                                    </div>
+                                </div>
+                                <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 8px 0;">
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px;">リスクリワード比 (R:R)</span>
+                                    <span id="side-rr-ratio" style="font-size: 2.2rem; font-weight: 900; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">1 : -</span>
+                                </div>
+                            </div>
+                            
+                            <div id="side-action-badge" style="text-align: center; padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                                等待數據...
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -655,6 +710,72 @@
                 </div>
             </div>
         </div>
+        <!-- Scanner Section -->
+        <div class="scanner-card" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-top: 32px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+            <h2 style="font-size: 1.3rem; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #fff;">
+                <i class="fa-solid fa-square-rss" style="color: var(--accent);"></i> 風報比即時篩選搜尋器 (Scanner)
+            </h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">
+                設定目標風報比與時間週期，一鍵掃描主流加密貨幣、美股與台股，自動尋找目前最具有高期望值的交易機會！
+            </p>
+            
+            <!-- Scanner Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: end; margin-bottom: 24px;">
+                <div class="input-group">
+                    <label><span>最低風報比要求 (Min R:R)</span><span id="scan-rr-val" style="color: var(--accent); font-weight: bold;">1 : 3.0</span></label>
+                    <input type="range" id="scan-min-rr" min="1.5" max="5.0" step="0.5" value="3.0" oninput="document.getElementById('scan-rr-val').innerText = '1 : ' + parseFloat(this.value).toFixed(1)" style="-webkit-appearance: none; background: rgba(255, 255, 255, 0.05); height: 6px; border-radius: 3px; outline: none; margin-top: 10px;">
+                </div>
+                
+                <div class="input-group">
+                    <label>時間週期 (Timeframe)</label>
+                    <select id="scan-timeframe" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
+                        <option value="1h">1H (一小時)</option>
+                        <option value="4h">4H (四小時)</option>
+                        <option value="1d" selected>1D (日線)</option>
+                        <option value="1w">1W (周線)</option>
+                    </select>
+                </div>
+                
+                <button onclick="startScanning()" style="background: var(--accent); border: none; border-radius: 8px; color: #000; font-weight: bold; padding: 12px 24px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; height: 42px;">
+                    <i class="fa-solid fa-play"></i> 開始掃描市場
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div id="scan-progress-container" style="display: none; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">
+                    <span id="scan-status-text">正在初始化掃描...</span>
+                    <span id="scan-progress-text">0%</span>
+                </div>
+                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                    <div id="scan-progress-bar" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear;"></div>
+                </div>
+            </div>
+            
+            <!-- Results Table -->
+            <div id="scan-results-container" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">
+                            <th style="padding: 12px 8px;">商品代碼</th>
+                            <th style="padding: 12px 8px;">市場類型</th>
+                            <th style="padding: 12px 8px;">當前價格</th>
+                            <th style="padding: 12px 8px;">支撐位 (停損)</th>
+                            <th style="padding: 12px 8px;">壓力位 (停利)</th>
+                            <th style="padding: 12px 8px; color: var(--accent);">計算風報比</th>
+                            <th style="padding: 12px 8px; text-align: center;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scan-results-body">
+                        <tr>
+                            <td colspan="7" style="padding: 24px; text-align: center; color: var(--text-secondary);">
+                                <i class="fa-solid fa-circle-info"></i> 尚未開始掃描，請點選「開始掃描市場」按鈕。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -676,6 +797,913 @@
     <script>
         // Global Chart State Variables
         let chartData = [];
+        let latestPrice = 0;
+        let entryPrice = 0;
+        let supportPrice = 0;
+        let resistancePrice = 0;
+        let minPriceWindow = 0;
+        let maxPriceWindow = 0;
+        let currentTimeframe = '1d'; // '1h', '4h', '1d', '1w'
+
+        // Drag & Drop State Variables
+        let isDragging = false;
+        let draggedLine = null; // 'support', 'resistance', or 'entry'
+        let hoveredLine = null;  // 'support', 'resistance', or 'entry'
+
+        const canvas = document.getElementById('kline-canvas');
+        const ctx = canvas.getContext('2d');
+        const loader = document.getElementById('chart-loader');
+
+        // Initialize Canvas Resize Observer
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth * window.devicePixelRatio;
+            canvas.height = container.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            drawChart();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Normalize inputs & route api source
+        function getSymbolRequest(rawSymbol) {
+            let symbol = rawSymbol.trim().toUpperCase();
+            if (!symbol) return null;
+
+            // Normalize Taiwan Tickers (e.g. 2330 -> 2330.TW)
+            if (/^\d{4,5}$/.test(symbol)) {
+                return { query: symbol + ".TW", type: "stock" };
+            }
+
+            // Normalize Crypto Tickers (e.g. BTC -> BTCUSDT)
+            const commonCrypto = ["BTC", "ETH", "SOL", "ADA", "DOGE", "XRP", "BNB", "DOT", "LINK", "AVAX"];
+            if (commonCrypto.includes(symbol)) {
+                return { query: symbol + "USDT", type: "crypto" };
+            }
+            if (symbol.endsWith("USDT") || symbol.endsWith("BUSD")) {
+                return { query: symbol, type: "crypto" };
+            }
+
+            return { query: symbol, type: "stock" };
+        }
+
+        function setQuickSymbol(sym) {
+            document.getElementById('symbol-input').value = sym;
+            fetchChartData();
+        }
+
+        // Fetch prices from public sources
+        async function fetchChartData() {
+            const rawSymbol = document.getElementById('symbol-input').value;
+            const req = getSymbolRequest(rawSymbol);
+            if (!req) return;
+
+            showLoader(true);
+            document.getElementById('display-symbol').innerText = req.query;
+
+            try {
+                if (req.type === "crypto") {
+                    document.getElementById('data-source-badge').innerText = "Binance Realtime (" + currentTimeframe.toUpperCase() + ")";
+                    await fetchBinanceCrypto(req.query);
+                } else {
+                    let tfText = currentTimeframe.toUpperCase();
+                    if (currentTimeframe === "4h") {
+                        tfText = "1D (Yahoo無4H)";
+                    }
+                    document.getElementById('data-source-badge').innerText = "Yahoo Finance (" + tfText + ")";
+                    await fetchYahooStock(req.query);
+                }
+            } catch (err) {
+                console.error(err);
+                showError("無法讀取市場報價，請確認代碼是否輸入正確（如美股 AAPL, 台股 2330）");
+            }
+        }
+
+        function showLoader(show) {
+            loader.style.display = show ? 'flex' : 'none';
+        }
+
+        function showError(msg) {
+            loader.style.display = 'flex';
+            loader.innerHTML = `<div class="chart-error"><i class="fa-solid fa-triangle-exclamation"></i> <span>${msg}</span></div>`;
+        }
+
+        async function fetchBinanceCrypto(symbol) {
+            const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${currentTimeframe}&limit=60`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("Binance API error");
+            const data = await res.json();
+
+            chartData = data.map(d => ({
+                time: d[0],
+                open: parseFloat(d[1]),
+                high: parseFloat(d[2]),
+                low: parseFloat(d[3]),
+                close: parseFloat(d[4])
+            }));
+
+            processMarketData();
+        }
+
+        async function fetchYahooStock(symbol) {
+            let yahooInterval = "1d";
+            let yahooRange = "3mo";
+            if (currentTimeframe === "1h") {
+                yahooInterval = "60m";
+                yahooRange = "1mo";
+            } else if (currentTimeframe === "4h") {
+                yahooInterval = "1d";
+                yahooRange = "3mo";
+            } else if (currentTimeframe === "1d") {
+                yahooInterval = "1d";
+                yahooRange = "3mo";
+            } else if (currentTimeframe === "1w") {
+                yahooInterval = "1wk";
+                yahooRange = "1y";
+            }
+
+            const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+            const res = await fetch(proxyUrl);
+            if (!res.ok) throw new Error("CORS Proxy error");
+            const jsonWrapper = await res.json();
+            const data = JSON.parse(jsonWrapper.contents);
+
+            if (!data.chart || !data.chart.result || !data.chart.result[0]) {
+                throw new Error("No stock data returned");
+            }
+
+            const result = data.chart.result[0];
+            const timestamps = result.timestamp || [];
+            const quotes = result.indicators.quote[0];
+
+            chartData = [];
+            for (let i = 0; i < timestamps.length; i++) {
+                if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
+                    chartData.push({
+                        time: timestamps[i] * 1000,
+                        open: quotes.open[i],
+                        high: quotes.high[i],
+                        low: quotes.low[i],
+                        close: quotes.close[i]
+                    });
+                }
+            }
+
+            if (chartData.length === 0) throw new Error("Empty Quote dataset");
+            processMarketData();
+        }
+
+        // Run Support / Resistance detection peak algorithms
+        function processMarketData() {
+            latestPrice = chartData[chartData.length - 1].close;
+            entryPrice = latestPrice;
+
+            // Update latest stats in Header
+            document.getElementById('price-latest').innerText = formatPrice(latestPrice);
+            
+            let highSum = 0;
+            let lowSum = 99999999;
+            chartData.forEach(d => {
+                if (d.high > highSum) highSum = d.high;
+                if (d.low < lowSum) lowSum = d.low;
+            });
+            document.getElementById('price-high').innerText = formatPrice(highSum);
+            document.getElementById('price-low').innerText = formatPrice(lowSum);
+
+            // Pivot Points (波峰波谷分形演算，滾動窗格 N=2)
+            let resistanceLevels = [];
+            let supportLevels = [];
+
+            for (let i = 2; i < chartData.length - 2; i++) {
+                const cur = chartData[i];
+                const prev1 = chartData[i-1];
+                const prev2 = chartData[i-2];
+                const next1 = chartData[i+1];
+                const next2 = chartData[i+2];
+
+                // Peak Peak (阻力波峰)
+                if (cur.high > prev1.high && cur.high > prev2.high && cur.high > next1.high && cur.high > next2.high) {
+                    resistanceLevels.push(cur.high);
+                }
+
+                // Valley Valley (支撐波谷)
+                if (cur.low < prev1.low && cur.low < prev2.low && cur.low < next1.low && cur.low < next2.low) {
+                    supportLevels.push(cur.low);
+                }
+            }
+
+            // Find closest support level below current price
+            let finalSupport = latestPrice * 0.95; // Default 5% stop if none detected
+            const belowPrices = supportLevels.filter(p => p < latestPrice).sort((a, b) => b - a);
+            if (belowPrices.length > 0) {
+                finalSupport = belowPrices[0];
+            }
+
+            // Find closest resistance level above current price
+            let finalResistance = latestPrice * 1.08; // Default 8% target if none detected
+            const abovePrices = resistanceLevels.filter(p => p > latestPrice).sort((a, b) => a - b);
+            if (abovePrices.length > 0) {
+                finalResistance = abovePrices[0];
+            }
+
+            supportPrice = finalSupport;
+            resistancePrice = finalResistance;
+
+            // Configure Sliders Min Max boundaries
+            const rangeSupportMin = latestPrice * 0.70;
+            const rangeSupportMax = latestPrice;
+            const rangeResistanceMin = latestPrice;
+            const rangeResistanceMax = latestPrice * 1.30;
+
+            const sliderSupport = document.getElementById('slider-support');
+            sliderSupport.min = rangeSupportMin;
+            sliderSupport.max = rangeSupportMax;
+            sliderSupport.value = supportPrice;
+            sliderSupport.step = ((rangeSupportMax - rangeSupportMin) / 200).toString();
+
+            const sliderResistance = document.getElementById('slider-resistance');
+            sliderResistance.min = rangeResistanceMin;
+            sliderResistance.max = rangeResistanceMax;
+            sliderResistance.value = resistancePrice;
+            sliderResistance.step = ((rangeResistanceMax - rangeResistanceMin) / 200).toString();
+
+            updateUIPanel();
+            showLoader(false);
+            resizeCanvas();
+        }
+
+        // Adjust prices manually from +/- buttons
+        function adjustPrice(type, direction) {
+            let step = latestPrice * 0.005; // 0.5% default step size
+            if (type === 'entry') {
+                entryPrice += direction * step;
+                if (entryPrice < 0) entryPrice = 0;
+            } else if (type === 'support') {
+                supportPrice += direction * step;
+                if (supportPrice < 0) supportPrice = 0;
+                document.getElementById('slider-support').value = supportPrice;
+            } else if (type === 'resistance') {
+                resistancePrice += direction * step;
+                if (resistancePrice < 0) resistancePrice = 0;
+                document.getElementById('slider-resistance').value = resistancePrice;
+            }
+            updateUIPanel();
+            drawChart();
+        }
+
+        // Handle text input manual change
+        function onManualPriceChange() {
+            entryPrice = parseFloat(document.getElementById('price-entry').value) || latestPrice;
+            supportPrice = parseFloat(document.getElementById('price-support').value) || (latestPrice * 0.95);
+            resistancePrice = parseFloat(document.getElementById('price-resistance').value) || (latestPrice * 1.08);
+
+            document.getElementById('slider-support').value = supportPrice;
+            document.getElementById('slider-resistance').value = resistancePrice;
+
+            updateMetrics();
+            drawChart();
+        }
+
+        // Handle Slider drag
+        function onSliderChange(type) {
+            if (type === 'support') {
+                supportPrice = parseFloat(document.getElementById('slider-support').value);
+            } else if (type === 'resistance') {
+                resistancePrice = parseFloat(document.getElementById('slider-resistance').value);
+            }
+            updateUIPanel();
+            drawChart();
+        }
+
+        // Format Currency display values
+        function formatPrice(val) {
+            if (val >= 1000) {
+                return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            if (val >= 1) {
+                return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+            }
+            return val.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 6 });
+        }
+
+        // Update Text inputs and metrics in side panel
+        function updateUIPanel() {
+            document.getElementById('price-entry').value = entryPrice.toFixed(4);
+            document.getElementById('price-support').value = supportPrice.toFixed(4);
+            document.getElementById('price-resistance').value = resistancePrice.toFixed(4);
+
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            const riskPct = ((entryPrice - supportPrice) / entryPrice) * 100;
+            const rewardPct = ((resistancePrice - entryPrice) / entryPrice) * 100;
+
+            // Render stats percentages
+            document.getElementById('support-percent').innerText = `-${riskPct.toFixed(2)}%`;
+            document.getElementById('resistance-percent').innerText = `+${rewardPct.toFixed(2)}%`;
+
+            document.getElementById('val-risk-pct').innerText = `${riskPct.toFixed(2)}%`;
+            document.getElementById('val-reward-pct').innerText = `${rewardPct.toFixed(2)}%`;
+
+            // Calculate R:R Ratio
+            let rrRatio = 0;
+            if (riskPct > 0) {
+                rrRatio = rewardPct / riskPct;
+            }
+
+            const rrText = `1 : ${rrRatio.toFixed(2)}`;
+            document.getElementById('val-rr-ratio').innerText = rrText;
+
+            // Update new side R:R display
+            document.getElementById('side-entry-val').innerText = formatPrice(entryPrice);
+            document.getElementById('side-support-val').innerText = `${formatPrice(supportPrice)} (-${riskPct.toFixed(2)}%)`;
+            document.getElementById('side-resistance-val').innerText = `${formatPrice(resistancePrice)} (+${rewardPct.toFixed(2)}%)`;
+            document.getElementById('side-rr-ratio').innerText = rrText;
+
+            // Update visual slider meter bar proportion
+            const banner = document.getElementById('recommendation-banner');
+            const icon = document.getElementById('rating-icon');
+            const title = document.getElementById('rating-title');
+            const desc = document.getElementById('rating-desc');
+            const sideAction = document.getElementById('side-action-badge');
+
+            const barRisk = document.getElementById('bar-risk');
+            const barReward = document.getElementById('bar-reward');
+
+            const total = (riskPct <= 0 ? 0 : riskPct) + (rewardPct <= 0 ? 0 : rewardPct);
+            if (total > 0) {
+                const riskBarPct = Math.max(5, Math.min(95, ((riskPct / total) * 100)));
+                barRisk.style.width = `${riskBarPct}%`;
+                barReward.style.width = `${100 - riskBarPct}%`;
+            } else {
+                barRisk.style.width = `50%`;
+                barReward.style.width = `50%`;
+            }
+
+            // Trading Strategy Recommendations Rating System
+            banner.className = 'rating-banner'; // clear previous
+            if (rrRatio >= 3.0) {
+                banner.classList.add('success');
+                icon.innerText = '✅';
+                title.innerText = `優質划算交易！目前的風報比為 ${rrText}`;
+                desc.innerText = `技術停損寬度合適，利潤空間約為風險的 ${rrRatio.toFixed(1)} 倍。屬於數學大數法則極具期望值的交易，值得考慮佈局。`;
+                
+                sideAction.style.background = 'rgba(76, 175, 80, 0.1)';
+                sideAction.style.color = '#4caf50';
+                sideAction.style.borderColor = 'rgba(76, 175, 80, 0.3)';
+                sideAction.innerText = '✅ 優質交易';
+            } else if (rrRatio >= 1.5) {
+                banner.classList.add('warning');
+                icon.innerText = '⚠️';
+                title.innerText = `普通交易。目前的風報比為 ${rrText}`;
+                desc.innerText = `風報比尚可但並不完美。建議您不要急著追高，可以耐心等待價格回檔到更接近支撐點（${formatPrice(supportPrice)}）的位置，以縮小停損空間。`;
+                
+                sideAction.style.background = 'rgba(255, 153, 0, 0.1)';
+                sideAction.style.color = 'var(--accent)';
+                sideAction.style.borderColor = 'rgba(255, 153, 0, 0.3)';
+                sideAction.innerText = '⚠️ 普通交易';
+            } else {
+                banner.classList.add('danger');
+                icon.innerText = '❌';
+                title.innerText = `風報比極差！不划算交易。目前的風報比為 ${rrText}`;
+                desc.innerText = `在此價位買入，您的風險距離太長而獲利空間被壓縮。代表目前正處於追高階段，強烈建議放棄這筆交易。`;
+                
+                sideAction.style.background = 'rgba(244, 67, 54, 0.1)';
+                sideAction.style.color = '#ff3333';
+                sideAction.style.borderColor = 'rgba(244, 67, 54, 0.3)';
+                sideAction.innerText = '❌ 不划算交易';
+            }
+        }
+
+        // Set Timeframe
+        function setTimeframe(tf) {
+            currentTimeframe = tf;
+            const tfBtns = document.querySelectorAll('.tf-btn');
+            tfBtns.forEach(btn => {
+                if (btn.getAttribute('data-tf') === tf) {
+                    btn.classList.add('active');
+                    btn.style.background = 'var(--accent)';
+                    btn.style.color = '#000';
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.background = 'transparent';
+                    btn.style.color = 'var(--text-secondary)';
+                }
+            });
+            fetchChartData();
+        }
+
+        // Mouse Coordinates helper
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            return { x, y };
+        }
+
+        // Price from Canvas Y Coordinate
+        function getPriceFromY(y) {
+            const h = canvas.height / window.devicePixelRatio;
+            const ratio = (h - 40 - y) / (h - 80);
+            const price = minPriceWindow + ratio * (maxPriceWindow - minPriceWindow);
+            return price;
+        }
+
+        // Detect if clicked near any of the lines
+        function getLineAtY(y) {
+            const h = canvas.height / window.devicePixelRatio;
+            
+            function getY(price) {
+                return h - 40 - ((price - minPriceWindow) / (maxPriceWindow - minPriceWindow)) * (h - 80);
+            }
+            
+            const ySupport = getY(supportPrice);
+            const yResistance = getY(resistancePrice);
+            const yEntry = getY(entryPrice);
+            
+            const threshold = 12; // hover sensitivity in pixels
+            
+            if (Math.abs(y - ySupport) <= threshold) {
+                return 'support';
+            }
+            if (Math.abs(y - yResistance) <= threshold) {
+                return 'resistance';
+            }
+            if (Math.abs(y - yEntry) <= threshold) {
+                return 'entry';
+            }
+            return null;
+        }
+
+        // Add Interactive Canvas dragging event listeners
+        canvas.addEventListener('mousedown', (e) => {
+            const pos = getMousePos(e);
+            hoveredLine = getLineAtY(pos.y);
+            if (hoveredLine) {
+                isDragging = true;
+                draggedLine = hoveredLine;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            const pos = getMousePos(e);
+            if (isDragging) {
+                let price = getPriceFromY(pos.y);
+                if (draggedLine === 'support') {
+                    if (price > entryPrice) price = entryPrice;
+                    supportPrice = price;
+                    document.getElementById('slider-support').value = supportPrice;
+                } else if (draggedLine === 'resistance') {
+                    if (price < entryPrice) price = entryPrice;
+                    resistancePrice = price;
+                    document.getElementById('slider-resistance').value = resistancePrice;
+                } else if (draggedLine === 'entry') {
+                    if (price < supportPrice) price = supportPrice;
+                    if (price > resistancePrice) price = resistancePrice;
+                    entryPrice = price;
+                }
+                updateUIPanel();
+                drawChart();
+            } else {
+                hoveredLine = getLineAtY(pos.y);
+                if (hoveredLine) {
+                    canvas.style.cursor = 'ns-resize';
+                } else {
+                    canvas.style.cursor = 'default';
+                }
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+            draggedLine = null;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+            draggedLine = null;
+        });
+
+        // Touch events for mobile dragging
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const y = touch.clientY - rect.top;
+                hoveredLine = getLineAtY(y);
+                if (hoveredLine) {
+                    isDragging = true;
+                    draggedLine = hoveredLine;
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (isDragging && e.touches.length === 1) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const y = touch.clientY - rect.top;
+                let price = getPriceFromY(y);
+                if (draggedLine === 'support') {
+                    if (price > entryPrice) price = entryPrice;
+                    supportPrice = price;
+                    document.getElementById('slider-support').value = supportPrice;
+                } else if (draggedLine === 'resistance') {
+                    if (price < entryPrice) price = entryPrice;
+                    resistancePrice = price;
+                    document.getElementById('slider-resistance').value = resistancePrice;
+                } else if (draggedLine === 'entry') {
+                    if (price < supportPrice) price = supportPrice;
+                    if (price > resistancePrice) price = resistancePrice;
+                    entryPrice = price;
+                }
+                updateUIPanel();
+                drawChart();
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', () => {
+            isDragging = false;
+            draggedLine = null;
+        });
+
+        // Draw custom K-Line chart on HTML5 Canvas
+        function drawChart() {
+            if (chartData.length === 0) return;
+
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Establish price boundaries
+            let maxHigh = -999999;
+            let minLow = 999999;
+
+            chartData.forEach(d => {
+                if (d.high > maxHigh) maxHigh = d.high;
+                if (d.low < minLow) minLow = d.low;
+            });
+
+            // Make sure support and resistance price lines fit on the scale
+            const safetyPrices = [entryPrice, supportPrice, resistancePrice, latestPrice];
+            safetyPrices.forEach(p => {
+                if (p > maxHigh) maxHigh = p;
+                if (p < minLow) minLow = p;
+            });
+
+            // Padding values
+            const paddingPrice = (maxHigh - minLow) * 0.08;
+            maxHigh += paddingPrice;
+            minLow -= paddingPrice;
+
+            minPriceWindow = minLow;
+            maxPriceWindow = maxHigh;
+
+            // Map Coordinates helper functions
+            function getY(price) {
+                return h - 40 - ((price - minLow) / (maxHigh - minLow)) * (h - 80);
+            }
+
+            // Draw Background grid lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.lineWidth = 1;
+            for (let i = 1; i <= 4; i++) {
+                const gridY = 40 + ((h - 80) / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(10, gridY);
+                ctx.lineTo(w - 70, gridY);
+                ctx.stroke();
+
+                // Grid label prices
+                const gridPrice = maxHigh - ((maxHigh - minLow) / 5) * i;
+                ctx.fillStyle = '#627285';
+                ctx.font = '10px Courier New';
+                ctx.fillText(formatPrice(gridPrice), w - 65, gridY + 3);
+            }
+
+            // Draw Shaded risk & reward indicator area backgrounds
+            const yEntry = getY(entryPrice);
+            const ySupport = getY(supportPrice);
+            const yEntryForShade = isNaN(yEntry) ? 0 : yEntry;
+            const ySupportForShade = isNaN(ySupport) ? 0 : ySupport;
+            const yResistance = getY(resistancePrice);
+            const yResistanceForShade = isNaN(yResistance) ? 0 : yResistance;
+
+            // Profit zone shaded green background
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.04)';
+            ctx.fillRect(10, Math.min(yEntryForShade, yResistanceForShade), w - 80, Math.abs(yEntryForShade - yResistanceForShade));
+
+            // Loss zone shaded red background
+            ctx.fillStyle = 'rgba(244, 67, 54, 0.04)';
+            ctx.fillRect(10, Math.min(yEntryForShade, ySupportForShade), w - 80, Math.abs(yEntryForShade - ySupportForShade));
+
+            // Draw Candlesticks bars
+            const barCount = chartData.length;
+            const chartWidth = w - 80;
+            const barWidth = Math.floor(chartWidth / barCount) - 2;
+
+            for (let i = 0; i < barCount; i++) {
+                const d = chartData[i];
+                const x = 10 + i * (chartWidth / barCount) + 1;
+                const yOpen = getY(d.open);
+                const yClose = getY(d.close);
+                const yHigh = getY(d.high);
+                const yLow = getY(d.low);
+
+                const isBullish = d.close >= d.open;
+
+                // Color themes
+                ctx.strokeStyle = isBullish ? '#4caf50' : '#ff3333';
+                ctx.fillStyle = isBullish ? 'rgba(76, 175, 80, 0.2)' : '#ff3333';
+                ctx.lineWidth = 1;
+
+                // Wick lines
+                ctx.beginPath();
+                ctx.moveTo(x + barWidth / 2, yHigh);
+                ctx.lineTo(x + barWidth / 2, yLow);
+                ctx.stroke();
+
+                // Candle Body blocks
+                ctx.beginPath();
+                ctx.fillRect(x, Math.min(yOpen, yClose), barWidth, Math.max(1, Math.abs(yOpen - yClose)));
+                ctx.strokeRect(x, Math.min(yOpen, yClose), barWidth, Math.max(1, Math.abs(yOpen - yClose)));
+            }
+
+            // Draw Support, Resistance and Entry lines
+            // 1. Support line (Green dashed)
+            ctx.strokeStyle = '#4caf50';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(10, ySupportForShade);
+            ctx.lineTo(w - 70, ySupportForShade);
+            ctx.stroke();
+
+            // 2. Resistance line (Red dashed)
+            ctx.strokeStyle = '#ff3333';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(10, yResistanceForShade);
+            ctx.lineTo(w - 70, yResistanceForShade);
+            ctx.stroke();
+
+            // 3. Entry line (Yellow solid)
+            ctx.strokeStyle = '#ffeb3b';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.moveTo(10, yEntryForShade);
+            ctx.lineTo(w - 70, yEntryForShade);
+            ctx.stroke();
+
+            // Labels right side badges backgrounds
+            ctx.font = 'bold 10px Inter, sans-serif';
+
+            // Support Label
+            ctx.fillStyle = '#4caf50';
+            ctx.fillRect(w - 68, ySupportForShade - 9, 62, 18);
+            ctx.fillStyle = '#000';
+            ctx.fillText("支撐:" + Math.round(supportPrice), w - 64, ySupportForShade + 3);
+
+            // Resistance Label
+            ctx.fillStyle = '#ff3333';
+            ctx.fillRect(w - 68, yResistanceForShade - 9, 62, 18);
+            ctx.fillStyle = '#fff';
+            ctx.fillText("壓力:" + Math.round(resistancePrice), w - 64, yResistanceForShade + 3);
+
+            // Entry Price Label
+            ctx.fillStyle = '#ffeb3b';
+            ctx.fillRect(w - 68, yEntryForShade - 9, 62, 18);
+            ctx.fillStyle = '#000';
+            ctx.fillText("買點:" + Math.round(entryPrice), w - 64, yEntryForShade + 3);
+        }
+
+        // ==========================================
+        // SCANNER IMPLEMENTATION
+        // ==========================================
+        const scanTickers = [
+            { symbol: "BTC", name: "比特幣", type: "crypto" },
+            { symbol: "ETH", name: "乙太幣", type: "crypto" },
+            { symbol: "SOL", name: "Solana", type: "crypto" },
+            { symbol: "BNB", name: "幣安幣", type: "crypto" },
+            { symbol: "LINK", name: "Chainlink", type: "crypto" },
+            { symbol: "DOGE", name: "狗狗幣", type: "crypto" },
+            { symbol: "AAPL", name: "蘋果", type: "stock" },
+            { symbol: "TSLA", name: "特斯拉", type: "stock" },
+            { symbol: "NVDA", name: "輝達", type: "stock" },
+            { symbol: "MSFT", name: "微軟", type: "stock" },
+            { symbol: "GOOGL", name: "谷歌", type: "stock" },
+            { symbol: "AMZN", name: "亞馬遜", type: "stock" },
+            { symbol: "2330", name: "台積電", type: "stock" },
+            { symbol: "2317", name: "鴻海", type: "stock" },
+            { symbol: "2454", name: "聯發科", type: "stock" },
+            { symbol: "2603", name: "長榮", type: "stock" }
+        ];
+
+        async function analyzeSymbol(symbolObj, timeframe) {
+            let rawQuery = symbolObj.symbol;
+            let type = symbolObj.type;
+            if (type === "stock" && /^\d{4}$/.test(rawQuery)) {
+                rawQuery += ".TW";
+            }
+
+            try {
+                let candles = [];
+                if (type === "crypto") {
+                    const binanceSymbol = rawQuery.endsWith("USDT") ? rawQuery : rawQuery + "USDT";
+                    const binanceInterval = timeframe;
+                    const url = `https://api.binance.com/api/v3/klines?symbol=${binanceSymbol}&interval=${binanceInterval}&limit=60`;
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error("Binance API error");
+                    const data = await res.json();
+                    candles = data.map(d => ({
+                        open: parseFloat(d[1]),
+                        high: parseFloat(d[2]),
+                        low: parseFloat(d[3]),
+                        close: parseFloat(d[4])
+                    }));
+                } else {
+                    let yahooInterval = "1d";
+                    let yahooRange = "3mo";
+                    if (timeframe === "1h") {
+                        yahooInterval = "60m";
+                        yahooRange = "1mo";
+                    } else if (timeframe === "4h") {
+                        yahooInterval = "1d";
+                        yahooRange = "3mo";
+                    } else if (timeframe === "1d") {
+                        yahooInterval = "1d";
+                        yahooRange = "3mo";
+                    } else if (timeframe === "1w") {
+                        yahooInterval = "1wk";
+                        yahooRange = "1y";
+                    }
+                    
+                    const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${rawQuery}?interval=${yahooInterval}&range=${yahooRange}`;
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error("CORS Proxy error");
+                    const jsonWrapper = await res.json();
+                    const data = JSON.parse(jsonWrapper.contents);
+
+                    if (!data.chart || !data.chart.result || !data.chart.result[0]) {
+                        throw new Error("No stock data");
+                    }
+                    const result = data.chart.result[0];
+                    const timestamps = result.timestamp || [];
+                    const quotes = result.indicators.quote[0];
+
+                    for (let i = 0; i < timestamps.length; i++) {
+                        if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
+                            candles.push({
+                                open: quotes.open[i],
+                                high: quotes.high[i],
+                                low: quotes.low[i],
+                                close: quotes.close[i]
+                            });
+                        }
+                    }
+                }
+
+                if (candles.length < 5) return { success: false };
+
+                const latestPrice = candles[candles.length - 1].close;
+                
+                // S/R Detection
+                let resistanceLevels = [];
+                let supportLevels = [];
+
+                for (let i = 2; i < candles.length - 2; i++) {
+                    const cur = candles[i];
+                    const prev1 = candles[i-1];
+                    const prev2 = candles[i-2];
+                    const next1 = candles[i+1];
+                    const next2 = candles[i+2];
+
+                    if (cur.high > prev1.high && cur.high > prev2.high && cur.high > next1.high && cur.high > next2.high) {
+                        resistanceLevels.push(cur.high);
+                    }
+                    if (cur.low < prev1.low && cur.low < prev2.low && cur.low < next1.low && cur.low < next2.low) {
+                        supportLevels.push(cur.low);
+                    }
+                }
+
+                let supportPrice = latestPrice * 0.95;
+                const belowPrices = supportLevels.filter(p => p < latestPrice).sort((a, b) => b - a);
+                if (belowPrices.length > 0) {
+                    supportPrice = belowPrices[0];
+                }
+
+                let resistancePrice = latestPrice * 1.08;
+                const abovePrices = resistanceLevels.filter(p => p > latestPrice).sort((a, b) => a - b);
+                if (abovePrices.length > 0) {
+                    resistancePrice = abovePrices[0];
+                }
+
+                const riskPct = ((latestPrice - supportPrice) / latestPrice) * 100;
+                const rewardPct = ((resistancePrice - latestPrice) / latestPrice) * 100;
+                let rrRatio = 0;
+                if (riskPct > 0) {
+                    rrRatio = rewardPct / riskPct;
+                }
+
+                return {
+                    success: true,
+                    latestPrice,
+                    supportPrice,
+                    resistancePrice,
+                    rrRatio,
+                    riskPct,
+                    rewardPct
+                };
+
+            } catch (err) {
+                console.error("Error analyzing " + rawQuery, err);
+                return { success: false };
+            }
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startScanning() {
+            const minRR = parseFloat(document.getElementById('scan-min-rr').value);
+            const scanTf = document.getElementById('scan-timeframe').value;
+            const progressContainer = document.getElementById('scan-progress-container');
+            const progressBar = document.getElementById('scan-progress-bar');
+            const statusText = document.getElementById('scan-status-text');
+            const progressText = document.getElementById('scan-progress-text');
+            const resultsBody = document.getElementById('scan-results-body');
+
+            progressContainer.style.display = 'block';
+            resultsBody.innerHTML = `<tr><td colspan="7" style="padding: 24px; text-align: center; color: var(--text-secondary);"><i class="fa-solid fa-spinner fa-spin"></i> 正在掃描市場商品，請稍候...</td></tr>`;
+
+            let matchesCount = 0;
+            let finalHtml = "";
+
+            for (let i = 0; i < scanTickers.length; i++) {
+                const ticker = scanTickers[i];
+                const progressPct = Math.round(((i + 1) / scanTickers.length) * 100);
+                
+                progressBar.style.width = `${progressPct}%`;
+                progressText.innerText = `${progressPct}%`;
+                statusText.innerText = `正在讀取並分析商品: ${ticker.symbol} (${ticker.name}) [${i+1}/${scanTickers.length}]`;
+
+                const res = await analyzeSymbol(ticker, scanTf);
+                if (res.success) {
+                    if (res.rrRatio >= minRR) {
+                        matchesCount++;
+                        const rrColor = res.rrRatio >= 3.0 ? '#4caf50' : (res.rrRatio >= 1.5 ? 'var(--accent)' : '#ff3333');
+                        const marketBadge = ticker.type === 'crypto' ? '加密貨幣' : (ticker.symbol.match(/^\d+$/) ? '台股' : '美股');
+                        const marketColor = ticker.type === 'crypto' ? '#3f51b5' : (ticker.symbol.match(/^\d+$/) ? '#e91e63' : '#4caf50');
+                        
+                        finalHtml += `
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); hover { background: rgba(255,255,255,0.02); }">
+                                <td style="padding: 14px 8px; font-weight: bold; color: #fff;">${ticker.symbol} <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:normal;">(${ticker.name})</span></td>
+                                <td style="padding: 14px 8px;"><span style="background:${marketColor}15; color:${marketColor}; border:1px solid ${marketColor}30; padding:2px 6px; border-radius:4px; font-size:0.75rem;">${marketBadge}</span></td>
+                                <td style="padding: 14px 8px; font-weight: 500;">${formatPrice(res.latestPrice)}</td>
+                                <td style="padding: 14px 8px; color: #ff3333;">${formatPrice(res.supportPrice)} (-${res.riskPct.toFixed(2)}%)</td>
+                                <td style="padding: 14px 8px; color: #4caf50;">${formatPrice(res.resistancePrice)} (+${res.rewardPct.toFixed(2)}%)</td>
+                                <td style="padding: 14px 8px; font-weight: bold; color: ${rrColor};">1 : ${res.rrRatio.toFixed(2)}</td>
+                                <td style="padding: 14px 8px; text-align: center;">
+                                    <button class="ticker-btn" onclick="loadScannedTicker('${ticker.symbol}', '${scanTf}')" style="background: rgba(255,153,0,0.1); color: var(--accent); border-color: rgba(255,153,0,0.3); font-weight:bold; padding: 4px 10px;">立即看圖 <i class="fa-solid fa-arrow-pointer"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+
+                await sleep(200); // polite rate limit delay
+            }
+
+            progressBar.style.width = `100%`;
+            progressText.innerText = `100%`;
+            statusText.innerText = `掃描完成！共找到 ${matchesCount} 個符合條件的商品！`;
+
+            if (matchesCount === 0) {
+                resultsBody.innerHTML = `<tr><td colspan="7" style="padding: 24px; text-align: center; color: var(--text-secondary);"><i class="fa-solid fa-circle-question"></i> 沒有符合風報比要求 1 : ${minRR.toFixed(1)} 的商品，請嘗試降低標準或切換時間週期。</td></tr>`;
+            } else {
+                resultsBody.innerHTML = finalHtml;
+            }
+        }
+
+        function loadScannedTicker(symbol, timeframe) {
+            document.getElementById('symbol-input').value = symbol;
+            setTimeframe(timeframe);
+            document.querySelector('.chart-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize App State
+        window.addEventListener('load', () => {
+            fetchChartData();
+        });
+    </script>
         let latestPrice = 0;
         let entryPrice = 0;
         let supportPrice = 0;
