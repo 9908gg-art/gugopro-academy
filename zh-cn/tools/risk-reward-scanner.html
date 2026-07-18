@@ -198,6 +198,8 @@
                 <div class="input-group">
                     <label>回測时间範圍 (Backtest Duration)</label>
                     <select id="scan-range" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
+                        <option value="6h">6小时 (極短線)</option>
+                        <option value="12h">12小时 (半日線)</option>
                         <option value="24h">1天 (24小时)</option>
                         <option value="3d">3天</option>
                         <option value="7d" selected>7天 (1周)</option>
@@ -447,7 +449,11 @@
             let scanCandles = 60;
 
             // Map range choice to calculator duration step (1-5)
-            if (scanRange === "24h") {
+            if (scanRange === "6h") {
+                durationStep = 1;
+            } else if (scanRange === "12h") {
+                durationStep = (scanTf === "15m") ? 2 : 1;
+            } else if (scanRange === "24h") {
                 durationStep = (scanTf === "15m") ? 3 : (scanTf === "30m" ? 2 : 1);
             } else if (scanRange === "3d") {
                 durationStep = (scanTf === "15m") ? 4 : (scanTf === "30m" ? 3 : 2);
@@ -465,6 +471,8 @@
 
             // Map scanRange key to actual milliseconds to compute approximate candles count
             const durationMsMap = {
+                "6h": 6 * 3600000,
+                "12h": 12 * 3600000,
                 "24h": 24 * 3600000,
                 "3d": 3 * 24 * 3600000,
                 "7d": 7 * 24 * 3600000,
