@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>支撐壓力與風險報酬比自動計算機 | GugoPro 財經教學學院</title>
+    <title>交易風報比 (R:R) 即時計算機 | GugoPro 財經教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -521,7 +521,7 @@
             <div class="hero-badge">
                 <i class="fa-solid fa-shield-halved"></i> 實戰風控工具 ‧ 告別盲目追高
             </div>
-            <h1>支撐壓力與風險報酬比自動計算機</h1>
+            <h1>交易風報比 (R:R) 即時計算機</h1>
             <p style="margin-bottom: 20px;">一鍵查詢最新商品價格，智慧型演算法自動偵測圖表關鍵「支撐位」與「壓力位」，即時算出最科學的交易風報比！</p>
             <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
                 <a href="../fundamentals/risk-management.html" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 153, 0, 0.1); border: 1px solid rgba(255, 153, 0, 0.2); color: var(--accent); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: var(--transition);">
@@ -1034,11 +1034,20 @@
         }
 
         async function fetchBinanceCrypto(symbol) {
-            // Fetch 250 candles to provide enough history for slicing
             const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${currentTimeframe}&limit=250`;
-            const res = await fetch(url);
-            if (!res.ok) throw new Error("Binance API error");
-            const data = await res.json();
+            let data;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Binance API error");
+                data = await res.json();
+            } catch (err) {
+                console.warn("Direct Binance fetch failed, trying CORS proxy fallback...", err);
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                const res = await fetch(proxyUrl);
+                if (!res.ok) throw new Error("Binance API CORS proxy fallback error");
+                const jsonWrapper = await res.json();
+                data = JSON.parse(jsonWrapper.contents);
+            }
 
             chartData = data.map(d => ({
                 time: d[0],
@@ -1048,8 +1057,12 @@
                 close: parseFloat(d[4])
             }));
 
-            // Start WebSocket Streaming
-            connectBinanceWS(symbol, currentTimeframe);
+            // Start WebSocket Streaming (failing WS should not block render)
+            try {
+                connectBinanceWS(symbol, currentTimeframe);
+            } catch (e) {
+                console.warn("WebSocket connection failed, relying on REST data stream", e);
+            }
             processMarketData();
         }
 
@@ -1701,7 +1714,6 @@
         
         // Initialize App State
         window.addEventListener('load', () => {
-            // Read URL Query parameters (e.g. from the Scanner page)
             const urlParams = new URLSearchParams(window.location.search);
             const symParam = urlParams.get('symbol');
             const tfParam = urlParams.get('timeframe');
@@ -1711,21 +1723,39 @@
                 document.getElementById('symbol-input').value = symParam.trim().toUpperCase();
             }
 
+            // Standardize timeframe keys to lowercase and validate
+            const validTimeframes = ['15m', '30m', '1h', '4h', '1d', '1w'];
             if (tfParam) {
-                currentTimeframe = tfParam;
-                localStorage.setItem('gugopro_rr_timeframe', tfParam);
+                let normalizedTf = tfParam.trim().toLowerCase();
+                if (validTimeframes.includes(normalizedTf)) {
+                    currentTimeframe = normalizedTf;
+                } else {
+                    currentTimeframe = '1h';
+                }
+                localStorage.setItem('gugopro_rr_timeframe', currentTimeframe);
             } else {
-                // Restore saved timeframe preference
-                const savedTf = localStorage.getItem('gugopro_rr_timeframe') || '1h';
-                currentTimeframe = savedTf;
+                let savedTf = localStorage.getItem('gugopro_rr_timeframe') || '1h';
+                savedTf = savedTf.trim().toLowerCase();
+                if (validTimeframes.includes(savedTf)) {
+                    currentTimeframe = savedTf;
+                } else {
+                    currentTimeframe = '1h';
+                }
             }
 
+            // Sanitize duration step parameter
             if (candlesParam) {
-                currentDurationStep = parseInt(candlesParam);
+                let step = parseInt(candlesParam);
+                if (isNaN(step) || step < 1 || step > 5) {
+                    step = 3;
+                }
+                currentDurationStep = step;
                 const slider = document.getElementById('visible-candles-slider');
                 if (slider) {
                     slider.value = currentDurationStep;
                 }
+            } else {
+                currentDurationStep = 3;
             }
 
             updateTimeframeUI(currentTimeframe);
