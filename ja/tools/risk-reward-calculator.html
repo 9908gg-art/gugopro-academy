@@ -826,6 +826,24 @@
 
         let currentDurationStep = 3; // default step 3
 
+        // Safe localStorage wrappers to prevent crashes in private browsing / sandboxes
+        function safeGetItem(key, defaultValue) {
+            try {
+                return localStorage.getItem(key) || defaultValue;
+            } catch (e) {
+                console.warn("localStorage read blocked:", e);
+                return defaultValue;
+            }
+        }
+
+        function safeSetItem(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                console.warn("localStorage write blocked:", e);
+            }
+        }
+
         function onVisibleDurationSliderChange(val) {
             currentDurationStep = parseInt(val);
             if (chartData.length > 0) {
@@ -1397,7 +1415,7 @@
         // Set Timeframe & save preference in LocalStorage
         function setTimeframe(tf) {
             currentTimeframe = tf;
-            localStorage.setItem('gugopro_rr_timeframe', tf);
+            safeSetItem('gugopro_rr_timeframe', tf);
             updateTimeframeUI(tf);
             fetchChartData();
         }
@@ -1714,52 +1732,61 @@
         
         // Initialize App State
         window.addEventListener('load', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const symParam = urlParams.get('symbol');
-            const tfParam = urlParams.get('timeframe');
-            const candlesParam = urlParams.get('candles');
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const symParam = urlParams.get('symbol');
+                const tfParam = urlParams.get('timeframe');
+                const candlesParam = urlParams.get('candles');
 
-            if (symParam) {
-                document.getElementById('symbol-input').value = symParam.trim().toUpperCase();
-            }
+                if (symParam) {
+                    const inputEl = document.getElementById('symbol-input');
+                    if (inputEl) inputEl.value = symParam.trim().toUpperCase();
+                }
 
-            // Standardize timeframe keys to lowercase and validate
-            const validTimeframes = ['15m', '30m', '1h', '4h', '1d', '1w'];
-            if (tfParam) {
-                let normalizedTf = tfParam.trim().toLowerCase();
-                if (validTimeframes.includes(normalizedTf)) {
-                    currentTimeframe = normalizedTf;
+                // Standardize timeframe keys to lowercase and validate
+                const validTimeframes = ['15m', '30m', '1h', '4h', '1d', '1w'];
+                if (tfParam) {
+                    let normalizedTf = tfParam.trim().toLowerCase();
+                    if (validTimeframes.includes(normalizedTf)) {
+                        currentTimeframe = normalizedTf;
+                    } else {
+                        currentTimeframe = '1h';
+                    }
+                    safeSetItem('gugopro_rr_timeframe', currentTimeframe);
                 } else {
-                    currentTimeframe = '1h';
+                    let savedTf = safeGetItem('gugopro_rr_timeframe', '1h');
+                    savedTf = savedTf.trim().toLowerCase();
+                    if (validTimeframes.includes(savedTf)) {
+                        currentTimeframe = savedTf;
+                    } else {
+                        currentTimeframe = '1h';
+                    }
                 }
-                localStorage.setItem('gugopro_rr_timeframe', currentTimeframe);
-            } else {
-                let savedTf = localStorage.getItem('gugopro_rr_timeframe') || '1h';
-                savedTf = savedTf.trim().toLowerCase();
-                if (validTimeframes.includes(savedTf)) {
-                    currentTimeframe = savedTf;
-                } else {
-                    currentTimeframe = '1h';
-                }
-            }
 
-            // Sanitize duration step parameter
-            if (candlesParam) {
-                let step = parseInt(candlesParam);
-                if (isNaN(step) || step < 1 || step > 5) {
-                    step = 3;
+                // Sanitize duration step parameter
+                if (candlesParam) {
+                    let step = parseInt(candlesParam);
+                    if (isNaN(step) || step < 1 || step > 5) {
+                        step = 3;
+                    }
+                    currentDurationStep = step;
+                    const slider = document.getElementById('visible-candles-slider');
+                    if (slider) {
+                        slider.value = currentDurationStep;
+                    }
+                } else {
+                    currentDurationStep = 3;
                 }
-                currentDurationStep = step;
-                const slider = document.getElementById('visible-candles-slider');
-                if (slider) {
-                    slider.value = currentDurationStep;
-                }
-            } else {
+
+                updateTimeframeUI(currentTimeframe);
+            } catch (loadErr) {
+                console.error("Error during app state initialization, recovering defaults:", loadErr);
+                currentTimeframe = '1h';
                 currentDurationStep = 3;
+            } finally {
+                // Ensure fetch is always attempted
+                fetchChartData();
             }
-
-            updateTimeframeUI(currentTimeframe);
-            fetchChartData();
         });
     
     </script>
