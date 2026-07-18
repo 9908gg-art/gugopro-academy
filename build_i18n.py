@@ -80,7 +80,7 @@ TRANSLATIONS = {
         "傳奇大師交易心法": "Legendary Traders",
         "實戰工具 / Tools": "Trading Tools",
         "高殖利率複利計算機": "Dividend Compounding Calculator",
-        "支撐壓力與風報比計算機": "Support/Resistance & R:R Calculator",
+        "交易風報比 (R:R) 即時計算機": "Realtime Risk-Reward (R:R) Calculator",
         "風報比即時篩選搜尋器 (Scanner)": "Realtime Risk-Reward Scanner",
         "大師選股篩選器 (Coming Soon)": "Master Stock Screener (Coming Soon)",
         "Z-Score 價差分析儀 (Coming Soon)": "Z-Score Spread Analyzer (Coming Soon)",
@@ -216,7 +216,7 @@ TRANSLATIONS = {
         "贏家核心密碼：風險報酬比 (Risk-to-Reward Ratio)": "The Winner's Core Code: Risk-to-Reward Ratio",
         "動態風險％：2% 是上限，你可以追求更低的曝險": "Dynamic Risk %: 2% is a Cap, Aim for Even Lower Exposure",
         "實戰：基於風報比與停損距離計算部位大小": "Practical: Position Sizing Based on R:R and Stop-Loss Distance",
-        "預告：學院專屬「支撐壓力與風報比計算機」即將上線！": "Teaser: Academy-Exclusive S/R and Risk-Reward Calculator is Coming Soon!",
+        "預告：學院專屬「交易風報比 (R:R) 即時計算機」即將上線！": "Teaser: Academy-Exclusive S/R and Risk-Reward Calculator is Coming Soon!",
         
         # Level 2 Landing overrides
         "Level 2: 📈 股票交易學程 | GugoPro 財經教學學院": "Level 2: 📈 Stock Path | GugoPro Academy",
@@ -414,7 +414,7 @@ TRANSLATIONS = {
         "傳奇大師交易心法": "伝説のトレーダー手法",
         "實戰工具 / Tools": "実戦ツール",
         "高殖利率複利計算機": "高配当複利計算機",
-        "支撐壓力與風報比計算機": "サポレジ＆リスクリワード計算機",
+        "交易風報比 (R:R) 即時計算機": "リアルタイム・リスクリワード（R:R）計算機",
         "風報比即時篩選搜尋器 (Scanner)": "リスクリワード即時スキャナー",
         "大師選股篩選器 (Coming Soon)": "大師の銘柄スクリーナー (準備中)",
         "Z-Score 價差分析儀 (Coming Soon)": "Zスコア・スプレッド分析器 (準備中)",
@@ -571,7 +571,7 @@ TRANSLATIONS = {
         "贏家核心密碼：風險報酬比 (Risk-to-Reward Ratio)": "勝者の核心コード：リスクリワード比",
         "動態風險％：2% 是上限，你可以追求更低的曝險": "動的リスク％：2%は上限、さらに低いリスクを追求可能",
         "實戰：基於風報比與停損距離計算部位大小": "実戰：リスクリワード比と損切り幅に基づくポジションサイジング",
-        "預告：學院專屬「支撐壓力與風報比計算機」即將上線！": "予告：アカデミー専用「サポレジ・リスクリワード計算機」近日公開！",
+        "預告：學院專屬「交易風報比 (R:R) 即時計算機」即將上線！": "予告：アカデミー専用「サポレジ・リスクリワード計算機」近日公開！",
         
         # Level 2 Landing overrides
         "Level 2: 📈 股票交易學程 | GugoPro 財經教學學院": "Level 2: 📈 株式コース | GugoPro アカデミー",
@@ -801,7 +801,7 @@ TRANSLATIONS['ko'].update({
     "返回量化學程": "양적 과정으로 돌아가기",
     "返回期貨學程": "선물 과정으로 돌아가기",
     "即將推出": "출시 예정",
-    "支撐壓力與風報比計算機": "지지저항 및 손익비 계산기",
+    "交易風報比 (R:R) 即時計算機": "실시간 손익비(R:R) 계산기",
     "風報比即時篩選搜尋器 (Scanner)": "손익비 실시간 스캐너"
 })
 
@@ -847,7 +847,7 @@ TRANSLATIONS['es'].update({
     "返回量化學程": "Volver al Curso Quant",
     "返回期貨學程": "Volver al Curso Futuros",
     "即將推出": "Próximamente",
-    "支撐壓力與風報比計算機": "Calculadora de Soporte/Resistencia y R:R",
+    "交易風報比 (R:R) 即時計算機": "Calculadora de R:R en Tiempo Real",
     "風報比即時篩選搜尋器 (Scanner)": "Escáner de R:R en Tiempo Real"
 })
 
@@ -893,7 +893,7 @@ TRANSLATIONS['vi'].update({
     "返回量化學程": "Trở lại Khóa Quant",
     "返回期貨學程": "Trở lại Khóa Tương lai",
     "即將推出": "Sắp ra mắt",
-    "支撐壓力與風報比計算機": "Công cụ tính Kháng cự/Hỗ trợ và R:R",
+    "交易風報比 (R:R) 即時計算機": "Công cụ tính R:R thời gian thực",
     "風報比即時篩選搜尋器 (Scanner)": "Công cụ quét R:R thời gian thực"
 })
 
