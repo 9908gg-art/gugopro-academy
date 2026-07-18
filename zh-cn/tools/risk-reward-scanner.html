@@ -196,12 +196,11 @@
                 </div>
 
                 <div class="input-group">
-                    <label>回測K線根數 (Candle Range)</label>
-                    <select id="scan-candles" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
-                        <option value="30">近 30 根 K 線 (短線)</option>
-                        <option value="60" selected>近 60 根 K 線 (标准)</option>
-                        <option value="100">近 100 根 K 線 (中線)</option>
-                        <option value="150">近 150 根 K 線 (長線)</option>
+                    <label>分析时间区间 (Analysis Range)</label>
+                    <select id="scan-range" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
+                        <option value="short">極短線 / 近期波段</option>
+                        <option value="medium" selected>标准 / 中期区间</option>
+                        <option value="long">長線 / 歷史大区间</option>
                     </select>
                 </div>
                 
@@ -430,12 +429,26 @@
         async function startScanning() {
             const minRR = parseFloat(document.getElementById('scan-min-rr').value);
             const scanTf = document.getElementById('scan-timeframe').value;
-            const scanCandles = parseInt(document.getElementById('scan-candles').value);
+            const scanRange = document.getElementById('scan-range').value;
             const progressContainer = document.getElementById('scan-progress-container');
             const progressBar = document.getElementById('scan-progress-bar');
             const statusText = document.getElementById('scan-status-text');
             const progressText = document.getElementById('scan-progress-text');
             const resultsBody = document.getElementById('scan-results-body');
+
+            // Map range choice to duration step index for calculator (step 2, 3, or 5)
+            let durationStep = 3;
+            let scanCandles = 60;
+            if (scanRange === "short") {
+                durationStep = 2;
+                scanCandles = 30;
+            } else if (scanRange === "medium") {
+                durationStep = 3;
+                scanCandles = 60;
+            } else if (scanRange === "long") {
+                durationStep = 5;
+                scanCandles = 120;
+            }
 
             // Filter tickers based on category selection
             const filteredTickers = tickersPool.filter(ticker => {
@@ -511,7 +524,7 @@
                         <td style="padding: 14px 12px; color: #4caf50;">${formatPrice(res.resistancePrice)} (+${res.rewardPct.toFixed(2)}%)</td>
                         <td style="padding: 14px 12px; font-weight: bold; color: ${rrColor};">1 : ${res.rrRatio.toFixed(2)} ${meetsFilter ? '🔥' : ''}</td>
                         <td style="padding: 14px 12px; text-align: center;">
-                            <a href="./risk-reward-calculator.html?symbol=${ticker.symbol}&timeframe=${scanTf}&candles=${scanCandles}" class="ticker-btn" style="text-decoration:none; display:inline-block; font-weight:bold; padding: 6px 12px; background: rgba(255,153,0,0.1); color: var(--accent); border-color: rgba(255,153,0,0.3);">
+                            <a href="./risk-reward-calculator.html?symbol=${ticker.symbol}&timeframe=${scanTf}&candles=${durationStep}" target="_blank" class="ticker-btn" style="text-decoration:none; display:inline-block; font-weight:bold; padding: 6px 12px; background: rgba(255,153,0,0.1); color: var(--accent); border-color: rgba(255,153,0,0.3);">
                                 立即畫線看圖 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </td>

@@ -632,13 +632,13 @@
                                 <canvas id="kline-canvas"></canvas>
                             </div>
                             
-                            <!-- Visible Candles Slider -->
+                            <!-- Visible Duration Slider -->
                             <div style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
                                 <span style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; display: flex; align-items: center; gap: 6px;">
-                                    <i class="fa-solid fa-arrows-left-right" style="color: var(--accent);"></i> 顯示 K 線區間:
+                                    <i class="fa-solid fa-clock" style="color: var(--accent);"></i> 分析時間範圍:
                                 </span>
-                                <input type="range" id="visible-candles-slider" min="20" max="150" value="60" oninput="onVisibleCandlesSliderChange(this.value)" style="flex: 1; -webkit-appearance: none; background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; outline: none; cursor: pointer;">
-                                <span id="visible-candles-val" style="font-size: 0.8rem; color: var(--accent); font-weight: bold; min-width: 70px; text-align: right;">60 根 K 線</span>
+                                <input type="range" id="visible-candles-slider" min="1" max="5" value="3" oninput="onVisibleDurationSliderChange(this.value)" style="flex: 1; -webkit-appearance: none; background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; outline: none; cursor: pointer;">
+                                <span id="visible-candles-val" style="font-size: 0.8rem; color: var(--accent); font-weight: bold; min-width: 120px; text-align: right;">3天 (載入中)</span>
                             </div>
                         </div>
                         
@@ -763,7 +763,7 @@
         let minPriceWindow = 0;
         let maxPriceWindow = 0;
         let currentTimeframe = '1h'; // default 1H on fresh load
-        let visibleCandlesCount = 60;
+        let currentDurationStep = 3;
 
         // WebSocket & Polling State
         let binanceSocket = null;
@@ -778,43 +778,58 @@
         const ctx = canvas.getContext('2d');
         const loader = document.getElementById('chart-loader');
 
-        // Format time range duration represented by visible candles
-        function updateVisibleCandlesDurationLabel(visibleData) {
-            if (!visibleData || visibleData.length < 2) return;
-            const ms = visibleData[visibleData.length - 1].time - visibleData[0].time;
-            const mins = Math.round(ms / 60000);
-            let durationText = "";
-            if (mins < 60) {
-                durationText = `${mins} 分鐘`;
-            } else {
-                const hrs = Math.round(mins / 60);
-                if (hrs < 24) {
-                    durationText = `${hrs} 小時`;
-                } else {
-                    const days = Math.round(hrs / 24);
-                    if (days < 30) {
-                        durationText = `${days} 天`;
-                    } else {
-                        const months = (days / 30.4).toFixed(1);
-                        if (parseFloat(months) < 12) {
-                            durationText = `${months} 個月`;
-                        } else {
-                            const years = (days / 365).toFixed(1);
-                            durationText = `${years} 年`;
-                        }
-                    }
-                }
-            }
-            document.getElementById('visible-candles-val').innerText = `${visibleCandlesCount} 根 K 線 (時間範圍: ${durationText})`;
-        }
+        // Adaptive Duration Presets mapping timeframe -> intuitive time durations
+        const durationPresets = {
+            "15m": [
+                { label: "4小時", ms: 4 * 3600000 },
+                { label: "12小時", ms: 12 * 3600000 },
+                { label: "1天", ms: 24 * 3600000 },
+                { label: "3天", ms: 3 * 24 * 3600000 },
+                { label: "5天", ms: 5 * 24 * 3600000 }
+            ],
+            "30m": [
+                { label: "8小時", ms: 8 * 3600000 },
+                { label: "1天", ms: 24 * 3600000 },
+                { label: "3天", ms: 3 * 24 * 3600000 },
+                { label: "5天", ms: 5 * 24 * 3600000 },
+                { label: "10天", ms: 10 * 24 * 3600000 }
+            ],
+            "1h": [
+                { label: "1天", ms: 24 * 3600000 },
+                { label: "3天", ms: 3 * 24 * 3600000 },
+                { label: "7天", ms: 7 * 24 * 3600000 },
+                { label: "14天", ms: 14 * 24 * 3600000 },
+                { label: "30天", ms: 30 * 24 * 3600000 }
+            ],
+            "4h": [
+                { label: "3天", ms: 3 * 24 * 3600000 },
+                { label: "7天", ms: 7 * 24 * 3600000 },
+                { label: "14天", ms: 14 * 24 * 3600000 },
+                { label: "30天", ms: 30 * 24 * 3600000 },
+                { label: "90天", ms: 90 * 24 * 3600000 }
+            ],
+            "1d": [
+                { label: "15天", ms: 15 * 24 * 3600000 },
+                { label: "30天 (1個月)", ms: 30 * 24 * 3600000 },
+                { label: "90天 (3個月)", ms: 90 * 24 * 3600000 },
+                { label: "180天 (6個月)", ms: 180 * 24 * 3600000 },
+                { label: "365天 (1年)", ms: 365 * 24 * 3600000 }
+            ],
+            "1w": [
+                { label: "90天 (3個月)", ms: 90 * 24 * 3600000 },
+                { label: "180天 (6個月)", ms: 180 * 24 * 3600000 },
+                { label: "1年", ms: 365 * 24 * 3600000 },
+                { label: "2年", ms: 2 * 365 * 24 * 3600000 },
+                { label: "3年", ms: 3 * 365 * 24 * 3600000 }
+            ]
+        };
 
-        // Slider change handler
-        function onVisibleCandlesSliderChange(val) {
-            visibleCandlesCount = parseInt(val);
+        let currentDurationStep = 3; // default step 3
+
+        function onVisibleDurationSliderChange(val) {
+            currentDurationStep = parseInt(val);
             if (chartData.length > 0) {
                 processMarketData();
-            } else {
-                document.getElementById('visible-candles-val').innerText = val + " 根 K 線";
             }
         }
 
@@ -1061,49 +1076,110 @@
                 yahooRange = "2y";
             }
 
-            const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-            const res = await fetch(proxyUrl);
-            if (!res.ok) throw new Error("CORS Proxy error");
-            const jsonWrapper = await res.json();
-            const data = JSON.parse(jsonWrapper.contents);
+            try {
+                const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                const res = await fetch(proxyUrl);
+                if (!res.ok) throw new Error("CORS Proxy error");
+                const jsonWrapper = await res.json();
+                const data = JSON.parse(jsonWrapper.contents);
 
-            if (!data.chart || !data.chart.result || !data.chart.result[0]) {
-                throw new Error("No stock data returned");
-            }
-
-            const result = data.chart.result[0];
-            const timestamps = result.timestamp || [];
-            const quotes = result.indicators.quote[0];
-
-            chartData = [];
-            for (let i = 0; i < timestamps.length; i++) {
-                if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
-                    chartData.push({
-                        time: timestamps[i] * 1000,
-                        open: quotes.open[i],
-                        high: quotes.high[i],
-                        low: quotes.low[i],
-                        close: quotes.close[i]
-                    });
+                if (!data.chart || !data.chart.result || !data.chart.result[0]) {
+                    throw new Error("No stock data returned");
                 }
-            }
 
-            if (chartData.length === 0) throw new Error("Empty Quote dataset");
-            
-            // Start Polling
-            startStockPolling(symbol);
-            processMarketData();
+                const result = data.chart.result[0];
+                const timestamps = result.timestamp || [];
+                const quotes = result.indicators.quote[0];
+
+                chartData = [];
+                for (let i = 0; i < timestamps.length; i++) {
+                    if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
+                        chartData.push({
+                            time: timestamps[i] * 1000,
+                            open: quotes.open[i],
+                            high: quotes.high[i],
+                            low: quotes.low[i],
+                            close: quotes.close[i]
+                        });
+                    }
+                }
+
+                if (chartData.length === 0) throw new Error("Empty Quote dataset");
+                
+                // Start Polling
+                startStockPolling(symbol);
+                processMarketData();
+
+            } catch (err) {
+                console.warn(`Yahoo fetch failed for ${symbol} at interval ${yahooInterval}, trying fallback to 1D...`, err);
+                if (yahooInterval === "1d") {
+                    throw err; // throw to fetchChartData catch
+                }
+                
+                // Fallback to 1D
+                currentTimeframe = "1d";
+                updateTimeframeUI("1d");
+                
+                yahooInterval = "1d";
+                yahooRange = "6mo";
+                
+                const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                const res = await fetch(proxyUrl);
+                if (!res.ok) throw new Error("CORS Proxy error during fallback");
+                const jsonWrapper = await res.json();
+                const data = JSON.parse(jsonWrapper.contents);
+
+                if (!data.chart || !data.chart.result || !data.chart.result[0]) {
+                    throw new Error("No stock data returned during fallback");
+                }
+
+                const result = data.chart.result[0];
+                const timestamps = result.timestamp || [];
+                const quotes = result.indicators.quote[0];
+
+                chartData = [];
+                for (let i = 0; i < timestamps.length; i++) {
+                    if (quotes.open[i] && quotes.high[i] && quotes.low[i] && quotes.close[i]) {
+                        chartData.push({
+                            time: timestamps[i] * 1000,
+                            open: quotes.open[i],
+                            high: quotes.high[i],
+                            low: quotes.low[i],
+                            close: quotes.close[i]
+                        });
+                    }
+                }
+
+                if (chartData.length === 0) throw new Error("Empty Quote dataset during fallback");
+                
+                startStockPolling(symbol);
+                processMarketData();
+            }
         }
 
         // Run Support / Resistance detection peak algorithms
         function processMarketData() {
-            // Slice the data to get the user's visible range
-            const visibleData = chartData.slice(-visibleCandlesCount);
-            if (visibleData.length === 0) return;
+            if (chartData.length === 0) return;
 
-            // Calculate and display duration represented by the visible range
-            updateVisibleCandlesDurationLabel(visibleData);
+            // Retrieve preset duration based on current interval and step
+            const presets = durationPresets[currentTimeframe] || durationPresets["1h"];
+            const selectedPreset = presets[currentDurationStep - 1] || presets[2];
+
+            const lastCandleTime = chartData[chartData.length - 1].time;
+            const cutoffTime = lastCandleTime - selectedPreset.ms;
+
+            // Filter data falling within the selected time window
+            let visibleData = chartData.filter(d => d.time >= cutoffTime);
+
+            // Ensure a minimum size so chart is readable
+            if (visibleData.length < 12) {
+                visibleData = chartData.slice(-15);
+            }
+
+            // Update range duration text label
+            document.getElementById('visible-candles-val').innerText = `${selectedPreset.label} (約 ${visibleData.length} 根 K 線)`;
 
             latestPrice = chartData[chartData.length - 1].close;
             entryPrice = latestPrice;
@@ -1453,9 +1529,14 @@
         function drawChart() {
             if (chartData.length === 0) return;
 
-            // Slice the data to get the user's visible range
-            const visibleData = chartData.slice(-visibleCandlesCount);
-            if (visibleData.length === 0) return;
+            // Filter chart data by selected duration range
+            const presets = durationPresets[currentTimeframe] || durationPresets["1h"];
+            const selectedPreset = presets[currentDurationStep - 1] || presets[2];
+            const cutoffTime = chartData[chartData.length - 1].time - selectedPreset.ms;
+            let visibleData = chartData.filter(d => d.time >= cutoffTime);
+            if (visibleData.length < 12) {
+                visibleData = chartData.slice(-15);
+            }
 
             const w = canvas.width / window.devicePixelRatio;
             const h = canvas.height / window.devicePixelRatio;
@@ -1640,14 +1721,10 @@
             }
 
             if (candlesParam) {
-                visibleCandlesCount = parseInt(candlesParam);
+                currentDurationStep = parseInt(candlesParam);
                 const slider = document.getElementById('visible-candles-slider');
                 if (slider) {
-                    slider.value = visibleCandlesCount;
-                }
-                const label = document.getElementById('visible-candles-val');
-                if (label) {
-                    label.innerText = visibleCandlesCount + " 根 K 線";
+                    slider.value = currentDurationStep;
                 }
             }
 
