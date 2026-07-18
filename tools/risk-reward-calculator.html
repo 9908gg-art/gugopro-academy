@@ -824,8 +824,6 @@
             ]
         };
 
-        let currentDurationStep = 3; // default step 3
-
         // Fetch wrapper with strict timeout support to prevent infinite loading
         async function fetchWithTimeout(resource, options = {}) {
             const { timeout = 4000 } = options;
