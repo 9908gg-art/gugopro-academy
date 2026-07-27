@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.2 永續合約與資金費率 (Funding Rate) 套利 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            background: rgba(255, 153, 0, 0.05);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.15) !important;
+            border-color: #4caf50 !important;
+            color: #4caf50 !important;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(244, 67, 54, 0.15) !important;
+            border-color: #f44336 !important;
+            color: #f44336 !important;
+        }
+
+        .quiz-explanation {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">財經學院</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 實戰工具 / Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">高殖利率複利計算機</a>
+                    <a href="../tools/risk-reward-calculator.html">交易風報比 (R:R) 即時計算機</a>
+                    <a href="../tools/risk-reward-scanner.html">風報比即時篩選搜尋器 (Scanner)</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
+        <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 5 加密貨幣學程地圖
+        </a>
+
+        <!-- Hero Card -->
+        <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
+            <div class="module-meta" style="margin-bottom: 12px;">
+                <span class="module-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border: 1px solid rgba(76, 175, 80, 0.3);">單元 5.2</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+            </div>
+            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">5.2 永續合約與資金費率 (Funding Rate) 套利</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                永續合約 (Perpetual Swaps) 是加密貨幣市場發明的創新金融商品。透過「資金費率 (Funding Rate)」機制，交易員可以建構 Delta-Neutral (Delta 中性) 策略，在不承受價格大漲大跌風險的情況下，賺取穩定的年化資金費收益！
+            </p>
+        </div>
+
+        <!-- Section 1 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-arrows-rotate" style="color: var(--accent);"></i> 章節一：資金費率 (Funding Rate) 的錨定機制</h2>
+            <p>傳統期貨有交割日 (Expiration Date)，到期時價格會強制回歸現貨。而永續合約永遠不交割，為了防止合約價格偏離現貨太遠，交易所每 8 小時收付一次「資金費率」：</p>
+            <div style="line-height: 1.7; color: var(--text-secondary);">
+                <p><strong style="color: #fff;">1. 當市場看漲情緒高漲 (合約價 > 現貨價)：</strong> 資金費率為正 (+0.01% ~ +0.1%)。做多 (Long) 的持倉者必須支付資金費給做空 (Short) 的持倉者。</p>
+                <p><strong style="color: #fff;">2. 當市場看跌恐慌 (合約價 < 現貨價)：</strong> 資金費率為負。做空 (Short) 的持倉者必須支付資金費給做多 (Long) 的持倉者。</p>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent);"></i> 章節二：Delta-Neutral (Delta 中性) 套利實戰</h2>
+            <p>在牛市強烈看漲時，資金費率通常居高不下。我們可以透過對沖構建「零價格風險」的套利組合：</p>
+            
+            <div style="background: rgba(255,255,255,0.02); border-left: 4px solid #4caf50; padding: 20px; border-radius: 6px; margin-top: 20px;">
+                <h3 style="margin-top:0; color:#fff;">套利組合操作步驟：</h3>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height: 1.7;">
+                    <strong>步驟 1：</strong> 在現貨市場買入 $10,000 美元的 BTC (Delta = +1)。<br>
+                    <strong>步驟 2：</strong> 在永續合約市場開立 $10,000 美元的 1X 幣本位/USDT 空單 (Delta = -1)。<br>
+                    <strong>淨部位效果：</strong> 組合總 Delta = 0。若 BTC 暴漲 50%，現貨賺 $5,000，合約虧 $5,000，資產總值完全不變！<br>
+                    <strong>收益來源：</strong> 每天收取 3 次空單資金費率（每次 +0.03% = 每日 0.09% ➔ 相當於年化近 33% 的利息收益）。
+                </p>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz Section -->
+        <div class="quiz-card">
+            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
+            </h3>
+
+            <!-- Quiz Q1 -->
+            <div style="margin-top: 20px;">
+                <p style="font-weight: bold; color: #fff;">Q1. 在加密貨幣永續合約市場中，當「資金費率 (Funding Rate)」為正數（例如 +0.05%）時，代表誰要向誰支付費用？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> A. 多頭持倉者 (Long) 支付給 空頭持倉者 (Short)
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> B. 空頭持倉者 (Short) 支付給 多頭持倉者 (Long)
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> C. 交易所支付給所有用戶
+                </div>
+                <div id="q1-exp-fr" class="quiz-explanation">
+                    <strong>解析正確！</strong> 正資金費率代表多頭熱情高漲推高合約價格。為了拉回現貨價格，多頭持倉者每 8 小時必須支付資金費給空頭持倉者。
+                </div>
+            </div>
+
+            <!-- Quiz Q2 -->
+            <div style="margin-top: 24px;">
+                <p style="font-weight: bold; color: #fff;">Q2. 執行 Delta-Neutral (Delta 中性) 資金費率套利時，投資人的總資產會受標的資產（如 BTC）價格大跌的影響嗎？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> A. 會，現貨虧損會導致總資產大幅縮水
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> B. 不會，因為現貨的多頭虧損會被合約 1X 空頭的等額獲利完全抵消 (淨 Delta = 0)
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-fr')">
+                    <i class="fa-regular fa-circle"></i> C. 會，會立刻觸發強制平倉
+                </div>
+                <div id="q2-exp-fr" class="quiz-explanation">
+                    <strong>解析正確！</strong> Delta 中性套利的精髓就在於現貨多頭與合約空頭的損益正好互相抵消，使得總資產淨值對價格波動完全免疫，專心收取資金費率。
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Module Navigation -->
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <a href="bitcoin-cycles.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-arrow-left"></i> 上一單元：5.1 比特幣減半週期與鏈上數據
+            </a>
+            <a href="../index.html" class="module-btn">
+                返回學院總地圖 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">首頁</a>
+            <a href="../fundamentals/index.html">啟蒙階段</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="../futures/index.html">期貨學程</a>
+            <a href="../quant/index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私權政策</a>
+            <a href="../terms-of-service.html">免責聲明與使用條款</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../app.js"></script>
+    <script>
+        function checkAnswer(el, isCorrect, expId) {
+            const parent = el.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            if (isCorrect) {
+                el.classList.add('correct');
+            } else {
+                el.classList.add('incorrect');
+            }
+
+            const exp = document.getElementById(expId);
+            if (exp) {
+                exp.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

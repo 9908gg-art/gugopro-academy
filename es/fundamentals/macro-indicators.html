@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.4 總體經濟指標全解析 (Fed/CPI/非農/ISM) | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            background: rgba(255, 153, 0, 0.05);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.15) !important;
+            border-color: #4caf50 !important;
+            color: #4caf50 !important;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(244, 67, 54, 0.15) !important;
+            border-color: #f44336 !important;
+            color: #f44336 !important;
+        }
+
+        .quiz-explanation {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .macro-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .macro-box h4 {
+            color: var(--accent);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">Academia Financiera</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/risk-reward-calculator.html">Calculadora de R:R en Tiempo Real</a>
+                    <a href="../tools/risk-reward-scanner.html">Escáner de R:R en Tiempo Real</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
+        <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 1 學程地圖
+        </a>
+
+        <!-- Hero Card -->
+        <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
+            <div class="module-meta" style="margin-bottom: 12px;">
+                <span class="module-badge" style="background: rgba(255, 153, 0, 0.15); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.3);">單元 1.4</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+            </div>
+            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">1.4 總體經濟指標全解析 (Fed / CPI / 非農 / ISM)</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                個股或單一技術線圖只是局部水流，而「總體經濟」才是決定全球資金走向的大海潮汐。本單元將帶您深入剖析美聯儲貨幣政策、通膨數據、勞動市場與製造業數據，教您如何看懂總經新聞背後的資金流向！
+            </p>
+        </div>
+
+        <!-- Section 1 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-building-columns" style="color: var(--accent);"></i> 章節一：美聯儲 (Fed) 貨幣政策與利率決策</h2>
+            <p>美聯儲 (Federal Reserve System) 作為全球最大經濟體的中央銀行，其頒布的「聯邦基金利率 (Federal Funds Rate)」被譽為全球資產定價的錨點。</p>
+
+            <div class="macro-grid">
+                <div class="macro-box">
+                    <h4><i class="fa-solid fa-arrow-trend-up"></i> 升息週期 (Rate Hikes)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        當通膨過熱時，央行提高利率拉高借貸成本，藉此抑制消費與投資需求。資金回流銀行存款與高殖利率債券，通常對股市與加密貨幣造成估值壓縮壓力。
+                    </p>
+                </div>
+                <div class="macro-box">
+                    <h4><i class="fa-solid fa-arrow-trend-down"></i> 降息週期 (Rate Cuts)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        當經濟面臨衰退風險或通膨降溫時，央行降息釋放市場流動性。企業融資成本下降，風險資金積極尋求高回報資產，推升股市與高風險商品拉升。
+                    </p>
+                </div>
+                <div class="macro-box">
+                    <h4><i class="fa-solid fa-chart-line"></i> 點陣圖 (Dot Plot)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        每季 FOMC 會議公佈，記錄 19 位美聯儲官員對未來數年利率終點的匿名預測。市場交易員常透過點陣圖預測未來的降息或升息幅度。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-newspaper" style="color: var(--accent);"></i> 章節二：三大引爆波動的核心經濟數據</h2>
+            <p>每個月在特定日期公佈的經濟數據，會在數秒鐘內造成幾百點的劇烈震盪。交易員必須精準掌握這三大數據：</p>
+
+            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #4caf50; padding: 16px 20px; border-radius: 4px;">
+                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">1. CPI / PCE 消費者物價指數 (Inflation Data)</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
+                        <strong>影響邏輯：</strong> CPI (消費者物價指數) 與 PCE (個人消費支出) 是衡量通膨的核心。若 CPI 高於市場預期（通膨頑固），美聯儲可能維持高利率更久（鷹派），利空股市；若低於預期（通膨降溫），預期降息利多股市。
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid var(--accent); padding: 16px 20px; border-radius: 4px;">
+                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">2. NFP 非農就業人口與失業率 (Labor Market)</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
+                        <strong>影響邏輯：</strong> 每個月第一個星期五公佈。新增就業人數與失業率反映勞動市場健康度。在通膨高企時，若非農數據過於強勁，反而會加深市場對央行持續升息的焦慮（Good news is bad news）。
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #2196f3; padding: 16px 20px; border-radius: 4px;">
+                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">3. ISM 製造業 & 服務業 PMI (PMI Business Survey)</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
+                        <strong>影響邏輯：</strong> 採購經理人指數以 <strong>50</strong> 作為榮枯分界線。PMI > 50 代表景氣擴張，PMI < 50 代表景氣緊縮。這是評估經濟是否會走向「軟著陸 (Soft Landing)」或「衰退 (Recession)」的前瞻指標。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-shield-cat" style="color: var(--accent);"></i> 章節三：數據公佈時的實戰交易風控心法</h2>
+            <div style="line-height: 1.8; color: var(--text-secondary);">
+                <p><strong style="color: #fff;">1. 避免在數據公佈前數分鐘押注勝負：</strong> 重大數據公佈瞬間，造市商的買賣點差 (Bid-Ask Spread) 會瞬間擴大數倍，並伴隨雙向洗盤（上下掃停損），盲目猜測方向極易遭到技術性爆倉。</p>
+                <p><strong style="color: #fff;">2. 觀察數據公佈後的「市場反應」而非僅看數字本身：</strong> 有時數據利空但價格不跌反漲（Bad news priced in），這往往代表空頭力竭與黃金買點出現。</p>
+                <p><strong style="color: #fff;">3. 搭配 1.3 單元風報比工具防守：</strong> 無論總經消息多麼完美，下單前必須先確定支撐位與停損點，利用 <a href="../tools/risk-reward-calculator.html" style="color: var(--accent); font-weight: bold;">風報比計算機</a> 算好 1:3 以上的預期回報才執行交易。</p>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz Section -->
+        <div class="quiz-card">
+            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">通過以下 2 題小測驗，檢驗您是否掌握了總體經濟指標的影響邏輯：</p>
+
+            <!-- Quiz Q1 -->
+            <div style="margin-top: 20px;">
+                <p style="font-weight: bold; color: #fff;">Q1. 當美聯儲 (Fed) 公佈的 CPI 通膨數據顯著「高於預期」時，金融市場通常會有何反應？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp')">
+                    <i class="fa-regular fa-circle"></i> A. 美國股市與加密貨幣大漲，因為代表經濟過熱
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp')">
+                    <i class="fa-regular fa-circle"></i> B. 市場預期央行將延後降息或持續升息，美元走強，股市受壓
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp')">
+                    <i class="fa-regular fa-circle"></i> C. 美聯儲會立刻宣佈降息以刺激經濟
+                </div>
+                <div id="q1-exp" class="quiz-explanation">
+                    <strong>解析正確！</strong> CPI 通膨高於預期代表通膨頑固，美聯儲需要保持高利率來壓制通膨，因此會引發降息預期破滅、美元強勢與風險資產受壓。
+                </div>
+            </div>
+
+            <!-- Quiz Q2 -->
+            <div style="margin-top: 24px;">
+                <p style="font-weight: bold; color: #fff;">Q2. 關於 ISM 製造業採購經理人指數 (PMI)，以下敘述何者正確？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp')">
+                    <i class="fa-regular fa-circle"></i> A. PMI 指數高於 100 才代表景氣擴張
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp')">
+                    <i class="fa-regular fa-circle"></i> B. 50 是 PMI 的榮枯線，高於 50 代表製造業景氣擴張，低於 50 代表緊縮
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp')">
+                    <i class="fa-regular fa-circle"></i> C. PMI 只對比特幣有影響，對股票完全沒有影響
+                </div>
+                <div id="q2-exp" class="quiz-explanation">
+                    <strong>解析正確！</strong> 50 是 PMI 的黃金榮枯分界線。PMI 指數超過 50 代表製造業整體處於擴張狀態，低於 50 則代表進入緊縮。
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Module Navigation -->
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <a href="risk-management.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-arrow-left"></i> 上一單元：1.3 Risk Control & Capital Management
+            </a>
+            <a href="global-linkage.html" class="module-btn">
+                下一單元：1.5 全球資產連動與美元指數 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Inicio</a>
+            <a href="index.html">Fundamentos</a>
+            <a href="../stocks/index.html">Curso de Acciones</a>
+            <a href="../futures/index.html">Curso de Futuros</a>
+            <a href="../quant/index.html">Curso de Quant</a>
+            <a href="../privacy-policy.html">Política de Privacidad</a>
+            <a href="../terms-of-service.html">Términos de Servicio y Descargo</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../app.js"></script>
+    <script>
+        function checkAnswer(el, isCorrect, expId) {
+            const parent = el.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            if (isCorrect) {
+                el.classList.add('correct');
+            } else {
+                el.classList.add('incorrect');
+            }
+
+            const exp = document.getElementById(expId);
+            if (exp) {
+                exp.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

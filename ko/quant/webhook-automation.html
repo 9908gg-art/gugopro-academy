@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF1DYLWMKX');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.5 TradingView Webhook 直連 API 自動化下單 | GugoPro 財經教學學院</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            background: rgba(255, 153, 0, 0.05);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.15) !important;
+            border-color: #4caf50 !important;
+            color: #4caf50 !important;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(244, 67, 54, 0.15) !important;
+            border-color: #f44336 !important;
+            color: #f44336 !important;
+        }
+
+        .quiz-explanation {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .code-snippet {
+            background: #11141a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #4caf50;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">GugoPro Academy</span>
+                <span class="logo-tag">금융 아카데미</span>
+            </a>
+            
+            <!-- Tools Selector -->
+            <div class="tools-selector">
+                <button class="tools-btn">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> Trading Tools <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="tools-dropdown">
+                    <a href="../tools/compound-interest.html">Dividend Compounding Calculator</a>
+                    <a href="../tools/risk-reward-calculator.html">실시간 손익비(R:R) 계산기</a>
+                    <a href="../tools/risk-reward-scanner.html">손익비 실시간 스캐너</a>
+                    <a href="../tools/tradingview-guide.html">TradingView Sign-up Offer</a>
+                </div>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+                    <a href="#" onclick="changeLanguage('en')">English</a>
+                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
+                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
+                    <a href="#" onclick="changeLanguage('es')">Español</a>
+                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
+        <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 4 양적 과정地圖
+        </a>
+
+        <!-- Hero Card -->
+        <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(3, 169, 244, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
+            <div class="module-meta" style="margin-bottom: 12px;">
+                <span class="module-badge" style="background: rgba(3, 169, 244, 0.15); color: #03a9f4; border: 1px solid rgba(3, 169, 244, 0.3);">單元 4.5</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+            </div>
+            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">4.5 TradingView Webhook 直連 API 自動化下單</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
+                回測出優秀的量化策略後，最關鍵的一步就是實現「零人為干預的全自動下單」。本單元將為您示範如何利用 TradingView 的 Webhook 警報，發送加密 JSON 訊號直連券商與交易所 API 執行自動交易！
+            </p>
+        </div>
+
+        <!-- Section 1 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-robot" style="color: var(--accent);"></i> 章節一：Webhook 自動化架構與運作原理</h2>
+            <p>Webhook 是一種在應用程式之間傳遞實時數據的 HTTP 回呼 (HTTP Callback) 機制。當 TradingView 圖表觸發訊號時，會以 POST 方式發送 JSON 數據至伺服器。</p>
+
+            <div style="background: rgba(255,255,255,0.02); border-left: 4px solid var(--accent); padding: 16px; border-radius: 6px; margin: 20px 0;">
+                <h4 style="margin-top:0; color:#fff;">全自動連線架構圖：</h4>
+                <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:0; line-height:1.7;">
+                    <strong>[ TradingView 策略訊號 ]</strong><br>
+                    ↓ (HTTP POST / Webhook JSON 訊號)<br>
+                    <strong>[ 中繼伺服器 Python Flask / Webhook Gateway ]</strong><br>
+                    ↓ (簽名認證 HMAC SHA256 / API Secret)<br>
+                    <strong>[ 交易所 API：Binance / OKX / 盈透證券 IBKR ]</strong> ➔ 自動開倉/平倉
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-code" style="color: var(--accent);"></i> 章節二：Pine Script 警報與 JSON Payload 配置</h2>
+            <p>在 Pine Script 程式碼中使用 <code>alert()</code> 函數動態傳送買賣方向與部位數量：</p>
+
+            <div class="code-snippet">
+<span style="color: #888;">// Pine Script v5 範例</span>
+if (longCondition)
+    alert('{"action": "BUY", "symbol": "BTCUSDT", "qty": 0.05, "type": "MARKET"}', alert.freq_once_per_bar_close)
+
+if (shortCondition)
+    alert('{"action": "SELL", "symbol": "BTCUSDT", "qty": 0.05, "type": "MARKET"}', alert.freq_once_per_bar_close)
+            </div>
+
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                在 TradingView 建立警報時，勾選 <strong>Webhook URL</strong>，輸入伺服器網址（例如 <code>https://your-server.com/webhook</code>），即可實現微秒級自動觸發。
+            </p>
+        </section>
+
+        <!-- Interactive Quiz Section -->
+        <div class="quiz-card">
+            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
+            </h3>
+
+            <!-- Quiz Q1 -->
+            <div style="margin-top: 20px;">
+                <p style="font-weight: bold; color: #fff;">Q1. 在進行 24 小時 Webhook 自動化交易時，確保 API 安全性的最重要措施是什麼？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-web')">
+                    <i class="fa-regular fa-circle"></i> A. 將 API Secret 金鑰公開貼在網路上供社群驗證
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-web')">
+                    <i class="fa-regular fa-circle"></i> B. 設定交易所 API IP 白名單、關閉提現 (Withdrawal) 權限，並對 Payload 進行 HMAC 簽名
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-web')">
+                    <i class="fa-regular fa-circle"></i> C. Webhook 傳輸不需要任何安全措施
+                </div>
+                <div id="q1-exp-web" class="quiz-explanation">
+                    <strong>解析正確！</strong> 量化交易 API 金鑰嚴禁開啟「提現權限」，且伺服器應綁定 TradingView 固定 IP 白名單並進行 HMAC 加密簽名，防止偽造訊號攻擊。
+                </div>
+            </div>
+
+            <!-- Quiz Q2 -->
+            <div style="margin-top: 24px;">
+                <p style="font-weight: bold; color: #fff;">Q2. 為什麼在 Pine Script 警報中建議使用 `alert.freq_once_per_bar_close`（K 線收盤才觸發）？</p>
+                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-web')">
+                    <i class="fa-regular fa-circle"></i> A. 防止 K 線在未收盤前因為價格閃爍造成重複發送過度下單 (Repainting/Over-trading)
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-web')">
+                    <i class="fa-regular fa-circle"></i> B. 為了讓交易所可以多收幾次手續費
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-web')">
+                    <i class="fa-regular fa-circle"></i> C. K 線收盤觸發會導致手續費變便宜
+                </div>
+                <div id="q2-exp-web" class="quiz-explanation">
+                    <strong>解析正確！</strong> 盤中 K 線尚未收盤時，指標可能產生虛假訊號（未來函數/Repainting）。在收盤時確認觸發能確保下單訊號與回測結果百分之百一致。
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Module Navigation -->
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <a href="pair-trading.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-arrow-left"></i> 上一單元：4.3 페어 트레이딩 실전
+            </a>
+            <a href="monte-carlo-simulation.html" class="module-btn">
+                下一單元：4.6 蒙地卡羅模擬與壓力測試 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">홈</a>
+            <a href="../fundamentals/index.html">기초 단계</a>
+            <a href="../stocks/index.html">주식 과정</a>
+            <a href="../futures/index.html">선물 과정</a>
+            <a href="index.html">양적 과정</a>
+            <a href="../privacy-policy.html">개인정보처리방침</a>
+            <a href="../terms-of-service.html">면책조항 및 이용약관</a>
+        </div>
+        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../app.js"></script>
+    <script>
+        function checkAnswer(el, isCorrect, expId) {
+            const parent = el.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            if (isCorrect) {
+                el.classList.add('correct');
+            } else {
+                el.classList.add('incorrect');
+            }
+
+            const exp = document.getElementById(expId);
+            if (exp) {
+                exp.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
