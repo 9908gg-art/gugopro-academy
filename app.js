@@ -2,7 +2,7 @@
 function changeLanguage(lang) {
     localStorage.setItem('user-language', lang);
     
-    // Get current pathname (e.g. "/tools/tradingview-guide.html" or "/en/tools/tradingview-guide.html")
+    // Get current pathname (e.g. "/tools/tradingview-guide.html" or "/ja/tools/tradingview-guide.html")
     var currentPath = window.location.pathname;
     
     // Supported language directories
@@ -11,25 +11,30 @@ function changeLanguage(lang) {
     // Split the path into parts
     var pathParts = currentPath.split('/');
     
-    // Remove the language prefix if it exists in the URL
-    if (pathParts.length > 1 && langs.includes(pathParts[1])) {
-        pathParts.splice(1, 1); // remove the language folder part
+    // Normalize empty last part (e.g. /ja/ or /tools/ -> index.html)
+    if (pathParts[pathParts.length - 1] === '') {
+        pathParts[pathParts.length - 1] = 'index.html';
     }
     
-    // Build the target path
+    // Remove current language directory prefix if present in URL
+    if (pathParts.length > 1 && langs.includes(pathParts[1].toLowerCase())) {
+        pathParts.splice(1, 1);
+    }
+    
+    // Build target path
     var targetPath = '';
     if (lang === 'zh-tw') {
-        // Redirect to root level
+        // Traditional Chinese is located at root level
         targetPath = pathParts.join('/');
     } else {
-        // Redirect to language subdirectory
-        pathParts.splice(1, 0, lang); // insert new language folder at index 1
+        // Insert target language folder at index 1
+        pathParts.splice(1, 0, lang);
         targetPath = pathParts.join('/');
     }
     
-    // Ensure we don't end up with empty path or double slashes
-    if (targetPath === '' || targetPath === '/') {
-        targetPath = '/index.html';
+    // Fallback if target path is empty or single slash
+    if (!targetPath || targetPath === '/') {
+        targetPath = lang === 'zh-tw' ? '/index.html' : '/' + lang + '/index.html';
     }
     
     window.location.href = targetPath;

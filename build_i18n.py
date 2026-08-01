@@ -945,6 +945,10 @@ def build_translated_pages():
                     
                     translated_content = re.sub(r'lang="zh-TW"', f'lang="{lang}"', translated_content)
                 
+                # Ensure root-relative asset paths for all languages to prevent layout deformation
+                translated_content = re.sub(r'href=["\'](\.\./)*style\.css["\']', 'href="/style.css"', translated_content)
+                translated_content = re.sub(r'src=["\'](\.\./)*app\.js["\']', 'src="/app.js"', translated_content)
+
                 # Save translated HTML file
                 with open(dest_path, 'w', encoding='utf-8') as f:
                     f.write(translated_content)

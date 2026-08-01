@@ -15,77 +15,29 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
+        .linkage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
         }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
+        .linkage-table th, .linkage-table td {
             border: 1px solid var(--border-color);
-            border-radius: 8px;
             padding: 12px 16px;
-            margin: 8px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-align: left;
         }
-
-        .quiz-option:hover {
-            border-color: var(--accent);
-            background: rgba(255, 153, 0, 0.05);
+        .linkage-table th {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196f3;
         }
-
-        .quiz-option.correct {
-            background: rgba(76, 175, 80, 0.15) !important;
-            border-color: #4caf50 !important;
-            color: #4caf50 !important;
-        }
-
-        .quiz-option.incorrect {
-            background: rgba(244, 67, 54, 0.15) !important;
-            border-color: #f44336 !important;
-            color: #f44336 !important;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 3px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .linkage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 24px 0;
-        }
-
-        .linkage-box {
+        .linkage-callout {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-left: 4px solid #2196f3;
             padding: 20px;
-        }
-
-        .linkage-box h4 {
-            color: var(--accent);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border-radius: 6px;
+            margin: 24px 0;
         }
     </style>
 </head>
@@ -142,114 +94,128 @@
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(33, 150, 243, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.3);">单元 1.5</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 约 15 分鐘阅读</span>
+                <span class="module-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3; border: 1px solid rgba(33, 150, 243, 0.3);">单元 1.5 专业专題</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度实战指南</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">1.5 全球资产連動与美元指數 (DXY / 殖利率倒掛)</h1>
-            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                金融市场並不是各自分立的单純島嶼。美元的升貶值、美國公債殖利率的高低，會如潮汐般推動股票、大宗商品与加密货幣的价格流轉。本单元将為您拆解跨市场連動的黄金密碼！
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">1.5 全球资产連動与美元指數：跨市场流動性传导密碼</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+                現代金融市场是一個高度互聯的生态系统。美元的強弱、美債殖利率的起伏，直接控制著全球股票、外匯、大宗商品与加密货幣的资金水閘。本单元将深入解析跨市场連動邏輯，助您建立宏觀资金流向觀察框架。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-dollar-sign" style="color: var(--accent);"></i> 章节一：美元指數 (DXY) — 全球流動性的總閥门</h2>
-            <p>美元指數 (US Dollar Index, DXY) 衡量美元相对於全球六大主要货幣（歐元 EUR 57.6%、日圓 JPY 13.6%、英鎊 GBP 11.9% 等）的綜合匯率強弱。</p>
+            <h2><i class="fa-solid fa-dollar-sign" style="color: #2196f3;"></i> 一、 美元指數 (DXY) 權重与全球资本循環</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                美元指數 (USDX / DXY) 创立於 1973 年布雷頓森林體系解體後，用於衡量美元相对於一籃子主要發達國家货幣的綜合強弱。
+            </p>
 
-            <div class="linkage-grid">
-                <div class="linkage-box">
-                    <h4><i class="fa-solid fa-globe"></i> 美元強勢 (DXY 上漲)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        全球美元流動性收緊。海外资金回流美國市场，新興市场货幣面臨貶值壓力。以美元计价的大宗商品（黄金、原油）以及跨國企业海外獲利表現受到強烈壓制。
-                    </p>
-                </div>
-                <div class="linkage-box">
-                    <h4><i class="fa-solid fa-coins"></i> 美元弱勢 (DXY 下跌)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        全球市场流動性充沛。资金流向高风险回報商品（如美股成長股、台股、比特幣与原物料），风险偏好 (Risk-On) 顯著升溫。
-                    </p>
-                </div>
-            </div>
+            <h3 style="color: #fff; margin-top: 24px;">1. DXY 六大成分货幣權重</h3>
+            <table class="linkage-table">
+                <thead>
+                    <tr>
+                        <th>货幣代碼</th>
+                        <th>货幣名稱</th>
+                        <th>權重比例</th>
+                        <th>核心驅動因素</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>EUR</strong></td>
+                        <td>歐元</td>
+                        <td><strong>57.6%</strong></td>
+                        <td>歐洲央行 (ECB) 利率政策与歐洲能源景氣（对 DXY 影響最巨）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JPY</strong></td>
+                        <td>日圓</td>
+                        <td><strong>13.6%</strong></td>
+                        <td>日本央行 (BOJ) 殖利率曲線控制 (YCC) 与全球套利交易 (Carry Trade)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GBP</strong></td>
+                        <td>英鎊</td>
+                        <td><strong>11.9%</strong></td>
+                        <td>英國央行 (BOE) 政策与英國经濟健康度</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CAD / SEK / CHF</strong></td>
+                        <td>加幣 / 瑞典克朗 / 瑞郎</td>
+                        <td>16.9% (合计)</td>
+                        <td>商品出口与避险属性</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #fff; margin-top: 32px;">2. 美元微笑曲線理论 (Dollar Smile Theory)</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                摩根士丹利提出的美元微笑曲線指出美元在兩種極端情況下會走強：
+            </p>
+            <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong style="color: #fff;">左端 (極度恐慌避险)：</strong> 全球發生金融危機或地緣政治衝突时，投资人搶购美元流動性（例如 2008 年金融海嘯与 2020 年 3 月疫情恐慌）。</li>
+                <li><strong style="color: #fff;">右端 (美國经濟獨強与升息)：</strong> 美國经濟增速顯著超越全球其他地区，美聯儲大幅升息吸引全球资金流入美元资产（例如 2022 年）。</li>
+                <li><strong style="color: #fff;">底部 (全球同步溫和擴張)：</strong> 全球经濟繁榮，资金离开美元流向回報率更高的非美新興市场与风险资产。</li>
+            </ul>
         </section>
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-scale-unbalanced" style="color: var(--accent);"></i> 章节二：美國公債殖利率与「殖利率倒掛」警告</h2>
-            <p>美國國債被全球投资機构視為「無风险资产 (Risk-Free Assets)」。其中，10年期美債殖利率是全球所有借貸与股票折現估值的基准。</p>
+            <h2><i class="fa-solid fa-scale-unbalanced" style="color: #2196f3;"></i> 二、 美債殖利率与「殖利率倒掛」警告</h2>
+            
+            <h3 style="color: #fff;">1. 10 年期美債殖利率 (全球资产定价之錨)</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                10 年期美國國債殖利率被視為全球無风险利率基准 ($R_f$)。在企业估值模型的折現現金流 (DCF) 公式中：
+                $$\text{PV} = \sum \frac{\text{CF}_t}{(1 + R_f + \text{RP})^t}$$
+                當無风险利率 $R_f$ 上升时，分母擴大，會大幅壓縮科技股与成長股的當前估值。
+            </p>
 
-            <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid var(--accent); padding: 20px; border-radius: 6px; margin-top: 20px;">
-                <h3 style="margin-top: 0; color: #fff; font-size: 1.15rem;">什麼是「殖利率倒掛 (Yield Curve Inversion)」？</h3>
-                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
-                    正常情況下，長期國債 (如10年期) 利率應高於短期國債 (如2年期)，以補償長期的时间风险。但當市场預期未來经濟将进入衰退时，投资人瘋狂搶购長債鎖定利率，导致 <strong>2年期債券殖利率高於 10年期債券殖利率</strong>。
-                </p>
-                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem; margin-bottom: 0;">
-                    <strong style="color: var(--accent);">歷史规律：</strong> 过去 50 年來，每一次美債 2Y/10Y 殖利率倒掛结束並重新拉平後的 6 至 18 個月內，美國经濟幾乎都會觸發衰退，是機构法人不可忽略的宏觀防空警報。
+            <h3 style="color: #fff; margin-top: 32px;">2. 2Y/10Y 殖利率倒掛与经濟衰退倒數</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                當 2 年期短債殖利率反常高於 10 年期長債殖利率时，稱為「殖利率倒掛 (Inversion)」。
+            </p>
+
+            <div class="linkage-callout">
+                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-triangle-exclamation" style="color:#2196f3;"></i> 歷史倒掛实证规律</h4>
+                <p style="font-size:0.95rem; color:var(--text-secondary); line-height: 1.7; margin-bottom:0;">
+                    过去 50 年來美債出現的每一次長短期殖利率倒掛，幾乎都准確預示了未來的经濟衰退。特別值得注意的是：<strong>真正的市场暴跌往往不是發生在倒掛剛开始时，而是發生在倒掛结束、殖利率曲線重新陡峭化 (Un-inversion) 的 6-18 個月內</strong>，因為那时往往代表经濟衰退与企业失业正式爆發，美聯儲被迫緊急降息。
                 </p>
             </div>
         </section>
 
         <!-- Section 3 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-vault" style="color: var(--accent);"></i> 章节三：黄金 vs. 比特幣 — 避险资产的世代演變</h2>
-            <p>在應对货幣貶值与地緣政治危機时，投资人常将资金搬移至避险资产：</p>
+            <h2><i class="fa-solid fa-vault" style="color: #2196f3;"></i> 三、 黄金 vs. 比特幣：实质利率与避险定价模型</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                黄金与比特幣作為不受单一央行控制的资产，其定价受「实质利率 (Real Interest Rate)」強烈驅動：
+                $$\text{实质利率} = \text{10年期國債名目利率} - \text{10年期平衡通膨率 (TIPS)}$$
+            </p>
 
-            <div class="linkage-grid">
-                <div class="linkage-box">
-                    <h4 style="color: #ffd700;"><i class="fa-solid fa-gem"></i> 实體黄金 (Gold)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        數千年的終極避险之王。不支付利息，因此當「实際利率 (無风险利率 - 通膨率)」下降或地緣政治局勢緊張时，黄金价格表現最為耀眼。
-                    </p>
-                </div>
-                <div class="linkage-box">
-                    <h4 style="color: #f7931a;"><i class="fa-brands fa-bitcoin"></i> 數位黄金 (Bitcoin)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        總量固定 2,100 萬枚。兼具抗通膨属性与高风险资产的高 Beta 特性，对全球央行流動性供給敏感度極高，被視為年輕世代的數位避险堡壘。
-                    </p>
-                </div>
-            </div>
+            <table class="linkage-table">
+                <thead>
+                    <tr>
+                        <th>资产類別</th>
+                        <th>与实质利率關係</th>
+                        <th>核心驅動力量</th>
+                        <th>市场定位</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>实體黄金 (Gold)</strong></td>
+                        <td>負相關（实质利率下降利多黄金）</td>
+                        <td>地緣政治避险、央行购金需求、抗通膨</td>
+                        <td>传统終極避险资产</td>
+                    </tr>
+                    <tr>
+                        <td><strong>比特幣 (Bitcoin)</strong></td>
+                        <td>負相關（全球流動性过剩利多）</td>
+                        <td>減半通縮供給、Web3 數位产權、高 Beta 流動性溢价</td>
+                        <td>高波動數位黄金与流動性放大器</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
-
-        <!-- Interactive Quiz Section -->
-        <div class="quiz-card">
-            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本单元实战觀念隨堂測驗
-            </h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">通过以下 2 題小測驗，檢驗您对跨市场资产連動的理解：</p>
-
-            <!-- Quiz Q1 -->
-            <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 當美元指數 (DXY) 出現強勁大漲时，通常对以美元计价的大宗商品（如黄金）有何直接影響？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-link')">
-                    <i class="fa-regular fa-circle"></i> A. 黄金价格會大幅大漲
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-link')">
-                    <i class="fa-regular fa-circle"></i> B. 黄金价格通常承受向下修正壓力（負相關）
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-link')">
-                    <i class="fa-regular fa-circle"></i> C. 美元指數与黄金沒有任何關聯
-                </div>
-                <div id="q1-exp-link" class="quiz-explanation">
-                    <strong>解析正確！</strong> 黄金是以美元标价的。當美元變得更昂貴时，持有非美货幣的投资人购买黄金的代价變高，且美元強勢代表流動性收緊，因此黄金通常呈負相關承壓。
-                </div>
-            </div>
-
-            <!-- Quiz Q2 -->
-            <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 什麼是「美債殖利率倒掛 (Yield Curve Inversion)」？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-link')">
-                    <i class="fa-regular fa-circle"></i> A. 短期國債 (如2年期) 殖利率高於長期國債 (如10年期) 殖利率
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-link')">
-                    <i class="fa-regular fa-circle"></i> B. 長期國債殖利率大於短期國債殖利率
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-link')">
-                    <i class="fa-regular fa-circle"></i> C. 國債利率降至零以下
-                </div>
-                <div id="q2-exp-link" class="quiz-explanation">
-                    <strong>解析正確！</strong> 正常情況下長債利率高於短債。當 2 年期短債利率反常高於 10 年期長債利率时稱為倒掛，歷史上常預示未來 1 至 2 年內可能出現经濟衰退。
-                </div>
-            </div>
-        </div>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
@@ -277,26 +243,6 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="../app.js"></script>
-    <script>
-        function checkAnswer(el, isCorrect, expId) {
-            const parent = el.parentElement;
-            const options = parent.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-            });
-
-            if (isCorrect) {
-                el.classList.add('correct');
-            } else {
-                el.classList.add('incorrect');
-            }
-
-            const exp = document.getElementById(expId);
-            if (exp) {
-                exp.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>

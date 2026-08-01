@@ -15,77 +15,29 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
+        .macro-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
         }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
+        .macro-table th, .macro-table td {
             border: 1px solid var(--border-color);
-            border-radius: 8px;
             padding: 12px 16px;
-            margin: 8px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-align: left;
         }
-
-        .quiz-option:hover {
-            border-color: var(--accent);
-            background: rgba(255, 153, 0, 0.05);
-        }
-
-        .quiz-option.correct {
-            background: rgba(76, 175, 80, 0.15) !important;
-            border-color: #4caf50 !important;
-            color: #4caf50 !important;
-        }
-
-        .quiz-option.incorrect {
-            background: rgba(244, 67, 54, 0.15) !important;
-            border-color: #f44336 !important;
-            color: #f44336 !important;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 3px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .macro-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 24px 0;
-        }
-
-        .macro-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .macro-box h4 {
+        .macro-table th {
+            background: rgba(255, 153, 0, 0.1);
             color: var(--accent);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        }
+        .macro-callout {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 24px 0;
         }
     </style>
 </head>
@@ -142,122 +94,115 @@
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(255, 153, 0, 0.15); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.3);">單元 1.4</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+                <span class="module-badge" style="background: rgba(255, 153, 0, 0.15); color: var(--accent); border: 1px solid rgba(255, 153, 0, 0.3);">單元 1.4 專業專題</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度實戰指南</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">1.4 總體經濟指標全解析 (Fed / CPI / 非農 / ISM)</h1>
-            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                個股或單一技術線圖只是局部水流，而「總體經濟」才是決定全球資金走向的大海潮汐。本單元將帶您深入剖析美聯儲貨幣政策、通膨數據、勞動市場與製造業數據，教您如何看懂總經新聞背後的資金流向！
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">1.4 總體經濟指標全解析：央行政策、通膨與勞動市場</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+                在金融交易市場中，技術分析決定了「何時進出場」，而總體經濟 (Macroeconomics) 則決定了「市場趨勢的大方向與潛在行情規模」。本專題將為您全面拆解美聯儲 (Fed) 的貨幣政策運作機制、三大核心經濟指標背後的數據組成分解，以及數據發佈時的實戰避險戰術。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-building-columns" style="color: var(--accent);"></i> 章節一：美聯儲 (Fed) 貨幣政策與利率決策</h2>
-            <p>美聯儲 (Federal Reserve System) 作為全球最大經濟體的中央銀行，其頒布的「聯邦基金利率 (Federal Funds Rate)」被譽為全球資產定價的錨點。</p>
+            <h2><i class="fa-solid fa-building-columns" style="color: var(--accent);"></i> 一、 美聯儲 (Fed) 貨幣政策與利率決策深度拆解</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                美國聯邦儲備系統 (Federal Reserve System, Fed) 的核心職責是「促進最大就業」與「維持物價穩定」（雙重使命 Dual Mandate）。FOMC (聯邦公開市場委員會) 每年召開 8 次利率會議，決定聯邦基金目標利率 (Federal Funds Target Rate)。
+            </p>
 
-            <div class="macro-grid">
-                <div class="macro-box">
-                    <h4><i class="fa-solid fa-arrow-trend-up"></i> 升息週期 (Rate Hikes)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        當通膨過熱時，央行提高利率拉高借貸成本，藉此抑制消費與投資需求。資金回流銀行存款與高殖利率債券，通常對股市與加密貨幣造成估值壓縮壓力。
-                    </p>
-                </div>
-                <div class="macro-box">
-                    <h4><i class="fa-solid fa-arrow-trend-down"></i> 降息週期 (Rate Cuts)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        當經濟面臨衰退風險或通膨降溫時，央行降息釋放市場流動性。企業融資成本下降，風險資金積極尋求高回報資產，推升股市與高風險商品拉升。
-                    </p>
-                </div>
-                <div class="macro-box">
-                    <h4><i class="fa-solid fa-chart-line"></i> 點陣圖 (Dot Plot)</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        每季 FOMC 會議公佈，記錄 19 位美聯儲官員對未來數年利率終點的匿名預測。市場交易員常透過點陣圖預測未來的降息或升息幅度。
-                    </p>
-                </div>
+            <h3 style="color: #fff; margin-top: 24px;">1. 貨幣政策三大工具</h3>
+            <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong style="color: #fff;">基準利率 (Federal Funds Rate)：</strong> 商業銀行之間隔夜拆借資金的利率。基準利率的上升會迅速傳導至房貸利率、車貸利率與企業融資成本。</li>
+                <li><strong style="color: #fff;">量化寬鬆 (Quantitative Easing, QE) 與量化緊縮 (Quantitative Tightening, QT)：</strong>
+                    QE 是美聯儲在公開市場印鈔購買長期國債與抵押擔保證券 (MBS)，注入流動性；QT 則是美聯儲到期不續購或拋售債券，回收全球美元流動性。
+                </li>
+                <li><strong style="color: #fff;">前瞻指引 (Forward Guidance) 與點陣圖 (Dot Plot)：</strong>
+                    每年 3、6、9、12 月會議發佈的「經濟預測摘要 (SEP)」，其中的點陣圖記錄了 19 位 FOMC 成員對未來 3 年利率終點的預估。交易員透過 CME FedWatch 工具預測升降息機率。
+                </li>
+            </ul>
+
+            <div class="macro-callout">
+                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-lightbulb" style="color:var(--accent);"></i> 歷史實證案例：2022-2023 暴力升息週期</h4>
+                <p style="font-size:0.95rem; color:var(--text-secondary); line-height: 1.7; margin-bottom:0;">
+                    2022 年因全球供應鏈瓶頸與美聯儲前期過度 QE，美國 CPI 通膨率高達 9.1%。美聯儲在一年之內連續升息 21 碼 (525 個基點)，造成標普 500 指數下挫近 20%、納斯達克指數下挫超 30%，比特幣大跌 70%。這證明了：在央行收緊流動性大潮面前，單純技術指標的支撐位極易被輕易擊穿。
+                </p>
             </div>
         </section>
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-newspaper" style="color: var(--accent);"></i> 章節二：三大引爆波動的核心經濟數據</h2>
-            <p>每個月在特定日期公佈的經濟數據，會在數秒鐘內造成幾百點的劇烈震盪。交易員必須精準掌握這三大數據：</p>
+            <h2><i class="fa-solid fa-chart-line" style="color: var(--accent);"></i> 二、 三大引爆市場波動的核心經濟數據</h2>
+            
+            <h3 style="color: #fff;">1. 通膨指標：CPI vs. Core PCE</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                通膨是央行升降息的核心依據。市場主要關注 CPI (消費者物價指數) 與 PCE (個人消費支出物價指數)：
+            </p>
+            
+            <table class="macro-table">
+                <thead>
+                    <tr>
+                        <th>指標名稱</th>
+                        <th>發佈時間</th>
+                        <th>組成與權重重點</th>
+                        <th>美聯儲重視程度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CPI (消費者物價指數)</strong></td>
+                        <td>每月 10-14 日</td>
+                        <td>包含食品、能源、住房 (Shelter 權重高達 34%)</td>
+                        <td>市場敏感度極高（最先公佈）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Core PCE (核心 PCE)</strong></td>
+                        <td>每月最後一週</td>
+                        <td>扣除波動巨大的食品與能源，注重實際消費支出</td>
+                        <td><strong>美聯儲官方 2% 通膨目標偏好指標</strong></td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
-                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #4caf50; padding: 16px 20px; border-radius: 4px;">
-                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">1. CPI / PCE 消費者物價指數 (Inflation Data)</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
-                        <strong>影響邏輯：</strong> CPI (消費者物價指數) 與 PCE (個人消費支出) 是衡量通膨的核心。若 CPI 高於市場預期（通膨頑固），美聯儲可能維持高利率更久（鷹派），利空股市；若低於預期（通膨降溫），預期降息利多股市。
-                    </p>
-                </div>
+            <h3 style="color: #fff; margin-top: 32px;">2. 勞動市場指標：非農就業報告 (NFP)</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                每月第一個星期五晚上公佈的非農報告 (Non-Farm Payrolls) 包括三大關鍵數據：
+            </p>
+            <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong style="color: #fff;">非農新增就業人數：</strong> 反映企業招聘意願。通常 > 20 萬人代表就業強勁。</li>
+                <li><strong style="color: #fff;">失業率 (Unemployment Rate)：</strong> < 4% 被視為充分就業。若失業率短期上升 0.5% 以上，將觸發薩姆規則 (Sahm Rule) 經濟衰退警報。</li>
+                <li><strong style="color: #fff;">平均每小時薪資年增率 (Average Hourly Earnings)：</strong> 薪資上漲會轉嫁至消費品，引發「薪資-物價螺旋通膨 (Wage-Price Spiral)」。</li>
+            </ul>
 
-                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid var(--accent); padding: 16px 20px; border-radius: 4px;">
-                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">2. NFP 非農就業人口與失業率 (Labor Market)</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
-                        <strong>影響邏輯：</strong> 每個月第一個星期五公佈。新增就業人數與失業率反映勞動市場健康度。在通膨高企時，若非農數據過於強勁，反而會加深市場對央行持續升息的焦慮（Good news is bad news）。
-                    </p>
-                </div>
-
-                <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #2196f3; padding: 16px 20px; border-radius: 4px;">
-                    <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff;">3. ISM 製造業 & 服務業 PMI (PMI Business Survey)</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0;">
-                        <strong>影響邏輯：</strong> 採購經理人指數以 <strong>50</strong> 作為榮枯分界線。PMI > 50 代表景氣擴張，PMI < 50 代表景氣緊縮。這是評估經濟是否會走向「軟著陸 (Soft Landing)」或「衰退 (Recession)」的前瞻指標。
-                    </p>
-                </div>
-            </div>
+            <h3 style="color: #fff; margin-top: 32px;">3. 領先景氣指標：ISM 製造業 & 服務業 PMI</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                採購經理人指數 (PMI) 以 <strong>50</strong> 為榮枯分界線。重點關注以下子項目：
+            </p>
+            <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong style="color: #fff;">新訂單指數 (New Orders)：</strong> 景氣最前瞻的指標，新訂單回升預示未來企業獲利看好。</li>
+                <li><strong style="color: #fff;">價格付費指數 (Prices Paid)：</strong> 反映企業端採購成本與上游通膨壓力。</li>
+            </ul>
         </section>
 
         <!-- Section 3 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-shield-cat" style="color: var(--accent);"></i> 章節三：數據公佈時的實戰交易風控心法</h2>
+            <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent);"></i> 三、 重大數據公佈時的實戰交易應對策略</h2>
             <div style="line-height: 1.8; color: var(--text-secondary);">
-                <p><strong style="color: #fff;">1. 避免在數據公佈前數分鐘押注勝負：</strong> 重大數據公佈瞬間，造市商的買賣點差 (Bid-Ask Spread) 會瞬間擴大數倍，並伴隨雙向洗盤（上下掃停損），盲目猜測方向極易遭到技術性爆倉。</p>
-                <p><strong style="color: #fff;">2. 觀察數據公佈後的「市場反應」而非僅看數字本身：</strong> 有時數據利空但價格不跌反漲（Bad news priced in），這往往代表空頭力竭與黃金買點出現。</p>
-                <p><strong style="color: #fff;">3. 搭配 1.3 單元風報比工具防守：</strong> 無論總經消息多麼完美，下單前必須先確定支撐位與停損點，利用 <a href="../tools/risk-reward-calculator.html" style="color: var(--accent); font-weight: bold;">風報比計算機</a> 算好 1:3 以上的預期回報才執行交易。</p>
+                <h3 style="color: #fff;">1. 避開數據公佈前 15 分鐘的「流動性空洞 (Liquidity Vacuum)」</h3>
+                <p>
+                    在 CPI 或非農發佈前數分鐘，大型機構與造市商 (Market Makers) 會撤走掛單以規避風險。這會導致買賣點差 (Spread) 急遽擴大數倍。如果此時市價單進場，極易遭遇嚴重的滑點 (Slippage)。
+                </p>
+
+                <h3 style="color: #fff; margin-top: 20px;">2. 防範數據公佈後 1-5 分鐘的「假突破上下掃盤 (Whipsaw)」</h3>
+                <p>
+                    數據剛發佈的幾秒鐘內，演算法程式交易會根據個別子數據進行高速博弈，常出現先向上衝高觸發多頭停損、再向下暴跌掃清空頭的極端震盪。
+                </p>
+
+                <h3 style="color: #fff; margin-top: 20px;">3. 30 分鐘 K 線收盤「趨勢確立」進場法則</h3>
+                <p>
+                    專業交易員的作法是：數據公佈當下觀望，等待市場消化訊息。當數據公佈 30 分鐘後，觀察 K 線是否站穩重要支撐壓力位，並結合 <a href="../tools/risk-reward-calculator.html" style="color:var(--accent); font-weight:bold;">風報比計算機</a> 算好 1:2.5 以上的回報比後再執行下單。
+                </p>
             </div>
         </section>
-
-        <!-- Interactive Quiz Section -->
-        <div class="quiz-card">
-            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
-            </h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">通過以下 2 題小測驗，檢驗您是否掌握了總體經濟指標的影響邏輯：</p>
-
-            <!-- Quiz Q1 -->
-            <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 當美聯儲 (Fed) 公佈的 CPI 通膨數據顯著「高於預期」時，金融市場通常會有何反應？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp')">
-                    <i class="fa-regular fa-circle"></i> A. 美國股市與加密貨幣大漲，因為代表經濟過熱
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp')">
-                    <i class="fa-regular fa-circle"></i> B. 市場預期央行將延後降息或持續升息，美元走強，股市受壓
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp')">
-                    <i class="fa-regular fa-circle"></i> C. 美聯儲會立刻宣佈降息以刺激經濟
-                </div>
-                <div id="q1-exp" class="quiz-explanation">
-                    <strong>解析正確！</strong> CPI 通膨高於預期代表通膨頑固，美聯儲需要保持高利率來壓制通膨，因此會引發降息預期破滅、美元強勢與風險資產受壓。
-                </div>
-            </div>
-
-            <!-- Quiz Q2 -->
-            <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 關於 ISM 製造業採購經理人指數 (PMI)，以下敘述何者正確？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp')">
-                    <i class="fa-regular fa-circle"></i> A. PMI 指數高於 100 才代表景氣擴張
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp')">
-                    <i class="fa-regular fa-circle"></i> B. 50 是 PMI 的榮枯線，高於 50 代表製造業景氣擴張，低於 50 代表緊縮
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp')">
-                    <i class="fa-regular fa-circle"></i> C. PMI 只對比特幣有影響，對股票完全沒有影響
-                </div>
-                <div id="q2-exp" class="quiz-explanation">
-                    <strong>解析正確！</strong> 50 是 PMI 的黃金榮枯分界線。PMI 指數超過 50 代表製造業整體處於擴張狀態，低於 50 則代表進入緊縮。
-                </div>
-            </div>
-        </div>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
@@ -285,26 +230,6 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="../app.js"></script>
-    <script>
-        function checkAnswer(el, isCorrect, expId) {
-            const parent = el.parentElement;
-            const options = parent.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-            });
-
-            if (isCorrect) {
-                el.classList.add('correct');
-            } else {
-                el.classList.add('incorrect');
-            }
-
-            const exp = document.getElementById(expId);
-            if (exp) {
-                exp.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>

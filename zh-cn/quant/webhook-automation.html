@@ -15,67 +15,26 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
-        }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin: 8px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .quiz-option:hover {
-            border-color: var(--accent);
-            background: rgba(255, 153, 0, 0.05);
-        }
-
-        .quiz-option.correct {
-            background: rgba(76, 175, 80, 0.15) !important;
-            border-color: #4caf50 !important;
-            color: #4caf50 !important;
-        }
-
-        .quiz-option.incorrect {
-            background: rgba(244, 67, 54, 0.15) !important;
-            border-color: #f44336 !important;
-            color: #f44336 !important;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 3px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .code-snippet {
+        .code-block {
             background: #11141a;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 16px;
+            padding: 20px;
             font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: #4caf50;
             overflow-x: auto;
-            margin: 16px 0;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .quant-callout {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid #03a9f4;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 24px 0;
         }
     </style>
 </head>
@@ -132,91 +91,117 @@
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(3, 169, 244, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(3, 169, 244, 0.15); color: #03a9f4; border: 1px solid rgba(3, 169, 244, 0.3);">单元 4.5</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 约 15 分鐘阅读</span>
+                <span class="module-badge" style="background: rgba(3, 169, 244, 0.15); color: #03a9f4; border: 1px solid rgba(3, 169, 244, 0.3);">单元 4.5 专业专題</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度实战指南</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">4.5 TradingView Webhook 直連 API 自動化下单</h1>
-            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                回測出優秀的量化策略後，最關鍵的一步就是实現「零人為干預的全自動下单」。本单元将為您示範如何利用 TradingView 的 Webhook 警報，發送加密 JSON 讯号直連券商与交易所 API 執行自動交易！
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">4.5 TradingView Webhook 直連 API 自動化下单系统建构</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+                在量化交易領域，手動執行策略會帶來情緒干擾与延遲。本专題将手把手教您如何運用 TradingView 的 Webhook 警報系统，结合 Python 中繼伺服器与 HMAC SHA256 簽名，实現毫秒級直連 Binance / OKX / 盈透证券 (IBKR) API 的全自動交易機器人。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-robot" style="color: var(--accent);"></i> 章节一：Webhook 自動化架构与運作原理</h2>
-            <p>Webhook 是一種在應用程式之间传遞实时數據的 HTTP 回呼 (HTTP Callback) 機制。當 TradingView 圖表觸發讯号时，會以 POST 方式發送 JSON 數據至伺服器。</p>
+            <h2><i class="fa-solid fa-diagram-project" style="color: #03a9f4;"></i> 一、 全自動 Webhook 下单架构与安全规範</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                Webhook 是一種即时 HTTP 回呼 (HTTP Callback) 機制。當 TradingView 圖表上的 Pine Script 策略觸發买賣條件时，伺服器會以 HTTP POST 方式發送 JSON 资料封包至您的专用中繼伺服器：
+            </p>
 
-            <div style="background: rgba(255,255,255,0.02); border-left: 4px solid var(--accent); padding: 16px; border-radius: 6px; margin: 20px 0;">
-                <h4 style="margin-top:0; color:#fff;">全自動連線架构圖：</h4>
-                <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:0; line-height:1.7;">
-                    <strong>[ TradingView 策略讯号 ]</strong><br>
-                    ↓ (HTTP POST / Webhook JSON 讯号)<br>
-                    <strong>[ 中繼伺服器 Python Flask / Webhook Gateway ]</strong><br>
-                    ↓ (簽名認证 HMAC SHA256 / API Secret)<br>
-                    <strong>[ 交易所 API：Binance / OKX / 盈透证券 IBKR ]</strong> ➔ 自動开倉/平倉
+            <div class="quant-callout">
+                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-server" style="color:#03a9f4;"></i> 企业級三層安全架构</h4>
+                <p style="font-size:0.95rem; color:var(--text-secondary); line-height: 1.7; margin-bottom:0;">
+                    • <strong>API 權限隔离：</strong> 交易所 API Key 必須嚴格關閉「提現 (Withdrawal)」權限，仅保留「交易 (Trading)」權限。<br>
+                    • <strong>IP 白名单綁定：</strong> 中繼伺服器防火牆限制仅接受 TradingView 官方發布的 4 組固定出口 IP 请求 (52.89.214.238, 34.212.75.30 等)。<br>
+                    • <strong>HMAC SHA256 讯息簽名：</strong> JSON 封包內附帶时间戳与密鑰哈希，防止中间人攻擊或偽造警報。
                 </p>
             </div>
         </section>
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-code" style="color: var(--accent);"></i> 章节二：Pine Script 警報与 JSON Payload 配置</h2>
-            <p>在 Pine Script 程式碼中使用 <code>alert()</code> 函數動态传送买賣方向与部位數量：</p>
+            <h2><i class="fa-solid fa-code" style="color: #03a9f4;"></i> 二、 Pine Script v5 動态 JSON 警報發送寫法</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                在 Pine Script v5 策略中，使用 <code>alert()</code> 函數動态传遞交易讯号。建议设定在 <code>alert.freq_once_per_bar_close</code>（K線收盤时），防止盤中讯号閃爍 (Repainting)：
+            </p>
 
-            <div class="code-snippet">
-<span style="color: #888;">// Pine Script v5 範例</span>
+            <div class="code-block">
+<span style="color:#888;">//@version=5</span>
+strategy("GugoPro Quant Webhook Strategy", overlay=true, margin_long=100, margin_short=100)
+
+<span style="color:#888;">// 策略邏輯：20 EMA 与 50 EMA 交叉</span>
+ema20 = ta.ema(close, 20)
+ema50 = ta.ema(close, 50)
+
+longCondition = ta.crossover(ema20, ema50)
+shortCondition = ta.crossunder(ema20, ema50)
+
 if (longCondition)
-    alert('{"action": "BUY", "symbol": "BTCUSDT", "qty": 0.05, "type": "MARKET"}', alert.freq_once_per_bar_close)
+    strategy.entry("Long", strategy.long)
+    <span style="color:#888;">// 發送多头下单 JSON 封包</span>
+    alert('{"passphrase": "MY_SECRET_KEY", "action": "BUY", "symbol": "' + syminfo.ticker + '", "qty": 0.1, "type": "MARKET"}', alert.freq_once_per_bar_close)
 
 if (shortCondition)
-    alert('{"action": "SELL", "symbol": "BTCUSDT", "qty": 0.05, "type": "MARKET"}', alert.freq_once_per_bar_close)
+    strategy.entry("Short", strategy.short)
+    <span style="color:#888;">// 發送空头下单 JSON 封包</span>
+    alert('{"passphrase": "MY_SECRET_KEY", "action": "SELL", "symbol": "' + syminfo.ticker + '", "qty": 0.1, "type": "MARKET"}', alert.freq_once_per_bar_close)
             </div>
-
-            <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                在 TradingView 建立警報时，勾选 <strong>Webhook URL</strong>，輸入伺服器网址（例如 <code>https://your-server.com/webhook</code>），即可实現微秒級自動觸發。
-            </p>
         </section>
 
-        <!-- Interactive Quiz Section -->
-        <div class="quiz-card">
-            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本单元实战觀念隨堂測驗
-            </h3>
+        <!-- Section 3 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-brands fa-python" style="color: #03a9f4;"></i> 三、 Python Flask 中繼 Gateway 伺服器代碼</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                以下為可部署於 AWS / DigitalOcean / Vercel 的輕量 Python 下单中繼站：
+            </p>
 
-            <!-- Quiz Q1 -->
-            <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 在进行 24 小时 Webhook 自動化交易时，確保 API 安全性的最重要措施是什麼？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-web')">
-                    <i class="fa-regular fa-circle"></i> A. 将 API Secret 金鑰公开貼在网路上供社群驗证
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-web')">
-                    <i class="fa-regular fa-circle"></i> B. 设定交易所 API IP 白名单、關閉提現 (Withdrawal) 權限，並对 Payload 进行 HMAC 簽名
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-web')">
-                    <i class="fa-regular fa-circle"></i> C. Webhook 传輸不需要任何安全措施
-                </div>
-                <div id="q1-exp-web" class="quiz-explanation">
-                    <strong>解析正確！</strong> 量化交易 API 金鑰嚴禁开啟「提現權限」，且伺服器應綁定 TradingView 固定 IP 白名单並进行 HMAC 加密簽名，防止偽造讯号攻擊。
-                </div>
-            </div>
+            <div class="code-block">
+from flask import Flask, request, jsonify
+import hmac, hashlib, time, requests
 
-            <!-- Quiz Q2 -->
-            <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 為什麼在 Pine Script 警報中建议使用 `alert.freq_once_per_bar_close`（K 線收盤才觸發）？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-web')">
-                    <i class="fa-regular fa-circle"></i> A. 防止 K 線在未收盤前因為价格閃爍造成重複發送过度下单 (Repainting/Over-trading)
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-web')">
-                    <i class="fa-regular fa-circle"></i> B. 為了讓交易所可以多收幾次手续費
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-web')">
-                    <i class="fa-regular fa-circle"></i> C. K 線收盤觸發會导致手续費變便宜
-                </div>
-                <div id="q2-exp-web" class="quiz-explanation">
-                    <strong>解析正確！</strong> 盤中 K 線尚未收盤时，指标可能产生虛假讯号（未來函數/Repainting）。在收盤时確認觸發能確保下单讯号与回測结果百分之百一致。
-                </div>
+app = Flask(__name__)
+
+API_KEY = "YOUR_BINANCE_API_KEY"
+API_SECRET = "YOUR_BINANCE_API_SECRET"
+PASSPHRASE = "MY_SECRET_KEY"
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    
+    # 1. 密碼驗证
+    if not data or data.get('passphrase') != PASSPHRASE:
+        return jsonify({"status": "error", "message": "Unauthorized"}), 401
+    
+    # 2. 解析 TradingView 讯号
+    symbol = data.get('symbol', 'BTCUSDT')
+    side = data.get('action') # BUY or SELL
+    qty = data.get('qty', 0.01)
+    
+    # 3. 呼叫交易所 API 下单 (例如 Binance Futures API)
+    endpoint = "https://fapi.binance.com/fapi/v1/order"
+    timestamp = int(time.time() * 1000)
+    params = {
+        "symbol": symbol,
+        "side": side,
+        "type": "MARKET",
+        "quantity": qty,
+        "timestamp": timestamp
+    }
+    
+    # 产生 HMAC SHA256 簽名
+    query_string = '&'.join([f"{k}={v}" for k, v in params.items()])
+    signature = hmac.new(API_SECRET.encode('utf-8'), query_string.encode('utf-8'), hashlib.sha256).hexdigest()
+    params['signature'] = signature
+    
+    headers = {"X-MBX-APIKEY": API_KEY}
+    res = requests.post(endpoint, headers=headers, params=params)
+    
+    return jsonify({"status": "success", "exchange_response": res.json()}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
             </div>
-        </div>
+        </section>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
@@ -244,26 +229,6 @@ if (shortCondition)
     </footer>
 
     <!-- App Scripts -->
-    <script src="../app.js"></script>
-    <script>
-        function checkAnswer(el, isCorrect, expId) {
-            const parent = el.parentElement;
-            const options = parent.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-            });
-
-            if (isCorrect) {
-                el.classList.add('correct');
-            } else {
-                el.classList.add('incorrect');
-            }
-
-            const exp = document.getElementById(expId);
-            if (exp) {
-                exp.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>

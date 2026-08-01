@@ -15,78 +15,29 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
+        .options-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
         }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
+        .options-table th, .options-table td {
             border: 1px solid var(--border-color);
-            border-radius: 8px;
             padding: 12px 16px;
-            margin: 8px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-align: left;
         }
-
-        .quiz-option:hover {
-            border-color: var(--accent);
-            background: rgba(255, 153, 0, 0.05);
+        .options-table th {
+            background: rgba(156, 39, 176, 0.1);
+            color: #9c27b0;
         }
-
-        .quiz-option.correct {
-            background: rgba(76, 175, 80, 0.15) !important;
-            border-color: #4caf50 !important;
-            color: #4caf50 !important;
-        }
-
-        .quiz-option.incorrect {
-            background: rgba(244, 67, 54, 0.15) !important;
-            border-color: #f44336 !important;
-            color: #f44336 !important;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 3px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .greek-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin: 24px 0;
-        }
-
-        .greek-card {
+        .options-callout {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-left: 4px solid #9c27b0;
             padding: 20px;
-        }
-
-        .greek-card h4 {
-            color: var(--accent);
-            margin-top: 0;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border-radius: 6px;
+            margin: 24px 0;
         }
     </style>
 </head>
@@ -143,120 +94,102 @@
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(156, 39, 176, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(156, 39, 176, 0.15); color: #9c27b0; border: 1px solid rgba(156, 39, 176, 0.3);">單元 3.4</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+                <span class="module-badge" style="background: rgba(156, 39, 176, 0.15); color: #9c27b0; border: 1px solid rgba(156, 39, 176, 0.3);">單元 3.4 專業專題</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度實戰指南</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">3.4 選擇權 (Options) 基礎與希臘字母全解</h1>
-            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                選擇權 (Options) 是金融市場上最靈活的非線性衍生性金融工具。它不僅能讓您用小資金進行非對稱槓桿交易，更能作為股票與期貨組合的強大保險防線。本單元將帶您打通選擇權的底層邏輯與四大希臘字母！
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.4 選擇權 (Options) 基礎與希臘字母風險模型全解</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+                選擇權是全球機構法人進行非對稱對沖、波動率套利與多維度風險管理的的核心工具。本專題將帶您透視選擇權的四大基本立場、內在價值與時間價值的分解算式，以及四大希臘字母 (Delta, Gamma, Theta, Vega) 的微積分數學本質。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-layer-group" style="color: var(--accent);"></i> 章節一：選擇權的核心概念 (Call vs. Put)</h2>
-            <p>選擇權本質上是一份「未來按約定價格買入或賣出標的資產的權利合約」。買方支付「權利金 (Premium)」，賣方收取權利金並承擔履約義務。</p>
+            <h2><i class="fa-solid fa-layer-group" style="color: #9c27b0;"></i> 一、 選擇權的核心概念與四種基本立場 (Four Basic Positions)</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                選擇權是指買賣雙方約定在未來特定到期日 (Expiration Date)，買方有權利按約定履約價 (Strike Price) 買入或賣出標的資產的合約。選擇權權利金 (Premium) 由 **內在價值 (Intrinsic Value)** 與 **時間價值 (Time Value)** 組成：
+                $$\text{權利金 Premium} = \text{內在價值} + \text{時間價值}$$
+            </p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
-                <div style="background: rgba(76, 175, 80, 0.05); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 20px;">
-                    <h3 style="margin-top: 0; color: #4caf50;"><i class="fa-solid fa-arrow-trend-up"></i> 買權 Call Option (看漲權利)</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
-                        <strong>買方 (Buy Call)：</strong> 支付權利金，擁有未來以履約價「買入」標的資產的權利。最大虧損有限 (權利金)，獲利空間無限。
-                    </p>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
-                        <strong>賣方 (Sell Call)：</strong> 先收權利金，承擔未來必須「賣出」資產的義務。最大獲利有限 (權利金)，風險無限。
-                    </p>
-                </div>
-
-                <div style="background: rgba(244, 67, 54, 0.05); border: 1px solid rgba(244, 67, 54, 0.2); border-radius: 10px; padding: 20px;">
-                    <h3 style="margin-top: 0; color: #f44336;"><i class="fa-solid fa-arrow-trend-down"></i> 賣權 Put Option (看跌權利)</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
-                        <strong>買方 (Buy Put)：</strong> 支付權利金，擁有未來以履約價「賣出」標的資產的權利。常用於下行避險保險。
-                    </p>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
-                        <strong>賣方 (Sell Put)：</strong> 先收權利金，承擔未來必須「買入」資產的義務。常用於低位逢低接股。
-                    </p>
-                </div>
-            </div>
+            <table class="options-table">
+                <thead>
+                    <tr>
+                        <th>交易立場</th>
+                        <th>權利金流向</th>
+                        <th>最大獲利</th>
+                        <th>最大風險</th>
+                        <th>核心看看法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>買進買權 (Buy Call / Long Call)</strong></td>
+                        <td>支付權利金</td>
+                        <td>理論上無限</td>
+                        <td>有限 (僅限所付權利金)</td>
+                        <td>大漲 (看好突破強勢大漲)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>賣出買權 (Sell Call / Short Call)</strong></td>
+                        <td>收取權利金</td>
+                        <td>有限 (僅限預收權利金)</td>
+                        <td>理論上無限</td>
+                        <td>看跌或不漲 (看壓在履約價下)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>買進賣權 (Buy Put / Long Put)</strong></td>
+                        <td>支付權利金</td>
+                        <td>巨大 (標的跌至 0)</td>
+                        <td>有限 (僅限所付權利金)</td>
+                        <td>大跌 (避險下行或看空暴跌)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>賣出賣權 (Sell Put / Short Put)</strong></td>
+                        <td>收取權利金</td>
+                        <td>有限 (僅限預收權利金)</td>
+                        <td>巨大 (標的跌至 0 履約承接)</td>
+                        <td>看漲或不跌 (逢低接股打折策略)</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-square-root-variable" style="color: var(--accent);"></i> 章節二：四大希臘字母 (The Option Greeks)</h2>
-            <p>選擇權合約價格由多重維度共同決定，機構交易員利用「希臘字母」量化風險：</p>
+            <h2><i class="fa-solid fa-square-root-variable" style="color: #9c27b0;"></i> 二、 四大希臘字母 (The Option Greeks) 的偏微分風險數學</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                根據 Black-Scholes 選擇權定價模型，合約價值 $V$ 受標的價格 $S$、時間 $t$ 與波動率 $\sigma$ 的影響。希臘字母即為對應變數的偏導數：
+            </p>
 
-            <div class="greek-grid">
-                <!-- Delta -->
-                <div class="greek-card">
-                    <h4>Δ (Delta) — 價格敏感度</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        標的價格每變動 $1，選擇權權利金預期變動的金額。Call 的 Delta 為 0 到 +1，Put 的 Delta 為 -1 到 0。Delta 亦常用於估計合約到期履約的機率。
-                    </p>
-                </div>
-                <!-- Gamma -->
-                <div class="greek-card">
-                    <h4>Γ (Gamma) — Delta 的加速度</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        標的價格變動 $1 時，Delta 產生的變動量。Gamma 越大，代表選擇權槓桿爆發力與風險變化的速度越猛烈（價平合約 Gamma 最大）。
-                    </p>
-                </div>
-                <!-- Theta -->
-                <div class="greek-card">
-                    <h4>Θ (Theta) — 時間流逝衰減</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        每經過一天，合約因時間流逝而損失的價值。買方 (Long) 每天都在支付 Theta 損耗，賣方 (Short) 則每天穩賺時間價值的自然流逝。
-                    </p>
-                </div>
-                <!-- Vega -->
-                <div class="greek-card">
-                    <h4>ν (Vega) — 波動率敏感度</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        隱含波動率 (Implied Volatility, IV) 每變動 1% 時，權利金的變化量。恐慌或財報公佈前 IV 衝高，Vega 會使所有合約價格暴漲。
-                    </p>
-                </div>
-            </div>
+            <h3 style="color: #fff; margin-top: 24px;">1. Delta ($\Delta$) — 標的價格敏感度與動態對沖</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                $$\Delta = \frac{\partial V}{\partial S}$$
+                • <strong>意義：</strong> 當標的股票價格上漲 $1 時，選擇權權利金預期變動的金額。<br>
+                • <strong>範例：</strong> 若某 Call 的 Delta 為 $+0.6$，股票上漲 $10，該 Call 的權利金預期上漲 $6。<br>
+                • <strong>實戰應用：</strong> Delta 亦代表該合約到期時處於價內 (ITM) 被履約的統計機率。Delta 近似 0.50 代表價平合約。
+            </p>
+
+            <h3 style="color: #fff; margin-top: 24px;">2. Gamma ($\Gamma$) — Delta 的加速度與「伽瑪擠壓 (Gamma Squeeze)」</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                $$\Gamma = \frac{\partial^2 V}{\partial S^2} = \frac{\partial \Delta}{\partial S}$$
+                • <strong>意義：</strong> 當標的價格變動 $1 時，Delta 產生的變動量。價平 (ATM) 合約的 Gamma 最大。<br>
+                • <strong>伽瑪擠壓效應：</strong> 當大量散戶搶購 OTM Call 時，做空 Call 的造市商為了維持 Delta 中性，必須在公開市場緊急追買標的股票現貨，引發標的股價螺旋式暴漲（如 2021 年 GME 散戶大戰機構事件）。
+            </p>
+
+            <h3 style="color: #fff; margin-top: 24px;">3. Theta ($\Theta$) — 時間價值流逝速率</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                $$\Theta = \frac{\partial V}{\partial t}$$
+                • <strong>意義：</strong> 每經過一天，選擇權權利金因時間減少而自然損失的金額。<br>
+                • <strong>流逝曲線特性：</strong> 選擇權的時間價值損耗並非線性。<strong>在臨近到期前的最後 30 天內，Theta 的衰減速度會呈拋物線加速暴跌</strong>。賣方 (Seller) 正是利用此一曲線獲利。
+            </p>
+
+            <h3 style="color: #fff; margin-top: 24px;">4. Vega ($\nu$) — 隱含波動率敏感度與 IV Crush</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                $$\nu = \frac{\partial V}{\partial \sigma}$$
+                • <strong>意義：</strong> 當隱含波動率 (Implied Volatility, IV) 變動 1% 時，權利金的變動金額。<br>
+                • <strong>IV Crush (波動率壓制)：</strong> 財報公佈前市場極度恐慌，IV 飆升拉高 Vega 溢價。財報數據一公佈，不確定性消失，IV 瞬間崩潰，導致即使方向看對，Buy Call 的權利金仍可能因 Vega 暴跌而虧損！
+            </p>
         </section>
-
-        <!-- Interactive Quiz Section -->
-        <div class="quiz-card">
-            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
-            </h3>
-
-            <!-- Quiz Q1 -->
-            <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 作為選擇權的「賣方 (Option Seller)」，您每天最主要的獲利來源是什麼？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> A. 賺取股價劇烈波動帶來的 Gamma 爆發
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> B. 賺取每日時間價值自然流逝帶來收取的 Theta 衰減
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> C. 賣方的利潤無限，風險有限
-                </div>
-                <div id="q1-exp-opt" class="quiz-explanation">
-                    <strong>解析正確！</strong> 選擇權賣方 (Seller) 最大的優勢在於賺取時間價值流逝 (Theta)。只要股價未突破履約價，隨著時間推移，權利金會自動縮水歸零，賣方全數沒收權利金。
-                </div>
-            </div>
-
-            <!-- Quiz Q2 -->
-            <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 當市場即將公佈重大財報或進入大選，恐慌情緒使「隱含波動率 (IV)」大漲時，哪一個希臘字母會推升選擇權權利金暴漲？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> A. Theta ($\Theta$)
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> B. Vega ($\nu$)
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-opt')">
-                    <i class="fa-regular fa-circle"></i> C. Delta ($\Delta$)
-                </div>
-                <div id="q2-exp-opt" class="quiz-explanation">
-                    <strong>解析正確！</strong> Vega 代表對隱含波動率 (IV) 的敏感度。當市場不確定性升高、IV 飆升時，Vega 會顯著拉高合約權利金價格（即所謂的 IV Crush 前夕）。
-                </div>
-            </div>
-        </div>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
@@ -284,26 +217,6 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="../app.js"></script>
-    <script>
-        function checkAnswer(el, isCorrect, expId) {
-            const parent = el.parentElement;
-            const options = parent.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-            });
-
-            if (isCorrect) {
-                el.classList.add('correct');
-            } else {
-                el.classList.add('incorrect');
-            }
-
-            const exp = document.getElementById(expId);
-            if (exp) {
-                exp.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>

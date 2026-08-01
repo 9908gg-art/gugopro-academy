@@ -15,72 +15,29 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
+        .strat-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
         }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
+        .strat-table th, .strat-table td {
             border: 1px solid var(--border-color);
-            border-radius: 8px;
             padding: 12px 16px;
-            margin: 8px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-align: left;
         }
-
-        .quiz-option:hover {
-            border-color: var(--accent);
-            background: rgba(255, 153, 0, 0.05);
+        .strat-table th {
+            background: rgba(233, 30, 99, 0.1);
+            color: #e91e63;
         }
-
-        .quiz-option.correct {
-            background: rgba(76, 175, 80, 0.15) !important;
-            border-color: #4caf50 !important;
-            color: #4caf50 !important;
-        }
-
-        .quiz-option.incorrect {
-            background: rgba(244, 67, 54, 0.15) !important;
-            border-color: #f44336 !important;
-            color: #f44336 !important;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 3px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .strat-card {
+        .strat-box {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .strat-card h3 {
-            color: var(--accent);
-            margin-top: 0;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            border-left: 4px solid #e91e63;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 24px 0;
         }
     </style>
 </head>
@@ -137,87 +94,104 @@
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(233, 30, 99, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(233, 30, 99, 0.15); color: #e91e63; border: 1px solid rgba(233, 30, 99, 0.3);">單元 3.5</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
+                <span class="module-badge" style="background: rgba(233, 30, 99, 0.15); color: #e91e63; border: 1px solid rgba(233, 30, 99, 0.3);">單元 3.5 專業專題</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度實戰指南</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">3.5 Covered Call 與 Cash-Secured Put 實戰策略</h1>
-            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                選擇權不只是高槓桿投機工具，更是華爾街機構法人用於「增強股票收益」與「低價打折接股」的秘密武器。本單元將帶您學習兩大最穩健的選擇權收租策略：Covered Call 與 Cash-Secured Put！
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.5 Covered Call 與 Cash-Secured Put：機構級低風險增益策略</h1>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+                在股票投資中，單純買入並持有 (Buy and Hold) 在盤整期往往無法產生現金流。華爾街頂級基金經理人與巴菲特常運用選擇權的「Covered Call (備兌買權)」與「Cash-Secured Put (現金擔保賣賣權)」打造穩定的租金收益與打折接股通道。本單元將為您全面解析這兩大策略的數學模型與實戰細節。
             </p>
         </div>
 
-        <!-- Strategy 1 -->
-        <div class="strat-card">
-            <h3><i class="fa-solid fa-hand-holding-dollar"></i> 策略一：Covered Call 備兌買權（持股賣買權收租）</h3>
-            <p style="color: var(--text-secondary); line-height: 1.7;">
-                <strong>組合構造：</strong> 持有 100 股現貨股票 + 賣出 1 份價外買權 (Sell OTM Call)。
+        <!-- Section 1 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-hand-holding-dollar" style="color: #e91e63;"></i> 一、 Covered Call 備兌買權（持股賣買權收租）</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                <strong>策略構造：</strong> 持有 100 股現貨股票 + 賣出 1 份價外買權 (Sell OTM Call)。<br>
+                <strong>核心哲學：</strong> 在您願意賣出股票的目標價位掛上 Sell Call，在等待股價達標前，每月穩賺時間價值權利金。
             </p>
-            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--accent);">
-                <h4 style="margin-top:0; color:#fff;">實戰案例說明：</h4>
-                <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0; line-height: 1.6;">
-                    假設您持有 100 股蘋果 (AAPL) 現價 $200。您賣出一ヶ月後履約價 $215 的 Call，收取 $5 權利金 ($500 總收益)。<br>
-                    • <strong>情境 A (股價小漲或下跌)</strong>：一ヶ月後 AAPL 在 $210。買權未履約，您全數保留 $500 權利金，持股成本降為 $195。<br>
-                    • <strong>情境 B (股價大漲至 $230)</strong>：股票在 $215 被履約賣出。您獲得 $15 股票價差 + $5 權利金 = $20 總利潤（賣飛 $215 以上的漲幅）。
+
+            <h3 style="color: #fff; margin-top: 24px;">1. 損益計算模型與實戰案例</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                假設您以每股 $200 買入 100 股蘋果 (AAPL)，總投入 $20,000。此時賣出一ヶ月後履約價 $215 的 OTM Call，收取 $5 權利金 ($500 總現金入帳)。
+            </p>
+
+            <table class="strat-table">
+                <thead>
+                    <tr>
+                        <th>到期情境</th>
+                        <th>AAPL 現貨到期價</th>
+                        <th>現貨損益</th>
+                        <th>Call 權利金損益</th>
+                        <th>組合總淨利潤與結果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>情境 A：盤整小漲</strong></td>
+                        <td>$210 (未達 $215)</td>
+                        <td>+$1,000</td>
+                        <td>+$500 (全拿)</td>
+                        <td><strong>+$1,500 (+7.5%)</strong>，繼續持有股票並可再賣下ヶ月 Call</td>
+                    </tr>
+                    <tr>
+                        <td><strong>情境 B：小幅下跌</strong></td>
+                        <td>$195 (下跌 $5)</td>
+                        <td>-$500</td>
+                        <td>+$500 (全拿)</td>
+                        <td><strong>$0 (持股成本安全降至 $195)</strong>，權利金完美抵消股價下跌</td>
+                    </tr>
+                    <tr>
+                        <td><strong>情境 C：單月暴漲</strong></td>
+                        <td>$230 (大漲 $30)</td>
+                        <td>+$1,500 (封頂於 $215)</td>
+                        <td>+$500 (全拿)</td>
+                        <td><strong>+$2,000 (+10.0%)</strong>，股票在 $215 被履約賣出，落袋為安</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="strat-box">
+                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-lightbulb" style="color:#e91e63;"></i> Covered Call 的黃金參數法則</h4>
+                <p style="font-size:0.95rem; color:var(--text-secondary); line-height: 1.7; margin-bottom:0;">
+                    • <strong>Delta 選擇：</strong> 建議選擇 Delta 在 0.20 至 0.30 之間的 OTM Call，既保留了 70%-80% 到期不履約賺全額權利金的勝率，又給予現貨足夠的上漲資本利得空間。<br>
+                    • <strong>到期日 (DTE) 選擇：</strong> 建議選擇 30 至 45 天到期的合約，此階段是 Theta 時間價值衰減最快的黃金斜率期。
                 </p>
             </div>
-        </div>
+        </section>
 
-        <!-- Strategy 2 -->
-        <div class="strat-card">
-            <h3><i class="fa-solid fa-piggy-bank"></i> 策略二：Cash-Secured Put 現金擔保賣賣權（打折買股）</h3>
-            <p style="color: var(--text-secondary); line-height: 1.7;">
-                <strong>組合構造：</strong> 準備足額買入 100 股現貨的現金 + 賣出 1 份價外賣權 (Sell OTM Put)。
+        <!-- Section 2 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-piggy-bank" style="color: #e91e63;"></i> 二、 Cash-Secured Put 現金擔保賣賣權（打折買股策略）</h2>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                <strong>策略構造：</strong> 準備足額買入 100 股現貨的現金 + 賣出 1 份價外賣權 (Sell OTM Put)。<br>
+                <strong>核心哲學：</strong> 巴菲特最愛的建倉法。如果您本來就想在低價買入某檔優質股，與其掛限價單空等，不如 Sell Put 預先收取現金。
             </p>
-            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid #4caf50;">
-                <h4 style="margin-top:0; color:#fff;">實戰案例說明：</h4>
-                <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0; line-height: 1.6;">
-                    假設特斯拉 (TSLA) 現價 $250，您非常想在 $220 低接。您準備 $22,000 現金，賣出一ヶ月後 $220 的 Put，預先收取 $6 權利金 ($600)。<br>
-                    • <strong>情境 A (股價維持在 $220 以上)</strong>：Put 未履約，您免費賺取 $600 權利金 (相當於年化高收益)。<br>
-                    • <strong>情境 B (股價跌至 $210)</strong>：您以約定的 $220 履約買入 100 股，扣除預收的 $6 權利金，實際持股成本僅為 $214！
-                </p>
-            </div>
-        </div>
 
-        <!-- Interactive Quiz Section -->
-        <div class="quiz-card">
-            <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本單元實戰觀念隨堂測驗
-            </h3>
+            <h3 style="color: #fff; margin-top: 24px;">1. 損益計算模型與實戰案例</h3>
+            <p style="line-height: 1.8; color: var(--text-secondary);">
+                假設輝達 (NVDA) 現價 $130，您希望在 $120 心理關卡低接。您準備 $12,000 美元現金擔保，賣出 30 天後履約價 $120 的 OTM Put，收取 $4 權利金 ($400 入帳)。
+            </p>
 
-            <!-- Quiz Q1 -->
-            <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 執行 Covered Call (備兌買權) 策略時，投資人的主要代價（限制）是什麼？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> A. 下行虧損風險會放大兩倍
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> B. 放棄了股價突破履約價以上的潛在超額暴漲利潤
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> C. 每天必須支付高額的時間價值利息
-                </div>
-                <div id="q1-exp-strat" class="quiz-explanation">
-                    <strong>解析正確！</strong> Covered Call 的主要限制是在賣出 Call 後，若股票暴漲突破履約價，股票將會被履約賣出，因此無法享受履約價以上的暴漲利潤。
-                </div>
-            </div>
+            <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong style="color: #fff;">情境一：到期價在 $120 以上（例如 $125）</strong><br>
+                    Put 未履約歸零，您全數沒收 $400 權利金。僅用 $12,000 現金擔保一ヶ月即創造 3.33% 單月回報（換算年化報酬率高達 40%！）。
+                </li>
+                <li><strong style="color: #fff;">情境二：到期價跌至 $115</strong><br>
+                    買方要求履約，您以約定的 $120 價格買入 100 股 NVDA。扣除預收的 $4 權利金，<strong>您實際持股成本僅為每股 $116 ($120 - $4)</strong>！比一ヶ月前直接買入省下了每股 $14 的昂貴代價。
+                </li>
+            </ul>
+        </section>
 
-            <!-- Quiz Q2 -->
-            <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 關於 Cash-Secured Put (現金擔保賣賣權) 策略，以下何者是其優勢？</p>
-                <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> A. 如果股價沒跌到心儀價位，能純賺預收的權利金；若跌到則以低於原現價的成本成功接股
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> B. 可以保證股票永遠不會虧損
-                </div>
-                <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-strat')">
-                    <i class="fa-regular fa-circle"></i> C. 不需要準備任何保證金或現金即可執行
-                </div>
-                <div id="q2-exp-strat" class="quiz-explanation">
-                    <strong>解析正確！</strong> Cash-Secured Put 是巴菲特等大師極喜愛的打折買股法：先拿現金預先收租，沒跌到就純賺權利金，跌到了就以折價成本開心持有心儀優質股。
-                </div>
+        <!-- Section 3 -->
+        <section class="card" style="margin-bottom: 32px;">
+            <h2><i class="fa-solid fa-rotate" style="color: #e91e63;"></i> 三、 「轉倉策略 (Rolling Options)」風控指南</h2>
+            <div style="line-height: 1.8; color: var(--text-secondary);">
+                <p>在實戰中，若股價發展與預期不符，交易員可透過「轉倉 (Rolling)」延伸時間價值：</p>
+                <p><strong style="color: #fff;">• Roll Out (平倉當月，賣出下月)：</strong> 當賣出的 Put 面臨履約壓力但您不想現在接股時，買回當月 Put 並賣出下ヶ月同履約價 Put，獲取更多時間價值 $Theta$ 緩衝。</p>
+                <p><strong style="color: #fff;">• The Option Wheel (車輪策略)：</strong> 先執行 Cash-Secured Put 收租；若被履約拿到股票，立刻改為對該股票執行 Covered Call 收租。如此循環往復，實現雙向現金流。例如可以使用 <a href="../tools/compound-interest.html" style="color:var(--accent); font-weight:bold;">複利計算機</a> 評估長期權利金轉再投資的年化複利效應。</p>
             </div>
-        </div>
+        </section>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
@@ -245,26 +219,6 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="../app.js"></script>
-    <script>
-        function checkAnswer(el, isCorrect, expId) {
-            const parent = el.parentElement;
-            const options = parent.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-            });
-
-            if (isCorrect) {
-                el.classList.add('correct');
-            } else {
-                el.classList.add('incorrect');
-            }
-
-            const exp = document.getElementById(expId);
-            if (exp) {
-                exp.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>
