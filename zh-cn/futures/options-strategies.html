@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.5 Covered Call 与 Cash-Secured Put 实战策略 | GugoPro 财经教学学院</title>
+    <title>3.5 Covered Call 與 Cash-Secured Put 实战策略 | GugoPro 財经教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -51,7 +51,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">财经学院</span>
+                <span class="logo-tag">財经學院</span>
             </a>
             
             <!-- Tools Selector -->
@@ -60,10 +60,10 @@
                     <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="tools-dropdown">
-                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
-                    <a href="../tools/risk-reward-calculator.html">交易风報比 (R:R) 即时计算機</a>
-                    <a href="../tools/risk-reward-scanner.html">风報比即时篩选搜寻器 (Scanner)</a>
-                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="../tools/compound-interest.html">高殖利率复利计算机</a>
+                    <a href="../tools/risk-reward-calculator.html">交易风报比 (R:R) 即时计算机</a>
+                    <a href="../tools/risk-reward-scanner.html">风报比即时筛选搜尋器 (Scanner)</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
             
@@ -73,7 +73,7 @@
                     <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="lang-dropdown">
-                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁体中文</a>
                     <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
                     <a href="#" onclick="changeLanguage('en')">English</a>
                     <a href="#" onclick="changeLanguage('ja')">日本語</a>
@@ -88,118 +88,118 @@
     <!-- Main Container -->
     <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
         <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
-            <i class="fa-solid fa-arrow-left"></i> 返回 Level 3 期货学程地圖
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 3 期貨學程地图
         </a>
 
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(233, 30, 99, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(233, 30, 99, 0.15); color: #e91e63; border: 1px solid rgba(233, 30, 99, 0.3);">单元 3.5 专业专題</span>
+                <span class="module-badge" style="background: rgba(233, 30, 99, 0.15); color: #e91e63; border: 1px solid rgba(233, 30, 99, 0.3);">单元 3.5 專業專題</span>
                 <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度实战指南</span>
             </div>
-            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.5 Covered Call 与 Cash-Secured Put：機构級低风险增益策略</h1>
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.5 Covered Call 與 Cash-Secured Put：机构级低风险增益策略</h1>
             <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
-                在股票投资中，单純买入並持有 (Buy and Hold) 在盤整期往往無法产生現金流。華爾街頂級基金经理人与巴菲特常運用选择權的「Covered Call (備兌买權)」与「Cash-Secured Put (現金擔保賣賣權)」打造穩定的租金收益与打折接股通道。本单元将為您全面解析這兩大策略的數学模型与实战細节。
+                在股票投资中，单純买入並持有 (Buy and Hold) 在盤整期往往无法产生现金流。华爾街顶级基金经理人與巴菲特常运用选择权的「Covered Call (备兑买权)」與「Cash-Secured Put (现金担保卖卖权)」打造稳定的租金收益與打折接股通道。本单元将为您全面解析這两大策略的数學模型與实战细节。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-hand-holding-dollar" style="color: #e91e63;"></i> 一、 Covered Call 備兌买權（持股賣买權收租）</h2>
+            <h2><i class="fa-solid fa-hand-holding-dollar" style="color: #e91e63;"></i> 一、 Covered Call 备兑买权（持股卖买权收租）</h2>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                <strong>策略构造：</strong> 持有 100 股現货股票 + 賣出 1 份价外买權 (Sell OTM Call)。<br>
-                <strong>核心哲学：</strong> 在您願意賣出股票的目标价位掛上 Sell Call，在等待股价達标前，每月穩賺时间价值權利金。
+                <strong>策略构造：</strong> 持有 100 股现貨股票 + 卖出 1 份价外买权 (Sell OTM Call)。<br>
+                <strong>核心哲學：</strong> 在您願意卖出股票的目标价位掛上 Sell Call，在等待股价达标前，每月稳賺时間价值权利金。
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">1. 损益计算模型与实战案例</h3>
+            <h3 style="color: #fff; margin-top: 24px;">1. 损益计算模型與实战案例</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                假设您以每股 $200 买入 100 股蘋果 (AAPL)，總投入 $20,000。此时賣出一個月後履约价 $215 的 OTM Call，收取 $5 權利金 ($500 總現金入帳)。
+                假设您以每股 $200 买入 100 股蘋果 (AAPL)，總投入 $20,000。此时卖出一个月后履約价 $215 的 OTM Call，收取 $5 权利金 ($500 總现金入帳)。
             </p>
 
             <table class="strat-table">
                 <thead>
                     <tr>
                         <th>到期情境</th>
-                        <th>AAPL 現货到期价</th>
-                        <th>現货损益</th>
-                        <th>Call 權利金损益</th>
-                        <th>組合總淨利潤与结果</th>
+                        <th>AAPL 现貨到期价</th>
+                        <th>现貨损益</th>
+                        <th>Call 权利金损益</th>
+                        <th>組合總淨利润與结果</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><strong>情境 A：盤整小漲</strong></td>
-                        <td>$210 (未達 $215)</td>
+                        <td>$210 (未达 $215)</td>
                         <td>+$1,000</td>
                         <td>+$500 (全拿)</td>
-                        <td><strong>+$1,500 (+7.5%)</strong>，繼续持有股票並可再賣下個月 Call</td>
+                        <td><strong>+$1,500 (+7.5%)</strong>，繼續持有股票並可再卖下个月 Call</td>
                     </tr>
                     <tr>
                         <td><strong>情境 B：小幅下跌</strong></td>
                         <td>$195 (下跌 $5)</td>
                         <td>-$500</td>
                         <td>+$500 (全拿)</td>
-                        <td><strong>$0 (持股成本安全降至 $195)</strong>，權利金完美抵消股价下跌</td>
+                        <td><strong>$0 (持股成本安全降至 $195)</strong>，权利金完美抵消股价下跌</td>
                     </tr>
                     <tr>
                         <td><strong>情境 C：单月暴漲</strong></td>
                         <td>$230 (大漲 $30)</td>
-                        <td>+$1,500 (封頂於 $215)</td>
+                        <td>+$1,500 (封顶於 $215)</td>
                         <td>+$500 (全拿)</td>
-                        <td><strong>+$2,000 (+10.0%)</strong>，股票在 $215 被履约賣出，落袋為安</td>
+                        <td><strong>+$2,000 (+10.0%)</strong>，股票在 $215 被履約卖出，落袋为安</td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="strat-box">
-                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-lightbulb" style="color:#e91e63;"></i> Covered Call 的黄金參數法则</h4>
+                <h4 style="margin-top:0; color:#fff;"><i class="fa-solid fa-lightbulb" style="color:#e91e63;"></i> Covered Call 的黄金参数法則</h4>
                 <p style="font-size:0.95rem; color:var(--text-secondary); line-height: 1.7; margin-bottom:0;">
-                    • <strong>Delta 选择：</strong> 建议选择 Delta 在 0.20 至 0.30 之间的 OTM Call，既保留了 70%-80% 到期不履约賺全額權利金的勝率，又給予現货足夠的上漲资本利得空间。<br>
-                    • <strong>到期日 (DTE) 选择：</strong> 建议选择 30 至 45 天到期的合约，此阶段是 Theta 时间价值衰減最快的黄金斜率期。
+                    • <strong>Delta 选择：</strong> 建議选择 Delta 在 0.20 至 0.30 之間的 OTM Call，既保留了 70%-80% 到期不履約賺全額权利金的胜率，又給予现貨足夠的上漲资本利得空間。<br>
+                    • <strong>到期日 (DTE) 选择：</strong> 建議选择 30 至 45 天到期的合約，此阶段是 Theta 时間价值衰减最快的黄金斜率期。
                 </p>
             </div>
         </section>
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-piggy-bank" style="color: #e91e63;"></i> 二、 Cash-Secured Put 現金擔保賣賣權（打折买股策略）</h2>
+            <h2><i class="fa-solid fa-piggy-bank" style="color: #e91e63;"></i> 二、 Cash-Secured Put 现金担保卖卖权（打折买股策略）</h2>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                <strong>策略构造：</strong> 准備足額买入 100 股現货的現金 + 賣出 1 份价外賣權 (Sell OTM Put)。<br>
-                <strong>核心哲学：</strong> 巴菲特最愛的建倉法。如果您本來就想在低价买入某档優质股，与其掛限价单空等，不如 Sell Put 預先收取現金。
+                <strong>策略构造：</strong> 准备足額买入 100 股现貨的现金 + 卖出 1 份价外卖权 (Sell OTM Put)。<br>
+                <strong>核心哲學：</strong> 巴菲特最爱的建仓法。如果您本来就想在低价买入某檔优质股，與其掛限价单空等，不如 Sell Put 預先收取现金。
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">1. 损益计算模型与实战案例</h3>
+            <h3 style="color: #fff; margin-top: 24px;">1. 损益计算模型與实战案例</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                假设輝達 (NVDA) 現价 $130，您希望在 $120 心理關卡低接。您准備 $12,000 美元現金擔保，賣出 30 天後履约价 $120 的 OTM Put，收取 $4 權利金 ($400 入帳)。
+                假设輝达 (NVDA) 现价 $130，您希望在 $120 心理关卡低接。您准备 $12,000 美元现金担保，卖出 30 天后履約价 $120 的 OTM Put，收取 $4 权利金 ($400 入帳)。
             </p>
 
             <ul style="line-height: 1.8; color: var(--text-secondary); padding-left: 20px;">
                 <li><strong style="color: #fff;">情境一：到期价在 $120 以上（例如 $125）</strong><br>
-                    Put 未履约归零，您全數沒收 $400 權利金。仅用 $12,000 現金擔保一個月即创造 3.33% 单月回報（換算年化報酬率高達 40%！）。
+                    Put 未履約歸零，您全数没收 $400 权利金。仅用 $12,000 现金担保一个月即創造 3.33% 单月回报（換算年化报酬率高达 40%！）。
                 </li>
                 <li><strong style="color: #fff;">情境二：到期价跌至 $115</strong><br>
-                    买方要求履约，您以约定的 $120 价格买入 100 股 NVDA。扣除預收的 $4 權利金，<strong>您实際持股成本仅為每股 $116 ($120 - $4)</strong>！比一個月前直接买入省下了每股 $14 的昂貴代价。
+                    买方要求履約，您以約定的 $120 价格买入 100 股 NVDA。扣除預收的 $4 权利金，<strong>您实際持股成本仅为每股 $116 ($120 - $4)</strong>！比一个月前直接买入省下了每股 $14 的昂貴代价。
                 </li>
             </ul>
         </section>
 
         <!-- Section 3 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-rotate" style="color: #e91e63;"></i> 三、 「轉倉策略 (Rolling Options)」风控指南</h2>
+            <h2><i class="fa-solid fa-rotate" style="color: #e91e63;"></i> 三、 「转仓策略 (Rolling Options)」风控指南</h2>
             <div style="line-height: 1.8; color: var(--text-secondary);">
-                <p>在实战中，若股价發展与預期不符，交易員可透过「轉倉 (Rolling)」延伸时间价值：</p>
-                <p><strong style="color: #fff;">• Roll Out (平倉當月，賣出下月)：</strong> 當賣出的 Put 面臨履约壓力但您不想現在接股时，买回當月 Put 並賣出下個月同履约价 Put，獲取更多时间价值 $Theta$ 緩衝。</p>
-                <p><strong style="color: #fff;">• The Option Wheel (車輪策略)：</strong> 先執行 Cash-Secured Put 收租；若被履约拿到股票，立刻改為对該股票執行 Covered Call 收租。如此循環往復，实現双向現金流。例如可以使用 <a href="../tools/compound-interest.html" style="color:var(--accent); font-weight:bold;">複利计算機</a> 评估長期權利金轉再投资的年化複利效應。</p>
+                <p>在实战中，若股价发展與預期不符，交易員可透过「转仓 (Rolling)」延伸时間价值：</p>
+                <p><strong style="color: #fff;">• Roll Out (平仓當月，卖出下月)：</strong> 當卖出的 Put 面临履約壓力但您不想现在接股时，买回當月 Put 並卖出下个月同履約价 Put，获取更多时間价值 $Theta$ 緩冲。</p>
+                <p><strong style="color: #fff;">• The Option Wheel (车轮策略)：</strong> 先执行 Cash-Secured Put 收租；若被履約拿到股票，立刻改为对該股票执行 Covered Call 收租。如此循环往復，实现双向现金流。例如可以使用 <a href="../tools/compound-interest.html" style="color:var(--accent); font-weight:bold;">复利计算机</a> 評估长期权利金转再投资的年化复利效應。</p>
             </div>
         </section>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
             <a href="options-basics.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
-                <i class="fa-solid fa-arrow-left"></i> 上一单元：3.4 选择權基礎与希臘字母
+                <i class="fa-solid fa-arrow-left"></i> 上一单元：3.4 选择权基礎與希腊字母
             </a>
             <a href="../quant/index.html" class="module-btn">
-                前往 Level 4 量化学程 <i class="fa-solid fa-arrow-right"></i>
+                前往 Level 4 量化學程 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
     </main>
@@ -207,13 +207,13 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-            <a href="../index.html">首页</a>
+            <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙阶段</a>
-            <a href="../stocks/index.html">股票学程</a>
-            <a href="index.html">期货学程</a>
-            <a href="../quant/index.html">量化学程</a>
-            <a href="../privacy-policy.html">隱私權政策</a>
-            <a href="../terms-of-service.html">免责声明与使用條款</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="index.html">期貨學程</a>
+            <a href="../quant/index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私权政策</a>
+            <a href="../terms-of-service.html">免責声明與使用条款</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
     </footer>

@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4.6 蒙地卡罗模擬与 Maximum Drawdown 壓力測試 | GugoPro 财经教学学院</title>
+    <title>4.6 蒙地卡罗模擬與 Maximum Drawdown 壓力測试 | GugoPro 財经教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -99,7 +99,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">财经学院</span>
+                <span class="logo-tag">財经學院</span>
             </a>
             
             <!-- Tools Selector -->
@@ -108,10 +108,10 @@
                     <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="tools-dropdown">
-                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
-                    <a href="../tools/risk-reward-calculator.html">交易风報比 (R:R) 即时计算機</a>
-                    <a href="../tools/risk-reward-scanner.html">风報比即时篩选搜寻器 (Scanner)</a>
-                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="../tools/compound-interest.html">高殖利率复利计算机</a>
+                    <a href="../tools/risk-reward-calculator.html">交易风报比 (R:R) 即时计算机</a>
+                    <a href="../tools/risk-reward-scanner.html">风报比即时筛选搜尋器 (Scanner)</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
             
@@ -121,7 +121,7 @@
                     <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="lang-dropdown">
-                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁体中文</a>
                     <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
                     <a href="#" onclick="changeLanguage('en')">English</a>
                     <a href="#" onclick="changeLanguage('ja')">日本語</a>
@@ -136,37 +136,37 @@
     <!-- Main Container -->
     <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
         <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
-            <i class="fa-solid fa-arrow-left"></i> 返回 Level 4 量化学程地圖
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 4 量化學程地图
         </a>
 
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(156, 39, 176, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
                 <span class="module-badge" style="background: rgba(156, 39, 176, 0.15); color: #9c27b0; border: 1px solid rgba(156, 39, 176, 0.3);">单元 4.6</span>
-                <span class="module-duration"><i class="fa-regular fa-clock"></i> 约 15 分鐘阅读</span>
+                <span class="module-duration"><i class="fa-regular fa-clock"></i> 約 15 分鐘閱讀</span>
             </div>
-            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">4.6 蒙地卡罗模擬与 Maximum Drawdown 壓力測試</h1>
+            <h1 style="font-size: 2rem; margin-top: 0; margin-bottom: 16px;">4.6 蒙地卡罗模擬與 Maximum Drawdown 壓力測试</h1>
             <p style="color: var(--text-secondary); line-height: 1.8; margin: 0;">
-                許多量化新手的策略在回測时曲線極其完美，一上線卻迅速爆倉，原因在於过度依賴「单一歷史路徑」。本单元将帶您学習頂級量化对沖基金如何透过「蒙地卡罗模擬 (Monte Carlo Simulation)」评估最壞情況下的最大回撤 (MDD)！
+                許多量化新手的策略在回測时曲线极其完美，一上线卻迅速爆仓，原因在於过度依赖「单一歷史路徑」。本单元将带您學习顶级量化对冲基金如何透过「蒙地卡罗模擬 (Monte Carlo Simulation)」評估最坏情况下的最大回撤 (MDD)！
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-dice" style="color: var(--accent);"></i> 章节一：為什麼单一歷史回測會欺騙您？</h2>
-            <p>歷史只發生过一次。如果在过去的 100 次交易中，您的策略出現了 5 連敗，那是因為「虧损交易剛好分散开來」。如果未來這 5 次虧损連在一起發生呢？</p>
+            <h2><i class="fa-solid fa-dice" style="color: var(--accent);"></i> 章节一：为什么单一歷史回測会欺騙您？</h2>
+            <p>歷史只发生过一次。如果在过去的 100 次交易中，您的策略出现了 5 连敗，那是因为「亏损交易剛好分散开来」。如果未来這 5 次亏损连在一起发生呢？</p>
 
             <div class="mc-grid">
                 <div class="mc-box">
-                    <h4><i class="fa-solid fa-shuffle"></i> 交易順序重組 (Order Shuffling)</h4>
+                    <h4><i class="fa-solid fa-shuffle"></i> 交易顺序重組 (Order Shuffling)</h4>
                     <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        将回測得到的 100 筆盈虧數據打亂順序，隨機重組 1,000 種不同的交易序列。雖然最終總收益完全相同，但最大资金回撤 (MDD) 可能會擴大 2 到 3 倍！
+                        将回測得到的 100 笔盈亏数据打乱顺序，随机重組 1,000 種不同的交易序列。雖然最終總收益完全相同，但最大资金回撤 (MDD) 可能会扩大 2 到 3 倍！
                     </p>
                 </div>
                 <div class="mc-box">
-                    <h4><i class="fa-solid fa-chart-area"></i> 95% 信心区间壓力測試</h4>
+                    <h4><i class="fa-solid fa-chart-area"></i> 95% 信心区間壓力測试</h4>
                     <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                        透过统计 1,000 次模擬结果的分配圖，找出在 95% 信心区间下的最極端回撤。如果您的賬戶無法承受此極限回撤，就必須降低下单手數。
+                        透过统计 1,000 次模擬结果的分配图，找出在 95% 信心区間下的最极端回撤。如果您的賬戶无法承受此极限回撤，就必須降低下单手数。
                     </p>
                 </div>
             </div>
@@ -174,18 +174,18 @@
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-skull-crossbones" style="color: var(--accent);"></i> 章节二：破产機率 (Risk of Ruin) 与风報比算力</h2>
-            <p>破产機率指的是交易賬戶本金损失達到 100%（或觸發追繳清算）的统计機率。它由三大要素決定：</p>
+            <h2><i class="fa-solid fa-skull-crossbones" style="color: var(--accent);"></i> 章节二：破产机率 (Risk of Ruin) 與风报比算力</h2>
+            <p>破产机率指的是交易賬戶本金损失达到 100%（或触发追繳清算）的统计机率。它由三大要素决定：</p>
             
             <div style="background: rgba(255,255,255,0.02); border-left: 4px solid #4caf50; padding: 20px; border-radius: 6px; margin-top: 20px;">
-                <h3 style="margin-top: 0; color: #fff; font-size: 1.1rem;">破产機率的三大核心變數：</h3>
+                <h3 style="margin-top: 0; color: #fff; font-size: 1.1rem;">破产机率的三大核心變数：</h3>
                 <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7;">
-                    1. <strong>勝率 $W$ (Win Rate)</strong>：獲利交易佔總交易筆數的比例。<br>
-                    2. <strong>风報比 $R:R$ (Risk-to-Reward Ratio)</strong>：平均獲利金額 / 平均虧损金額（詳見 <a href="../tools/risk-reward-calculator.html" style="color:var(--accent); font-weight:bold;">1.3 风報比工具</a>）。<br>
-                    3. <strong>单筆冒险资金比例 $f$ (Risk per trade)</strong>：每筆交易佔總资金的百分比（建议控管在 1%~2% 內）。
+                    1. <strong>胜率 $W$ (Win Rate)</strong>：获利交易佔總交易笔数的比例。<br>
+                    2. <strong>风报比 $R:R$ (Risk-to-Reward Ratio)</strong>：平均获利金額 / 平均亏损金額（詳见 <a href="../tools/risk-reward-calculator.html" style="color:var(--accent); font-weight:bold;">1.3 风报比工具</a>）。<br>
+                    3. <strong>单笔冒险资金比例 $f$ (Risk per trade)</strong>：每笔交易佔總资金的百分比（建議控管在 1%~2% 內）。
                 </p>
                 <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0; line-height: 1.7;">
-                    <strong style="color: var(--accent);">结论：</strong> 即使勝率仅有 40%，只要风報比維持在 1:3 以上，且单筆风险不超过 2%，蒙地卡罗模擬算出的破产機率即為趨近於 0% 的極致安全防線。
+                    <strong style="color: var(--accent);">结論：</strong> 即使胜率仅有 40%，只要风报比维持在 1:3 以上，且单笔风险不超过 2%，蒙地卡罗模擬算出的破产机率即为趨近於 0% 的极致安全防线。
                 </p>
             </div>
         </section>
@@ -193,40 +193,40 @@
         <!-- Interactive Quiz Section -->
         <div class="quiz-card">
             <h3 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-pen-to-square"></i> 本单元实战觀念隨堂測驗
+                <i class="fa-solid fa-pen-to-square"></i> 本单元实战观念随堂測驗
             </h3>
 
             <!-- Quiz Q1 -->
             <div style="margin-top: 20px;">
-                <p style="font-weight: bold; color: #fff;">Q1. 蒙地卡罗模擬 (Monte Carlo Simulation) 在量化交易策略评估中的核心作用是什麼？</p>
+                <p style="font-weight: bold; color: #fff;">Q1. 蒙地卡罗模擬 (Monte Carlo Simulation) 在量化交易策略評估中的核心作用是什么？</p>
                 <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-mc')">
                     <i class="fa-regular fa-circle"></i> A. 精准預測明天股票的收盤价
                 </div>
                 <div class="quiz-option" onclick="checkAnswer(this, true, 'q1-exp-mc')">
-                    <i class="fa-regular fa-circle"></i> B. 透过數千次打亂交易順序的隨機模擬，评估策略在未來可能面臨的最壞回撤与連敗风险
+                    <i class="fa-regular fa-circle"></i> B. 透过数千次打乱交易顺序的随机模擬，評估策略在未来可能面临的最坏回撤與连敗风险
                 </div>
                 <div class="quiz-option" onclick="checkAnswer(this, false, 'q1-exp-mc')">
-                    <i class="fa-regular fa-circle"></i> C. 保证策略上線後 100% 賺錢
+                    <i class="fa-regular fa-circle"></i> C. 保证策略上线后 100% 賺錢
                 </div>
                 <div id="q1-exp-mc" class="quiz-explanation">
-                    <strong>解析正確！</strong> 歷史回測只是单一隨機路徑。蒙地卡罗模擬透过重組交易序列与隨機抽樣，能幫助交易員預先看到 95% 以上的最壞極限回撤 (MDD)。
+                    <strong>解析正確！</strong> 歷史回測只是单一随机路徑。蒙地卡罗模擬透过重組交易序列與随机抽樣，能幫助交易員預先看到 95% 以上的最坏极限回撤 (MDD)。
                 </div>
             </div>
 
             <!-- Quiz Q2 -->
             <div style="margin-top: 24px;">
-                <p style="font-weight: bold; color: #fff;">Q2. 若要讓一個量化策略的「破产機率 (Risk of Ruin)」降至趨近於 0%，以下哪項做法最有效？</p>
+                <p style="font-weight: bold; color: #fff;">Q2. 若要让一个量化策略的「破产机率 (Risk of Ruin)」降至趨近於 0%，以下哪項做法最有效？</p>
                 <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-mc')">
-                    <i class="fa-regular fa-circle"></i> A. 将单筆下单风险提高到總资金的 50%
+                    <i class="fa-regular fa-circle"></i> A. 将单笔下单风险提高到總资金的 50%
                 </div>
                 <div class="quiz-option" onclick="checkAnswer(this, true, 'q2-exp-mc')">
-                    <i class="fa-regular fa-circle"></i> B. 嚴格控制单筆下单风险在總资金的 1%~2% 以內，並保持 1:2 以上的盈虧风報比
+                    <i class="fa-regular fa-circle"></i> B. 严格控制单笔下单风险在總资金的 1%~2% 以內，並保持 1:2 以上的盈亏风报比
                 </div>
                 <div class="quiz-option" onclick="checkAnswer(this, false, 'q2-exp-mc')">
                     <i class="fa-regular fa-circle"></i> C. 凹单不设停损
                 </div>
                 <div id="q2-exp-mc" class="quiz-explanation">
-                    <strong>解析正確！</strong> 輕倉（单筆风险 1%~2%）搭配高风報比，是大數法则發揮作用的數学保障，能使破产機率降為 0%。
+                    <strong>解析正確！</strong> 輕仓（单笔风险 1%~2%）搭配高风报比，是大数法則发揮作用的数學保障，能使破产机率降为 0%。
                 </div>
             </div>
         </div>
@@ -234,10 +234,10 @@
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
             <a href="webhook-automation.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
-                <i class="fa-solid fa-arrow-left"></i> 上一单元：4.5 TradingView Webhook 自動下单
+                <i class="fa-solid fa-arrow-left"></i> 上一单元：4.5 TradingView Webhook 自动下单
             </a>
             <a href="legendary-traders.html" class="module-btn">
-                下一单元：4.4 传奇大师交易心法 <i class="fa-solid fa-arrow-right"></i>
+                下一单元：4.4 傳奇大师交易心法 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
     </main>
@@ -245,13 +245,13 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-            <a href="../index.html">首页</a>
+            <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙阶段</a>
-            <a href="../stocks/index.html">股票学程</a>
-            <a href="../futures/index.html">期货学程</a>
-            <a href="index.html">量化学程</a>
-            <a href="../privacy-policy.html">隱私權政策</a>
-            <a href="../terms-of-service.html">免责声明与使用條款</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="../futures/index.html">期貨學程</a>
+            <a href="index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私权政策</a>
+            <a href="../terms-of-service.html">免責声明與使用条款</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
     </footer>

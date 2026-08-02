@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>配对交易实战 (Pair Trading) | GugoPro 财经教学学院</title>
+    <title>配对交易实战 (Pair Trading) | GugoPro 財经教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -169,7 +169,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">财经学院</span>
+                <span class="logo-tag">財经學院</span>
             </a>
             
             <!-- Tools Selector -->
@@ -178,10 +178,10 @@
                     <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="tools-dropdown">
-                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
-                    <a href="../tools/risk-reward-calculator.html">交易风報比 (R:R) 即时计算機</a>
-                    <a href="../tools/risk-reward-scanner.html">风報比即时篩选搜寻器 (Scanner)</a>
-                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="../tools/compound-interest.html">高殖利率复利计算机</a>
+                    <a href="../tools/risk-reward-calculator.html">交易风报比 (R:R) 即时计算机</a>
+                    <a href="../tools/risk-reward-scanner.html">风报比即时筛选搜尋器 (Scanner)</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
             
@@ -191,7 +191,7 @@
                     <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="lang-dropdown">
-                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁体中文</a>
                     <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
                     <a href="#" onclick="changeLanguage('en')">English</a>
                     <a href="#" onclick="changeLanguage('ja')">日本語</a>
@@ -206,7 +206,7 @@
     <!-- Main Content -->
     <main style="padding-top: 40px;">
         <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-arrow-left"></i> 返回量化学程
+            <i class="fa-solid fa-arrow-left"></i> 返回量化學程
         </a>
 
         <div class="section-title-container" style="margin-bottom: 16px;">
@@ -219,11 +219,11 @@
             <aside class="sidebar">
                 <h4>本单元目录</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. 什麼是配对交易</a></li>
-                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. 统计套利与均值回归</a></li>
-                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. 标的篩选与協整測試</a></li>
-                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Z-Score 与交易讯号</a></li>
-                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. 实战风控与策略調校</a></li>
+                    <li><a href="#section-1" class="active"><i class="fa-solid fa-circle-question"></i> 1. 什么是配对交易</a></li>
+                    <li><a href="#section-2"><i class="fa-solid fa-chart-line"></i> 2. 统计套利與均值回歸</a></li>
+                    <li><a href="#section-3"><i class="fa-solid fa-magnifying-glass-chart"></i> 3. 标的筛选與協整測试</a></li>
+                    <li><a href="#section-4"><i class="fa-solid fa-calculator"></i> 4. Z-Score 與交易訊号</a></li>
+                    <li><a href="#section-5"><i class="fa-solid fa-shield-halved"></i> 5. 实战风控與策略調校</a></li>
                 </ul>
             </aside>
 
@@ -231,70 +231,70 @@
             <div class="content-body">
                 <!-- Section 1 -->
                 <section id="section-1">
-                    <h2>1. 什麼是配对交易？</h2>
-                    <p><strong>配对交易 (Pair Trading)</strong> 是一種市场中性 (Market Neutral) 的投资策略，最早由華爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代开發。其核心概念是寻找歷史上价格走勢高度相關的兩档商品（如兩档同产业的股票，或相關性極高的期货合约），並在它们之间的价格差距（价差 Spread）出現異常擴大时进行操作：</p>
+                    <h2>1. 什么是配对交易？</h2>
+                    <p><strong>配对交易 (Pair Trading)</strong> 是一種市場中性 (Market Neutral) 的投资策略，最早由华爾街投行摩根士丹利 (Morgan Stanley) 在 1980 年代开发。其核心概念是尋找歷史上价格走势高度相关的两檔商品（如两檔同产業的股票，或相关性极高的期貨合約），並在它們之間的价格差距（价差 Spread）出现異常扩大时进行操作：</p>
                     <div class="highlight-card">
-                        <p style="margin-bottom: 0;"><strong>交易核心公式：</strong><br>當价差擴大到異常水平 ➡️ <strong>賣出（放空）高估的商品，同时买进（做多）低估的商品</strong>，等待兩者价差回归正常时平倉，賺取中间的价差收斂利潤。</p>
+                        <p style="margin-bottom: 0;"><strong>交易核心公式：</strong><br>當价差扩大到異常水平 ➡️ <strong>卖出（放空）高估的商品，同时买进（做多）低估的商品</strong>，等待两者价差回歸正常时平仓，賺取中間的价差收斂利润。</p>
                     </div>
-                    <p>這種策略的最大優勢在於：<strong>不论整體市场是大漲還是大跌，只要兩档商品的价格相对關係回归歷史常态，策略就能獲利。</strong>這就是所謂的「市场中性」。</p>
+                    <p>這種策略的最大优势在於：<strong>不論整体市場是大漲还是大跌，只要两檔商品的价格相对关係回歸歷史常态，策略就能获利。</strong>這就是所谓的「市場中性」。</p>
                 </section>
 
                 <!-- Section 2 -->
                 <section id="section-2">
-                    <h2>2. 统计套利与均值回归</h2>
-                    <p>配对交易之所以能成立，立足於统计学上的<strong>均值回归 (Mean Reversion)</strong> 原理。當我们将兩個高度相關的商品价格进行線性組合後，其价差序列在長期來看應該會在一個穩定的平均值上下擺動。</p>
-                    <h3>均值回归示意圖概念</h3>
-                    <p>想像一隻小狗（商品 A）和牽著牠的主人（商品 B）在公園散步。雖然小狗會跑來跑去，有时跑到主人前面，有时落在主人後面，但由於繩子（相關性）的牽引，小狗最終還是會回到主人身边。在金融市场中，這條「繩子」就是产业基本面、上下游關係或是期货同标的不同月份的套利機制。</p>
+                    <h2>2. 统计套利與均值回歸</h2>
+                    <p>配对交易之所以能成立，立足於统计學上的<strong>均值回歸 (Mean Reversion)</strong> 原理。當我們将两个高度相关的商品价格进行线性組合后，其价差序列在长期来看應該会在一个稳定的平均值上下擺动。</p>
+                    <h3>均值回歸示意图概念</h3>
+                    <p>想像一隻小狗（商品 A）和牽著牠的主人（商品 B）在公園散步。雖然小狗会跑来跑去，有时跑到主人前面，有时落在主人后面，但由於绳子（相关性）的牽引，小狗最終还是会回到主人身边。在金融市場中，這条「绳子」就是产業基本面、上下游关係或是期貨同标的不同月份的套利机制。</p>
                 </section>
 
                 <!-- Section 3 -->
                 <section id="section-3">
-                    <h2>3. 标的篩选与協整測試</h2>
-                    <p>如何寻找適合配对交易的标的？仅仅看「相關係數 (Correlation)」是不夠的，因為相關係數高可能只是因為兩档股票都在牛市上漲，但它们的价差可能會越走越遠（發散）。</p>
-                    <p>量化交易中更嚴謹的方法是使用<strong>協整性測試 (Cointegration Test)</strong>，例如 Engle-Granger 兩阶段法：</p>
+                    <h2>3. 标的筛选與協整測试</h2>
+                    <p>如何尋找适合配对交易的标的？仅仅看「相关係数 (Correlation)」是不夠的，因为相关係数高可能只是因为两檔股票都在牛市上漲，但它們的价差可能会越走越遠（发散）。</p>
+                    <p>量化交易中更严谨的方法是使用<strong>協整性測试 (Cointegration Test)</strong>，例如 Engle-Granger 两阶段法：</p>
                     <div class="formula-box">
-                        Step 1: 进行普通最小二乘法 (OLS) 回归：<br>
+                        Step 1: 进行普通最小二乘法 (OLS) 回歸：<br>
                         Price_A = β * Price_B + α + Residual (殘差)<br><br>
-                        Step 2: 对殘差序列 (Residual) 进行单位根檢定 (ADF Test)。若殘差序列是平穩的 (Stationary)，则說明 A 与 B 具有協整關係。
+                        Step 2: 对殘差序列 (Residual) 进行单位根检定 (ADF Test)。若殘差序列是平稳的 (Stationary)，則说明 A 與 B 具有協整关係。
                     </div>
-                    <p>常見的配对組合有：同产业競爭对手（如：台積電 vs 聯電）、产业鏈上下游、以及具有高度替代性的期货品種（如：大豆 vs 大豆油）。</p>
+                    <p>常见的配对組合有：同产業竞爭对手（如：台积电 vs 联电）、产業链上下游、以及具有高度替代性的期貨品種（如：大豆 vs 大豆油）。</p>
                     
                     <div class="info-card" style="margin-top: 24px; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.01);">
-                        <h4 style="margin-top:0; color: var(--accent);"><i class="fa-solid fa-chart-line"></i> 实战圖表工具推荐</h4>
+                        <h4 style="margin-top:0; color: var(--accent);"><i class="fa-solid fa-chart-line"></i> 实战图表工具推薦</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 12px;">
-                            在进行配对交易时，我们需要繪製兩档商品的价差走勢与计算協整。我们極力推荐使用全球最強的圖表工具 <strong>TradingView</strong>。它支援多标的价差繪製与 Pine Script 自動化回測。
+                            在进行配对交易时，我們需要繪製两檔商品的价差走势與计算協整。我們极力推薦使用全球最強的图表工具 <strong>TradingView</strong>。它支援多标的价差繪製與 Pine Script 自动化回測。
                         </p>
                         <a href="https://www.tradingview.com/?aff_id=168714" target="_blank" class="module-btn" style="width: auto; display: inline-flex; padding: 8px 16px; font-size: 0.85rem;">
-                            使用 TradingView 进行圖表分析 ➡️
+                            使用 TradingView 进行图表分析 ➡️
                         </a>
                     </div>
                 </section>
 
                 <!-- Section 4 -->
                 <section id="section-4">
-                    <h2>4. Z-Score 与交易讯号</h2>
-                    <p>一旦確定兩档商品具有協整關係，我们就可以计算价差的 <strong>Z-Score</strong> 來作為我们的交易信号。Z-Score 代表目前的价差偏离歷史平均值多少個标准差：</p>
+                    <h2>4. Z-Score 與交易訊号</h2>
+                    <p>一旦確定两檔商品具有協整关係，我們就可以计算价差的 <strong>Z-Score</strong> 来作为我們的交易信号。Z-Score 代表目前的价差偏离歷史平均值多少个标准差：</p>
                     <div class="formula-box">
                         Spread = Price_A - (β * Price_B)<br>
                         Z-Score = (Spread - Mean(Spread)) / StdDev(Spread)
                     </div>
-                    <h3>进出场信号範例：</h3>
+                    <h3>进出場信号範例：</h3>
                     <ul>
-                        <li><strong>建倉信号</strong>：當 Z-Score > +2.0 时，表示价差異常擴大，此时放空商品 A，做多商品 B。</li>
-                        <li><strong>建倉信号</strong>：當 Z-Score < -2.0 时，表示价差異常收縮，此时做多商品 A，放空商品 B。</li>
-                        <li><strong>平倉信号</strong>：當 Z-Score 回归到 0 附近（歷史均值）时，双边平倉落袋為安。</li>
+                        <li><strong>建仓信号</strong>：當 Z-Score > +2.0 时，表示价差異常扩大，此时放空商品 A，做多商品 B。</li>
+                        <li><strong>建仓信号</strong>：當 Z-Score < -2.0 时，表示价差異常收缩，此时做多商品 A，放空商品 B。</li>
+                        <li><strong>平仓信号</strong>：當 Z-Score 回歸到 0 附近（歷史均值）时，双边平仓落袋为安。</li>
                     </ul>
                 </section>
 
                 <!-- Section 5 -->
                 <section id="section-5">
-                    <h2>5. 实战风控与策略調校</h2>
-                    <p>儘管配对交易风险相对单边交易低，但絕非「無风险套利」。在实战中，最大的风险在於<strong>「協整關係破裂」</strong>。例如某一档股票發生嚴重的公司治理危機或财務黑天鵝，导致兩者价差無限擴大，永遠不再回归。</p>
-                    <h3>配对交易三大风控守则：</h3>
+                    <h2>5. 实战风控與策略調校</h2>
+                    <p>儘管配对交易风险相对单边交易低，但绝非「无风险套利」。在实战中，最大的风险在於<strong>「協整关係破裂」</strong>。例如某一檔股票发生严重的公司治理危机或財务黑天鵝，导致两者价差无限扩大，永遠不再回歸。</p>
+                    <h3>配对交易三大风控守則：</h3>
                     <ol>
-                        <li><strong>強制停损点</strong>：當 Z-Score 超过 ±3.0 且持续發散时，必須果斷手動平倉，防止单边黑天鵝造成毀滅性打擊。</li>
-                        <li><strong>时间停损（Time Stop）</strong>：如果价差在建倉後超过 30 個交易日仍未收斂，代表市场结构可能已變，應主動撤出。</li>
-                        <li><strong>资金管理</strong>：由於配对交易是双边开倉，保证金的使用效率与合约乘數換算需要格外精確，建议单次配对交易不超过總资金的 10%。</li>
+                        <li><strong>強制停损点</strong>：當 Z-Score 超过 ±3.0 且持續发散时，必須果断手动平仓，防止单边黑天鵝造成毀灭性打擊。</li>
+                        <li><strong>时間停损（Time Stop）</strong>：如果价差在建仓后超过 30 个交易日仍未收斂，代表市場结构可能已變，應主动撤出。</li>
+                        <li><strong>资金管理</strong>：由於配对交易是双边开仓，保证金的使用效率與合約乘数換算需要格外精確，建議单次配对交易不超过總资金的 10%。</li>
                     </ol>
                 </section>
             </div>
@@ -304,12 +304,12 @@
         <div class="card amazon-affiliate-card">
             <div class="card-header-flex">
                 <h2>
-                    <i class="fa-brands fa-amazon"></i> 🛒 本单元推荐阅读：配对交易与量化分析书籍 (Amazon Reader Hub)
+                    <i class="fa-brands fa-amazon"></i> 🛒 本单元推薦閱讀：配对交易與量化分析書籍 (Amazon Reader Hub)
                 </h2>
-                <span class="badge-promo">精选书单</span>
+                <span class="badge-promo">精选書单</span>
             </div>
             <p class="amazon-desc">
-                想更深入探讨配对交易与统计套利背後的數学模型和实战代碼嗎？以下是全球量化交易員公認的经典必读著作（透过专属連结购买支持本站）：
+                想更深入探討配对交易與统计套利背后的数學模型和实战代碼嗎？以下是全球量化交易員公认的经典必讀著作（透过專属连结购买支持本站）：
             </p>
             <div class="amz-grid">
                 <!-- Book 1 -->
@@ -321,7 +321,7 @@
                         <strong>Pairs Trading 经典指南</strong>
                     </div>
                     <p>
-                        由 Ganapathy Vidyamurthy 撰寫，系统性介紹配对交易的數学基礎、協整性模型与统计套利实務。
+                        由 Ganapathy Vidyamurthy 撰寫，系统性介绍配对交易的数學基礎、協整性模型與统计套利实务。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -337,7 +337,7 @@
                         <strong>Ernie Chan 量化交易圣经</strong>
                     </div>
                     <p>
-                        《Quantitative Trading》经典著作，包含均值回归策略、回測框架以及如何开始獨立量化交易。
+                        《Quantitative Trading》经典著作，包含均值回歸策略、回測框架以及如何开始独立量化交易。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -350,10 +350,10 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-gears"></i>
                         </div>
-                        <strong>统计套利与演算法交易</strong>
+                        <strong>统计套利與演算法交易</strong>
                     </div>
                     <p>
-                        Andrew Pole 著作《Statistical Arbitrage》，深入探索统计套利模型、市场微觀结构与演算法執行策略。
+                        Andrew Pole 著作《Statistical Arbitrage》，深入探索统计套利模型、市場微观结构與演算法执行策略。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -369,7 +369,7 @@
                         <strong>Python 金融实战大作</strong>
                     </div>
                     <p>
-                        Yves Hilpisch 著作，利用 Python 进行金融數據分析、回測、量化建模的必備教科书。
+                        Yves Hilpisch 著作，利用 Python 进行金融数据分析、回測、量化建模的必备教科書。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -382,10 +382,10 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-chart-pie"></i>
                         </div>
-                        <strong>演算法交易与资金管理</strong>
+                        <strong>演算法交易與资金管理</strong>
                     </div>
                     <p>
-                        Ernie Chan 的第二本力作，深入介紹動量策略、均值回归策略以及凱利公式资金管理。
+                        Ernie Chan 的第二本力作，深入介绍动量策略、均值回歸策略以及凯利公式资金管理。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -398,10 +398,10 @@
                         <div class="amz-icon-box">
                             <i class="fa-solid fa-network-wired"></i>
                         </div>
-                        <strong>機器学習金融應用</strong>
+                        <strong>机器學习金融應用</strong>
                     </div>
                     <p>
-                        Stefan Jansen 著作，系统性介紹如何将機器学習模型（決策樹、隨機森林、神经网路）應用於演算法交易策略的设计与回測。
+                        Stefan Jansen 著作，系统性介绍如何将机器學习模型（决策树、随机森林、神经网路）應用於演算法交易策略的设计與回測。
                     </p>
                     <div class="amz-action-text">
                         在 Amazon 购买 ➡️
@@ -414,16 +414,16 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-            <a href="../index.html">首页</a>
+            <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙阶段</a>
-            <a href="../stocks/index.html">股票学程</a>
-            <a href="../futures/index.html">期货学程</a>
-            <a href="index.html">量化学程</a>
-            <a href="../privacy-policy.html">隱私權政策</a>
-            <a href="../terms-of-service.html">免责声明与使用條款</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="../futures/index.html">期貨學程</a>
+            <a href="index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私权政策</a>
+            <a href="../terms-of-service.html">免責声明與使用条款</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免责声明：本站所有教学內容仅供学术研究与教育參考，不构成任何投资建议。交易具有高风险，请审慎评估。</p>
+        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責声明：本站所有教學內容仅供學术研究與教育参考，不构成任何投资建議。交易具有高风险，請审慎評估。</p>
     </footer>
 
     <script src="/app.js"></script>

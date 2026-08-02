@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.4 选择權 (Options) 基礎与希臘字母全解 | GugoPro 财经教学学院</title>
+    <title>3.4 选择权 (Options) 基礎與希腊字母全解 | GugoPro 財经教學學院</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -51,7 +51,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">财经学院</span>
+                <span class="logo-tag">財经學院</span>
             </a>
             
             <!-- Tools Selector -->
@@ -60,10 +60,10 @@
                     <i class="fa-solid fa-screwdriver-wrench"></i> 实战工具 / Tools <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="tools-dropdown">
-                    <a href="../tools/compound-interest.html">高殖利率複利计算機</a>
-                    <a href="../tools/risk-reward-calculator.html">交易风報比 (R:R) 即时计算機</a>
-                    <a href="../tools/risk-reward-scanner.html">风報比即时篩选搜寻器 (Scanner)</a>
-                    <a href="../tools/tradingview-guide.html">TradingView 推荐註冊</a>
+                    <a href="../tools/compound-interest.html">高殖利率复利计算机</a>
+                    <a href="../tools/risk-reward-calculator.html">交易风报比 (R:R) 即时计算机</a>
+                    <a href="../tools/risk-reward-scanner.html">风报比即时筛选搜尋器 (Scanner)</a>
+                    <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
             
@@ -73,7 +73,7 @@
                     <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="lang-dropdown">
-                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+                    <a href="#" onclick="changeLanguage('zh-tw')">繁体中文</a>
                     <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
                     <a href="#" onclick="changeLanguage('en')">English</a>
                     <a href="#" onclick="changeLanguage('ja')">日本語</a>
@@ -88,66 +88,66 @@
     <!-- Main Container -->
     <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
         <a href="index.html" class="back-btn" style="margin-bottom: 24px;">
-            <i class="fa-solid fa-arrow-left"></i> 返回 Level 3 期货学程地圖
+            <i class="fa-solid fa-arrow-left"></i> 返回 Level 3 期貨學程地图
         </a>
 
         <!-- Hero Card -->
         <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, rgba(156, 39, 176, 0.08) 0%, rgba(17, 20, 26, 0.95) 100%);">
             <div class="module-meta" style="margin-bottom: 12px;">
-                <span class="module-badge" style="background: rgba(156, 39, 176, 0.15); color: #9c27b0; border: 1px solid rgba(156, 39, 176, 0.3);">单元 3.4 专业专題</span>
+                <span class="module-badge" style="background: rgba(156, 39, 176, 0.15); color: #9c27b0; border: 1px solid rgba(156, 39, 176, 0.3);">单元 3.4 專業專題</span>
                 <span class="module-duration"><i class="fa-regular fa-clock"></i> 深度实战指南</span>
             </div>
-            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.4 选择權 (Options) 基礎与希臘字母风险模型全解</h1>
+            <h1 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 16px;">3.4 选择权 (Options) 基礎與希腊字母风险模型全解</h1>
             <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1.05rem;">
-                选择權是全球機构法人进行非对稱对沖、波動率套利与多維度风险管理的的核心工具。本专題将帶您透視选择權的四大基本立场、內在价值与时间价值的分解算式，以及四大希臘字母 (Delta, Gamma, Theta, Vega) 的微積分數学本质。
+                选择权是全球机构法人进行非对称对冲、波动率套利與多维度风险管理的的核心工具。本專題将带您透视选择权的四大基本立場、內在价值與时間价值的分解算式，以及四大希腊字母 (Delta, Gamma, Theta, Vega) 的微积分数學本质。
             </p>
         </div>
 
         <!-- Section 1 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-layer-group" style="color: #9c27b0;"></i> 一、 选择權的核心概念与四種基本立场 (Four Basic Positions)</h2>
+            <h2><i class="fa-solid fa-layer-group" style="color: #9c27b0;"></i> 一、 选择权的核心概念與四種基本立場 (Four Basic Positions)</h2>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                选择權是指买賣双方约定在未來特定到期日 (Expiration Date)，买方有權利按约定履约价 (Strike Price) 买入或賣出标的资产的合约。选择權權利金 (Premium) 由 **內在价值 (Intrinsic Value)** 与 **时间价值 (Time Value)** 組成：
-                $$\text{權利金 Premium} = \text{內在价值} + \text{时间价值}$$
+                选择权是指买卖双方約定在未来特定到期日 (Expiration Date)，买方有权利按約定履約价 (Strike Price) 买入或卖出标的资产的合約。选择权权利金 (Premium) 由 **內在价值 (Intrinsic Value)** 與 **时間价值 (Time Value)** 組成：
+                $$\text{权利金 Premium} = \text{內在价值} + \text{时間价值}$$
             </p>
 
             <table class="options-table">
                 <thead>
                     <tr>
-                        <th>交易立场</th>
-                        <th>權利金流向</th>
-                        <th>最大獲利</th>
+                        <th>交易立場</th>
+                        <th>权利金流向</th>
+                        <th>最大获利</th>
                         <th>最大风险</th>
                         <th>核心看看法</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>买进买權 (Buy Call / Long Call)</strong></td>
-                        <td>支付權利金</td>
-                        <td>理论上無限</td>
-                        <td>有限 (仅限所付權利金)</td>
-                        <td>大漲 (看好突破強勢大漲)</td>
+                        <td><strong>买进买权 (Buy Call / Long Call)</strong></td>
+                        <td>支付权利金</td>
+                        <td>理論上无限</td>
+                        <td>有限 (仅限所付权利金)</td>
+                        <td>大漲 (看好突破強势大漲)</td>
                     </tr>
                     <tr>
-                        <td><strong>賣出买權 (Sell Call / Short Call)</strong></td>
-                        <td>收取權利金</td>
-                        <td>有限 (仅限預收權利金)</td>
-                        <td>理论上無限</td>
-                        <td>看跌或不漲 (看壓在履约价下)</td>
+                        <td><strong>卖出买权 (Sell Call / Short Call)</strong></td>
+                        <td>收取权利金</td>
+                        <td>有限 (仅限預收权利金)</td>
+                        <td>理論上无限</td>
+                        <td>看跌或不漲 (看壓在履約价下)</td>
                     </tr>
                     <tr>
-                        <td><strong>买进賣權 (Buy Put / Long Put)</strong></td>
-                        <td>支付權利金</td>
+                        <td><strong>买进卖权 (Buy Put / Long Put)</strong></td>
+                        <td>支付权利金</td>
                         <td>巨大 (标的跌至 0)</td>
-                        <td>有限 (仅限所付權利金)</td>
+                        <td>有限 (仅限所付权利金)</td>
                         <td>大跌 (避险下行或看空暴跌)</td>
                     </tr>
                     <tr>
-                        <td><strong>賣出賣權 (Sell Put / Short Put)</strong></td>
-                        <td>收取權利金</td>
-                        <td>有限 (仅限預收權利金)</td>
-                        <td>巨大 (标的跌至 0 履约承接)</td>
+                        <td><strong>卖出卖权 (Sell Put / Short Put)</strong></td>
+                        <td>收取权利金</td>
+                        <td>有限 (仅限預收权利金)</td>
+                        <td>巨大 (标的跌至 0 履約承接)</td>
                         <td>看漲或不跌 (逢低接股打折策略)</td>
                     </tr>
                 </tbody>
@@ -156,48 +156,48 @@
 
         <!-- Section 2 -->
         <section class="card" style="margin-bottom: 32px;">
-            <h2><i class="fa-solid fa-square-root-variable" style="color: #9c27b0;"></i> 二、 四大希臘字母 (The Option Greeks) 的偏微分风险數学</h2>
+            <h2><i class="fa-solid fa-square-root-variable" style="color: #9c27b0;"></i> 二、 四大希腊字母 (The Option Greeks) 的偏微分风险数學</h2>
             <p style="line-height: 1.8; color: var(--text-secondary);">
-                根據 Black-Scholes 选择權定价模型，合约价值 $V$ 受标的价格 $S$、时间 $t$ 与波動率 $\sigma$ 的影響。希臘字母即為对應變數的偏导數：
+                根据 Black-Scholes 选择权定价模型，合約价值 $V$ 受标的价格 $S$、时間 $t$ 與波动率 $\sigma$ 的影響。希腊字母即为对應變数的偏导数：
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">1. Delta ($\Delta$) — 标的价格敏感度与動态对沖</h3>
+            <h3 style="color: #fff; margin-top: 24px;">1. Delta ($\Delta$) — 标的价格敏感度與动态对冲</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
                 $$\Delta = \frac{\partial V}{\partial S}$$
-                • <strong>意義：</strong> 當标的股票价格上漲 $1 时，选择權權利金預期變動的金額。<br>
-                • <strong>範例：</strong> 若某 Call 的 Delta 為 $+0.6$，股票上漲 $10，該 Call 的權利金預期上漲 $6。<br>
-                • <strong>实战應用：</strong> Delta 亦代表該合约到期时處於价內 (ITM) 被履约的统计機率。Delta 近似 0.50 代表价平合约。
+                • <strong>意義：</strong> 當标的股票价格上漲 $1 时，选择权权利金預期變动的金額。<br>
+                • <strong>範例：</strong> 若某 Call 的 Delta 为 $+0.6$，股票上漲 $10，該 Call 的权利金預期上漲 $6。<br>
+                • <strong>实战應用：</strong> Delta 亦代表該合約到期时处於价內 (ITM) 被履約的统计机率。Delta 近似 0.50 代表价平合約。
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">2. Gamma ($\Gamma$) — Delta 的加速度与「伽瑪擠壓 (Gamma Squeeze)」</h3>
+            <h3 style="color: #fff; margin-top: 24px;">2. Gamma ($\Gamma$) — Delta 的加速度與「伽瑪擠壓 (Gamma Squeeze)」</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
                 $$\Gamma = \frac{\partial^2 V}{\partial S^2} = \frac{\partial \Delta}{\partial S}$$
-                • <strong>意義：</strong> 當标的价格變動 $1 时，Delta 产生的變動量。价平 (ATM) 合约的 Gamma 最大。<br>
-                • <strong>伽瑪擠壓效應：</strong> 當大量散戶搶购 OTM Call 时，做空 Call 的造市商為了維持 Delta 中性，必須在公开市场緊急追买标的股票現货，引發标的股价螺旋式暴漲（如 2021 年 GME 散戶大战機构事件）。
+                • <strong>意義：</strong> 當标的价格變动 $1 时，Delta 产生的變动量。价平 (ATM) 合約的 Gamma 最大。<br>
+                • <strong>伽瑪擠壓效應：</strong> 當大量散戶搶购 OTM Call 时，做空 Call 的造市商为了维持 Delta 中性，必須在公开市場紧急追买标的股票现貨，引发标的股价螺旋式暴漲（如 2021 年 GME 散戶大战机构事件）。
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">3. Theta ($\Theta$) — 时间价值流逝速率</h3>
+            <h3 style="color: #fff; margin-top: 24px;">3. Theta ($\Theta$) — 时間价值流逝速率</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
                 $$\Theta = \frac{\partial V}{\partial t}$$
-                • <strong>意義：</strong> 每经过一天，选择權權利金因时间減少而自然损失的金額。<br>
-                • <strong>流逝曲線特性：</strong> 选择權的时间价值损耗並非線性。<strong>在臨近到期前的最後 30 天內，Theta 的衰減速度會呈拋物線加速暴跌</strong>。賣方 (Seller) 正是利用此一曲線獲利。
+                • <strong>意義：</strong> 每经过一天，选择权权利金因时間减少而自然损失的金額。<br>
+                • <strong>流逝曲线特性：</strong> 选择权的时間价值损耗並非线性。<strong>在临近到期前的最后 30 天內，Theta 的衰减速度会呈拋物线加速暴跌</strong>。卖方 (Seller) 正是利用此一曲线获利。
             </p>
 
-            <h3 style="color: #fff; margin-top: 24px;">4. Vega ($\nu$) — 隱含波動率敏感度与 IV Crush</h3>
+            <h3 style="color: #fff; margin-top: 24px;">4. Vega ($\nu$) — 隱含波动率敏感度與 IV Crush</h3>
             <p style="line-height: 1.8; color: var(--text-secondary);">
                 $$\nu = \frac{\partial V}{\partial \sigma}$$
-                • <strong>意義：</strong> 當隱含波動率 (Implied Volatility, IV) 變動 1% 时，權利金的變動金額。<br>
-                • <strong>IV Crush (波動率壓制)：</strong> 财報公佈前市场極度恐慌，IV 飆升拉高 Vega 溢价。财報數據一公佈，不確定性消失，IV 瞬间崩潰，导致即使方向看对，Buy Call 的權利金仍可能因 Vega 暴跌而虧损！
+                • <strong>意義：</strong> 當隱含波动率 (Implied Volatility, IV) 變动 1% 时，权利金的變动金額。<br>
+                • <strong>IV Crush (波动率壓制)：</strong> 財报公佈前市場极度恐慌，IV 飆升拉高 Vega 溢价。財报数据一公佈，不確定性消失，IV 瞬間崩潰，导致即使方向看对，Buy Call 的权利金仍可能因 Vega 暴跌而亏损！
             </p>
         </section>
 
         <!-- Next Module Navigation -->
         <div style="margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
             <a href="hedging.html" class="module-btn" style="background: rgba(255,255,255,0.03); color: var(--text-secondary); border: 1px solid var(--border-color);">
-                <i class="fa-solid fa-arrow-left"></i> 上一单元：3.3 避险策略与期現对沖
+                <i class="fa-solid fa-arrow-left"></i> 上一单元：3.3 避险策略與期现对冲
             </a>
             <a href="options-strategies.html" class="module-btn">
-                下一单元：3.5 Covered Call 与 Cash-Secured Put 实战策略 <i class="fa-solid fa-arrow-right"></i>
+                下一单元：3.5 Covered Call 與 Cash-Secured Put 实战策略 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
     </main>
@@ -205,13 +205,13 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
-            <a href="../index.html">首页</a>
+            <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙阶段</a>
-            <a href="../stocks/index.html">股票学程</a>
-            <a href="index.html">期货学程</a>
-            <a href="../quant/index.html">量化学程</a>
-            <a href="../privacy-policy.html">隱私權政策</a>
-            <a href="../terms-of-service.html">免责声明与使用條款</a>
+            <a href="../stocks/index.html">股票學程</a>
+            <a href="index.html">期貨學程</a>
+            <a href="../quant/index.html">量化學程</a>
+            <a href="../privacy-policy.html">隱私权政策</a>
+            <a href="../terms-of-service.html">免責声明與使用条款</a>
         </div>
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
     </footer>
