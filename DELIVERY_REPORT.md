@@ -217,3 +217,18 @@ R:R 與網格工具的所有工具內 `<select>` 與 `<option>` 均加入深色�
 | 靜態驗證 | `validate_site.py`、兩個核心 JS 與全站 JS 語法檢查、`git diff --check` 均通過；驗證器 `errors=0` |
 
 本輪本地截圖：R:R `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-47-50_3800.webp`；網格下拉展開 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-49-16_6375.webp`；ETHUSDT 網格 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-49-38_9489.webp`。正式站發布後將補上本輪提交 hash 與 Pages workflow。
+
+
+## 十四、本輪細節修正正式部署結論（2026-08-24）
+
+本輪功能提交為 `32db21e`，commit message 完全符合使用者指定內容：`Manus AI: fix symbol input overlap and width, fix select dropdown contrast, and remove redundant grid buttons`。GitHub Pages workflow Run 82（[workflow ID 32735220034](https://github.com/9908gg-art/gugopro-academy/actions/runs/32735220034)）已由 `main` 觸發並完成 `completed successfully`。
+
+| 正式頁面 | 本輪核對結果 |
+|---|---|
+| [R:R 細節修正版](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=ui-detail-fix-20260824) | 商品輸入文字與放大鏡保持 36px 安全距離；桌面輸入框收斂為 180px、載入按鈕 62px；quick selector 與 Scanner select 均為深色白字；BTCUSDT 載入 3,000 根公開 K 線並顯示 Binance ticker |
+| [網格細節修正版](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=ui-detail-fix-20260824) | quick selector／週期／模式均為深色白字；`#grid-load-older` 已移除；BTC/USDT 載入 3,000 根公開 K 線、WebSocket 已連線，費後單格利潤率約 0.81% |
+| [GitHub Pages Run 82](https://github.com/9908gg-art/gugopro-academy/actions/runs/32735220034) | `completed successfully` |
+
+本輪本地回歸在桌面 Chromium 實測 R:R 商品輸入框 `width=180px`、`max-width=180px`、`padding-left=36px`、`font-size=16px`；R:R 與網格 select 實際背景為 `rgb(26,31,44)`、文字白色，option 為深色背景與白字。375px 同源 iframe 測試兩頁均 `bodyScrollWidth=367`、`documentScrollWidth=367`、`overflow=false`。網格 quick selector 展開後選擇 ETHUSDT 成功，重新取得 3,000 根歷史、WebSocket 與網格統計；AAPL 安全切換路徑亦維持既有 Yahoo／fallback 提示。
+
+正式桌面截圖為：R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-10_1226.webp`；網格 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-49_2401.webp`。本輪所有行情均為公開資料，可能受 CORS、休市、延遲或斷線影響；網格歷史回放與 R:R 點位僅供教育與研究，不構成投資建議。

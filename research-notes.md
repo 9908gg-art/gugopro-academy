@@ -308,3 +308,12 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 本輪 UI 細節修正：375px 行動版回歸
 
 以同源隱藏 iframe 載入兩頁 `ui-detail-fix-20260824`：R:R `bodyScrollWidth=367`、`documentScrollWidth=367`、`clientWidth=367`、`overflow=false`；R:R 商品輸入框在手機版自適應為 319px，仍保留 `padding-left=36px` 與 16px 字體。網格同樣 `bodyScrollWidth=367`、`documentScrollWidth=367`、`clientWidth=367`、`overflow=false`，quick selector 315px、週期 select 153.5px、16px 字體，按鈕文字僅「繁中」「更新行情」，`#grid-load-older` 不存在。R:R 自身仍保留其既有向左歷史操作按鈕，與本輪只移除網格無效按鈕的要求一致。
+
+
+## 本輪細節修正：正式站與 Pages 部署
+
+功能提交 `32db21e` 使用指定 commit message 推送至 `main`。GitHub Pages `pages-build-deployment` Run 82（workflow ID `32735220034`）已 `completed successfully`。
+
+正式 R:R URL：`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=ui-detail-fix-20260824`。頁面實測商品輸入框文字與放大鏡保持 36px 左距、桌面欄寬收斂，quick selector 與 Scanner 下拉為深色白字，BTCUSDT 已載入 3,000 根公開 K 線並顯示 Binance ticker；截圖 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-10_1226.webp`。
+
+正式網格 URL：`https://academy.gugopro.com/tools/grid-trading-calculator.html?v=ui-detail-fix-20260824`。頁面實測 quick selector／週期／模式 select 深色白字；`#grid-load-older` 不存在，BTC/USDT 已載入 3,000 根歷史、WebSocket 已連線、費後單格利潤率約 0.81%；截圖 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-49_2401.webp`。
