@@ -476,3 +476,23 @@ Grid 管理面板執行「清空自訂清單」後，面板顯示空狀態提示
 ## 本輪 1280px 桌面 RWD 實測
 
 以同源隱藏 iframe 設定 viewport 1280px 載入 Grid，`body/documentElement.scrollWidth=1272`、`overflow=false`；`.grid-hud-market-row` 實際五欄為 `180px 274.297px 220.25px 315.438px 168px`，watchlist wrapper 為 `position:relative`、manager panel 為 `position:absolute`，自訂 optgroup 存在且不推擠圖表。
+
+## 本輪 GitHub Pages Run 88 部署進度
+
+公開 GitHub Actions Run 88：`https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462`，commit head `35f942b`。目前 build 約 23 秒完成，report-build-status 約 13 秒，deploy job 仍顯示 `Deploying to github-pages`／整體 `In progress`；頁面標示 1 個 Node.js 20 deprecation warning，沒有 build failure。
+
+Run 88 後續公開刷新仍為 `In progress`：build `23s`、report-build-status `38s`、deploy `37s`，deploy 卡片仍標示 `Deploying to github-pages`。commit head 仍是 `35f942b`，無 build failure；需等 GitHub Pages 完成後再做正式網址驗證。
+
+Run 88 再次刷新後仍是 `In progress`；build `23s` 已成功，report-build-status 約 `1m27s`、deploy 約 `1m26s`，deploy 卡片仍顯示 `Deploying to github-pages`。這是 GitHub Pages 發布延遲而非建置錯誤，commit head 維持 `35f942b`。
+
+## 正式站 R:R 部署版實測
+
+正式 URL `https://academy.gugopro.com/tools/risk-reward-calculator.html?v=watchlist-persistence-20260824` 已載入 watchlist persistence 版本；頁面顯示「加入自訂／管理清單」、完整 R:R HUD 與 28 商品快選。輸入 `IBIT` 後按「加入自訂」，正式來源的管理計數由 0 變為 1，搜尋欄與自訂 optgroup 均同步更新；正式頁面仍能取得 BTCUSDT 公開 K 線與即時 ticker。
+
+## 正式站 Grid 部署版實測
+
+正式 URL `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=watchlist-persistence-20260824` 已載入 watchlist persistence 版本；由 R:R 同源建立的 `IBIT` 出現在 Grid 的「⭐ 我的自訂清單」optgroup，管理計數為 1，證實共享清單可跨工具讀取。BTC/USDT 公開 K 線、WebSocket ticker、3,000 根歷史、動態網格線及右軸只顯示 LOWER／UPPER／LATEST／SL／TP 的規則均已生效，頁面輸出單格淨利、資金利用率、破網風險與模擬回撤。
+
+## 本輪 Pages Run 88 成功
+
+公開 Run 88 `https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462` 已完成 `Status Success`，commit head `35f942b`，總時長 41 秒；build 23 秒、report-build-status 6 秒、deploy 9 秒，正式入口為 `https://academy.gugopro.com/`。唯一 annotation 是 GitHub Actions 的 Node.js 20 deprecation warning，非本次程式錯誤。

@@ -286,3 +286,15 @@ R:R 使用 `gugopro_rr_state_v1` 保存目前商品、週期、Entry、Stop、Ta
 | 靜態與語法檢查 | `python3 validate_site.py` 顯示 `errors=0`；`node --check` 通過 watchlist、R:R、Grid 三個腳本；`git diff --check` 通過 |
 
 所有清單與工具參數均留在使用者瀏覽器的 localStorage，不會送到本站後端；清除網站資料、瀏覽器資料或使用私密瀏覽環境可能移除或拒絕保存。Binance／Yahoo Finance 只提供公開行情，可能受 CORS、休市、延遲、頻率限制或網路狀態影響。本工具數字僅供教育與研究，不構成投資建議、交易指令或收益保證。
+
+## 十九、正式站最終部署與驗證（2026-08-24）
+
+本輪功能提交為 `35f942b`，commit message 完全符合指定文字：`Manus AI: implement custom watchlist management and full state/parameter local storage persistence for R:R and Grid tools`。GitHub Pages [Run 88](https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462) 對應此 commit，最終顯示 `Status Success`；build 23 秒、report-build-status 6 秒、deploy 9 秒，正式入口為 [academy.gugopro.com](https://academy.gugopro.com/)。
+
+| 正式頁面 | 最終核對結果 |
+|---|---|
+| [R:R 持久化版](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=watchlist-persistence-20260824) | 新 cache-bust 版本已生效；完整 HUD、28 商品／三個靜態 optgroup、`⭐ 我的自訂清單`、加入／管理控制均出現。輸入 `IBIT` 並加入後，管理計數為 1，正式來源的自訂 optgroup 同步出現。頁面可取得 BTCUSDT 3,000 根 K 線與 ticker。 |
+| [Grid 持久化版](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=watchlist-persistence-20260824) | 由 R:R 建立的 `IBIT` 在同源 Grid 頁面的自訂 optgroup 與管理計數中可見；BTC／USDT K 線、WebSocket ticker、3,000 根歷史、動態網格線與右軸標籤簡化規則均生效。 |
+| [Run 88](https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462) | `Status Success`；commit head `35f942b`；build、report-build-status、deploy 全部成功。唯一 annotation 為 GitHub Actions Node.js 20 deprecation warning，與本輪程式碼無關。 |
+
+正式站截圖：R:R HUD 與 IBIT 加入清單為 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-52-57_4481.webp`；Grid 跨工具自訂清單、K 線與動態網格為 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-53-30_4257.webp`；Pages Run 88 Success 為 `/home/ubuntu/screenshots/github_2026-08-24_15-53-52_1998.webp`。所有清單與 R:R／Grid 參數只保存在使用者瀏覽器 localStorage；清除網站資料或瀏覽器資料會移除保存內容，本站不接收這些參數。公開行情仍可能受到 Binance／Yahoo Finance CORS、休市、延遲、頻率限制或網路狀態影響；工具輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。
