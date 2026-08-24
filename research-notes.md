@@ -284,3 +284,11 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 最終文件部署完成（2026-08-24）
 
 文件同步提交 `f828663` 已推送至 `origin/main`；GitHub 公開 Actions 顯示 pages-build-deployment Run 79（workflow ID `32732268383`）已 `completed successfully`。因此正式站最終版本以 `f828663` 為基準；功能實作提交仍為使用者指定訊息的 `113bb35`。
+
+## 最後文件提交部署輪詢（2026-08-24）
+
+最後研究筆記提交 `c1a04d5` 已推送，GitHub Actions Run 80（workflow ID `32732387019`）目前仍 `In progress`；前一個 Run 79（`32732268383`，對應 f828663）已成功。由於 c1a04d5 僅新增部署紀錄、不改變工具功能，正式功能頁已由成功的 Run 79 驗證；待 Run 80 完成後再作最終狀態確認。
+
+## 最終 main／Pages 狀態（2026-08-24）
+
+最終 `main` HEAD 為 `c1a04d5`，其中包含功能提交 `113bb35` 與完整交付文件。GitHub Actions `pages-build-deployment` Run 80（workflow ID `32732387019`）已顯示 `completed successfully`；Run 79 與 Run 78 亦均成功。正式站以 `?v=c1a04d5` 或頁面正常網址載入時，功能資源與本輪 CSS／HTML／JS 均已由成功 Pages pipeline 發布。
