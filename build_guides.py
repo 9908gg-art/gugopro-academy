@@ -245,7 +245,45 @@ risk = {
     'references': [('FINRA 投資人風險與產品教育','https://www.finra.org/investors/investing/investment-products/options'), ('SEC What is Risk?','https://www.investor.gov/introduction-investing/investing-basics/what-risk')]
 }
 
-all_topics = categories + [risk]
+grid = {
+    'slug': 'grid-trading', 'index': 'GT', 'group': '加密資產', 'title': '動態網格交易',
+    'eyebrow': 'SYSTEMATIC / GRID TRADING',
+    'intro': '從等差／等比網格、區間震盪、成交成本到破網風險，建立能把 BTC/USDT 網格參數放回真實 K 線檢查的完整流程。',
+    'tool': ('開啟 BTC/USDT 動態網格工作台', '../tools/grid-trading-calculator.html'),
+    'concept_title': '網格交易是在價格區間內預先寫好買低賣高的規則',
+    'concept': '''<p>現貨網格把一個價格區間切成多個層級，當價格向下穿越一層時嘗試買入，向上穿越一層時嘗試賣出，再將成交後的訂單放回相鄰層級。它的優勢不是預測每一根 K 線，而是把「在區間內反覆波動」轉成一組可執行規則。官方交易所文件通常把價格下限、價格上限、網格數量、模式與總投資額列為核心參數；止損與止盈則是用來處理模型失效或達到預設退出條件的保護參數。[1] [2]</p><p>網格不會創造免費收益。它要用庫存、報價幣與交易成本交換每一次完成套利的可能性。若市場在區間內來回，買單與賣單比較容易成對完成；若市場長時間單向下跌，低位買單可能持續成交卻沒有反彈賣出，帳上留下價格下跌的資產。若市場急漲，原有現貨可能很快被賣出，價格離開上限後也不再有新的網格成交。新手常見誤區是把「網格成交次數」當成獲利，把網格利潤率當成總報酬，或只用回測期間的結果忽略出界後的庫存風險。</p><div class="guide-callout"><strong>核心觀念：</strong>網格是一個有價格邊界的庫存管理策略；先決定區間失效時怎麼停機與處理資產，再談每格能賺多少。</div>''',
+    'metrics_title': '等差、等比與費後單格利潤公式',
+    'metrics': '''<p>若下限為 <code>L</code>、上限為 <code>U</code>、網格數為 <code>n</code>，等差網格的價格層級為 <code>Pᵢ = L + i(U−L)/n</code>，每格的絕對價格差相同。等比網格則為 <code>Pᵢ = L × (U/L)^(i/n)</code>，每格的百分比差大致相同。等差模式容易理解，適合用固定價差管理；等比模式在不同價格區間下維持較接近的比例變動，更適合以百分比衡量波動的標的。</p><p>若單邊手續費率為 <code>f</code>，忽略滑價與稅費時，等比單格費後利潤率可近似為 <code>[(Pᵢ₊₁/Pᵢ)−1] − 2f</code>；等差模式則應以兩層之間的價差除以成交基準價格，再扣除雙邊費率。以 0.1% 單邊手續費為例，兩次成交的費用先吃掉約 0.2 個百分點，若網格太密使毛間距小於成本，成交越多不代表越有效率。</p>''',
+    'example': '''<p>假設 BTC/USDT 區間為 70,000–85,000、採 30 格等差，單格價差為 500 USDT。若以約 77,500 USDT 作為成交基準，毛間距約 0.645%；扣除買入與賣出各 0.1% 後，費後單格利潤率約 0.445%，仍未計滑價、最小下單量與部分成交。若總資金為 10,000 USDT，先用每格配置金額建立「可成交幾格」的近似，再用歷史 K 線回放檢查現金與 BTC 庫存是否在單方向行情中失衡。這個例子只說明計算方法，不表示未來可重複取得相同結果。</p>''',
+    'practice_title': '設定區間、資金與保護線的實戰流程',
+    'practice': '''<p>第一步先用較長週期辨識市場狀態，再用近期波動與支撐／壓力建立候選區間。區間不應只由「希望價格在哪裡」決定；要說明何種收盤、波動或基本面事件代表原本的震盪假設失效。第二步選擇網格模式：若使用者關心每一格的固定 USDT 差距，可先看等差；若更重視比例和不同價格層級的百分比一致性，可比較等比。第三步把總投資拆成報價幣與基礎資產，確認在目前價位啟動後是否有足夠兩邊庫存。</p><p>第四步先計算毛單格間距，再扣雙邊手續費、點差、滑價與可能的資金費或轉帳成本。第五步設定止損與止盈，並寫出觸發後要賣出、保留或重新配置哪種資產。第六步用實際 K 線而不是隨機價格檢查：成交回合、最大回撤、現金利用率、期末庫存、曾否觸及上下限，以及跌破下限後的最壞情境。網格數量越多不必然更好；太多層級可能使每筆訂單太小、成本占比變高，太少則可能錯過細碎波動。</p>''',
+    'compare_title': '網格模式與市場情境比較',
+    'compare_rows': [('等差網格','每層固定價格差、金額直覺','不同價格層級的百分比不同','高價區每格比例較小，成本占比可能上升'),('等比網格','每層比例接近、適合百分比波動','價差隨價格變化、金額不固定','快速波動或價格跳空造成成交與庫存偏移'),('區間震盪','可反覆完成買低賣高回合','需要價格留在區間內','成交很多但單向趨勢使未平倉庫存虧損'),('強勢趨勢／出界','可用止盈或止損限制模型範圍','網格可能停單或留下單邊資產','下跌填滿買單，或上漲賣空原有現貨後錯過行情')],
+    'checklist': '''<p>啟動前確認交易對、下限、上限、網格數、等差／等比、總資金、單邊費率、最小下單量、止損、止盈、可接受回撤與停機後資產處理。每日或每週檢查價格是否接近邊界、成交成本是否超過模型、現金與基礎資產是否失衡，以及市場狀態是否已從震盪轉為趨勢。不要因為短期成交回合增加就任意縮窄區間或加大槓桿。</p>''',
+    'tool_note': '可用 BTC/USDT 動態網格工作台載入 Binance 公開 K 線，直接比較上下限、網格數、等差／等比、費後單格利潤、資金利用率、回撤與破網距離；工具的歷史回放是教育情境，不是收益預測。',
+    'references': [('Binance Spot Grid Trading Parameters','https://www.binance.com/en/support/faq/detail/688ff6ff08734848915de76a07b953dd'), ('OKX Spot Grid Bot 說明','https://www.okx.com/en-us/help/whats-the-spot-grid-bot-and-how-to-use-it')]
+}
+
+drip = {
+    'slug': 'etf-dividend-drip', 'index': 'ED', 'group': 'ETF／被動投資', 'title': '高股息 ETF 與 DRIP 股息再投入',
+    'eyebrow': 'PASSIVE INCOME / DRIP',
+    'intro': '從配息來源、除息調整、股息再投入複利到費用與稅務檢查，建立不把高配息誤認成高總報酬的 ETF 現金流框架。',
+    'tool': ('開啟 ETF 現金流與 DRIP 試算機', '../tools/etf-dividend-calculator.html'),
+    'concept_title': 'DRIP 把現金分配轉成更多份額，但不改變分配來源的風險',
+    'concept': '''<p>ETF 股息或基金分配可能來自持有股票的股利、債券利息、資本利得，或在部分情況下來自資本返還。SEC Investor.gov 提醒，基金分配不保證，能固定分配的基金仍可能虧損；投資人也可能選擇把分配自動買回更多基金份額，讓份額數量隨時間增加。[1] 因此 DRIP 是現金流的處理方式，不是額外報酬來源本身。</p><p>在除息或分配發生時，基金 NAV 通常會下降，交易所買賣基金的市場價格也通常會反映價值從基金移轉成現金或新份額。若只看「每月收到多少」而不看份額淨值、價格變化、總費用與稅後結果，容易把本金返還或資產價值轉移誤認成投資績效。Invesco 的總報酬教育資料也指出，股息在總報酬中扮演的比重會因策略與年代而改變，成長型資產的資本增值可能是主要來源。[2]</p><div class="guide-callout"><strong>核心觀念：</strong>把配息拆成來源、現金／再投入選擇、稅務與價格調整，再以總報酬而不是配息率單獨評估。</div>''',
+    'metrics_title': '現金流、再投入與費用複利公式',
+    'metrics': '''<p>簡化的期末資產可寫成 <code>期末資產 = 初始投入 × (1 + 淨成長率)^年數 + 定期投入的逐期累積</code>。若把年度配息率 <code>d</code>、價格成長率 <code>g</code>、年度費用率 <code>f</code> 放入教育模型，粗略淨報酬可用 <code>r ≈ d + g − f</code>，但真實結果還取決於配息時間、價格路徑、再投入價格、稅費、匯率與追蹤差異。DRIP 的單期份額增加可寫成 <code>新增份額 = 現金分配 ÷ 再投入成交價</code>。</p><p>比較「再投入」與「領出現金」時，要把兩者的衡量口徑保持一致。DRIP 通常增加持有份額，領現金則提供可用現金；若把領出的現金完全花掉，期末金融資產自然可能較低，但那是消費或現金流用途，不代表策略計算錯誤。若要公平比較，可同時記錄金融資產、市值、收到的累計現金與總價值。</p>''',
+    'example': '''<p>假設初始投入 300,000 元，每月投入 10,000 元，模型年化配息率 5%、價格成長 4%、年度費用 0.4%，持有 15 年。工具可將配息按月或按年加入再投入路徑，也可將同一筆配息改列為現金領出，最後同時顯示期末市值與累計現金。這個 5% 與 4% 是使用者輸入的情境假設，不是標的承諾；若配息下降、價格先跌、稅率提高或再投入成交價較差，DRIP 路徑會與簡化複利明顯不同。</p>''',
+    'practice_title': '挑選高股息 ETF 與執行 DRIP 的檢查流程',
+    'practice': '''<p>第一步讀基金公開說明書、指數方法與配息政策，確認配息頻率、來源、是否可能資本返還、再投入規則與除息日。第二步拆解底層持股：產業集中、前十大權重、獲利與現金流、股利覆蓋、信用或利率曝險，並把「高殖利率」與「高總報酬」分成兩個欄位。第三步比較費用率、交易價差、折溢價、追蹤差異、稅務、匯率與再投入能否買到零股。</p><p>第四步先決定現金流目的。如果未來支出需要現金，全部 DRIP 可能降低可用流動性；如果目標是長期累積，定期再投入可讓分配更早回到市場，但仍要保留緊急預備金與資產配置上限。第五步定期檢查總報酬、分配來源、份額、成本基礎與原始配置，避免因單次配息增加就追高，或因一次減配就忽略基金底層資產已改善的事實。</p>''',
+    'compare_title': '配息處理方式與風險情境比較',
+    'compare_rows': [('自動 DRIP','份額累積、自動化、少做操作','可能失去現金流彈性、仍承擔市場風險','高位再投入或集中單一 ETF 的風險'),('領出現金','可支付支出、保留再配置彈性','若未再投入，長期複利較低','配息下降且價格下跌，現金流與市值同時承壓'),('高股息 ETF','現金流敘事清楚、可建立收益預算','配息不保證、產業集中與價值陷阱','資本返還或獲利下滑造成分配與淨值雙降'),('大盤／成長 ETF','資產分散或資本增值潛力較高','現金分配可能較少、波動仍存在','市場估值收縮使市值回撤，不能靠低配息消除風險')],
+    'checklist': '''<p>投入前確認底層資產、配息來源、除息調整、費用、稅務口徑、匯率、再投入價格、流動性與配置上限。每期記錄投入金額、份額、現金分配、再投入份額、費用和總價值；每季或每半年比較總報酬與原先目標，不用單一月份的配息率替代完整績效。SEC 也提醒，在應稅帳戶中，即使將分配再投入，股利、利息或資本利得仍可能有稅務後果，應依所在地規則詢問合格專業人士。[1]</p>''',
+    'tool_note': '使用 ETF 現金流與 DRIP 試算機比較單筆投入、定期投入、再投入與領現金兩條路徑，再用 ETF 深度指南檢查費用、NAV、配息來源與總報酬。',
+    'references': [('SEC Fund Distributions Investor Bulletin','https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/fund-distributions-investor-bulletin'), ('Invesco Total Return Education','https://www.invesco.com/qqq-etf/en/innovation/dividends-and-capital-appreciation-understanding-total-return.html'), ('SEC ETF Investor Bulletin','https://www.sec.gov/investor/alerts/etfs.pdf')]
+}
+
+all_topics = categories + [risk, grid, drip]
 sidebar = ''.join(f'<a href="{c["slug"]}.html">{c["index"]} · {escape(c["title"])}</a>' for c in all_topics)
 
 def table_rows(rows):
@@ -265,17 +303,17 @@ for c in all_topics:
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GugoPro 財經學院｜{escape(c['title'])} 1,200 字以上深度學習指南，包含概念、公式、策略與風險檢查。">
+  <meta name="description" content="GugoPro 財經學院｜{escape(c['title'])} 深度學習指南，包含概念、公式、策略、成本與風險檢查。">
   <title>{escape(c['title'])}｜GugoPro 財經學院</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=tools-upgrade-20260824">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=native-grid-scanner-20260824">
 </head>
 <body class="guide-page">
 <header class="site-header"><div class="nav-container"><a href="../index.html" class="logo" aria-label="GugoPro 財經學院首頁"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><nav class="primary-nav" aria-label="主要導覽"><a href="../index.html#knowledge-tree">知識樹</a><a href="../tools/index.html">實戰工具</a><a href="../index.html#reading-room">閱讀室</a></nav><div class="nav-actions"><a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a><div class="lang-selector"><button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button><div class="lang-dropdown"><a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a><a href="#" onclick="changeLanguage('zh-cn')">简体中文</a><a href="#" onclick="changeLanguage('en')">English</a></div></div><button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div></div></header>
-<main><div class="guide-layout"><aside class="guide-sidebar"><div class="section-kicker">12 + 1 TOPICS</div>{sidebar}<a href="../tools/index.html" class="guide-sidebar-tool">開啟工具工作台 →</a></aside><article class="guide-content"><header class="guide-hero"><div class="eyebrow"><span class="eyebrow-dot"></span>{c['eyebrow']}</div><h1>{escape(c['title'])}：先理解，再計算，最後管理風險。</h1><p>{c['intro']}</p><div class="guide-meta"><span>{c['group']}</span><span>深度專題</span><span>教育用途</span></div></header><div class="guide-body">{sections}{ref_section}<div class="guide-tools"><a href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i> {c['tool'][0]}</a><a href="../index.html#knowledge-tree"><i class="fa-solid fa-compass"></i> 回到知識樹</a></div><div class="guide-cta"><div><h3>把這篇文章放回圖表驗證</h3><p>TradingView 可用來觀察全球市場、建立指標與回測假設；優惠內容以合作頁與所在地區規則為準。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div><p class="tool-disclaimer">本頁內容僅供教育與研究參考，不構成投資、稅務或法律建議。金融商品可能產生本金損失，請依自身情況審慎評估。</p></div></article></div></main>
+<main><div class="guide-layout"><aside class="guide-sidebar"><div class="section-kicker">12 + 3 TOPICS</div>{sidebar}<a href="../tools/index.html" class="guide-sidebar-tool">開啟工具工作台 →</a></aside><article class="guide-content"><header class="guide-hero"><div class="eyebrow"><span class="eyebrow-dot"></span>{c['eyebrow']}</div><h1>{escape(c['title'])}：先理解，再計算，最後管理風險。</h1><p>{c['intro']}</p><div class="guide-meta"><span>{c['group']}</span><span>深度專題</span><span>教育用途</span></div></header><div class="guide-body">{sections}{ref_section}<div class="guide-tool-launch"><div class="guide-tool-launch-copy"><span class="section-kicker">PRACTICE DESK / APPLY THE FRAMEWORK</span><h2>讀完就把假設放進工具檢查</h2><p>先用本頁的概念與風險框架建立條件，再用對應試算工具保留輸入、比較情境，最後回到文章檢查假設是否仍成立。</p></div><div class="guide-tool-launch-grid"><a class="guide-tool-card is-primary" href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i><strong>{c['tool'][0]}</strong><span>使用本主題專屬工具</span></a><a class="guide-tool-card" href="../tools/risk-reward-calculator.html"><i class="fa-solid fa-chart-line"></i><strong>風報比 K 線分析儀</strong><span>價格結構與部位風控</span></a><a class="guide-tool-card" href="../tools/etf-dividend-calculator.html"><i class="fa-solid fa-coins"></i><strong>ETF 現金流試算機</strong><span>DRIP 與領現金比較</span></a><a class="guide-tool-card" href="../tools/grid-trading-calculator.html"><i class="fa-solid fa-border-all"></i><strong>BTC 動態網格工作台</strong><span>費後間距與破網風險</span></a></div></div><div class="guide-tools"><a href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i> {c['tool'][0]}</a><a href="../tools/index.html"><i class="fa-solid fa-compass"></i> 回到工具工作台</a><a href="../index.html#knowledge-tree"><i class="fa-solid fa-book-open"></i> 回到知識樹</a></div><div class="guide-cta"><div><h3>把這篇文章放回圖表驗證</h3><p>TradingView 可用來觀察全球市場、建立指標與回測假設；優惠內容以合作頁與所在地區規則為準。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div><p class="tool-disclaimer">本頁內容僅供教育與研究參考，不構成投資、稅務或法律建議。金融商品可能產生本金損失，請依自身情況審慎評估。</p></div></article></div></main>
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">12 類知識樹</a><a href="../tools/index.html">實戰工具庫</a><a href="../index.html#reading-room">閱讀室</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
-<script src="/app.js?v=tools-upgrade-20260824"></script>
+<script src="/app.js?v=native-grid-scanner-20260824"></script>
 </body></html>'''
     (OUT / f'{c["slug"]}.html').write_text(html, encoding='utf-8')
 

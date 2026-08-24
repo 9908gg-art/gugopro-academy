@@ -147,3 +147,19 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## b5f1539 最終 R:R 重新載入
 
 最後文件提交後，正式 R:R 首次載入遇到一次 Binance 連線逾時並正確切換 TradingView fallback；重新按下「載入 K 線」後即成功恢復 Binance Public API 500 根 K 線與原生價格線。最新價 77,339.03，支撐 76,051，壓力 78,080，ATR 約 2.9%，R:R 2.00R，單位風險 2,320.17，建議單位數 2，均為有限數值。重新載入成功畫面：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_08-00-38_5814.webp`。
+
+
+## 本輪 Scanner、指南與 Y 軸回歸（2026-08-24）
+
+新增指南使用 SEC Investor.gov、Invesco、Binance 與 OKX 官方教育／產品文件作為概念依據；重點包含基金分配不等於額外報酬、DRIP 是現金流處理方式、等差／等比網格定義、雙邊手續費、區間突破與庫存風險。來源 URL 詳見 `research-notes-next.md` 與兩篇指南的 References。
+
+本地真實瀏覽器在 `tools/risk-reward-calculator.html?v=native-grid-scanner-20260824` 初始載入 Binance 500 根 BTCUSDT 日線，Entry 77,224.01、Swing Low／Stop 57,800.19、Swing High／Target 82,850、ATR 2.9%，原生 Lightweight Charts canvas 可見且無非法座標。切換加密貨幣 Scanner 後完成 6/16 個監控池標的，DOGEUSDT、XRPUSDT、BNBUSDT、BTCUSDT、SOLUSDT、ETHUSDT 均呈現有限的現價、波段低／高點、風險距離、R:R 與狀態；點擊 BTCUSDT 結果可帶回上方原生圖表。截圖分別為 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-12-12_2010.webp`、`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-12-52_3143.webp`、`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-13-15_9385.webp`。
+
+本地 BTC 網格載入 Binance 1000 根 15m K 線；初始情境顯示 1.01% 比例間距、0.81% 費後單格利潤率、4.04 USDT 單格套利、24.89% 利用率、10% 邊界距離、0.8% 回撤與 9,944.10 USDT 期末模擬資產。將網格數改為 60 後完成 101 次回合，狀態文字仍明確說明右側 Y 軸僅顯示上下限、最新價與 SL／TP，中間網格維持虛線，不再把每條線的 axis label 塞滿。截圖為 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-13-26_8111.webp` 與 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-13-42_7225.webp`。
+
+`guides/grid-trading.html` 與 `guides/etf-dividend-drip.html` 均已由生成器建立並在瀏覽器載入；左側導覽顯示 12 + 3 主題，正文含概念、公式、實例、風險比較、檢查清單與外部來源，文末有 R:R、ETF 現金流、BTC 網格三個工具 CTA。ETF 指南 CTA 實測可到 `tools/etf-dividend-calculator.html`，工具頁正常輸出 DRIP／領現金差異並顯示回鏈。截圖為 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-15-12_2203.webp`、`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-15-28_7955.webp`、`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-15-57_1861.webp`。
+
+以 `?symbol=ETHUSDT&timeframe=1h` 測試 R:R URL 直達，搜尋欄與 1 小時選單正確帶入；該次 Binance 公開端點逾時後安全切換 TradingView fallback，頁面保留數值欄位與限制提示，沒有顯示非法值。另已將舊 `tools/risk-reward-scanner.html` 改為導向新版 `risk-reward-calculator.html#rr-market-scanner`，避免舊全站連結落到過時 Scanner。
+
+
+美股 Scanner 回歸：切換「美股」並啟動批次後，公開 Yahoo／CORS 請求在本次瀏覽器執行中出現逾時，頁面保持「正在批次讀取公開行情」並不把空資料混入結果；與原生圖表同步顯示 TradingView fallback，數值欄位仍可用。此結果驗證了失敗端點的安全排除與使用者提示；加密貨幣批次已在同一版本成功完成 6/16。截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-19-14_2656.webp`。

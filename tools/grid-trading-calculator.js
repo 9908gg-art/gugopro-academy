@@ -99,13 +99,14 @@
     removeGridLines();
     levels.forEach((level, index) => {
       const isBuy = level < current;
+      const isBoundary = index === 0 || index === levels.length - 1;
       priceLines.push(candleSeries.createPriceLine({
         price: level,
         color: isBuy ? '#5fd3a0' : '#f56f62',
-        lineWidth: index === 0 || index === levels.length - 1 ? 2 : 1,
+        lineWidth: isBoundary ? 2 : 1,
         lineStyle: 2,
-        axisLabelVisible: true,
-        title: isBuy ? `B${index}` : `S${index}`
+        axisLabelVisible: isBoundary,
+        title: isBoundary ? (index === 0 ? 'LOWER' : 'UPPER') : ''
       }));
     });
     if (stop > 0) priceLines.push(candleSeries.createPriceLine({ price: stop, color: '#f3c969', lineWidth: 2, lineStyle: 0, axisLabelVisible: true, title: 'SL' }));
@@ -202,7 +203,7 @@
     setText('grid-drawdown', pct(maxDrawdown * 100));
     setText('grid-realized-profit', money(realized));
     setText('grid-final-value', money(finalValue));
-    setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。`);
+    setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。右軸僅顯示上下限、最新價與 SL／TP，中間網格保留虛線。`);
   }
 
   function renderFallback(reason) {

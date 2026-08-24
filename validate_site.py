@@ -24,7 +24,7 @@ for anchor in ['knowledge-tree', 'tool-deck', 'reading-room', 'support']:
 for href in ['tools/risk-reward-calculator.html', 'tools/etf-dividend-calculator.html', 'tools/grid-trading-calculator.html']:
     if href not in root_text: errors.append(f'root missing tool link {href}')
 
-expected_guides = ['taiwan-stocks','us-stocks','etf','bonds','funds','forex','commodities','futures','options','warrants','crypto','cfd-indices','risk-reward-ratio']
+expected_guides = ['taiwan-stocks','us-stocks','etf','bonds','funds','forex','commodities','futures','options','warrants','crypto','cfd-indices','risk-reward-ratio','grid-trading','etf-dividend-drip']
 for slug in expected_guides:
     if not (ROOT / 'guides' / f'{slug}.html').exists(): errors.append(f'missing guide {slug}')
 required_files = [
@@ -64,11 +64,22 @@ for calc in ['compound','etf-fee','duration','curve','risk','dcf','retirement','
     if f'data-calc="{calc}"' not in workbench_text: errors.append(f'workbench missing calc {calc}')
 for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html']:
     if link not in workbench_text: errors.append(f'workbench missing link {link}')
+for guide_slug, tool_href in [('risk-reward-ratio','../tools/risk-reward-calculator.html'), ('grid-trading','../tools/grid-trading-calculator.html'), ('etf-dividend-drip','../tools/etf-dividend-calculator.html')]:
+    guide_text = (ROOT / 'guides' / f'{guide_slug}.html').read_text(encoding='utf-8')
+    if tool_href not in guide_text: errors.append(f'{guide_slug} missing primary tool link')
+    for tool_href_all in ['../tools/risk-reward-calculator.html','../tools/etf-dividend-calculator.html','../tools/grid-trading-calculator.html']:
+        if tool_href_all not in guide_text: errors.append(f'{guide_slug} missing cross-tool link {tool_href_all}')
+for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-reward-ratio.html'), ('etf-dividend-calculator.html','../guides/etf-dividend-drip.html'), ('grid-trading-calculator.html','../guides/grid-trading.html')]:
+    tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
+    if guide_href not in tool_text: errors.append(f'{tool_page} missing guide link {guide_href}')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
-for field in ['rr-symbol-search','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level']:
+for field in ['rr-symbol-search','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
 if 'lightweight-charts' not in rr_text: errors.append('rr calculator missing Lightweight Charts resource')
 if 'rr-chart-labels' in rr_text or 'position:absolute' in rr_text: errors.append('rr calculator still contains legacy overlay marker layer')
+rr_script = (ROOT / 'tools/risk-reward-calculator.js').read_text(encoding='utf-8')
+for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection']:
+    if marker not in rr_script: errors.append(f'rr script missing {marker}')
 for page_name, fields in {
     'etf-dividend-calculator.html': ['etf-symbol','etf-investment','etf-monthly','etf-yield','etf-growth','etf-years','etf-reinvest','etf-chart','etf-reinvest-path','etf-cash-path'],
     'grid-trading-calculator.html': ['grid-timeframe','grid-refresh','grid-live-price','grid-chart','grid-tv-widget','grid-lower','grid-upper','grid-count','grid-mode','grid-capital','grid-stop','grid-take','grid-fee','grid-spacing','grid-net-margin','grid-single-profit','grid-utilization','grid-break-risk','grid-drawdown','grid-realized-profit','grid-final-value']
@@ -78,7 +89,7 @@ for page_name, fields in {
         if f'id="{field}"' not in text: errors.append(f'{page_name} missing {field}')
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')
-print('deep_guides_expected=13')
+print('deep_guides_expected=15')
 print('workbench_panels=9')
 print('advanced_tools=3')
 print('standalone_rr=chart-enabled')

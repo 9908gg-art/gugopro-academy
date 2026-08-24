@@ -1,125 +1,140 @@
-# GugoPro 財經學院：原生 K 線風報比與 BTC 網格工作台交付報告
+# GugoPro 財經學院：R:R 全市場 Scanner、BTC 網格與策略指南交付報告
 
 **專案：** `9908gg-art/gugopro-academy`  
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)  
-**功能提交：** `cd0309b`  
-**最終 main 提交：** `acf1dec`  
+**本輪功能提交：** 待本輪推送後補入
 **完成日期：** 2026-08-24
+**作者：** Manus AI
 
 ## 一、交付摘要
 
-本次針對工具層的座標反向與數值溢位問題進行 Git 歷史考證與重構。風報比頁面不再以 iframe 上方的 absolute HTML 疊層模擬價格線，而是改用 Lightweight Charts 原生 K 線與 `createPriceLine`。拖曳事件透過原生系列的 `coordinateToPrice` 將畫面座標轉回價格，因此往上拖價格增加、往下拖價格減少，並即時更新 R:R、風險預算、建議單位數與潛在獲利。
+本輪完成四項相互關聯的升級。第一，將全市場風報比智慧掃描器整合至原生 R:R K 線分析儀，提供加密貨幣、美股與台股／ETF 監控池、公開行情批次讀取、波段高低點、即時 R:R、狀態分類與點擊帶回圖表。第二，商品載入或週期切換時，Entry 自動採用最新收盤價，Target 錨定最近可見 K 線波段高點，Stop Loss 錨定波段低點，避免使用任意固定點位。
 
-網格工具已改造成以 BTC/USDT 為預設標的的實戰型工作台。工具會載入 Binance Public API K 線，使用同一個 Lightweight Charts 原生價格軸繪製買入網格、賣出網格、止損與止盈，並以實際 K 線路徑模擬成交、手續費、庫存、資金利用率、回撤與破網風險。所有試算維持瀏覽器端執行，使用者的投入額及風控條件不會送到本站後端。
+第三，BTC/USDT 網格工作台的中間網格線仍使用 Lightweight Charts 原生虛線，但不再讓每條線都顯示 Y 軸數字；右側軸只保留 Upper、Lower、最新價與 SL／TP 等關鍵價位。第四，新增兩篇具公式、案例、風險比較、檢查清單與來源的深度指南，並讓指南文末與三個獨立工具頁互相導流，形成文章到工具、工具到策略文章的內鏈閉環。
 
-## 二、Git 歷史考證與根因
+所有行情與計算仍在瀏覽器端處理。公開行情可能延遲、被 CORS／網路狀態阻擋或受到交易所限制；Scanner 對不可用標的會標示不可用，不以缺資料冒充訊號。所有 R:R、網格與 DRIP 數字都是教育情境，不構成投資建議、回測保證或收益承諾。
 
-已執行 `git log --oneline -- tools/`，並抽查 `45a2957`、`d7fe005`、`f4b3de7` 與 `252fdf6` 的 `tools/risk-reward-calculator.html`／`.js`。歷史脈絡如下：
+## 二、R:R Market Scanner 與波段自動錨定
 
-| 版本 | 原始設計觀察 | 本次處理 |
-|---|---|---|
-| `45a2957` | 使用 Canvas K 線與按鈕／滑桿調整 Entry、Support、Resistance，BTC 是預設市場 | 保留其商品導向與風控意圖，改由原生圖表座標承接互動 |
-| `d7fe005` | 擴充 Canvas 拖曳、支撐／壓力偵測、Yahoo／Binance 與代理端點 | 參考其多市場與結構分析邏輯，不沿用手算畫布座標 |
-| `f4b3de7` | 曾縮減成單純數值風報表單 | 恢復完整市場圖表工作台，而非退回純輸入表單 |
-| `252fdf6` | 新增 Lightweight Charts 與 TradingView fallback，但又以 `#rr-chart-labels`、`#rr-chart-zones` 的絕對定位層模擬價格標註 | 移除上述舊疊層，改用原生 `createPriceLine` 與 `coordinateToPrice` |
+### 功能與監控池
 
-問題根因是最後一版把「圖表座標」和「價格座標」拆成兩個彼此獨立的層：畫面百分比被拿來估算價格，且價格線沒有由 Lightweight Charts 的 price scale 管理。當容器尺寸、價格範圍或行情商品改變時，兩者便可能方向相反或產生極端數字。本次另加入 `finitePrice` 上限、輸入正數驗證及 request sequence 保護，避免非有限值、超大值或慢速舊行情請求污染最新狀態。完整歷史抽取保存在 `history-analysis.md`。
+R:R 工具下方新增 `R:R MARKET SCANNER / SWING MAP` 面板。使用者可以切換全市場、加密貨幣、美股、台股／ETF，選擇 15 分鐘、1 小時或 1 日 Scanner 週期、60／120／250 根回溯範圍與最低 R 倍數，再按「開始掃描」。目前監控池包含主流 Binance 交易對、AAPL／MSFT／NVDA／TSLA／QQQ 等美股，以及 0050.TW、00919.TW 與部分台股權值股；Yahoo 直連失敗時會嘗試公開 CORS fallback，仍失敗則以明確不可用狀態排除。
 
-## 三、R:R 原生 K 線分析儀
+結果表列出商品代碼、市場、現價、波段低點、波段高點、風險距離、潛在 R:R 與狀態。狀態包括接近波段低點、接近波段高點、較高風報機會與觀察中。每一列提供「帶入圖表」操作；點擊後會以 `?symbol=...&timeframe=...` 帶回上方原生圖表並重新載入該商品。
 
-正式工具：[R:R K 線分析儀](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=96ccdf9)
+### 波段點位與公式
 
-工具支援 1 分鐘、5 分鐘、15 分鐘、1 小時與 1 日五種週期；商品目錄包含 BTCUSDT、ETHUSDT、SOLUSDT、AAPL、MSFT、NVDA、TSLA、QQQ、0050.TW 與 00919.TW，也可輸入自訂代號。加密資產從 Binance Public API 載入，美股／ETF 優先嘗試 Yahoo Finance；公開端點因 CORS 或網路狀態無法讀取時，會切換 TradingView Advanced Chart Widget，數值風控仍可離線使用。
+對每次行情載入，工具從最新可見區間取最近 120 根 K 線作為主要結構視窗，並依選定週期換算可用資料。波段高點取該視窗最高 High，波段低點取最低 Low，Entry 取最新 Close。多頭教育情境的 Scanner R:R 為：
 
-圖表使用 Lightweight Charts 原生 `candlestickSeries`、`histogramSeries` 與 `createPriceLine`。進場、停損及目標線不再有額外的 `#rr-chart-labels`／`#rr-chart-zones` 疊層；滑鼠按下時以 `priceToCoordinate` 找到最近原生價格線，移動時以 `coordinateToPrice` 更新輸入欄位，然後重新計算結果。
+> `R:R = (Swing High − Current Price) ÷ (Current Price − Swing Low)`。
 
-風報比仍採教育用途的清楚公式：
+主圖的自動計畫則令 `Entry = latest close`、`Stop = swing low`、`Target = swing high`，再由原生 `createPriceLine` 畫出三條價格線。所有價格經 `finitePrice`、正數與 `1e12` 上限保護，請求序號也會阻止慢速舊請求覆蓋最新商品。
 
-> 單位風險 = `|進場價 − 停損價|`；單位潛在獲利 = `|目標價 − 進場價|`；R 倍數 = 單位潛在獲利 ÷ 單位風險；建議單位數 = floor(風險預算 ÷ 單位風險)。
+## 三、BTC/USDT 網格 Y 軸清爽化
 
-### 雙向拖曳回歸測試
+網格工具仍以 Binance 公開 BTC/USDT K 線為基礎，支援 5m、15m、1h、4h、1d、Upper／Lower、2–100 格、Arithmetic／Geometric、總投資額、SL／TP 與單邊手續費。每條網格使用 Lightweight Charts 原生 price line；低於最新價為綠色買入線，高於最新價為紅色賣出線，止損為黃色，止盈為紫色。
 
-本地真實瀏覽器在 BTCUSDT 原生 K 線上執行 pointerdown／pointermove／pointerup 測試。向上拖曳進場線 36px，進場價由 **77,406.72** 增加至 **85,205.97**，變化 **+7,799.25**；向下拖曳 30px 後降至 **78,706.59**，變化 **−6,499.38**。兩次均輸出有限數值，沒有超過 `1e12` 的溢位，R:R 與建議部位同步更新。最後部署 96ccdf9 的正式站亦成功顯示 Binance BTCUSDT K 線、支撐 76,051、壓力 78,080 與約 2.9% ATR。
+本輪修正的關鍵是將中間網格線的 `axisLabelVisible` 設為 false，只對 Upper、Lower、最新價、SL 與 TP 顯示右側 Y 軸標籤。這些線仍保留原生虛線與滑鼠 crosshair 的價格讀取，不使用 HTML absolute 疊層。圖表下方也明確說明此顯示策略，避免使用者誤以為中間網格消失。
 
-## 四、BTC/USDT 動態網格交易工作台
-
-正式工具：[BTC/USDT 動態網格工作台](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=96ccdf9)
-
-### 交易所標準參數
-
-| 參數 | 功能 |
+| 輸出 | 模型意義 |
 |---|---|
-| BTC/USDT K 線週期 | 5 分鐘、15 分鐘、1 小時、4 小時、1 日；預設 15 分鐘 |
-| 價格下限／上限 | 決定網格有效區間，預設會在行情成功後自動以最新價上下約 10% 建立合理情境 |
-| 網格數量 | 2–100 格，支援動態增減 |
-| 網格模式 | 等差 Arithmetic 或等比 Geometric |
-| 總投資額 | 以 USDT 計算每一格可分配資金 |
-| 止損／止盈 | 以原生價格線標示保護條件，並在歷史路徑觸及時發出狀態提示 |
-| 單邊手續費 | 預設 0.1%，可調整並從雙邊單格收益中扣除 |
+| 每格間距 | 等差或等比價格層級的毛間距 |
+| 單格利潤率（扣費） | 毛間距扣除買入與賣出雙邊手續費後的近似比例 |
+| 單格套利金額 | 每格資金配置乘以費後單格利潤率 |
+| 資金利用率 | 歷史模擬中最大庫存市值相對總投資額 |
+| 破網風險 | 最新價距離最近上下界的百分比與是否已出界 |
+| 回撤與實現套利 | 以歷史 K 線路徑做教育情境回放，不代表交易所成交結果 |
 
-### 圖表與模型
+## 四、兩篇新增深度指南與雙向內鏈
 
-Binance K 線成功時，工具使用 Lightweight Charts 原生價格線繪製網格：目前價下方的網格為綠色買入線，上方為紅色賣出線，止損為黃色線，止盈為紫色線。網格線與 K 線共享同一個 price scale，不使用會造成座標反向的外部絕對定位層。使用者調整上下限、網格數或等差／等比模式時，程式會移除舊 price lines，重新計算 levels 並立即重繪。
+### 新增指南
 
-單格毛利率依等差或等比間距計算，單格淨利潤率扣除雙邊手續費；單格套利金額以每格分配資金乘以淨利潤率估算；資金利用率以模擬過程中的最大庫存市值除以總資金；最大回撤以逐根 K 線標記的資產淨值相對歷史峰值計算。實際成交路徑會使用相鄰 K 線收盤價跨越的網格級距，模擬買入庫存與向上穿越後的賣出配對。
+`guides/grid-trading.html` 說明現貨網格的區間假設、等差／等比層級公式、費後單格利潤、震盪與單邊行情差異、破網後庫存管理、止損止盈與實盤檢查流程，並引用 Binance 與 OKX 官方文件作為產品參數與風險背景來源。[1] [2]
 
-破網風險以目前價格到最近上下界的距離提示；若行情已低於下限或高於上限，狀態會顯示「已跌破下網」或「已突破上網」。歷史 K 線曾觸及止損或止盈時，狀態列也會標示，提醒使用者不要把網格成交次數誤認為低風險。
+`guides/etf-dividend-drip.html` 說明基金分配來源、除息與 NAV、DRIP 份額累積、配息率與總報酬差異、費用／稅務／匯率、領現金與再投入的比較口徑，並引用 SEC Investor.gov 與 Invesco 教育資料。[3] [4] [5]
 
-### 網格回歸測試
+兩篇頁面均由 `build_guides.py` 統一生成，與原有 13 篇指南合計 **15 篇深度指南**。所有指南的左側導覽均同步顯示 12 個原有商品分類、R:R、動態網格與 ETF DRIP 三個主題。
 
-本地真實瀏覽器成功載入 Binance 1,000 根 BTCUSDT 15 分鐘 K 線。初始 20 格等比情境繪製 23 條原生價格線（21 條網格＋止損／止盈）；調整為 30 格等差、70,000–85,000 區間後，原生線數增加至 **33 條**，證明上下限、網格數與模式均會即時重繪。該情境輸出每格間距 **0.65%**、扣雙邊 0.1% 後淨利潤率 **0.45%**、資金利用率 **23.06%**、距最近邊界 **9.53%**、最大回撤 **0.74%**，所有輸出均為有限數值。
+### 文章到工具、工具到文章
 
-## 五、保留的其他工具與導流
+每篇指南文末均加入高視覺權重的 `PRACTICE DESK / APPLY THE FRAMEWORK` 卡片，直連風報比 K 線分析儀、ETF 現金流與 DRIP 試算機、BTC 動態網格工作台。三個獨立工具頁也加入專屬指南 CTA：R:R 連到 `guides/risk-reward-ratio.html`，ETF 工具連到 `guides/etf-dividend-drip.html`，BTC 網格連到 `guides/grid-trading.html`。
 
-首頁與工具工作台仍保留 ETF 被動現金流與 Amazon／Ko-fi／TradingView 導流。R:R 與 BTC 網格頁底均含指定 TradingView 合作連結 `https://www.tradingview.com/?aff_id=168714`、既有 Amazon 聯盟標記 `9908qq-20`、Ko-fi 入口，以及隱私權政策、服務條款與關於我們頁面。
+舊有 `tools/risk-reward-scanner.html` 仍保留可用網址，但已改成導向新版 `risk-reward-calculator.html#rr-market-scanner`，避免既有文章或外部書籤落到過時的獨立 Scanner。
+
+## 五、本地真實瀏覽器驗證
+
+本地預覽使用 `http://127.0.0.1:4173/`。R:R 初始測試以 BTCUSDT 載入 Binance 500 根日線，顯示原生 canvas、Entry 77,224.01、Swing Low／Stop 57,800.19、Swing High／Target 82,850 與約 2.9% ATR，沒有負數或數億級座標。截圖為 `127_0_0_1_2026-08-24_09-12-12_2010.webp`。
+
+切換 Scanner 的加密貨幣分類並啟動批次掃描後，實際完成 6/16 個監控池標的：DOGEUSDT、XRPUSDT、BNBUSDT、BTCUSDT、SOLUSDT、ETHUSDT。表格的現價、波段低點／高點、風險距離、R:R 與狀態皆為有限值，最高範例為 DOGEUSDT 1.16R，BTCUSDT 為 0.29R；進度條到 100%。截圖為 `127_0_0_1_2026-08-24_09-12-52_3143.webp`。
+
+點擊 BTCUSDT 結果後，搜尋欄仍正確為 BTCUSDT，頁面回到原生圖表並重新以行情波段設定計畫，截圖為 `127_0_0_1_2026-08-24_09-13-15_9385.webp`。以 `?symbol=ETHUSDT&timeframe=1h` 直達也正確帶入商品與 1 小時選單；該次公開端點逾時後安全顯示 TradingView fallback，保留數值欄位，沒有非法值。
+
+BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例間距、0.81% 費後單格利潤率、4.04 USDT 單格套利、24.89% 利用率、10% 邊界距離、0.8% 回撤與 9,944.10 USDT 期末模擬資產。截圖為 `127_0_0_1_2026-08-24_09-13-26_8111.webp`。將網格數改為 60 後完成 101 次歷史回合，狀態文字仍說明中間線只保留虛線，右軸無數字堆疊；截圖為 `127_0_0_1_2026-08-24_09-13-42_7225.webp`。
+
+兩篇新增指南均能在本地載入，顯示 12 + 3 主題側欄、正文、表格、官方來源與工具 CTA。網格指南截圖為 `127_0_0_1_2026-08-24_09-15-12_2203.webp`，ETF DRIP 指南截圖為 `127_0_0_1_2026-08-24_09-15-28_7955.webp`。從 ETF 指南 CTA 到 ETF 工具頁的導流也已實測成功；工具頁顯示 20 年 DRIP 模型與回鏈，截圖為 `127_0_0_1_2026-08-24_09-15-57_1861.webp`。
 
 ## 六、驗證結果
 
 | 驗證項目 | 結果 |
 |---|---:|
-| Git 歷史檢查 | 已執行 `git log --oneline -- tools/` 與舊版 `git show`，並保存 `history-analysis.md` |
-| 文章指南 | 13 / 13，全部通過既有 1,200 字深度門檻 |
-| R:R 週期選單 | 1m、5m、15m、1h、1d 全部存在 |
-| R:R 原生圖表 | Binance BTCUSDT 500 根 K 線成功載入；Lightweight Charts canvas 存在 |
-| R:R 拖曳 | 向上增加、向下減少；雙向 pointer 回歸均 finite，無大數溢位 |
-| R:R 舊疊層 | `#rr-chart-labels`、`#rr-chart-zones` 已從頁面移除 |
-| BTC 網格行情 | Binance BTCUSDT 1,000 根 15m K 線成功載入 |
-| BTC 網格價格線 | 綠色買入、紅色賣出、黃色止損、紫色止盈均以原生 price lines 繪製 |
-| 網格聯動 | 20 格／23 線改 30 格／33 線；上下限與模式變更同步生效 |
-| 安全數值 | R:R 價格上限 `1e12`，網格價格亦受有限值與正數驗證保護 |
-| HTML／連結 | `validate_site.py` 錯誤數 0 |
-| JavaScript | R:R、網格、`app.js`、`advanced-tools.js` 全部通過 `node --check` |
-| Git 差異 | `git diff --check` 通過 |
-| 測試探針 | 已於提交前移除，不會進入正式版本 |
+| 指南頁總數 | 15 |
+| Scanner 控件與結果表 | 通過 |
+| 加密貨幣批次掃描 | 6/16 可用、100% 完成 |
+| 波段高低點自動錨定 | 通過 |
+| Scanner 點擊帶回圖表 | 通過 |
+| R:R 週期 | 1m、5m、15m、1h、1d |
+| 網格右軸標籤 | 僅 Upper／Lower／最新價／SL／TP |
+| 高密度 60 格網格 | 通過，無 Y 軸文字堆疊 |
+| 工具／指南雙向連結 | 通過 |
+| `validate_site.py` | `errors=0` |
+| JavaScript 語法 | R:R、網格、ETF、`app.js`、`advanced-tools.js` 全部通過 |
+| `git diff --check` | 通過 |
+
+完整自動檢查包含 15 篇指南存在、R:R Scanner DOM、`getSwingLevels`／`swingHigh`／`swingLow`／`coordinateToPrice`／Scanner 核心、網格與 ETF 工具頁、雙向指南連結與新版快取版本。
 
 ## 七、正式部署與提交
 
-已使用使用者提供的 GitHub PAT 推送至 [GitHub `main`](https://github.com/9908gg-art/gugopro-academy/tree/main)，提交訊息為：
+本輪指定提交訊息為：
 
-`Manus AI: inspect git history to fix inverted R:R lines and rebuild BTC grid trading station`
+`Manus AI: restore R:R market scanner, fix swing-high anchor and grid Y-axis clutter, add grid/dividend guides with bidirectional links`
 
-功能提交為 `cd0309b`；文件同步提交為 `f485ccc`；最後功能／cache-bust 提交為 `96ccdf9`；最終研究紀錄提交為 `acf1dec`。GitHub Pages 對應 workflow 已完成 `success`，正式頁已確認採用 `native-grid-20260824` 資產版本。正式首頁、正式 R:R、正式 BTC 網格頁均以 `?v=acf1dec` 版本參數驗證；remote URL 不含 PAT，工作樹保持乾淨。
+本報告建立於功能提交前，待提交完成後會將實際 commit hash 補入本節，再同步到 `main`。正式站驗證網址為：
+
+- [首頁](https://academy.gugopro.com/?v=latest)
+- [R:R K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=latest#rr-market-scanner)
+- [BTC/USDT 動態網格](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=latest)
+- [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=latest)
+- [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=latest)
 
 ## 八、檔案導覽
 
 | 檔案 | 用途 |
 |---|---|
-| `tools/risk-reward-calculator.html` | 原生 Lightweight Charts R:R 工作台、五週期、商品搜尋、原生價格線與 fallback |
-| `tools/risk-reward-calculator.js` | Binance／Yahoo 請求、座標轉換、拖曳、R:R、支撐壓力、ATR 與請求競態保護 |
-| `tools/grid-trading-calculator.html` | BTC/USDT K 線、交易參數、績效／風險面板與導流 |
-| `tools/grid-trading-calculator.js` | Binance K 線、原生網格／保護價格線、成交配對、費用、利用率與回撤 |
-| `style.css` | 原生圖表工作台、價格線提示、網格圖例與 RWD |
-| `validate_site.py` | 全站檔案、DOM、連結及新工具欄位驗證 |
-| `history-analysis.md` | Git 歷史與現行根因抽取紀錄 |
-| `research-notes.md` | 本次本地與正式站回歸紀錄 |
+| `tools/risk-reward-calculator.html` | 原生 R:R 圖表、Scanner UI、波段點位與 CTA |
+| `tools/risk-reward-calculator.js` | 公開行情、Yahoo fallback、波段分析、Scanner 批次與帶入行為 |
+| `tools/risk-reward-scanner.html` | 舊網址導向新版 Scanner anchor |
+| `tools/grid-trading-calculator.js` | BTC K 線、原生網格線、稀疏軸標籤、費後模型 |
+| `tools/grid-trading-calculator.html` | BTC 網格工作台與指南 CTA |
+| `tools/etf-dividend-calculator.html` | ETF DRIP 工具與指南 CTA |
+| `build_guides.py` | 15 篇指南、主題側欄、工具 CTA 與來源模板 |
+| `guides/grid-trading.html` | 動態網格交易深度指南 |
+| `guides/etf-dividend-drip.html` | ETF 股息再投入深度指南 |
+| `style.css` | Scanner、CTA、網格與指南響應式樣式 |
+| `validate_site.py` | 全站檔案、DOM、腳本與雙向連結驗證 |
+| `research-notes.md` | Git 歷史、外部研究、本地回歸與截圖紀錄 |
 
 ## 九、限制與風險揭露
 
-公開行情端點可能因 CORS、網路狀態、交易所地區限制或延遲而不可用；R:R 頁提供 TradingView 圖表 fallback，但 fallback 圖表本身不與本站的原生價格線共享互動層，使用者可改用下方數值欄位設定風報計畫。網格模型使用公開 K 線和可重現的成交配對估算，不等同交易所撮合、歷史回測或收益承諾；實盤還要納入滑價、流動性、資金費率、API 中斷、最小下單量與稅務。
+Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易所休市、地區限制或資料延遲而不可用；R:R 工具會顯示明確 fallback 狀態，且不會把失敗資料放進 Scanner 結果。TradingView fallback 不與本站原生價格線共享互動層，若公開 K 線不可用，請使用數值欄位調整風報計畫。
 
-[1]: https://tradingview.github.io/lightweight-charts/ "Lightweight Charts 官方文件"
-[2]: https://www.tradingview.com/widget/advanced-chart/ "TradingView Advanced Chart Widget"
-[3]: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data "Binance Spot API：Kline/Candlestick Data"
-[4]: https://finance.yahoo.com/ "Yahoo Finance 公開行情入口"
+波段高低點只是所選回溯窗口的機械化參考，會隨週期與窗口改變，不能視為支撐阻力保證。網格歷史回放使用 K 線路徑近似成交，未等同交易所撮合；真實執行還要納入滑價、流動性、最小下單量、部分成交、API 中斷、資金費率、稅務與資產配置。ETF DRIP 模型也未完整模擬除息日、稅務、匯率、費用與配息調整。
 
-本報告由 **Manus AI** 撰寫；所有投資與收益內容僅供教育與研究參考，不構成投資、稅務或法律建議。
+## References
+
+[1]: https://www.binance.com/en/support/faq/detail/688ff6ff08734848915de76a07b953dd "Binance Spot Grid Trading Parameters"
+[2]: https://www.okx.com/en-us/help/whats-the-spot-grid-bot-and-how-to-use-it "OKX Spot Grid Bot 說明"
+[3]: https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/fund-distributions-investor-bulletin "SEC Fund Distributions Investor Bulletin"
+[4]: https://www.invesco.com/qqq-etf/en/innovation/dividends-and-capital-appreciation-understanding-total-return.html "Invesco Understanding Total Return"
+[5]: https://www.sec.gov/investor/alerts/etfs.pdf "SEC ETF Investor Bulletin"
+
+本報告由 **Manus AI** 撰寫；所有投資、交易、稅務與收益內容僅供教育與研究參考，不構成任何個人化建議。

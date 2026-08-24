@@ -90,10 +90,10 @@
     return fetch(url, { signal: controller.signal, mode: 'cors', cache: 'no-store' }).finally(() => window.clearTimeout(timer));
   }
 
-  async function fetchBinance(symbol, timeframe) {
+  async function fetchBinance(symbol, timeframe, timeout = 12000) {
     const config = timeframeConfig[timeframe] || timeframeConfig['1d'];
     const url = `https://api.binance.com/api/v3/klines?symbol=${encodeURIComponent(symbol)}&interval=${config.interval}&limit=${config.binanceLimit}`;
-    const response = await fetchWithTimeout(url);
+    const response = await fetchWithTimeout(url, timeout);
     if (!response.ok) throw new Error(`Binance HTTP ${response.status}`);
     const rows = await response.json();
     const parsed = rows.map((row) => ({
@@ -108,12 +108,21 @@
     return parsed;
   }
 
-  async function fetchYahoo(symbol, timeframe) {
+  async function fetchYahoo(symbol, timeframe, timeout = 12000) {
     const config = timeframeConfig[timeframe] || timeframeConfig['1d'];
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=${config.range}&interval=${config.interval}&includePrePost=false&events=div%2Csplits`;
-    const response = await fetchWithTimeout(url);
-    if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
-    const json = await response.json();
+    let json;
+    try {
+      const response = await fetchWithTimeout(url, timeout);
+      if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
+      json = await response.json();
+    } catch (directError) {
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+      const proxyResponse = await fetchWithTimeout(proxyUrl, timeout + 4000);
+      if (!proxyResponse.ok) throw directError;
+      const wrapper = await proxyResponse.json();
+      json = JSON.parse(wrapper.contents);
+    }
     const result = json?.chart?.result?.[0];
     if (!result?.timestamp?.length) throw new Error('Yahoo K 線資料不足');
     const quote = result.indicators?.quote?.[0] || {};
@@ -254,35 +263,40 @@
     renderNativePriceLines();
   }
 
+  function getSwingLevels(data, lookbackCount = 120) {
+    const lookback = (data || []).slice(-Math.min(lookbackCount, (data || []).length));
+    if (!lookback.length) return null;
+    const current = finitePrice(lookback[lookback.length - 1].close, NaN);
+    const swingHigh = finitePrice(Math.max(...lookback.map((row) => row.high)), NaN);
+    const swingLow = finitePrice(Math.min(...lookback.map((row) => row.low)), NaN);
+    return { lookback, current, swingHigh, swingLow };
+  }
+
   function calculateStructure(data) {
-    if (!data?.length) return;
-    const lookback = data.slice(-Math.min(120, data.length));
-    const current = lookback[lookback.length - 1].close;
-    const pivotsHigh = [];
-    const pivotsLow = [];
-    for (let i = 2; i < lookback.length - 2; i += 1) {
-      const row = lookback[i];
-      if (row.high >= lookback[i - 1].high && row.high >= lookback[i - 2].high && row.high >= lookback[i + 1].high && row.high >= lookback[i + 2].high) pivotsHigh.push(row.high);
-      if (row.low <= lookback[i - 1].low && row.low <= lookback[i - 2].low && row.low <= lookback[i + 1].low && row.low <= lookback[i + 2].low) pivotsLow.push(row.low);
-    }
-    const support = [...pivotsLow.filter((value) => value < current), current * 0.97].sort((a, b) => b - a)[0];
-    const resistance = [...pivotsHigh.filter((value) => value > current), current * 1.06].sort((a, b) => a - b)[0];
+    const swing = getSwingLevels(data);
+    if (!swing || !Number.isFinite(swing.current) || !Number.isFinite(swing.swingHigh) || !Number.isFinite(swing.swingLow)) return;
+    const { lookback, current, swingHigh, swingLow } = swing;
     const trs = lookback.slice(1).map((row, index) => Math.max(row.high - row.low, Math.abs(row.high - lookback[index].close), Math.abs(row.low - lookback[index].close))).filter(Number.isFinite);
     const atr = trs.slice(-14).reduce((sum, value) => sum + value, 0) / Math.max(1, Math.min(14, trs.length));
     const atrPercent = current ? (atr / current) * 100 : NaN;
-    setText('rr-support-level', formatPrice(support));
-    setText('rr-resistance-level', formatPrice(resistance));
+    setText('rr-support-level', formatPrice(swingLow));
+    setText('rr-resistance-level', formatPrice(swingHigh));
     setText('rr-volatility-level', Number.isFinite(atrPercent) ? `${percent(atrPercent)} ATR` : '—');
-    setText('rr-structure-note', `近 ${lookback.length} 根 K 線；最新價 ${formatPrice(current)}`);
-    $('rr-use-support')?.setAttribute('data-price', String(support));
-    $('rr-use-resistance')?.setAttribute('data-price', String(resistance));
+    setText('rr-structure-note', `近 ${lookback.length} 根 K 線；最新價 ${formatPrice(current)}；停損最低 ${formatPrice(swingLow)}／目標最高 ${formatPrice(swingHigh)}`);
+    $('rr-use-support')?.setAttribute('data-price', String(swingLow));
+    $('rr-use-resistance')?.setAttribute('data-price', String(swingHigh));
   }
 
-  function setPlanAround(lastClose) {
-    const digits = priceDigits(lastClose);
-    const entry = Number(lastClose.toFixed(digits));
-    const stop = Number((lastClose * 0.97).toFixed(digits));
-    const target = Number((lastClose * 1.06).toFixed(digits));
+  function setPlanAround(lastClose, data = chartData) {
+    const swing = getSwingLevels(data);
+    const current = finitePrice(lastClose, NaN);
+    if (!swing || !Number.isFinite(current)) return;
+    const digits = priceDigits(current);
+    const entry = Number(current.toFixed(digits));
+    const stopBase = swing.swingLow < current ? swing.swingLow : current * 0.97;
+    const targetBase = swing.swingHigh > current ? swing.swingHigh : current * 1.06;
+    const stop = Number(finitePrice(stopBase, current * 0.97).toFixed(digits));
+    const target = Number(finitePrice(targetBase, current * 1.06).toFixed(digits));
     $('rr-entry-price').value = entry;
     $('rr-stop-price').value = stop;
     $('rr-target-price').value = target;
@@ -304,6 +318,7 @@
     const timeframe = $('rr-timeframe')?.value || '1d';
     const requestId = ++loadSequence;
     activeMeta = meta;
+    if ($('rr-symbol-search') && cleanSymbol($('rr-symbol-search').value) !== meta.symbol) $('rr-symbol-search').value = meta.symbol;
     setText('rr-active-symbol', meta.symbol);
     setText('rr-active-name', meta.name);
     setText('rr-data-status', `載入 ${meta.symbol} · ${meta.source}…`);
@@ -342,8 +357,143 @@
     box.classList.toggle('is-visible', Boolean(matches.length && document.activeElement === $('rr-symbol-search')));
   }
 
+  const scannerPool = [
+    { symbol: 'BTCUSDT', name: 'Bitcoin', category: 'crypto' },
+    { symbol: 'ETHUSDT', name: 'Ethereum', category: 'crypto' },
+    { symbol: 'SOLUSDT', name: 'Solana', category: 'crypto' },
+    { symbol: 'BNBUSDT', name: 'BNB', category: 'crypto' },
+    { symbol: 'XRPUSDT', name: 'XRP', category: 'crypto' },
+    { symbol: 'DOGEUSDT', name: 'Dogecoin', category: 'crypto' },
+    { symbol: 'AAPL', name: 'Apple', category: 'us' },
+    { symbol: 'MSFT', name: 'Microsoft', category: 'us' },
+    { symbol: 'NVDA', name: 'NVIDIA', category: 'us' },
+    { symbol: 'TSLA', name: 'Tesla', category: 'us' },
+    { symbol: 'QQQ', name: 'Invesco QQQ', category: 'us' },
+    { symbol: '0050.TW', name: '元大台灣50', category: 'tw' },
+    { symbol: '00919.TW', name: '群益台灣精選高息', category: 'tw' },
+    { symbol: '2330.TW', name: '台積電', category: 'tw' },
+    { symbol: '2317.TW', name: '鴻海', category: 'tw' },
+    { symbol: '2454.TW', name: '聯發科', category: 'tw' }
+  ];
+  let scannerCategory = 'all';
+  let scannerSequence = 0;
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+  }
+
+  function scannerUniverse() {
+    return scannerPool.filter((item) => scannerCategory === 'all' || item.category === scannerCategory);
+  }
+
+  function scannerLabel(category) {
+    return category === 'crypto' ? '加密貨幣' : category === 'us' ? '美股' : '台股／ETF';
+  }
+
+  function analyzeScannerData(meta, data, lookbackCount) {
+    const swing = getSwingLevels(data, lookbackCount);
+    if (!swing || !Number.isFinite(swing.current) || !Number.isFinite(swing.swingHigh) || !Number.isFinite(swing.swingLow) || swing.current <= 0) return null;
+    const riskDistance = swing.current - swing.swingLow;
+    const rewardDistance = swing.swingHigh - swing.current;
+    if (!(riskDistance > 0) || !(rewardDistance > 0)) return null;
+    const range = Math.max(swing.swingHigh - swing.swingLow, swing.current * 1e-8);
+    const rr = rewardDistance / riskDistance;
+    const riskPercent = (riskDistance / swing.current) * 100;
+    const rewardPercent = (rewardDistance / swing.current) * 100;
+    const nearSupport = riskDistance / range <= 0.22;
+    const nearResistance = rewardDistance / range <= 0.22;
+    const status = rr >= Math.max(0, valueOfScanner('rr-scanner-min-rr', 2)) ? '高風報機會' : nearSupport ? '接近支撐' : nearResistance ? '接近波段高點' : '觀察中';
+    const statusClass = rr >= Math.max(0, valueOfScanner('rr-scanner-min-rr', 2)) ? 'is-opportunity' : nearSupport ? 'is-support' : nearResistance ? 'is-resistance' : 'is-neutral';
+    return { meta, current: swing.current, swingLow: swing.swingLow, swingHigh: swing.swingHigh, rr, riskPercent, rewardPercent, status, statusClass };
+  }
+
+  function valueOfScanner(id, fallback) {
+    const parsed = Number($(id)?.value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  async function fetchScannerCandles(item, timeframe) {
+    const meta = findMeta(item.symbol);
+    return isCrypto(meta.symbol) ? fetchBinance(meta.symbol, timeframe, 8000) : fetchYahoo(meta.symbol, timeframe, 8000);
+  }
+
+  function renderScannerResults(results, minRR) {
+    const body = $('rr-scanner-body');
+    if (!body) return;
+    const ordered = results.slice().sort((a, b) => b.rr - a.rr);
+    setText('rr-scanner-success', String(ordered.length));
+    if (!ordered.length) {
+      body.innerHTML = '<tr><td colspan="8" class="rr-scanner-empty"><i class="fa-solid fa-circle-question"></i> 目前條件沒有可用資料；可切換週期或稍後重試。</td></tr>';
+      return;
+    }
+    body.innerHTML = ordered.map((result) => {
+      const meets = result.rr >= minRR;
+      return `<tr class="rr-scanner-row" data-scanner-symbol="${escapeHtml(result.meta.symbol)}" data-scanner-timeframe="${escapeHtml($('rr-scanner-timeframe')?.value || '1d')}">
+        <td><button type="button" class="rr-scanner-symbol" data-scanner-symbol="${escapeHtml(result.meta.symbol)}"><strong>${escapeHtml(result.meta.symbol)}</strong><span>${escapeHtml(result.meta.name)}</span></button></td>
+        <td><span class="rr-scanner-market">${scannerLabel(result.meta.category)}</span></td>
+        <td>${formatPrice(result.current)}</td>
+        <td class="rr-scanner-low">${formatPrice(result.swingLow)}<small> −${percent(result.riskPercent)}</small></td>
+        <td class="rr-scanner-high">${formatPrice(result.swingHigh)}<small> +${percent(result.rewardPercent)}</small></td>
+        <td>${percent(result.riskPercent)}</td>
+        <td><strong class="rr-scanner-rr ${meets ? 'is-opportunity' : ''}">${result.rr.toFixed(2)}R</strong></td>
+        <td><span class="rr-scanner-status ${result.statusClass}">${escapeHtml(result.status)}</span><button type="button" class="rr-scanner-load" data-scanner-symbol="${escapeHtml(result.meta.symbol)}" data-scanner-timeframe="${escapeHtml($('rr-scanner-timeframe')?.value || '1d')}">帶入圖表</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function startScanner() {
+    const runId = ++scannerSequence;
+    const timeframe = $('rr-scanner-timeframe')?.value || '1d';
+    const lookback = Math.max(30, Math.min(250, Math.floor(valueOfScanner('rr-scanner-lookback', 120))));
+    const minRR = Math.max(0, Math.min(20, valueOfScanner('rr-scanner-min-rr', 2)));
+    const universe = scannerUniverse();
+    const progressWrap = $('rr-scanner-progress-wrap');
+    const progressBar = $('rr-scanner-progress-bar');
+    const progressText = $('rr-scanner-progress-text');
+    const status = $('rr-scanner-status');
+    const button = $('rr-scanner-start');
+    progressWrap?.removeAttribute('hidden');
+    if (button) button.disabled = true;
+    if ($('rr-scanner-body')) $('rr-scanner-body').innerHTML = '<tr><td colspan="8" class="rr-scanner-empty"><i class="fa-solid fa-spinner fa-spin"></i> 正在批次讀取公開行情…</td></tr>';
+    setText('rr-scanner-success', '0');
+    const results = [];
+    const batchSize = 4;
+    for (let start = 0; start < universe.length; start += batchSize) {
+      const batch = universe.slice(start, start + batchSize);
+      const batchResults = await Promise.all(batch.map(async (item) => {
+        try {
+          const candles = await fetchScannerCandles(item, timeframe);
+          const analyzed = analyzeScannerData({ ...item, category: item.category }, candles, lookback);
+          return analyzed;
+        } catch (error) {
+          return null;
+        }
+      }));
+      if (runId !== scannerSequence) return;
+      results.push(...batchResults.filter(Boolean));
+      const completed = Math.min(universe.length, start + batch.length);
+      const progress = Math.round((completed / Math.max(1, universe.length)) * 100);
+      if (progressBar) progressBar.style.width = `${progress}%`;
+      setText('rr-scanner-progress-text', `${progress}%`);
+      setText('rr-scanner-status', `已完成 ${completed}/${universe.length} 個標的，正在整理波段高低點`);
+    }
+    if (runId !== scannerSequence) return;
+    renderScannerResults(results, minRR);
+    setText('rr-scanner-status', `掃描完成：${results.length}/${universe.length} 個標的可用；結果依 R:R 由高至低排序`);
+    if (button) button.disabled = false;
+  }
+
+  function loadScannerSelection(symbol, timeframe) {
+    const nextTimeframe = timeframeConfig[timeframe] ? timeframe : '1d';
+    if ($('rr-timeframe')) $('rr-timeframe').value = nextTimeframe;
+    if ($('rr-symbol-search')) $('rr-symbol-search').value = cleanSymbol(symbol);
+    $('rr-symbol-suggestions')?.classList.remove('is-visible');
+    loadSymbol(symbol);
+    $('rr-chart-shell')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function resetLines() {
-    if (chartData.length) setPlanAround(chartData[chartData.length - 1].close);
+    if (chartData.length) setPlanAround(chartData[chartData.length - 1].close, chartData);
     calculate();
   }
 
@@ -359,8 +509,23 @@
     $('rr-use-support')?.addEventListener('click', () => { $('rr-stop-price').value = $('rr-use-support').dataset.price || ''; calculate(); });
     $('rr-use-resistance')?.addEventListener('click', () => { $('rr-target-price').value = $('rr-use-resistance').dataset.price || ''; calculate(); });
     $('rr-reset-lines')?.addEventListener('click', resetLines);
+    document.querySelectorAll('[data-scanner-filter]').forEach((button) => button.addEventListener('click', () => {
+      scannerCategory = button.dataset.scannerFilter || 'all';
+      document.querySelectorAll('[data-scanner-filter]').forEach((item) => item.classList.toggle('is-active', item === button));
+    }));
+    $('rr-scanner-start')?.addEventListener('click', startScanner);
+    $('rr-scanner-body')?.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-scanner-symbol]');
+      if (!target) return;
+      loadScannerSelection(target.dataset.scannerSymbol, target.dataset.scannerTimeframe || $('rr-scanner-timeframe')?.value || '1d');
+    });
     calculate();
-    loadSymbol('BTCUSDT');
+    const params = new URLSearchParams(window.location.search);
+    const requestedTimeframe = params.get('timeframe');
+    if (timeframeConfig[requestedTimeframe]) $('rr-timeframe').value = requestedTimeframe;
+    const requestedSymbol = params.get('symbol') || 'BTCUSDT';
+    $('rr-symbol-search').value = cleanSymbol(requestedSymbol);
+    loadSymbol(requestedSymbol);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
