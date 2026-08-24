@@ -280,3 +280,7 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 113bb35 正式站網格驗證（2026-08-24）
 
 正式 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=113bb35` 已公開本輪 HTML／CSS／JS。瀏覽器可見 `#grid-quick-symbol` 完整熱門清單、Lower／Upper／Grids／模式／投資／SL／TP／費率控制；BTC/USDT 成功載入 2,000 根後擴充至 3,000 根歷史，WebSocket 顯示已連線，並輸出每格 1.01%、費後單格 0.81%、利用率 19.85%、回撤 0.73% 等有限數值。K 線前沒有 `LIVE MARKET / BTCUSDT` 或重複大型標題，右軸只保留 LOWER／UPPER／LATEST／SL／TP。正式網格截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-21-24_9912.webp`。
+
+## 最終文件部署完成（2026-08-24）
+
+文件同步提交 `f828663` 已推送至 `origin/main`；GitHub 公開 Actions 顯示 pages-build-deployment Run 79（workflow ID `32732268383`）已 `completed successfully`。因此正式站最終版本以 `f828663` 為基準；功能實作提交仍為使用者指定訊息的 `113bb35`。
