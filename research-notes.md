@@ -240,3 +240,8 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 功能提交 `578876f` 的 Pages workflow `32727416900` 與文件同步提交 `1b25eed` 的 Pages workflow `32728003776` 均為 `completed / success`。最終報告將以 `1b25eed` 作為文件同步提交；工具功能仍以 `?v=578876f` cache-bust 版本核對，報告與正式站狀態一致。
 
 最終 main metadata 提交 `123a4c2` 的 GitHub Pages workflow `32728200852` 已 `completed / success`；目前 `origin/main` 與本地 HEAD 均應以該版本為準，前一個文件同步提交為 `1b25eed`。
+
+
+## 最終 main 26471cd 公開站核對（2026-08-24）
+
+最終 Pages workflow `32728517831` 已 `completed / success`。`https://academy.gugopro.com/?v=26471cd` 正常回傳首頁、12 類知識樹與三張實戰工具卡；`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=26471cd` 正常回傳 HUD、1m／5m／15m／1h／4h／1D／1W 按鈕、`rr-load-older`、Scanner 與 CTA。最終首頁截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-44-05_6952.webp`；最終 R:R 載入畫面：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-44-25_8135.webp`。
