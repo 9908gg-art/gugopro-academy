@@ -59,6 +59,15 @@
         </div>
     </section>
 
+    <nav class="converter-quick-nav" aria-label="快速選擇轉檔工具">
+        <span class="converter-quick-label"><i class="fa-solid fa-compass"></i> 快速選擇</span>
+        <a href="#converter-tools">全部工具</a>
+        <a href="#subtitle-tool">字幕</a>
+        <a href="#image-tool">影像</a>
+        <a href="#data-tool">數據</a>
+        <a href="#pdf-tool">圖片轉 PDF</a>
+    </nav>
+
     <main class="converter-shell">
         <section id="converter-tools" aria-labelledby="converter-tools-heading">
             <div class="converter-section-heading">
@@ -72,28 +81,28 @@
                 </div>
             </div>
             <div class="converter-card-grid">
-                <article class="converter-tool-card">
+                <article id="subtitle-tool" class="converter-tool-card">
                     <div class="converter-card-icon"><i class="fa-solid fa-closed-captioning"></i></div>
                     <h3>字幕格式轉換器</h3>
                     <p>SRT ⇄ VTT 雙向轉換，移除時間軸匯出 TXT，還能以毫秒微調字幕延遲。</p>
                     <div class="converter-card-tags"><span>SRT / VTT</span><span>時間偏移</span><span>TXT 腳本</span></div>
                     <a class="converter-link-button" href="converter-subtitles.html">使用字幕工具 <i class="fa-solid fa-arrow-right"></i></a>
                 </article>
-                <article class="converter-tool-card">
+                <article id="image-tool" class="converter-tool-card">
                     <div class="converter-card-icon"><i class="fa-solid fa-image"></i></div>
                     <h3>多功能影像處理器</h3>
                     <p>WEBP、JPG、PNG 互轉，支援等比例縮放、品質壓縮、多尺寸 Favicon 與 Base64 導出。</p>
                     <div class="converter-card-tags"><span>WEBP / JPG / PNG</span><span>Favicon / ICO</span><span>Base64</span></div>
                     <a class="converter-link-button" href="converter-image.html">使用影像工具 <i class="fa-solid fa-arrow-right"></i></a>
                 </article>
-                <article class="converter-tool-card">
+                <article id="data-tool" class="converter-tool-card">
                     <div class="converter-card-icon"><i class="fa-solid fa-table"></i></div>
                     <h3>結構化數據轉換器</h3>
                     <p>以 SheetJS 解析 JSON、CSV 與 XLSX，提供瀏覽器內表格預覽與即時匯出。</p>
                     <div class="converter-card-tags"><span>JSON / CSV</span><span>Excel XLSX</span><span>表格預覽</span></div>
                     <a class="converter-link-button" href="converter-data.html">使用資料工具 <i class="fa-solid fa-arrow-right"></i></a>
                 </article>
-                <article class="converter-tool-card">
+                <article id="pdf-tool" class="converter-tool-card">
                     <div class="converter-card-icon"><i class="fa-solid fa-file-pdf"></i></div>
                     <h3>圖片合併轉 PDF</h3>
                     <p>拖曳多張圖片，自由調整順序，在本地合成單一 PDF，適合掃描稿與研究素材整理。</p>
