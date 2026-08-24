@@ -231,13 +231,13 @@
 
   async function loadOlderHistory() {
     if (!metaFor(activeSymbol).crypto || historyLoading || historyExhausted || !chartData.length) return;
-    historyLoading = true; const oldRange = chart?.timeScale().getVisibleLogicalRange?.(); setText('grid-history-status', '正在載入更早 K 線…'); $('grid-load-older')?.setAttribute('disabled', 'disabled');
+    historyLoading = true; const oldRange = chart?.timeScale().getVisibleLogicalRange?.(); setText('grid-history-status', '正在載入更早 K 線…');
     try {
       const timeframe = $('grid-timeframe')?.value || '15m'; const oldest = chartData[0].time * 1000 - 1; const older = await fetchMarketPage(activeSymbol, timeframe, oldest); const beforeCount = chartData.length;
       chartData = mergeCandles(older, chartData); const added = chartData.length - beforeCount; if (added < 10 || older.length < (timeframeConfig[timeframe]?.limit || 1000)) historyExhausted = true;
       renderCandles(oldRange && added ? { from: oldRange.from + added, to: oldRange.to + added } : oldRange); simulateGrid(); setText('grid-history-status', historyExhausted ? `歷史已接近資料起點 · ${chartData.length.toLocaleString()} 根` : `已載入 ${chartData.length.toLocaleString()} 根 · 可繼續向左捲動`);
     } catch (error) { setText('grid-history-status', `歷史載入失敗：${error.name === 'AbortError' ? '逾時' : '稍後重試'}`); }
-    finally { historyLoading = false; $('grid-load-older')?.removeAttribute('disabled'); }
+    finally { historyLoading = false; }
   }
 
   function simulateGrid() {
@@ -271,7 +271,7 @@
 
   function bind() {
     ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'].forEach((id) => $(id)?.addEventListener('input', () => { rangeTouched = true; simulateGrid(); }));
-    $('grid-quick-symbol')?.addEventListener('change', loadMarket); $('grid-timeframe')?.addEventListener('change', loadMarket); $('grid-refresh')?.addEventListener('click', loadMarket); $('grid-load-older')?.addEventListener('click', loadOlderHistory);
+    $('grid-quick-symbol')?.addEventListener('change', loadMarket); $('grid-timeframe')?.addEventListener('change', loadMarket); $('grid-refresh')?.addEventListener('click', loadMarket);
     document.addEventListener('visibilitychange', () => { if (document.hidden) closeLiveStream(); else connectLiveStream(); });
     simulateGrid(); loadMarket();
   }

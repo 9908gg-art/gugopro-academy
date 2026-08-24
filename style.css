@@ -1333,13 +1333,19 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
 .rr-hud-field > span,
 .grid-hud-field > span { color:var(--copy-soft); font-size:.88rem; font-weight:600; letter-spacing:0; text-transform:none; }
 .rr-quick-symbol select,
-.grid-quick-symbol select { width:100%; min-width:0; box-sizing:border-box; padding:9px 10px; border:1px solid rgba(255,178,95,.35); border-radius:8px; background:rgba(255,255,255,.07); color:#f4f8f6; outline:0; font:600 1rem 'Space Grotesk',sans-serif; font-variant-numeric:tabular-nums; }
+.grid-quick-symbol select { width:100%; min-width:0; box-sizing:border-box; padding:9px 10px; border:1px solid rgba(255,178,95,.35); border-radius:8px; background:#1a1f2c !important; color:#fff !important; color-scheme:dark; outline:0; font:600 1rem 'Space Grotesk',sans-serif; font-variant-numeric:tabular-nums; }
+.rr-page select,
+.grid-hud-page select { background-color:#1a1f2c !important; color:#fff !important; color-scheme:dark; }
+.rr-page select option,
+.grid-hud-page select option { background:#141824 !important; color:#f8fafc !important; }
+.rr-page select option:checked,
+.grid-hud-page select option:checked { background:#243149 !important; color:#fff !important; }
 .rr-quick-symbol select:focus,
 .grid-quick-symbol select:focus { border-color:#ffb25f; box-shadow:0 0 0 3px rgba(255,178,95,.12); }
 .rr-hud-search { min-width:0; }
-.rr-hud-search .rr-search-line { max-width:none; }
-.rr-hud-search .rr-search-line input { min-height:41px; padding:8px 10px; font-size:1rem; }
-.rr-hud-search .rr-search-line .button { min-height:41px; font-size:.92rem; }
+.rr-hud-search .rr-search-line { width:fit-content; max-width:100%; }
+.rr-hud-search .rr-search-line input { flex:1 1 180px; width:180px; max-width:180px; min-width:140px; min-height:41px; padding:8px 10px 8px 36px; font-size:1rem; }
+.rr-hud-search .rr-search-line .button { flex:0 0 62px; width:62px; min-height:41px; padding-left:10px; padding-right:10px; font-size:.92rem; }
 .rr-hud-stream-state { min-width:168px; font-size:.78rem; }
 .rr-hud-stream-state small { font-size:.72rem; }
 .rr-hud-capsule { min-height:54px; padding:7px 11px; }
@@ -1396,6 +1402,11 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
   .rr-hud-capsule input { font-size:1.08rem; }
   .grid-hud-control-row,
   .grid-hud-control-row.secondary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:560px) {
+  .rr-hud-search .rr-search-line { width:100%; }
+  .rr-hud-search .rr-search-line input { flex:1 1 auto; width:100%; max-width:none; min-width:0; padding-left:36px; }
+  .rr-hud-search .rr-search-line .button { flex:1 1 100%; width:100%; max-width:none; }
 }
 @media (max-width:520px) {
   .rr-hud-panel,

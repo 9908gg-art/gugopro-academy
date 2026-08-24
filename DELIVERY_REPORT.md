@@ -196,3 +196,24 @@ Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易�
 | [GitHub Pages Actions Run 78](https://github.com/9908gg-art/gugopro-academy/actions/runs/32732000522) | `completed / success` |
 
 正式桌面回歸截圖：R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-20-56_1406.webp`；網格 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-21-24_9912.webp`。本輪所有行情均為公開資料教育用途；股票／ETF 仍受 Yahoo Finance CORS、休市與資料延遲影響，網格歷史模擬不等同交易所撮合，也不構成投資建議。
+
+
+## 十三、本輪 UI 細節修正：輸入框、下拉選單與網格控制列（2026-08-24）
+
+本輪針對商品搜尋與控制列的實際可用性再做局部收斂。R:R 的 `#rr-symbol-search` 在桌面版限制為 `180px`（不超過 180px），載入按鈕固定為 62px；輸入框保留放大鏡，但將文字左內距明確設為 `36px`，避免 `BTCUSDT`、股票代碼或台股 ETF 代碼壓在 Icon 上。手機寬度低於 560px 時，輸入框改為容器內滿寬，以維持觸控可用性，仍保留 36px 安全左距。
+
+R:R 與網格工具的所有工具內 `<select>` 與 `<option>` 均加入深色高對比樣式：select 使用 `#1a1f2c` 背景與白色文字，option 使用 `#141824` 背景與 `#f8fafc` 文字，選取狀態仍維持深色背景，並指定 `color-scheme: dark`。這涵蓋兩頁的快速商品、週期、模式與 R:R Scanner 篩選下拉，避免 Chromium、Firefox 或手機原生下拉在白底上顯示淺色文字。
+
+網格 HUD 的「載入更早歷史」按鈕已從 HTML 移除，並同步移除腳本對該按鈕的 click／disabled 綁定；圖表原本的向左捲動自動載入歷史邏輯仍保留，因此刪除的是無作用的控制按鈕，不是長歷史能力。兩頁資產 query string 已更新為 `ui-detail-fix-20260824`，以避免正式站沿用前一輪 CSS／JS 快取。
+
+| 回歸項目 | 實測結果 |
+|---|---|
+| R:R 商品輸入 | `width=180px`、`max-width=180px`、`padding-left=36px`、`font-size=16px`；載入按鈕 62px；文字與 Icon 無重疊 |
+| R:R select 對比 | quick selector 與 Scanner select 實際背景 `rgb(26,31,44)`、文字白色、`color-scheme=dark`；option 白字深底 |
+| 網格 select 對比 | quick selector 180px、16px；週期 104px、模式 100px；三者皆為深色白字，option 白字深底 |
+| 網格冗餘按鈕 | `#grid-load-older` 不存在；頁面按鈕僅保留必要的「更新行情」與導覽控制，未殘留歷史按鈕綁定 |
+| ETHUSDT 切換 | 本地網格 quick selector 展開後選擇 ETHUSDT 成功，Binance K 線達 3,000 根、WebSocket 已連線、網格統計與原生線同步更新 |
+| 375px RWD | R:R 與網格 `bodyScrollWidth=367`、`documentScrollWidth=367`、`overflow=false`；兩頁均無水平溢出 |
+| 靜態驗證 | `validate_site.py`、兩個核心 JS 與全站 JS 語法檢查、`git diff --check` 均通過；驗證器 `errors=0` |
+
+本輪本地截圖：R:R `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-47-50_3800.webp`；網格下拉展開 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-49-16_6375.webp`；ETHUSDT 網格 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-49-38_9489.webp`。正式站發布後將補上本輪提交 hash 與 Pages workflow。

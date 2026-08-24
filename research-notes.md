@@ -292,3 +292,19 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 最終 main／Pages 狀態（2026-08-24）
 
 最終 `main` HEAD 為 `c1a04d5`，其中包含功能提交 `113bb35` 與完整交付文件。GitHub Actions `pages-build-deployment` Run 80（workflow ID `32732387019`）已顯示 `completed successfully`；Run 79 與 Run 78 亦均成功。正式站以 `?v=c1a04d5` 或頁面正常網址載入時，功能資源與本輪 CSS／HTML／JS 均已由成功 Pages pipeline 發布。
+
+## 本輪 UI 細節修正：本地 R:R 實測
+
+在 `http://127.0.0.1:4173/tools/risk-reward-calculator.html?v=ui-detail-fix-20260824` 以瀏覽器實測：商品輸入框 `#rr-symbol-search` 實際 `width=180px`、`max-width=180px`、`padding-left=36px`、`font-size=16px`；載入按鈕寬度 62px。R:R quick select 實際背景 `rgb(26,31,44)`、文字白色、`color-scheme=dark`；第一個 option 實際白字且深色背景；Scanner select 同樣為深色高對比。當前頁面不存在 `#grid-load-older` 殘留按鈕。
+
+## 本輪 UI 細節修正：本地網格實測
+
+在 `http://127.0.0.1:4173/tools/grid-trading-calculator.html?v=ui-detail-fix-20260824` 以瀏覽器實測：`#grid-quick-symbol` 實際寬度 180px、字體 16px、背景 `rgb(26,31,44)`、文字白色、`color-scheme=dark`；`#grid-timeframe` 寬度 104px、`#grid-mode` 寬度 100px，均為深色白字；quick selector option 實際白字且深色背景。`#grid-load-older` 不存在，頁面按鈕僅保留「繁中」與「更新行情」，未出現歷史冗餘按鈕。
+
+## 本輪 UI 細節修正：本地網格互動實測
+
+本地網格 quick selector 展開畫面確認選項以深色底、白字呈現，完整列出 BTCUSDT、ETHUSDT、SOLUSDT、AAPL、NVDA、TSLA、SPY、0050.TW、00919.TW、2330.TW。選擇 ETHUSDT 後，頁面顯示 ETH/USDT 最新價約 2,492.83、Binance Public API 2,000 根並已載入 3,000 根、WebSocket 已連線；網格統計與原生線圖同步更新。刪除歷史按鈕後，互動流程未出現錯誤。
+
+## 本輪 UI 細節修正：375px 行動版回歸
+
+以同源隱藏 iframe 載入兩頁 `ui-detail-fix-20260824`：R:R `bodyScrollWidth=367`、`documentScrollWidth=367`、`clientWidth=367`、`overflow=false`；R:R 商品輸入框在手機版自適應為 319px，仍保留 `padding-left=36px` 與 16px 字體。網格同樣 `bodyScrollWidth=367`、`documentScrollWidth=367`、`clientWidth=367`、`overflow=false`，quick selector 315px、週期 select 153.5px、16px 字體，按鈕文字僅「繁中」「更新行情」，`#grid-load-older` 不存在。R:R 自身仍保留其既有向左歷史操作按鈕，與本輪只移除網格無效按鈕的要求一致。
