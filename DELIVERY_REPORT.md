@@ -6,7 +6,7 @@
 
 本次交付把 GugoPro 財經學院首頁從原本以五階段學程為中心的長頁，重構為「定位 → 探索 → 實作 → 支持」四段式入口。首頁首屏先說明學院方法論，接著以可搜尋、可篩選的 12 類金融商品知識樹承接使用者需求，再將文章指南與本地計算工具配對，最後提供 TradingView、Amazon Hub 與 Ko-fi 支持入口。資訊架構借鏡市場先生首頁的「分類導覽、內容流與精選資源分層」原則，但未複製其品牌、圖片或文字。[1]
 
-正式站公開入口為 [academy.gugopro.com](https://academy.gugopro.com/)，原始碼已推送到 [GitHub main 分支](https://github.com/9908gg-art/gugopro-academy/tree/main)。本次最終提交為 `6e98bd1`，前兩個相關提交為 `e49da3e` 與 `ce935cc`；本地工作樹與遠端 main 已同步。
+正式站公開入口為 [academy.gugopro.com](https://academy.gugopro.com/)，原始碼已推送到 [GitHub main 分支](https://github.com/9908gg-art/gugopro-academy/tree/main)。本次程式變更的最後提交為 `6e98bd1`；交付報告與驗證紀錄的最終提交為 `a49d2f0`，前兩個相關提交為 `e49da3e` 與 `ce935cc`；本地工作樹與遠端 main 已同步。
 
 ## 二、首頁與知識樹
 
@@ -68,7 +68,7 @@
 | 正式站 HTML | `https://academy.gugopro.com/?v=ce935cc` 已讀到新版標記 |
 | 正式站資源 | `/style.css?v=20260824`、`/app.js?v=20260824` 已部署 |
 | 舊文章 CTA | 31 個既有文章／工具頁已公開 TradingView CTA |
-| Git 狀態 | `main...origin/main`，最終提交 `6e98bd1` |
+| Git 狀態 | `main...origin/main`，最終提交 `a49d2f0` |
 
 部署期間曾發現一般瀏覽器快取命中舊語言跳轉與舊 CSS，已以版本化資源 URL 修正，並輪詢 GitHub Pages 建置至正式文章頁確認 CTA 與資源標記同步。Git remote 已還原為不含 token 的公開 URL，暫時認證腳本已刪除，憑證未寫入網站檔案或提交內容。
 
