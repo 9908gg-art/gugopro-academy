@@ -181,3 +181,8 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 正式 `https://academy.gugopro.com/guides/grid-trading.html?v=a184b60` 已完成部署回歸：頁面顯示 12 + 3 主題導覽、動態網格定義、等差／等比與費後單格利潤公式、實戰流程、風險比較表、Binance／OKX 來源與文末 R:R／ETF／BTC 網格工具 CTA。截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-25-22_9354.webp`。
 
 正式 `https://academy.gugopro.com/guides/etf-dividend-drip.html?v=a184b60` 已完成部署回歸：頁面顯示 12 + 3 主題導覽、配息來源與除息、DRIP／總報酬公式、策略流程、風險比較表、SEC／Invesco 官方來源與文末三個工具 CTA；ETF 現金流工具回鏈可見。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-25-58_4543.webp`。
+
+
+## db1177b 最終正式 URL 核對（2026-08-24）
+
+最終文件提交的 Pages workflow `32711616557` 已 `completed / success`。`https://academy.gugopro.com/?v=db1177b` 成功顯示 12 類知識樹、三張高階工具卡、TradingView／Ko-fi／Amazon 與政策 Footer；`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=db1177b#rr-market-scanner` 成功回傳 R:R Scanner、1m／5m／15m／1h／1d 選單、Binance Public API 載入狀態與原生圖表介面。行情完成數值已在上一個 a184b60 正式回歸紀錄確認，db1177b 只新增文件內容，不改動功能檔。最新截圖：首頁 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-28-42_9471.webp`、R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-29-04_8798.webp`。
