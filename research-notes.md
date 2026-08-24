@@ -238,3 +238,5 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 最終文件同步狀態（2026-08-24）
 
 功能提交 `578876f` 的 Pages workflow `32727416900` 與文件同步提交 `1b25eed` 的 Pages workflow `32728003776` 均為 `completed / success`。最終報告將以 `1b25eed` 作為文件同步提交；工具功能仍以 `?v=578876f` cache-bust 版本核對，報告與正式站狀態一致。
+
+最終 main metadata 提交 `123a4c2` 的 GitHub Pages workflow `32728200852` 已 `completed / success`；目前 `origin/main` 與本地 HEAD 均應以該版本為準，前一個文件同步提交為 `1b25eed`。
