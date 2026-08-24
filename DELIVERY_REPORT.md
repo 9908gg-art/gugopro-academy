@@ -2,8 +2,8 @@
 
 **專案：** `9908gg-art/gugopro-academy`
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)
-**本輪功能提交：** `18258d8`
-**文件同步提交：** `1794581`
+**本輪功能提交：** `578876f`
+**文件同步提交：** 待同步（功能提交 `578876f` 已部署）
 **完成日期：** 2026-08-24
 **作者：** Manus AI
 
@@ -96,22 +96,20 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 ## 七、正式部署與提交
 
 本輪指定提交訊息為：
-
-`Manus AI: restore R:R market scanner, fix swing-high anchor and grid Y-axis clutter, add grid/dividend guides with bidirectional links`
-
-本輪功能提交 `18258d8` 已推送至 GitHub `main`；文件同步與最終正式站核對提交為 `1794581`。主要功能提交訊息與上方指定內容完全一致。
+`Manus AI: streamline R:R and grid tools into compact HUD dashboard with live WebSocket ticks and deep history`
+本輪功能提交 `578876f` 已推送至 GitHub `main`，並以 Pages workflow `32727416900` 完成 `completed / success`；提交訊息與上方指定內容完全一致。
 
 正式站驗證網址為：
 
-- [首頁](https://academy.gugopro.com/?v=1794581)
-- [R:R K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=1794581#rr-market-scanner)
-- [BTC/USDT 動態網格](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=1794581)
-- [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=1794581)
-- [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=1794581)
+- [首頁](https://academy.gugopro.com/?v=578876f)
+- [R:R HUD K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=578876f#rr-market-scanner)
+- [BTC/USDT HUD 網格](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=578876f)
+- [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=578876f)
+- [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=578876f)
 
-功能部署 Pages workflow [32711161385](https://github.com/9908gg-art/gugopro-academy/actions/runs/32711161385) 與最終文件部署 Pages workflow [32711884118](https://github.com/9908gg-art/gugopro-academy/actions/runs/32711884118) 均已完成 `completed / success`；最終 head 為 `1794581`。正式首頁成功載入新版知識樹、12 個商品分類、三張高階工具卡與 Footer 導流；正式 R:R 頁成功載入 Binance 500 根 BTCUSDT 日線，顯示原生 canvas、Entry 77,298.02、Swing Low／Stop 57,800.19、Swing High／Target 82,850、約 2.9% ATR 與 Scanner 控件。正式 BTC 網格頁成功載入 Binance 1000 根 15m K 線，輸出 1.01% 比例間距、0.81% 費後單格利潤率、4.04 USDT 單格套利、24.93% 利用率、0.86% 回撤與 9,941.15 USDT 期末模擬資產；圖表只在右軸顯示 Upper／Lower／最新價／SL／TP。兩篇新增正式指南均顯示 12 + 3 主題導覽、官方來源、比較表與三個工具 CTA。
+前一輪功能／文件 workflow 已成功；本輪 HUD 功能 workflow [32727416900](https://github.com/9908gg-art/gugopro-academy/actions/runs/32727416900) 的 head 為 `578876f`，已完成 `completed / success`。正式首頁、R:R HUD、BTC 網格 HUD 與兩篇指南均以 `?v=578876f` 核對；本地與正式站均完成 HUD、WebSocket、2,000→3,000 根歷史、1W／4h 長週期與 375px 手機無溢出測試。
 
-正式截圖檔案：首頁 `academy_gugopro_2026-08-24_09-23-42_3917.webp`、R:R `academy_gugopro_2026-08-24_09-24-08_8146.webp`、BTC 網格 `academy_gugopro_2026-08-24_09-24-48_1625.webp`、動態網格指南 `academy_gugopro_2026-08-24_09-25-22_9354.webp`、ETF DRIP 指南 `academy_gugopro_2026-08-24_09-25-58_4543.webp`。
+本輪正式截圖檔案：R:R HUD `academy_gugopro_2026-08-24_12-31-53_4770.webp`、BTC 網格 HUD `academy_gugopro_2026-08-24_12-34-06_8061.webp`；前一輪首頁與指南截圖仍保留於附件與研究紀錄。
 
 ## 八、檔案導覽
 

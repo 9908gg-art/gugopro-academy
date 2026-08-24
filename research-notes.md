@@ -219,3 +219,17 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## 手機寬度 HUD 回歸（2026-08-24）
 
 以一次性同源 iframe 在 375px 寬度測試兩頁：R:R `viewport=367, scrollWidth=367, overflow=false`，HUD 寬 339、圖表框 313、週期群 315；BTC 網格 `viewport=367, scrollWidth=367, overflow=false`，HUD 寬 335、圖表框 335、控制列 311。兩頁在手機版 CSS 折行後沒有水平溢出。
+
+
+## 正式站 578876f R:R HUD 回歸（2026-08-24）
+
+Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy.gugopro.com/tools/risk-reward-calculator.html?v=578876f` 成功顯示頂部 HUD、1m／5m／15m／1h／4h／1D／1W、原生 canvas 與 `rr-load-older`。Binance BTCUSDT 初始 2,000 根後顯示已載入 3,000 根；WebSocket 狀態為 `Binance WebSocket 已連線 · ticker`，現價約 78,598。Swing Low／Stop 57,800.19、Swing High／Target 82,850、ATR 約 2.93%，均有限。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-31-53_4770.webp`。
+
+正式 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=578876f` 已回傳新版 Binance／Pionex HUD、1W 選項、`grid-load-older`、右軸清爽說明與指南 CTA。首次正式瀏覽在 Binance REST 載入期間顯示 `載入 Binance BTC/USDT · 15m…`，需以頁面更新按鈕重試以取得最終 K 線／ticker 畫面。
+
+
+## 正式站 578876f 網格 HUD 回歸（2026-08-24）
+
+正式網格頁首次等待時 Binance REST 載入較慢；點擊「更新行情」後成功恢復原生圖表。正式頁顯示 BTC/USDT 約 78,444、24h +1.77%、`Binance BTC/USDT · 15m`、已載入 3,000 根歷史；更新後 15m 教育情境為每格 1.01%、費後 0.81%、單格 4.04 USDT、利用率 24.63%、距最近邊界 9.73%、回撤 0.67%、期末模擬資產約 9,972.98 USDT，完成 25 次網格回合。圖表可見原生綠／紅網格與 SL，右軸標示 LOWER／UPPER／LATEST／SL／TP；HUD、4h／1D／1W 選單、載入更早歷史與指南 CTA 均在正式版本存在。此次正式頁 WebSocket 狀態在更新瞬間仍顯示未連線，與本地及正式 R:R 已成功連線的結果一致於公開 WSS 可能需要頁面等待／重試；REST 原生圖表與即時 ticker 顯示均可恢復。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-33-20_3251.webp`。
+
+正式網格頁再等待後成功顯示 `WebSocket 已連線 · ticker`；最新價約 78,525.99（畫面後續約 78,519.99）與 24h 約 +1.88%。已載入 3,000 根 15m K 線，費後單格約 0.81%、單格 4.04 USDT、利用率約 19.9%、回撤約 0.75%、期末模擬資產約 9,959.36 USDT；原生網格與 LOWER／UPPER／LATEST／SL／TP 軸標籤可見。最終正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-34-06_8061.webp`。
