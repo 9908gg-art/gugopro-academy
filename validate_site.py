@@ -17,8 +17,8 @@ class Validator(HTMLParser):
         if tag == 'a' and 'href' in data: self.hrefs.append(data['href'])
 
 errors = []
-expected_symbols = ['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','AVAXUSDT','LINKUSDT','SUIUSDT','2330.TW','2317.TW','2454.TW','0050.TW','0056.TW','00878.TW','00919.TW','00929.TW','AAPL','MSFT','NVDA','TSLA','GOOGL','AMZN','SPY','QQQ','SOXX','TLT']
-expected_groups = ['加密貨幣 · Crypto Assets', '台股與台股 ETF · Taiwan Stocks &amp; ETFs', '美股與指數 ETF · US Equities &amp; Global ETFs']
+expected_symbols = ['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','DOGEUSDT','XRPUSDT','NQ','ES','GOLD','OIL','NVDA','TSLA','AAPL','MSFT','AMZN']
+expected_groups = ['加密貨幣 · Crypto Assets', '全球指數與期貨 · Futures &amp; Indices', '美股科技權值 · US Mega Tech']
 def validate_market_picker(text, page_name, search_id, suggestions_id, watchlist_id):
     if text.count('<optgroup') != 4: errors.append(f'{page_name} must contain exactly 4 optgroups including custom watchlist')
     for group in expected_groups:
@@ -26,6 +26,8 @@ def validate_market_picker(text, page_name, search_id, suggestions_id, watchlist
     if f'<optgroup id="{watchlist_id}" label="⭐ 我的自訂清單"' not in text: errors.append(f'{page_name} missing custom watchlist optgroup {watchlist_id}')
     for symbol in expected_symbols:
         if f'value="{symbol}"' not in text: errors.append(f'{page_name} missing symbol option {symbol}')
+    for removed in ['0050.TW','0056.TW','00878.TW','00919.TW','00929.TW','2330.TW','2317.TW','2454.TW','台股與台股 ETF']:
+        if removed in text: errors.append(f'{page_name} still contains removed Taiwan default marker {removed}')
     for marker in [f'id="{search_id}"', f'id="{suggestions_id}"', 'aria-autocomplete="list"', 'aria-controls="'+suggestions_id+'"']:
         if marker not in text: errors.append(f'{page_name} missing autocomplete marker {marker}')
 root = ROOT / 'index.html'
@@ -86,13 +88,13 @@ for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-rew
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older','rr-watchlist-options','rr-watchlist-add','rr-watchlist-manage','rr-watchlist-count','rr-watchlist-panel','rr-watchlist-close','rr-watchlist-items','rr-watchlist-feedback','rr-watchlist-clear']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
-for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','id="rr-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','watchlist-persistence-20260824','watchlist.js']:
+for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','id="rr-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="NQ"','value="ES"','value="GOLD"','value="OIL"','value="AAPL"','value="NVDA"','value="TSLA"','value="AMZN"','global-symbols-tradingview-20260825','watchlist.js','TradingView Advanced Chart']:
     if rr_marker not in rr_text: errors.append(f'rr calculator missing {rr_marker}')
 validate_market_picker(rr_text, 'risk-reward-calculator.html', 'rr-symbol-search', 'rr-symbol-suggestions', 'rr-watchlist-options')
 if 'lightweight-charts' not in rr_text: errors.append('rr calculator missing Lightweight Charts resource')
 if 'rr-chart-labels' in rr_text or 'position:absolute' in rr_text: errors.append('rr calculator still contains legacy overlay marker layer')
 rr_script = (ROOT / 'tools/risk-reward-calculator.js').read_text(encoding='utf-8')
-for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'updateSuggestions', 'activateSuggestion', 'chooseSuggestion', "'1w'", 'gugopro_rr_state_v1', 'localStorage', 'readPersistedState', 'saveState', 'hydrateState', 'applyRestoredParameters']:
+for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'updateSuggestions', 'activateSuggestion', 'chooseSuggestion', 'isBinanceCrypto', 'tradingViewSymbolFor', 'renderTradingViewWidget', 'widgetembed/?symbol=', 'XAUUSD', 'EURUSD', "'1w'", 'gugopro_rr_state_v1', 'localStorage', 'readPersistedState', 'saveState', 'hydrateState', 'applyRestoredParameters']:
     if marker not in rr_script: errors.append(f'rr script missing {marker}')
 for page_name, fields in {
     'etf-dividend-calculator.html': ['etf-symbol','etf-investment','etf-monthly','etf-yield','etf-growth','etf-years','etf-reinvest','etf-chart','etf-reinvest-path','etf-cash-path'],
@@ -102,12 +104,12 @@ for page_name, fields in {
     for field in fields:
         if f'id="{field}"' not in text: errors.append(f'{page_name} missing {field}')
     if page_name == 'grid-trading-calculator.html':
-        for marker in ['value="4h"','value="1d"','value="1w"','id="grid-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','watchlist-persistence-20260824','watchlist.js','幣安／派網','右側 Y 軸只顯示']:
+        for marker in ['value="4h"','value="1d"','value="1w"','id="grid-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="NQ"','value="ES"','value="GOLD"','value="OIL"','value="AAPL"','value="NVDA"','value="TSLA"','value="AMZN"','global-symbols-tradingview-20260825','watchlist.js','TradingView Advanced Chart','右側 Y 軸只顯示']:
             if marker not in text: errors.append(f'grid calculator missing {marker}')
         validate_market_picker(text, 'grid-trading-calculator.html', 'grid-symbol-search', 'grid-symbol-suggestions', 'grid-watchlist-options')
         if 'grid-load-older' in text or '載入更早歷史' in text: errors.append('grid calculator still contains redundant history button')
 grid_script = (ROOT / 'tools/grid-trading-calculator.js').read_text(encoding='utf-8')
-for marker in ['fetchMarketInitial', 'fetchYahooPage', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'activeSymbol', 'updateGridSuggestions', 'activateGridSuggestion', 'chooseGridSuggestion', "'1w'", 'gugopro_grid_state_v1', 'localStorage', 'readPersistedState', 'saveState', 'hydrateState', 'applyRestoredParameters']:
+for marker in ['fetchMarketInitial', 'fetchYahooPage', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'activeSymbol', 'updateGridSuggestions', 'activateGridSuggestion', 'chooseGridSuggestion', 'isBinanceCrypto', 'tradingViewSymbolFor', 'widgetembed/?symbol=', 'XAUUSD', 'EURUSD', "'1w'", 'gugopro_grid_state_v1', 'localStorage', 'readPersistedState', 'saveState', 'hydrateState', 'applyRestoredParameters']:
     if marker not in grid_script: errors.append(f'grid script missing {marker}')
 if "$('grid-load-older')?.addEventListener" in grid_script: errors.append('grid script still binds redundant history button')
 watchlist_script = (ROOT / 'tools/watchlist.js').read_text(encoding='utf-8')
@@ -121,6 +123,7 @@ print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')
 print('deep_guides_expected=15')
 print('workbench_panels=9')
 print('advanced_tools=3')
+print('default_symbols=15_global')
 print('standalone_rr=chart-enabled')
 print(f'errors={len(errors)}')
 for error in errors: print(f'ERROR: {error}')

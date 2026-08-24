@@ -25,37 +25,49 @@
   };
   const formatPrice = (value) => Number.isFinite(value) ? value.toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: priceDigits(value) }) : '—';
   const percent = (value) => Number.isFinite(value) ? `${value.toLocaleString('zh-TW', { maximumFractionDigits: 2 })}%` : '—';
-  const isCrypto = (symbol) => /(?:USDT|USDC|BUSD)$/.test(symbol);
+  const tvSymbolOverrides = {
+    NQ: 'CME_MINI:NQ1!', ES: 'CME_MINI:ES1!', GOLD: 'TVC:GOLD', OIL: 'TVC:USOIL',
+    XAUUSD: 'OANDA:XAUUSD', USOIL: 'TVC:USOIL', EURUSD: 'FX:EURUSD',
+    QQQ: 'NASDAQ:QQQ', SPY: 'AMEX:SPY', BTCUSD: 'COINBASE:BTCUSD', ETHUSD: 'COINBASE:ETHUSD'
+  };
+  const yahooSymbolOverrides = {
+    NQ: 'NQ=F', ES: 'ES=F', GOLD: 'GC=F', OIL: 'CL=F', XAUUSD: 'GC=F', USOIL: 'CL=F',
+    EURUSD: 'EURUSD=X', BTCUSD: 'BTC-USD', ETHUSD: 'ETH-USD'
+  };
+  const binanceCryptoPattern = /(?:USDT|USDC|BUSD)$/;
+  const isBinanceCrypto = (symbol) => binanceCryptoPattern.test(symbol);
+  const isCrypto = (symbol) => isBinanceCrypto(symbol) || /^(?:BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK|SUI)USD$/.test(symbol);
+  const tradingViewSymbolFor = (symbol) => {
+    if (tvSymbolOverrides[symbol]) return tvSymbolOverrides[symbol];
+    if (/^\d{4}\.TW$/.test(symbol)) return `TWSE:${symbol.replace('.TW', '')}`;
+    if (/^[A-Z]{6}$/.test(symbol) && /(?:USD|EUR|JPY|GBP|CHF|AUD|CAD|NZD)$/.test(symbol)) return `FX:${symbol}`;
+    if (isCrypto(symbol) && /USD$/.test(symbol)) return `CRYPTOCAP:${symbol}`;
+    return `NASDAQ:${symbol}`;
+  };
+  const yahooSymbolFor = (symbol) => yahooSymbolOverrides[symbol] || symbol;
 
   const symbolCatalog = [
-    { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT' },
-    { symbol: 'ETHUSDT', name: 'Ethereum / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT' },
-    { symbol: 'SOLUSDT', name: 'Solana / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT' },
-    { symbol: 'BNBUSDT', name: 'BNB', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BNBUSDT' },
-    { symbol: 'DOGEUSDT', name: 'Dogecoin', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:DOGEUSDT' },
-    { symbol: 'XRPUSDT', name: 'XRP', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:XRPUSDT' },
-    { symbol: 'ADAUSDT', name: 'Cardano', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:ADAUSDT' },
-    { symbol: 'AVAXUSDT', name: 'Avalanche', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:AVAXUSDT' },
-    { symbol: 'LINKUSDT', name: 'Chainlink', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:LINKUSDT' },
-    { symbol: 'SUIUSDT', name: 'Sui', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:SUIUSDT' },
-    { symbol: '2330.TW', name: '台積電', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2330' },
-    { symbol: '2317.TW', name: '鴻海', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2317' },
-    { symbol: '2454.TW', name: '聯發科', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2454' },
-    { symbol: '0050.TW', name: '元大台灣50', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0050' },
-    { symbol: '0056.TW', name: '元大高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0056' },
-    { symbol: '00878.TW', name: '國泰永續高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00878' },
-    { symbol: '00919.TW', name: '群益台灣精選高息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00919' },
-    { symbol: '00929.TW', name: '復華台灣科技優息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00929' },
-    { symbol: 'AAPL', name: 'Apple', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL' },
-    { symbol: 'MSFT', name: 'Microsoft', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:MSFT' },
-    { symbol: 'NVDA', name: 'NVIDIA', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA' },
-    { symbol: 'TSLA', name: 'Tesla', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA' },
-    { symbol: 'GOOGL', name: 'Alphabet', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:GOOGL' },
-    { symbol: 'AMZN', name: 'Amazon', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AMZN' },
-    { symbol: 'SPY', name: 'S&P 500', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY' },
-    { symbol: 'QQQ', name: 'Nasdaq 100', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:QQQ' },
-    { symbol: 'SOXX', name: '費城半導體', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:SOXX' },
-    { symbol: 'TLT', name: '美國 20+ 年公債', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:TLT' }
+    { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT', binance: true, crypto: true },
+    { symbol: 'ETHUSDT', name: 'Ethereum / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT', binance: true, crypto: true },
+    { symbol: 'SOLUSDT', name: 'Solana / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT', binance: true, crypto: true },
+    { symbol: 'BNBUSDT', name: 'BNB / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:BNBUSDT', binance: true, crypto: true },
+    { symbol: 'DOGEUSDT', name: 'Dogecoin / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:DOGEUSDT', binance: true, crypto: true },
+    { symbol: 'XRPUSDT', name: 'XRP / Tether', market: '加密貨幣', category: 'crypto', group: '主流加密資產', source: 'Binance Public API', tv: 'BINANCE:XRPUSDT', binance: true, crypto: true },
+    { symbol: 'NQ', name: 'Nasdaq-100 E-mini Futures', market: '全球指數／期貨與大宗商品', category: 'global', group: '指數／24H 期貨', source: 'TradingView Advanced Chart', tv: 'CME_MINI:NQ1!', yahoo: 'NQ=F', binance: false, crypto: false },
+    { symbol: 'ES', name: 'S&P 500 E-mini Futures', market: '全球指數／期貨與大宗商品', category: 'global', group: '指數／24H 期貨', source: 'TradingView Advanced Chart', tv: 'CME_MINI:ES1!', yahoo: 'ES=F', binance: false, crypto: false },
+    { symbol: 'GOLD', name: 'Gold / XAUUSD', market: '全球指數／期貨與大宗商品', category: 'global', group: '大宗商品', source: 'TradingView Advanced Chart', tv: 'TVC:GOLD', yahoo: 'GC=F', binance: false, crypto: false },
+    { symbol: 'OIL', name: 'Crude Oil / USOIL', market: '全球指數／期貨與大宗商品', category: 'global', group: '大宗商品', source: 'TradingView Advanced Chart', tv: 'TVC:USOIL', yahoo: 'CL=F', binance: false, crypto: false },
+    { symbol: 'NVDA', name: 'NVIDIA', market: '美股科技權值', category: 'us', group: 'US Mega Tech', source: 'TradingView Advanced Chart', tv: 'NASDAQ:NVDA', yahoo: 'NVDA', binance: false, crypto: false },
+    { symbol: 'TSLA', name: 'Tesla', market: '美股科技權值', category: 'us', group: 'US Mega Tech', source: 'TradingView Advanced Chart', tv: 'NASDAQ:TSLA', yahoo: 'TSLA', binance: false, crypto: false },
+    { symbol: 'AAPL', name: 'Apple', market: '美股科技權值', category: 'us', group: 'US Mega Tech', source: 'TradingView Advanced Chart', tv: 'NASDAQ:AAPL', yahoo: 'AAPL', binance: false, crypto: false },
+    { symbol: 'MSFT', name: 'Microsoft', market: '美股科技權值', category: 'us', group: 'US Mega Tech', source: 'TradingView Advanced Chart', tv: 'NASDAQ:MSFT', yahoo: 'MSFT', binance: false, crypto: false },
+    { symbol: 'AMZN', name: 'Amazon', market: '美股科技權值', category: 'us', group: 'US Mega Tech', source: 'TradingView Advanced Chart', tv: 'NASDAQ:AMZN', yahoo: 'AMZN', binance: false, crypto: false },
+    { symbol: 'QQQ', name: 'Nasdaq-100 ETF', market: '全球指數 ETF', category: 'global', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'NASDAQ:QQQ', yahoo: 'QQQ', binance: false, crypto: false },
+    { symbol: 'SPY', name: 'S&P 500 ETF', market: '全球指數 ETF', category: 'global', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'AMEX:SPY', yahoo: 'SPY', binance: false, crypto: false },
+    { symbol: 'XAUUSD', name: 'Gold Spot / U.S. Dollar', market: '全球商品／外匯', category: 'global', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'OANDA:XAUUSD', yahoo: 'GC=F', binance: false, crypto: false },
+    { symbol: 'EURUSD', name: 'Euro / U.S. Dollar', market: '全球外匯', category: 'forex', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'FX:EURUSD', yahoo: 'EURUSD=X', binance: false, crypto: false },
+    { symbol: 'BTCUSD', name: 'Bitcoin / U.S. Dollar', market: '加密貨幣（非 Binance 路由）', category: 'crypto', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'COINBASE:BTCUSD', yahoo: 'BTC-USD', binance: false, crypto: true },
+    { symbol: 'ETHUSD', name: 'Ethereum / U.S. Dollar', market: '加密貨幣（非 Binance 路由）', category: 'crypto', group: '全球搜尋別名', source: 'TradingView Advanced Chart', tv: 'COINBASE:ETHUSD', yahoo: 'ETH-USD', binance: false, crypto: true }
   ];
 
   const timeframeConfig = {
@@ -143,11 +155,14 @@
     return symbolCatalog.find((item) => item.symbol === symbol) || {
       symbol,
       name: symbol,
-      market: isCrypto(symbol) ? '加密貨幣' : (/\.TW$/.test(symbol) ? '台股與台股 ETF' : '美股與指數 ETF'),
-      category: isCrypto(symbol) ? 'crypto' : (/\.TW$/.test(symbol) ? 'tw' : 'us'),
-      group: '其他',
-      source: isCrypto(symbol) ? 'Binance Public API' : 'Yahoo Finance',
-      tv: isCrypto(symbol) ? `BINANCE:${symbol}` : (/\.TW$/.test(symbol) ? `TWSE:${symbol.replace('.TW', '')}` : `NASDAQ:${symbol}`)
+      market: isCrypto(symbol) ? '加密貨幣' : (/\.TW$/.test(symbol) ? '台股與台股 ETF' : '全球金融商品'),
+      category: isCrypto(symbol) ? 'crypto' : (/\.TW$/.test(symbol) ? 'tw' : 'global'),
+      group: '自由輸入代碼',
+      source: isBinanceCrypto(symbol) ? 'Binance Public API' : 'TradingView Advanced Chart',
+      tv: tradingViewSymbolFor(symbol),
+      yahoo: yahooSymbolFor(symbol),
+      binance: isBinanceCrypto(symbol),
+      crypto: isCrypto(symbol)
     };
   }
 
@@ -408,7 +423,7 @@
   }
 
   function scheduleLiveReconnect(generation) {
-    if (generation !== liveGeneration || document.hidden || !isCrypto(activeMeta.symbol)) return;
+    if (generation !== liveGeneration || document.hidden || !activeMeta.binance) return;
     window.clearTimeout(liveReconnectTimer);
     liveReconnectTimer = window.setTimeout(() => connectLiveStream(), liveReconnectDelay);
     liveReconnectDelay = Math.min(30000, Math.round(liveReconnectDelay * 1.7));
@@ -416,8 +431,8 @@
 
   function connectLiveStream() {
     closeLiveStream();
-    if (!isCrypto(activeMeta.symbol) || typeof WebSocket === 'undefined' || document.hidden) {
-      setText('rr-stream-status', isCrypto(activeMeta.symbol) ? '瀏覽器不支援 WebSocket' : '股票／ETF 使用公開 K 線');
+    if (!activeMeta.binance || typeof WebSocket === 'undefined' || document.hidden) {
+      setText('rr-stream-status', activeMeta.binance ? '瀏覽器不支援 WebSocket' : '非 Binance 全球商品使用 TradingView 圖表');
       return;
     }
     const generation = liveGeneration;
@@ -451,7 +466,7 @@
   }
 
   async function loadOlderHistory() {
-    if (!isCrypto(activeMeta.symbol) || historyLoading || historyExhausted || !chartData.length) return;
+    if (!activeMeta.binance || historyLoading || historyExhausted || !chartData.length) return;
     historyLoading = true;
     const oldRange = chart?.timeScale().getVisibleLogicalRange?.();
     setText('rr-history-status', '正在載入更早歷史…');
@@ -475,13 +490,13 @@
     }
   }
 
-  function renderTradingViewFallback(symbol, reason = '公開行情端點暫時無法連線') {
+  function renderTradingViewWidget(symbol, reason = '公開行情端點暫時無法連線') {
     const widget = $('rr-tv-widget');
     if (!widget) return;
     const meta = findMeta(symbol);
     const interval = ({ '1m': '1', '5m': '5', '15m': '15', '1h': '60', '4h': '240', '1d': 'D', '1w': 'W' })[$('rr-timeframe')?.value] || 'D';
     const src = `https://www.tradingview.com/widgetembed/?symbol=${encodeURIComponent(meta.tv)}&interval=${interval}&hidesidetoolbar=0&symboledit=1&saveimage=0&toolbarbg=%2307131d&theme=dark&style=1&timezone=Asia%2FTaipei&withdateranges=1&hideideas=1&studies=Volume%40tv-basicstudies`;
-    widget.innerHTML = `<div class="rr-tv-fallback-note"><i class="fa-solid fa-chart-line"></i><strong>${reason}</strong><span>目前顯示 TradingView 即時圖表；原生價格線需在公開行情可用時使用，HUD 數值欄位仍可調整。</span></div><iframe title="TradingView ${meta.symbol} 即時圖表" src="${src}" loading="eager" allow="fullscreen" referrerpolicy="origin"></iframe>`;
+    widget.innerHTML = `<div class="rr-tv-fallback-note"><i class="fa-solid fa-chart-line"></i><strong>${reason}</strong><span>目前顯示 TradingView Advanced Chart；原生價格線需在公開行情可用時使用，HUD 數值欄位仍可調整。</span></div><iframe title="TradingView ${meta.symbol} 即時圖表" src="${src}" loading="eager" allow="fullscreen" referrerpolicy="origin"></iframe>`;
     widget.classList.add('is-visible');
     $('rr-chart')?.classList.add('is-fallback-hidden');
   }
@@ -512,8 +527,19 @@
     setText('rr-history-status', '正在取得長週期歷史…');
     $('rr-tv-widget')?.classList.remove('is-visible');
     $('rr-chart')?.classList.remove('is-fallback-hidden');
+    if (!meta.binance) {
+      chartData = [];
+      if (pendingHydration && pendingHydration.symbol === meta.symbol && pendingHydration.timeframe === timeframe) pendingHydration = null;
+      renderTradingViewWidget(meta.symbol, '非 Binance 全球商品由 TradingView Advanced Chart 直接提供');
+      setText('rr-data-status', `已切換 TradingView Advanced Chart · ${meta.symbol}`);
+      setText('rr-history-status', '全球商品圖表由 TradingView 提供；HUD 參數仍可在瀏覽器端調整。');
+      setText('rr-support-level', '—'); setText('rr-resistance-level', '—'); setText('rr-volatility-level', 'TradingView 圖表');
+      calculate();
+      connectLiveStream();
+      return;
+    }
     try {
-      chartData = isCrypto(meta.symbol) ? await fetchBinanceInitial(meta.symbol, timeframe) : await fetchYahoo(meta.symbol, timeframe);
+      chartData = await fetchBinanceInitial(meta.symbol, timeframe);
       if (requestId !== loadSequence) return;
       if (!chart) initChart();
       renderChart();
@@ -526,14 +552,14 @@
       }
       updateLivePrice(lastClose, 'REST snapshot');
       setText('rr-data-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 K 線 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`);
-      setText('rr-history-status', isCrypto(meta.symbol) ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`);
+      setText('rr-history-status', meta.binance ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`);
       calculateStructure(chartData);
       calculate();
       connectLiveStream();
     } catch (error) {
       if (requestId !== loadSequence) return;
       chartData = [];
-      renderTradingViewFallback(meta.symbol, `公開 K 線端點失敗：${error.name === 'AbortError' ? '連線逾時' : error.message}`);
+      renderTradingViewWidget(meta.symbol, `公開 K 線端點失敗：${error.name === 'AbortError' ? '連線逾時' : error.message}`);
       setText('rr-data-status', `已切換 TradingView · ${meta.symbol}`);
       setText('rr-history-status', '公開歷史暫時不可用；可用數值欄位離線調整風報計畫。');
       setText('rr-support-level', '—'); setText('rr-resistance-level', '—'); setText('rr-volatility-level', '—');
@@ -549,9 +575,12 @@
     const input = $('rr-symbol-search'); const box = $('rr-symbol-suggestions'); if (!input || !box) return;
     const query = String(input.value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
     const matches = (query ? symbolCatalog.filter((item) => item.symbol.includes(query) || item.name.toUpperCase().includes(query) || item.market.includes(query) || item.group.toUpperCase().includes(query)) : symbolCatalog).slice(0, 8);
+    const normalizedQuery = query ? cleanSymbol(query) : '';
+    const hasExactCatalogMatch = normalizedQuery && symbolCatalog.some((item) => item.symbol === normalizedQuery);
+    const freeEntry = query.length >= 2 && !hasExactCatalogMatch ? `<button type="button" role="option" id="rr-suggestion-free" data-symbol="${escapeHtml(normalizedQuery)}" aria-selected="false"><span class="rr-suggestion-main"><b>${escapeHtml(normalizedQuery)}</b><em>任意標準代碼</em></span><span class="rr-suggestion-market global">自動判斷資料來源<small>Binance／TradingView</small></span></button>` : '';
     suggestionIndex = -1;
-    box.innerHTML = matches.length ? matches.map((item, index) => `<button type="button" role="option" id="rr-suggestion-${index}" data-symbol="${item.symbol}" aria-selected="false"><span class="rr-suggestion-main"><b>${item.symbol}</b><em>${item.name}</em></span><span class="rr-suggestion-market ${item.category}">${item.market}<small>${item.group}</small></span></button>`).join('') : '<div class="rr-suggestions-empty">找不到符合的商品，請改用代號或名稱。</div>';
-    const visible = Boolean(matches.length && document.activeElement === input);
+    box.innerHTML = matches.map((item, index) => `<button type="button" role="option" id="rr-suggestion-${index}" data-symbol="${item.symbol}" aria-selected="false"><span class="rr-suggestion-main"><b>${item.symbol}</b><em>${item.name}</em></span><span class="rr-suggestion-market ${item.category}">${item.market}<small>${item.group}</small></span></button>`).join('') + freeEntry || '<div class="rr-suggestions-empty">找不到符合的商品，請改用代號或名稱。</div>';
+    const visible = Boolean((matches.length || freeEntry) && document.activeElement === input);
     box.classList.toggle('is-visible', visible); input.setAttribute('aria-expanded', String(visible));
   }
   function activateSuggestion(index) {
@@ -564,15 +593,15 @@
 
   const scannerPool = [
     { symbol: 'BTCUSDT', name: 'Bitcoin', category: 'crypto' }, { symbol: 'ETHUSDT', name: 'Ethereum', category: 'crypto' }, { symbol: 'SOLUSDT', name: 'Solana', category: 'crypto' }, { symbol: 'BNBUSDT', name: 'BNB', category: 'crypto' }, { symbol: 'XRPUSDT', name: 'XRP', category: 'crypto' }, { symbol: 'DOGEUSDT', name: 'Dogecoin', category: 'crypto' },
-    { symbol: 'AAPL', name: 'Apple', category: 'us' }, { symbol: 'MSFT', name: 'Microsoft', category: 'us' }, { symbol: 'NVDA', name: 'NVIDIA', category: 'us' }, { symbol: 'TSLA', name: 'Tesla', category: 'us' }, { symbol: 'QQQ', name: 'Invesco QQQ', category: 'us' },
-    { symbol: '0050.TW', name: '元大台灣50', category: 'tw' }, { symbol: '00919.TW', name: '群益台灣精選高息', category: 'tw' }, { symbol: '2330.TW', name: '台積電', category: 'tw' }, { symbol: '2317.TW', name: '鴻海', category: 'tw' }, { symbol: '2454.TW', name: '聯發科', category: 'tw' }
+    { symbol: 'NQ', name: 'Nasdaq-100 Futures', category: 'global' }, { symbol: 'ES', name: 'S&P 500 Futures', category: 'global' }, { symbol: 'GOLD', name: 'Gold', category: 'global' }, { symbol: 'OIL', name: 'Crude Oil', category: 'global' }, { symbol: 'EURUSD', name: 'Euro / U.S. Dollar', category: 'forex' },
+    { symbol: 'AAPL', name: 'Apple', category: 'us' }, { symbol: 'MSFT', name: 'Microsoft', category: 'us' }, { symbol: 'NVDA', name: 'NVIDIA', category: 'us' }, { symbol: 'TSLA', name: 'Tesla', category: 'us' }, { symbol: 'AMZN', name: 'Amazon', category: 'us' }, { symbol: 'QQQ', name: 'Nasdaq-100 ETF', category: 'global' }
   ];
   let scannerCategory = 'all';
   let scannerSequence = 0;
 
   function escapeHtml(value) { return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character])); }
   function scannerUniverse() { return scannerPool.filter((item) => scannerCategory === 'all' || item.category === scannerCategory); }
-  function scannerLabel(category) { return category === 'crypto' ? '加密貨幣' : category === 'us' ? '美股' : '台股／ETF'; }
+  function scannerLabel(category) { return category === 'crypto' ? '加密貨幣' : category === 'us' ? '美股科技' : category === 'forex' ? '外匯' : '全球商品／指數'; }
   function valueOfScanner(id, fallback) { const parsed = Number($(id)?.value); return Number.isFinite(parsed) ? parsed : fallback; }
   function analyzeScannerData(meta, data, lookbackCount) {
     const swing = getSwingLevels(data, lookbackCount);
@@ -586,7 +615,7 @@
     const statusClass = rr >= min ? 'is-opportunity' : nearSupport ? 'is-support' : nearResistance ? 'is-resistance' : 'is-neutral';
     return { meta, current: swing.current, swingLow: swing.swingLow, swingHigh: swing.swingHigh, rr, riskPercent, rewardPercent, status, statusClass };
   }
-  async function fetchScannerCandles(item, timeframe) { const meta = findMeta(item.symbol); return isCrypto(meta.symbol) ? fetchBinancePage(meta.symbol, timeframe, undefined, 8000) : fetchYahoo(meta.symbol, timeframe, 8000); }
+  async function fetchScannerCandles(item, timeframe) { const meta = findMeta(item.symbol); return meta.binance ? fetchBinancePage(meta.symbol, timeframe, undefined, 8000) : fetchYahoo(meta.yahoo || meta.symbol, timeframe, 8000); }
   function renderScannerResults(results, minRR) {
     const body = $('rr-scanner-body'); if (!body) return; const ordered = results.slice().sort((a, b) => b.rr - a.rr); setText('rr-scanner-success', String(ordered.length));
     if (!ordered.length) { body.innerHTML = '<tr><td colspan="8" class="rr-scanner-empty"><i class="fa-solid fa-circle-question"></i> 目前條件沒有可用資料；可切換週期或稍後重試。</td></tr>'; return; }

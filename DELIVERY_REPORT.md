@@ -298,3 +298,28 @@ R:R 使用 `gugopro_rr_state_v1` 保存目前商品、週期、Entry、Stop、Ta
 | [Run 88](https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462) | `Status Success`；commit head `35f942b`；build、report-build-status、deploy 全部成功。唯一 annotation 為 GitHub Actions Node.js 20 deprecation warning，與本輪程式碼無關。 |
 
 正式站截圖：R:R HUD 與 IBIT 加入清單為 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-52-57_4481.webp`；Grid 跨工具自訂清單、K 線與動態網格為 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-53-30_4257.webp`；Pages Run 88 Success 為 `/home/ubuntu/screenshots/github_2026-08-24_15-53-52_1998.webp`。所有清單與 R:R／Grid 參數只保存在使用者瀏覽器 localStorage；清除網站資料或瀏覽器資料會移除保存內容，本站不接收這些參數。公開行情仍可能受到 Binance／Yahoo Finance CORS、休市、延遲、頻率限制或網路狀態影響；工具輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。
+
+
+## 二十、全球商品預設、全市場搜尋與 TradingView 圖表升級（2026-08-25）
+
+本輪針對 `tools/risk-reward-calculator.html`、`tools/grid-trading-calculator.html` 完成全球化商品與圖表引擎升級。兩頁快速商品選單已移除預設台股／台股 ETF，改為 15 個 24 小時或全球高流動性預設：BTCUSDT、ETHUSDT、SOLUSDT、BNBUSDT、DOGEUSDT、XRPUSDT 六個加密資產；NQ、ES、GOLD、OIL 四個全球指數／期貨／大宗商品；NVDA、TSLA、AAPL、MSFT、AMZN 五個美股科技權值。額外的 QQQ、SPY、XAUUSD、EURUSD、BTCUSD、ETHUSD 等別名保留在搜尋 catalog，但不擠入預設選單。
+
+搜尋功能不再只限於內部 catalog。兩頁均以 `cleanSymbol()` 正規化輸入，autocomplete 命中 catalog 時顯示商品名稱、市場與分組；未命中且輸入至少兩個字元時，會顯示「任意標準代碼」候選，按下即可載入使用者輸入的 ticker。這讓 SOLUSDT、XAUUSD、NVDA、EURUSD、QQQ 及未列入 catalog 的標準代碼均可由搜尋欄直接進入載入流程，並與既有 watchlist／localStorage selected symbol 記憶相容。
+
+| 行情路由 | 觸發條件 | 圖表與即時資料行為 |
+|---|---|---|
+| Binance Public API | catalog 中 `binance: true` 的 Binance-compatible USDT 加密資產 | REST K 線、WebSocket ticker／Kline、Lightweight Charts 原生價格線、長歷史向左載入與既有 Grid／R:R overlays。 |
+| TradingView Advanced Chart | 所有非 Binance 加密代碼、全球指數／期貨／商品、外匯與美股等非 Binance 商品 | 直接建立 `https://www.tradingview.com/widgetembed/?symbol=EXCHANGE:NAME...`，依目前週期轉換 `interval`；HUD、R:R 數值、網格參數與 localStorage 仍由本頁純前端控制。 |
+
+TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI:ES1!`、`OANDA:XAUUSD`、`TVC:USOIL`、`FX:EURUSD`、`AMEX:SPY`、`NASDAQ:QQQ`、`COINBASE:BTCUSD` 等格式，並依 TradingView 官方 [Advanced Chart widget 文件](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/)、[markets 目錄](https://www.tradingview.com/widget-docs/markets/) 與 [dynamic symbols 教學](https://www.tradingview.com/widget-docs/tutorials/iframe/build-page/dynamic-symbols/) 實作；Binance 分流仍依官方 [Spot WebSocket 文件](https://developers.binance.com/en/docs/binance-spot-api-docs/web-socket-streams) 保持公開端點設計。
+
+| 本地驗證項目 | 結果 |
+|---|---|
+| R:R 全球 default 與 Binance 回歸 | 乾淨來源顯示三組 global optgroup、無預設台股；BTCUSDT 成功取得約 2,000 根並補足至 3,000 根 K 線，Binance ticker／Lightweight Charts／原生價格線正常。 |
+| R:R XAUUSD | autocomplete 顯示 GOLD 與 XAUUSD 全球候選；選取後直接顯示 TradingView Advanced Chart，iframe query 為 `symbol=OANDA:XAUUSD`、`interval=D`，不建立 Binance WebSocket。 |
+| Grid XAUUSD／EURUSD | XAUUSD 與 EURUSD 均可由搜尋選取；TradingView iframe 分別使用 `OANDA:XAUUSD` 與 `FX:EURUSD`，1h 週期使用 `interval=60`，頁面狀態顯示 TradingView Advanced Chart 已待命。 |
+| 全球商品 localStorage hydration | Grid 以 EURUSD／1h 及 Lower 1800、Upper 2400、Grids 25、等比、投資 12000、SL 1650、TP 2750、費率 0.08 測試；不帶 URL query 重整後 selected symbol、週期與全部參數一致還原。 |
+| 375px RWD | R:R 與 Grid 同源隱藏 iframe 均為 `body/documentElement.scrollWidth=367`、`overflow=false`；watchlist、TradingView container 與全球搜尋 placeholder 均存在。 |
+| 靜態／腳本檢查 | `python3 validate_site.py` 為 `errors=0`；R:R、Grid、watchlist、`app.js`、`advanced-tools.js` 均通過 `node --check`；`git diff --check` 通過。 |
+
+因 TradingView Advanced Chart 是跨來源 iframe，瀏覽器安全模型不允許本站將 Lightweight Charts 的原生價格線或 Grid 虛線直接覆蓋在外部 TradingView canvas 上；因此 Binance 路由保留既有原生 overlays，TradingView 路由則提供完整全球圖表，而本頁 HUD／R:R 試算／網格參數仍獨立運作。這是跨來源嵌入的技術邊界，不是後端或 API key 限制。所有搜尋、watchlist 與參數仍只保留在使用者瀏覽器 localStorage，本站不接收帳戶資金、風險參數或網格設定；清除網站資料或瀏覽器資料會移除保存內容。公開行情與 TradingView widget 可能受網路、休市、地區、資料延遲、CORS 或供應商限制影響，工具輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。

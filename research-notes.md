@@ -496,3 +496,67 @@ Run 88 再次刷新後仍是 `In progress`；build `23s` 已成功，report-buil
 ## 本輪 Pages Run 88 成功
 
 公開 Run 88 `https://github.com/9908gg-art/gugopro-academy/actions/runs/32747280462` 已完成 `Status Success`，commit head `35f942b`，總時長 41 秒；build 23 秒、report-build-status 6 秒、deploy 9 秒，正式入口為 `https://academy.gugopro.com/`。唯一 annotation 是 GitHub Actions 的 Node.js 20 deprecation warning，非本次程式錯誤。
+
+
+## 全球商品與 TradingView 研究初步紀錄（2026-08-24）
+
+TradingView 官方 Advanced Real-Time Chart 文件提供可嵌入網站的免費 widget，並連結官方 markets 清單與 widget integration 教學；本輪將以公開 iframe／widget 形式承載非 Binance 全球商品。Binance 官方 Spot WebSocket 文件頁已開啟但內容為動態載入；既有工具的 `api.binance.com/api/v3/klines` REST 與 `wss://stream.binance.com:9443/ws/<symbol>@ticker` 分流仍保留給 Binance Spot 加密貨幣。需要注意：TradingView iframe 與本站 DOM 為跨來源，不能直接在 iframe 內繪製本站 Lightweight Charts 原生價格線；因此非 Binance 路由應顯示 TradingView 圖表並讓 HUD 數值輸入／localStorage 繼續獨立運作，Binance 路由則保留可拖曳的原生價格線。
+
+
+TradingView 官方 markets 頁說明 widgets 使用其列出的免費市場資料，並提供 North America、Europe、Middle East/Africa、Mexico/South America、Asia/Pacific、Worldwide 分區；官方 Advanced Chart 頁也提供 iframe 類型的 widget 入口。直接猜測的 `/widget-docs/tutorials/iframe/dynamic-symbols/` 路徑回傳「This isn't the page you're looking for」，因此實作時不依賴未確認的跨來源 setSymbol API，而以清空／重建官方 `widgetembed` iframe 來切換代碼與 interval，避免跨來源控制與私有 API 依賴。
+
+
+本輪官方研究來源：TradingView [Advanced Chart Widget](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/)、[Available Markets](https://www.tradingview.com/widget-docs/markets/) 與 [Dynamically changing the symbol](https://www.tradingview.com/widget-docs/tutorials/iframe/build-page/dynamic-symbols/)。Dynamic Symbols 文件指出 symbol 使用 `{EXCHANGE}:{NAME}` 格式，Advanced Chart 支援 `tvwidgetsymbol` URL 參數；因此 global catalog 會將 NQ／ES／XAUUSD／USOIL／外匯映射至合格 TradingView symbol，並用重建 widget iframe 方式切換。Binance Spot 公開 REST／WebSocket 只繼續服務 Binance-compatible crypto symbols。
+
+
+## 全球商品全球化本地回歸基線
+
+本地 R:R 已以 `?v=global-symbols-tradingview-20260824` 開啟；瀏覽器 DOM 顯示新的加密貨幣、全球指數與期貨、美股科技權值三個預設 optgroup，搜尋 placeholder 已改為可輸入 SOLUSDT、XAUUSD、EURUSD、NVDA 或任意代碼。為避免前一輪資料影響，本地測試來源已清除 `gugopro_academy_watchlist_v1`、`gugopro_rr_state_v1`、`gugopro_grid_state_v1`，三者均回傳 null。
+
+
+本地 R:R 乾淨基線實測結果：新 cache `global-symbols-tradingview-20260824` 頁面顯示加密貨幣 6 筆、全球指數／期貨／商品 4 筆、美股科技 5 筆，沒有預設台股標的；初始 `BTCUSDT` 成功取得 Binance Public API 2,000 根並補足至 3,000 根 K 線，HUD 顯示即時價格與 Binance ticker，原生 Lightweight Charts 與 Entry／Stop／Target 價格線可見。
+
+
+R:R 全球搜尋實測：輸入 `XAUUSD` 後 autocomplete 顯示 `GOLD · Gold / XAUUSD` 與 `XAUUSD · Gold Spot / U.S. Dollar` 兩個清楚的全球分類候選；選取 XAUUSD 後搜尋欄已改為 `XAUUSD`，並觸發非 Binance 行情載入流程。瀏覽器原生 option click 對 ARIA listbox 有選擇限制，改用等價 DOM click 驗證候選事件，未修改產品行為。
+
+
+R:R XAUUSD route 實測：公開 Yahoo K 線端點逾時後，頁面顯示 `已切換 TradingView · XAUUSD`、`非 Binance 全球商品使用 TradingView 圖表`，`#rr-tv-widget` 可見、原生 `#rr-chart` 標為 fallback hidden；iframe src 使用官方 Advanced Chart widget endpoint，query 為 `tvwidgetsymbol=OANDA%3AXAUUSD`、`interval=D`，未開啟 Binance WebSocket。
+
+
+本地 Grid 初始回歸：`?v=global-symbols-tradingview-20260824` 顯示全球化頁題、三組預設商品（加密 6、全球指數／期貨／商品 4、美股科技 5），未出現預設台股；初始 BTCUSDT 成功取得 Binance Public API 約 2,000 根並補足至 3,000 根 K 線，WebSocket ticker 已連線，Lower／Upper／網格線／費後收益／破網風險等輸出正常，右軸仍只顯示 LATEST、LOWER、SL 等規則標籤。
+
+
+Grid 全球搜尋實測：輸入 `XAUUSD` 後 autocomplete 顯示 `XAUUSD · Gold Spot`、市場 `全球商品／外匯` 與 `全球搜尋別名`，DOM click 選取後搜尋欄已改為 XAUUSD，並觸發非 Binance 的 TradingView Advanced Chart 載入流程。
+
+
+Grid XAUUSD route 實測：公開 Yahoo fallback 後 `#grid-tv-widget` 可見、`#grid-chart` 標為 fallback hidden、active symbol 為 XAUUSD，狀態為 `已切換 TradingView XAUUSD`，連線狀態為 `TradingView Advanced Chart 已待命`；iframe src 使用 `tvwidgetsymbol=OANDA%3AXAUUSD` 與 `interval=15`，未嘗試建立 Binance ticker。
+
+
+Grid XAUUSD 週期回歸：在 fallback 頁面將週期由 15m 切換至 1h 後，HUD 週期已更新為 1h，XAUUSD active state 保持，TradingView fallback 圖表與網格參數區仍可見；此非 Binance 路由不建立 Binance WebSocket。
+
+
+R:R 最新路由修正回歸：以 URL 指定 XAUUSD 後，頁面直接顯示 `已切換 TradingView Advanced Chart · XAUUSD`，`#rr-tv-widget` 可見、`#rr-chart` hidden；iframe src 已確認為 `https://www.tradingview.com/widgetembed/?symbol=OANDA%3AXAUUSD&interval=D...`，修正了 widgetembed endpoint 對 `tvwidgetsymbol` query 不採用而回到 AAPL 的問題。HUD 仍保留 Entry／Stop／Target／風險／資金輸入。
+
+
+Grid 最新 direct-route 回歸：以 `XAUUSD / 1h` 開啟後，active symbol 與 timeframe 正確，`#grid-tv-widget` 可見、`#grid-chart` hidden，狀態為 `已切換 TradingView Advanced Chart · XAUUSD`、連線顯示 `TradingView Advanced Chart 已待命`；iframe src 使用 `widgetembed/?symbol=OANDA%3AXAUUSD&interval=60`，證實非 Binance 路由直接建立 TradingView 圖表。
+
+
+Grid localStorage 檢查：目前 saved payload 為 `symbol: XAUUSD`、`timeframe: 1h`、`grid-lower: 1800`、`grid-upper: 2400`、`grid-count: 25`、`grid-mode: geometric`、`grid-capital: 12000`、`grid-stop: 1650`、`grid-take: 2750`、`grid-fee: 0.08`、`rangeTouched: true`；搜尋欄雖已輸入 EURUSD，但尚未選取／載入，因此 saved symbol 保持 XAUUSD，符合只保存正式 selected symbol 的設計。
+
+
+Grid EURUSD direct-route 實測：選取 autocomplete 後 TradingView iframe 顯示 `FX:EURUSD` 的 1h 圖表；頁面狀態為 `已切換 TradingView Advanced Chart · EURUSD`、`TradingView Advanced Chart 已待命`，完整網格參數仍維持 `XAUUSD／1h` 測試值並可編輯。`localStorage` 尚未因單純搜尋欄文字改變而誤寫 EURUSD，符合只保存正式 selected symbol 的設計。
+
+
+Grid 全球商品 hydration 實測：在 `EURUSD／1h` 選取後重整不帶 `symbol` query，頁面仍還原 EURUSD、1h、Lower 1800、Upper 2400、Grids 25、等比、投資 12000、SL 1650、TP 2750、費率 0.08；TradingView Advanced Chart iframe 仍載入，證明 global selected symbol 與完整參數可由 localStorage 無縫恢復。
+
+
+Grid 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScrollWidth=367`、`documentScrollWidth=367`、`overflow=false`；watchlist wrapper 與 TradingView fallback DOM 均存在。第一次測量腳本因箭頭函式分號位置造成 console syntax error，未改動產品程式；修正測量表達式後成功取得結果。
+
+
+R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScrollWidth=367`、`documentScrollWidth=367`、`overflow=false`；`.rr-watchlist-wrap`、`#rr-tv-widget` 與全球搜尋 placeholder 均存在，沒有因全球代碼與 TradingView fallback 增加橫向破版。
+
+
+最新 cache-bust `global-symbols-tradingview-20260825` 的 R:R 自由搜尋回歸：輸入未列入 catalog 的 `MSTR` 後，autocomplete 正確顯示 `MSTR · 任意標準代碼`，市場提示為「自動判斷資料來源／Binance／TradingView」，證明搜尋已不局限於預設 15 筆商品。
+
+
+最新 cache-bust R:R MSTR 載入回歸：選取「任意標準代碼」候選後，頁面狀態改為 `已切換 TradingView Advanced Chart · MSTR`，TradingView 圖表實際顯示 `M Strategy Inc`、`BATS_DLY:MSTR`、1D，證實未知標準 ticker 可由自由搜尋導向可用的 TradingView exchange:symbol。
