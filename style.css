@@ -1090,3 +1090,73 @@ body.is-dragging-price, body.is-dragging-price * { cursor: ns-resize !important;
 .rr-tv-widget { display: none; position: relative; height: 430px; margin-top: 5px; overflow: hidden; border-radius: 10px; background: #131722; }.rr-tv-widget.is-visible { display: block; }.rr-chart-canvas.is-fallback-hidden { display: none; }.rr-tv-widget iframe { width: 100%; height: 100%; border: 0; }.rr-tv-fallback-note { display: flex; height: 100%; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: #9ca8ba; text-align: center; }.rr-tv-fallback-note i { color: #ffb25f; font-size: 1.8rem; }.rr-tv-fallback-note strong { color: #eef3fb; font-size: 1rem; }.rr-tv-fallback-note span { font-size: .74rem; }
 @media (max-width: 820px) { .rr-tv-widget { height: 360px; } }
 @media (max-width: 560px) { .rr-tv-widget { height: 300px; } }
+
+/* Native chart workstations: price lines live in the chart coordinate system. */
+.rr-native-chart-frame,
+.grid-live-chart-shell { position: relative; overflow: hidden; }
+.rr-native-chart-frame { min-height: 456px; border: 1px solid rgba(173, 205, 211, 0.13); border-radius: 18px; background: #07131d; }
+.rr-chart-canvas,
+.grid-native-chart { width: 100%; height: 456px; min-height: 456px; background: #07131d; }
+.rr-chart-canvas.is-fallback-hidden,
+.grid-native-chart.is-fallback-hidden { visibility: hidden; }
+.rr-chart-canvas table,
+.grid-native-chart table { font-family: "DM Sans", sans-serif; }
+.rr-tv-widget,
+.grid-tv-widget { display: none; position: absolute; inset: 0; min-height: 456px; background: #07131d; z-index: 2; }
+.rr-tv-widget.is-visible,
+.grid-tv-widget.is-visible { display: block; }
+.rr-tv-widget iframe,
+.grid-tv-widget iframe { display: block; border: 0; width: 100%; height: 456px; min-height: 456px; }
+.rr-tv-fallback-note,
+.grid-tv-fallback-note { position: absolute; top: 10px; left: 12px; right: 12px; z-index: 4; display: flex; align-items: center; gap: 8px; padding: 7px 11px; color: #d5e4e5; background: rgba(7, 19, 29, 0.88); border: 1px solid rgba(255, 178, 95, 0.34); border-radius: 8px; font-size: 0.72rem; pointer-events: none; }
+.rr-tv-fallback-note i,
+.grid-tv-fallback-note i { color: var(--accent-orange, #ffb25f); }
+.rr-tv-fallback-note strong,
+.grid-tv-fallback-note strong { color: #ffcf83; font-weight: 600; }
+.rr-tv-fallback-note span,
+.grid-tv-fallback-note span { color: #9fb5bb; }
+.rr-native-chart-note { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 2px 0; color: #9fb5bb; font-size: 0.78rem; }
+.rr-native-chart-note span:first-child { color: #7ed6b0; }
+.rr-native-chart-note span:nth-child(2) { color: #ffb25f; }
+.text-button { border: 0; background: transparent; color: #d3e2e4; cursor: pointer; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.text-button:hover { color: #ffb25f; }
+body.is-dragging-price { cursor: ns-resize; user-select: none; }
+.rr-result-card.is-invalid { border-color: rgba(245, 111, 98, 0.65); }
+
+.grid-live-main { max-width: 1240px; }
+.grid-live-market-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 18px 0; padding: 13px 16px; border: 1px solid rgba(173, 205, 211, 0.14); border-radius: 14px; background: rgba(12, 31, 42, 0.86); }
+.grid-live-symbol { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.grid-live-symbol strong { color: #f4f8f6; font-family: "Space Grotesk", sans-serif; letter-spacing: 0.03em; }
+.grid-live-symbol > span:not(.live-dot) { color: #ffcf83; font-variant-numeric: tabular-nums; }
+.grid-live-symbol small { color: #83a0a6; }
+.grid-live-market-bar label { display: flex; align-items: center; gap: 9px; color: #a6bbc0; font-size: 0.78rem; }
+.grid-live-market-bar select { min-width: 125px; }
+.grid-live-market-bar .button { white-space: nowrap; }
+.grid-live-chart-shell { padding: 18px; border: 1px solid rgba(173, 205, 211, 0.14); border-radius: 18px; background: #07131d; }
+.grid-live-chart-shell .chart-card-head { position: relative; z-index: 1; }
+.grid-live-legend { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; color: #9fb5bb; font-size: 0.75rem; }
+.grid-live-legend span::before { content: ""; display: inline-block; width: 22px; margin: 0 6px 3px 0; border-top: 2px solid currentColor; vertical-align: middle; }
+.grid-buy-key { color: #5fd3a0; }
+.grid-sell-key { color: #f56f62; }
+.grid-protection-key { color: #f3c969; }
+.grid-live-input-output { margin-top: 18px; }
+.grid-live-input-output .advanced-input-card,
+.grid-live-input-output .advanced-result-card { min-height: 100%; }
+.grid-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-live-explain { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: stretch; margin: 22px 0; padding: 22px; border: 1px solid rgba(173, 205, 211, 0.14); border-radius: 16px; background: rgba(12, 31, 42, 0.7); }
+.grid-live-explain h2 { margin: 6px 0 10px; }
+.grid-live-explain p { max-width: 760px; color: #a6bbc0; line-height: 1.85; }
+.grid-live-explain .checklist-card { align-self: stretch; }
+@media (max-width: 760px) {
+  .rr-native-chart-frame, .rr-chart-canvas, .grid-native-chart, .rr-tv-widget, .grid-tv-widget, .rr-tv-widget iframe, .grid-tv-widget iframe { min-height: 380px; height: 380px; }
+  .rr-native-chart-note { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .grid-live-market-bar { align-items: stretch; flex-direction: column; }
+  .grid-live-market-bar label { justify-content: space-between; }
+  .grid-live-market-bar select { flex: 1; }
+  .grid-live-market-bar .button { width: 100%; }
+  .grid-live-chart-shell { padding: 12px; }
+  .grid-live-legend { margin-top: 10px; }
+  .grid-stat-grid { grid-template-columns: 1fr; }
+  .grid-live-explain { grid-template-columns: 1fr; padding: 17px; }
+  .rr-tv-fallback-note, .grid-tv-fallback-note { align-items: flex-start; flex-wrap: wrap; }
+}

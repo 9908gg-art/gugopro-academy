@@ -123,3 +123,11 @@ GitHub Pages 設定確認 custom domain `academy.gugopro.com` 使用 `main` 根�
 ## 最終提交部署
 
 文件同步提交 `aed398d` 已推送至 GitHub main；GitHub Pages workflow 對應 aed398d 完成 success。正式首頁以 `?v=aed398d-ready` 載入，已確認 05 風報比即時 K 線分析儀、06 ETF 配息與 DRIP 試算、07 動態網格交易模擬器三張工具卡，以及 TradingView／Ko-fi／Amazon／政策 Footer 全部公開。正式站最後輪詢的首頁資源為 `style.css?v=tools-upgrade-20260824`。
+
+## R:R 與 BTC 網格重構驗證
+
+Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `252fdf6` 將 K 線容器、`#rr-chart-zones`、`#rr-chart-labels` 與 TradingView iframe fallback 分離；目前問題根因是價格標註以 chart 外的 absolute 百分比層重繪，未使用 Lightweight Charts 的原生 `priceToCoordinate`／`coordinateToPrice`，並且舊版拖曳路徑可能把畫布座標直接當價格。
+
+新版 R:R 已移除 `#rr-chart-labels`／`#rr-chart-zones`，改用 Lightweight Charts 原生 `createPriceLine`。本地 BTCUSDT 成功取得 Binance 500 根日線；以 pointer 事件將進場線向上拖 36px，價格由 77,406.72 增加至 85,205.97（+7,799.25）；向下拖 30px 後降至 78,706.59（−6,499.38），兩次均為 finite 且無超過 1e12 的溢位。
+
+新版網格工作台預設 BTC/USDT，成功取得 Binance 1,000 根 15 分鐘 K 線，圖表顯示 BTC K 線、綠色買入網格、紅色賣出網格、黃色止損與紫色止盈原生價格線。將 20 格等比改為 30 格等差並設定 70,000–85,000 區間後，原生價格線數量由 23 增至 33；每格間距 0.65%、扣雙邊 0.1% 手續費後淨利潤率 0.45%、資金利用率 23.06%、破網距最近邊界 9.53%、回撤 0.74%，所有輸出為有限數值。

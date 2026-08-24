@@ -65,12 +65,13 @@ for calc in ['compound','etf-fee','duration','curve','risk','dcf','retirement','
 for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html']:
     if link not in workbench_text: errors.append(f'workbench missing link {link}')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
-for field in ['rr-symbol-search','rr-load-symbol','rr-timeframe','rr-chart','rr-chart-labels','rr-chart-zones','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level']:
+for field in ['rr-symbol-search','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
 if 'lightweight-charts' not in rr_text: errors.append('rr calculator missing Lightweight Charts resource')
+if 'rr-chart-labels' in rr_text or 'position:absolute' in rr_text: errors.append('rr calculator still contains legacy overlay marker layer')
 for page_name, fields in {
     'etf-dividend-calculator.html': ['etf-symbol','etf-investment','etf-monthly','etf-yield','etf-growth','etf-years','etf-reinvest','etf-chart','etf-reinvest-path','etf-cash-path'],
-    'grid-trading-calculator.html': ['grid-lower','grid-upper','grid-count','grid-mode','grid-capital','grid-volatility','grid-days','grid-chart','grid-lines','grid-path','grid-equity-path']
+    'grid-trading-calculator.html': ['grid-timeframe','grid-refresh','grid-live-price','grid-chart','grid-tv-widget','grid-lower','grid-upper','grid-count','grid-mode','grid-capital','grid-stop','grid-take','grid-fee','grid-spacing','grid-net-margin','grid-single-profit','grid-utilization','grid-break-risk','grid-drawdown','grid-realized-profit','grid-final-value']
 }.items():
     text = (ROOT / 'tools' / page_name).read_text(encoding='utf-8')
     for field in fields:
