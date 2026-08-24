@@ -4,7 +4,7 @@
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)
 **本輪功能提交：** `578876f`
 **文件同步提交：** `1b25eed`
-**最終 main：** `26471cd`
+**最終 main：** `482a2c2`
 **完成日期：** 2026-08-24
 **作者：** Manus AI
 
@@ -98,7 +98,7 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 
 本輪指定提交訊息為：
 `Manus AI: streamline R:R and grid tools into compact HUD dashboard with live WebSocket ticks and deep history`
-本輪功能提交 `578876f` 已推送至 GitHub `main`，並以 Pages workflow `32727416900` 完成 `completed / success`；文件同步提交 `1b25eed`、metadata 提交 `123a4c2` 與最終 main `26471cd` 的 Pages workflow `32728003776`、`32728200852`、`32728517831` 均為 `completed / success`。提交訊息與上方指定內容完全一致。
+本輪功能提交 `578876f` 已推送至 GitHub `main`，並以 Pages workflow `32727416900` 完成 `completed / success`；文件同步提交 `1b25eed`、metadata 提交 `123a4c2`、版本提交 `26471cd` 與最終 main `482a2c2` 的 Pages workflow `32728003776`、`32728200852`、`32728517831`、`32728852164` 均為 `completed / success`。提交訊息與上方指定內容完全一致。
 
 正式站驗證網址為：
 
@@ -108,9 +108,9 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 - [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=578876f)
 - [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=578876f)
 
-本輪 HUD 功能 workflow [32727416900](https://github.com/9908gg-art/gugopro-academy/actions/runs/32727416900) 的 head 為 `578876f`、文件同步 workflow [32728003776](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728003776) 的 head 為 `1b25eed`、metadata workflow [32728200852](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728200852) 的 head 為 `123a4c2`，以及最終 main workflow [32728517831](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728517831) 的 head 為 `26471cd`，均已完成 `completed / success`。正式首頁、R:R HUD、BTC 網格 HUD 與兩篇指南以 `?v=578876f` 核對功能；最終 main `?v=26471cd` 亦已核對首頁與 R:R HUD 回應。
+本輪 HUD 功能 workflow [32727416900](https://github.com/9908gg-art/gugopro-academy/actions/runs/32727416900) 的 head 為 `578876f`、文件同步 workflow [32728003776](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728003776) 的 head 為 `1b25eed`、metadata workflow [32728200852](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728200852) 的 head 為 `123a4c2`、版本 workflow [32728517831](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728517831) 的 head 為 `26471cd`，以及最終 main workflow [32728852164](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728852164) 的 head 為 `482a2c2`，均已完成 `completed / success`。正式首頁、R:R HUD、BTC 網格 HUD 與兩篇指南以 `?v=578876f` 核對功能；最終 main `?v=482a2c2` 亦已核對部署回應。
 
-本輪正式截圖檔案：首頁 `academy_gugopro_2026-08-24_12-44-05_6952.webp`、R:R HUD `academy_gugopro_2026-08-24_12-44-25_8135.webp`、BTC 網格 HUD `academy_gugopro_2026-08-24_12-34-06_8061.webp`；前一輪首頁與指南截圖仍保留於研究紀錄。
+本輪正式截圖檔案：首頁 `academy_gugopro_2026-08-24_12-44-05_6952.webp`、R:R HUD `academy_gugopro_2026-08-24_12-44-25_8135.webp`、BTC 網格 HUD `academy_gugopro_2026-08-24_12-34-06_8061.webp`；功能畫面以 `?v=578876f` 截圖，最終 `482a2c2` 部署已完成 workflow 核對。
 
 ## 八、檔案導覽
 
