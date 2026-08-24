@@ -93,6 +93,43 @@
   let livePrice = NaN;
   let entryPinnedToLive = false;
   let suggestionIndex = -1;
+  let pendingHydration = null;
+  const stateStorageKey = 'gugopro_rr_state_v1';
+  const rrPersistedFields = ['rr-entry-price', 'rr-stop-price', 'rr-target-price', 'rr-risk-percent', 'rr-capital'];
+
+  function readPersistedState() {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem(stateStorageKey) || 'null');
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveState() {
+    try {
+      const payload = { symbol: activeMeta.symbol, timeframe: $('rr-timeframe')?.value || activeTimeframe, entryPinnedToLive };
+      rrPersistedFields.forEach((id) => { const value = $(id)?.value; if (value !== undefined) payload[id] = value; });
+      window.localStorage.setItem(stateStorageKey, JSON.stringify(payload));
+    } catch (error) { /* private browsing or storage quota can reject writes */ }
+  }
+
+  function hydrateState() {
+    const saved = readPersistedState();
+    if (!saved) return null;
+    const symbol = cleanSymbol(saved.symbol || 'BTCUSDT');
+    const timeframe = timeframeConfig[saved.timeframe] ? saved.timeframe : '1d';
+    rrPersistedFields.forEach((id) => { if (saved[id] !== undefined && $(id)) $(id).value = saved[id]; });
+    if ($('rr-timeframe')) $('rr-timeframe').value = timeframe;
+    entryPinnedToLive = saved.entryPinnedToLive === true;
+    return { ...saved, symbol, timeframe };
+  }
+
+  function applyRestoredParameters(saved) {
+    if (!saved) return;
+    rrPersistedFields.forEach((id) => { if (saved[id] !== undefined && $(id)) $(id).value = saved[id]; });
+    entryPinnedToLive = saved.entryPinnedToLive === true;
+  }
 
   function cleanSymbol(value) {
     let symbol = String(value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
@@ -308,6 +345,7 @@
     setText('rr-status', !validNumbers ? '請輸入有效的正數價格、資金與風險百分比。' : (!isLong && !isShort ? '進出場方向不一致：多頭需目標 ＞ 進場 ＞ 停損，空頭需目標 ＜ 進場 ＜ 停損。' : `建議 ${position.toLocaleString('zh-TW')} 單位；名目部位 ${formatMoney(notional)}；模型潛在獲利 ${formatMoney(profit)}，尚未扣除費用、滑價與跳空。`));
     $('rr-hud')?.classList.toggle('is-invalid', validNumbers && !isLong && !isShort);
     renderNativePriceLines();
+    saveState();
   }
 
   function getSwingLevels(data, lookbackCount = 120) {
@@ -466,6 +504,7 @@
     historyExhausted = false;
     if ($('rr-symbol-search')) $('rr-symbol-search').value = meta.symbol;
     syncQuickSymbol(meta.symbol);
+    saveState();
     setText('rr-active-symbol', meta.symbol);
     setText('rr-active-name', meta.name);
     setText('rr-hud-live-price', '—');
@@ -479,7 +518,12 @@
       if (!chart) initChart();
       renderChart();
       const lastClose = chartData[chartData.length - 1].close;
-      setPlanAround(lastClose);
+      if (pendingHydration && pendingHydration.symbol === meta.symbol && pendingHydration.timeframe === timeframe) {
+        applyRestoredParameters(pendingHydration);
+        pendingHydration = null;
+      } else {
+        setPlanAround(lastClose);
+      }
       updateLivePrice(lastClose, 'REST snapshot');
       setText('rr-data-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 K 線 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`);
       setText('rr-history-status', isCrypto(meta.symbol) ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`);
@@ -567,6 +611,7 @@
     ['rr-stop-price', 'rr-target-price', 'rr-capital', 'rr-risk-percent'].forEach((id) => $(id)?.addEventListener('input', calculate));
     $('rr-entry-price')?.addEventListener('input', () => { entryPinnedToLive = false; calculate(); });
     $('rr-load-symbol')?.addEventListener('click', () => loadSymbol());
+    window.GugoWatchlist?.mount({ prefix: 'rr', cleanSymbol, findMeta, onSelect: (symbol) => loadSymbol(symbol) });
     $('rr-quick-symbol')?.addEventListener('change', () => loadSymbol($('rr-quick-symbol').value));
     $('rr-timeframe')?.addEventListener('change', () => { syncTimeframeButtons($('rr-timeframe').value); loadSymbol(); });
     document.querySelectorAll('[data-rr-timeframe]').forEach((button) => button.addEventListener('click', () => { const timeframe = button.dataset.rrTimeframe; if (!$('rr-timeframe')) return; $('rr-timeframe').value = timeframe; syncTimeframeButtons(timeframe); loadSymbol(); }));
@@ -586,9 +631,9 @@
     $('rr-scanner-start')?.addEventListener('click', startScanner);
     $('rr-scanner-body')?.addEventListener('click', (event) => { const target = event.target.closest('[data-scanner-symbol]'); if (!target) return; loadScannerSelection(target.dataset.scannerSymbol, target.dataset.scannerTimeframe || $('rr-scanner-timeframe')?.value || '1d'); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) closeLiveStream(); else connectLiveStream(); });
-    calculate();
-    const params = new URLSearchParams(window.location.search); const requestedTimeframe = params.get('timeframe'); if (timeframeConfig[requestedTimeframe]) { $('rr-timeframe').value = requestedTimeframe; syncTimeframeButtons(requestedTimeframe); }
-    const requestedSymbol = params.get('symbol') || 'BTCUSDT'; $('rr-symbol-search').value = cleanSymbol(requestedSymbol); loadSymbol(requestedSymbol);
+    pendingHydration = hydrateState();
+    const params = new URLSearchParams(window.location.search); const requestedTimeframe = params.get('timeframe') || pendingHydration?.timeframe; if (timeframeConfig[requestedTimeframe]) { $('rr-timeframe').value = requestedTimeframe; syncTimeframeButtons(requestedTimeframe); }
+    const requestedSymbol = params.get('symbol') || pendingHydration?.symbol || 'BTCUSDT'; $('rr-symbol-search').value = cleanSymbol(requestedSymbol); loadSymbol(requestedSymbol);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();

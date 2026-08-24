@@ -426,3 +426,53 @@ Run 85（workflow ID `32741997754`）已顯示 `Status Success`，commit head `7
 ## Final Pages deployment completed
 
 Run 86（workflow ID `32742573873`）詳情頁已顯示 `Status Success`，commit head 為 `448348c`；build 23s、report-build-status 5s、deploy 27s 均完成，公開部署網址為 `https://academy.gugopro.com/`。本次部署包含既有 autocomplete 功能與完整正式站驗證紀錄。
+
+
+## 本輪 localStorage 持久化本地基線
+
+本地 R:R：`http://127.0.0.1:4173/tools/risk-reward-calculator.html?v=watchlist-persistence-20260824`。初始 DOM 已出現 `rr-watchlist-add`「加入自訂」、`rr-watchlist-manage`「管理清單」與 `rr-watchlist-options` 動態自訂 optgroup，清單計數為 0；R:R 既有商品快選、Entry／Stop／Target、風險與資金欄位均正常渲染，待進行 localStorage 寫入／重整 hydration 測試。
+
+
+## 本輪 R:R localStorage 初始畫面
+
+本地 R:R `http://127.0.0.1:4173/tools/risk-reward-calculator.html?v=watchlist-persistence-20260824` 已載入 BTCUSDT 公開歷史與 Binance ticker；HUD 可見「加入自訂」／「管理清單 0」，`rr-watchlist-options` 已存在。於商品搜尋欄輸入 `XYZ` 後，Entry／Stop／Target／R:R 仍可正常更新，準備以此頁測試加入自訂與刷新 hydration。
+
+## 本輪 Grid localStorage 初始畫面
+
+本地 Grid：`http://127.0.0.1:4173/tools/grid-trading-calculator.html?v=watchlist-persistence-20260824`。由於與 R:R 同源，已讀到 `XYZ` 自訂項目，頂部顯示「管理清單 1」且快選內容包含 XYZ；Lower／Upper／Grids／模式／投資／SL／TP／費率欄位均可見。初始頁面仍以 BTCUSDT 公開行情載入，待修改全部參數並重整測試。
+
+## 本輪 Grid 參數保存實測
+
+本地 Grid 將週期設為 `1h`，Lower `65000`、Upper `90000`、Grids `31`、模式 `geometric`、投資 `25000`、SL `60000`、TP `98000`、單邊費率 `0.08`。主控台檢查 `gugopro_grid_state_v1` 顯示上述欄位均已寫入，`symbol` 為 `BTCUSDT`、`timeframe` 為 `1h`、`rangeTouched` 為 true；網格模擬輸出仍為有限數值。
+
+## 本輪 Grid 重整 hydration 實測
+
+重新開啟本地 Grid 後，DOM 值仍為 Lower `65000`、Upper `90000`、Grids `31`、模式 `geometric`、投資 `25000`、SL `60000`、TP `98000`、費率 `0.08`；`grid-timeframe` 為 `1h`、快選與搜尋為 `BTCUSDT`、管理清單計數為 `1`。這與 `gugopro_grid_state_v1` 保存 payload 完全一致，顯示網行情初始化未覆蓋已保存參數。
+
+## 本輪 watchlist 管理面板實測
+
+本地 Grid 管理面板可浮動開啟並列出 `IBIT`、`XYZ`，每筆均有「載入／刪除」按鈕與「清空自訂清單」按鈕；以面板刪除 `IBIT` 後計數回到 1，快選中的自訂 optgroup 同步移除該項目，圖表區沒有被面板推擠。
+
+## 本輪 watchlist 清空實測
+
+Grid 管理面板執行「清空自訂清單」後，面板顯示空狀態提示，`grid-watchlist-count` 回到 `0`，動態 `grid-watchlist-options` 不再有 option，且瀏覽器 localStorage 的共享清單為空；面板操作不會清除另一組 Grid 狀態參數。
+
+## 本輪 Grid 375px RWD 實測
+
+以同源隱藏 iframe 設定 viewport 375px 載入 Grid，`body.scrollWidth=367`、`documentElement.scrollWidth=367`，小於 viewport，`overflow=false`；加入自訂按鈕與 `grid-watchlist-options` 均存在，確認新增 watchlist 控制不造成手機橫向破版。
+
+## 本輪 R:R 375px RWD 實測
+
+以同源隱藏 iframe 設定 viewport 375px 載入 R:R，`body.scrollWidth=367`、`documentElement.scrollWidth=367`，`overflow=false`；加入自訂按鈕、`rr-watchlist-options` 與 Entry／Stop／Target／風險／資金五個欄位均存在。
+
+## 本輪 R:R 手動狀態實測
+
+本地 R:R 由保存的 XYZ 切換至 `ETHUSDT`，週期切為 `4h`，手動輸入 Entry `2600`、Stop `2400`、Target `3000`、風險 `2.5`、資金 `125000`；頁面輸出 `2.00R`、風險預算 `3125`、建議部位 `15`。主控台 payload 顯示 `entryPinnedToLive=false`，上述商品、週期與五個欄位均完整保存，表示 WebSocket 更新不會覆蓋手動 Entry。
+
+## 本輪 R:R 重整 hydration 實測
+
+重新開啟本地 R:R 後，DOM 與 localStorage 均顯示商品 `ETHUSDT`、週期 `4h`、Entry `2600`、Stop `2400`、Target `3000`、風險 `2.5`、資金 `125000`，計算結果 `2.00R`；已保存的 `entryPinnedToLive=false` 仍在，確認手動點位沒有被重新取得的波段最高／最低點覆蓋。
+
+## 本輪 1280px 桌面 RWD 實測
+
+以同源隱藏 iframe 設定 viewport 1280px 載入 Grid，`body/documentElement.scrollWidth=1272`、`overflow=false`；`.grid-hud-market-row` 實際五欄為 `180px 274.297px 220.25px 315.438px 168px`，watchlist wrapper 為 `position:relative`、manager panel 為 `position:absolute`，自訂 optgroup 存在且不推擠圖表。

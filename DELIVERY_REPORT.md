@@ -268,3 +268,21 @@ R:R 與網格工具的所有工具內 `<select>` 與 `<option>` 均加入深色�
 ## 十七、最終文件同步部署（2026-08-24）
 
 最後研究筆記同步提交為 `448348c`，其 Pages Run 86（[workflow ID 32742573873](https://github.com/9908gg-art/gugopro-academy/actions/runs/32742573873)）已顯示 `Status Success`，build、report-build-status 與 deploy jobs 全部完成。最終 `main` 已與 `origin/main` 同步；功能本體仍由 `8528a10`（指定 commit message）提供，正式工具可由 [R:R autocomplete](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=autocomplete-search-20260824) 與 [網格 autocomplete](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=autocomplete-search-20260824) 開啟。最終正式站操作畫面分別為 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-02-24_8126.webp` 與 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-03-22_6111.webp`。
+
+## 十八、本輪自訂觀察清單與全狀態持久化本地驗證（2026-08-24）
+
+本輪實作將兩頁工具的商品列擴充為純前端「加入自訂／管理清單」控制。共享 `tools/watchlist.js` 使用 `gugopro_academy_watchlist_v1` 保存最多 50 筆標的 metadata；每頁快選保留原有三個靜態市場 optgroup 與 28 個熱門商品，另以獨立 `⭐ 我的自訂清單` optgroup 呈現使用者加入的任意代碼。管理面板提供載入、單筆刪除、清空、關閉與空狀態提示，並以 CustomEvent／storage event 同步同源頁面。
+
+R:R 使用 `gugopro_rr_state_v1` 保存目前商品、週期、Entry、Stop、Target、單筆風險百分比、帳戶資金與 Entry 是否跟隨即時價；Grid 使用 `gugopro_grid_state_v1` 保存目前商品、週期、Lower、Upper、Grids、模式、投資額、SL、TP、單邊費率與自訂區間狀態。行情載入完成後才套用已保存的參數，避免自動波段預設覆蓋使用者設定；商品／週期切換、輸入變更、行情成功與 fallback 路徑均會保存。
+
+| 驗證項目 | 本地結果 |
+|---|---|
+| R:R 加入任意代碼 | 輸入 `XYZ` 後按「加入自訂」，計數由 0 變為 1，`rr-watchlist-options` 出現 `XYZ`，localStorage metadata 以 Yahoo Finance fallback 保存 |
+| R:R 重整 hydration | 重開同一 URL 後，搜尋欄與 Entry `79902.86`、Stop `57800.19`、Target `82850`、風險 `1`、資金 `500000` 保持一致；頁面仍可載入公開行情或 fallback |
+| Grid 完整參數保存 | 設定 1h、Lower `65000`、Upper `90000`、Grids `31`、等比、投資 `25000`、SL `60000`、TP `98000`、費率 `0.08`，主控台 payload 與 DOM 完全一致 |
+| Grid 重整 hydration | 重開後上述 1h、BTCUSDT 與八個輸入／選單值均還原；網格輸出仍為有限數值，既有原生 Y 軸標籤規則不變 |
+| 清單管理 | 管理面板列出 `IBIT`／`XYZ`，單筆刪除後計數回到 1；清空後空狀態顯示、計數與共享清單回到 0 |
+| 375px RWD | R:R 與 Grid 同源隱藏 iframe 均測得 `body/documentElement.scrollWidth=367`、`overflow=false`；watchlist controls 與自訂 optgroup 均存在 |
+| 靜態與語法檢查 | `python3 validate_site.py` 顯示 `errors=0`；`node --check` 通過 watchlist、R:R、Grid 三個腳本；`git diff --check` 通過 |
+
+所有清單與工具參數均留在使用者瀏覽器的 localStorage，不會送到本站後端；清除網站資料、瀏覽器資料或使用私密瀏覽環境可能移除或拒絕保存。Binance／Yahoo Finance 只提供公開行情，可能受 CORS、休市、延遲、頻率限制或網路狀態影響。本工具數字僅供教育與研究，不構成投資建議、交易指令或收益保證。

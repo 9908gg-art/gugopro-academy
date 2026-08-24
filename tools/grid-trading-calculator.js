@@ -79,6 +79,43 @@
   let liveReconnectDelay = 1200;
   let liveGeneration = 0;
   let suggestionIndex = -1;
+  let pendingHydration = null;
+  const stateStorageKey = 'gugopro_grid_state_v1';
+  const gridPersistedFields = ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'];
+
+  function readPersistedState() {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem(stateStorageKey) || 'null');
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveState() {
+    try {
+      const payload = { symbol: activeSymbol, timeframe: $('grid-timeframe')?.value || '15m', rangeTouched };
+      gridPersistedFields.forEach((id) => { const field = $(id); if (field) payload[id] = field.value; });
+      window.localStorage.setItem(stateStorageKey, JSON.stringify(payload));
+    } catch (error) { /* private browsing or storage quota can reject writes */ }
+  }
+
+  function hydrateState() {
+    const saved = readPersistedState();
+    if (!saved) return null;
+    const symbol = cleanSymbol(saved.symbol || 'BTCUSDT');
+    const timeframe = timeframeConfig[saved.timeframe] ? saved.timeframe : '15m';
+    gridPersistedFields.forEach((id) => { if (saved[id] !== undefined && $(id)) $(id).value = saved[id]; });
+    if ($('grid-timeframe')) $('grid-timeframe').value = timeframe;
+    rangeTouched = saved.rangeTouched === true;
+    return { ...saved, symbol, timeframe };
+  }
+
+  function applyRestoredParameters(saved) {
+    if (!saved) return;
+    gridPersistedFields.forEach((id) => { if (saved[id] !== undefined && $(id)) $(id).value = saved[id]; });
+    rangeTouched = saved.rangeTouched === true;
+  }
 
   function fetchWithTimeout(url, timeout = 12000) {
     const controller = new AbortController();
@@ -286,7 +323,7 @@
   }
 
   function simulateGrid() {
-    if (!chartData.length) return;
+    if (!chartData.length) { saveState(); return; }
     const current = finitePrice(Number.isFinite(livePrice) ? livePrice : chartData[chartData.length - 1].close, chartData[chartData.length - 1].close);
     const lower = finitePrice(value('grid-lower'), current * 0.9); const upper = Math.max(lower * 1.000001, finitePrice(value('grid-upper'), current * 1.1)); const count = Math.min(100, Math.max(2, Math.floor(value('grid-count', 20)))); const capital = Math.max(0, value('grid-capital', 10000)); const stop = finitePrice(value('grid-stop'), lower * 0.95); const take = finitePrice(value('grid-take'), upper * 1.05); const feeRate = Math.min(0.05, Math.max(0, value('grid-fee', 0.1) / 100)); const mode = $('grid-mode')?.value || 'geometric';
     const levels = levelsFor(lower, upper, count, mode); const grossSpacing = mode === 'geometric' ? Math.pow(upper / lower, 1 / count) - 1 : (upper - lower) / count / ((upper + lower) / 2); const netMargin = grossSpacing - (feeRate * 2); const orderCapital = capital / count;
@@ -298,7 +335,7 @@
     }
     const finalValue = equityPath[equityPath.length - 1]; const utilization = capital > 0 ? (maxInventoryValue / capital) * 100 : 0; const lowerDistance = current > lower ? ((current - lower) / current) * 100 : 0; const upperDistance = current < upper ? ((upper - current) / current) * 100 : 0; const nearestBoundary = Math.min(lowerDistance, upperDistance); const breakRisk = current <= lower ? '已跌破下網' : current >= upper ? '已突破上網' : `${pct(nearestBoundary)} 距最近邊界`;
     const timeframe = $('grid-timeframe')?.value || '15m'; const meta = metaFor(activeSymbol); const statusParts = [`${meta.label} ${timeframe} · ${chartData.length.toLocaleString()} 根 K 線`, stopTriggered ? '歷史路徑曾觸及止損' : '', takeTriggered ? '歷史路徑曾觸及止盈' : ''].filter(Boolean);
-    renderGridLines(levels, current, stop, take); setText('grid-active-symbol', meta.label); setText('grid-live-price', priceText(current)); setText('grid-spacing', `${pct(grossSpacing * 100)}${mode === 'geometric' ? '（比例）' : '（區間）'}`); setText('grid-net-margin', pct(netMargin * 100)); setText('grid-single-profit', money(Math.max(0, orderCapital * netMargin))); setText('grid-utilization', pct(utilization)); setText('grid-break-risk', breakRisk); setText('grid-drawdown', pct(maxDrawdown * 100)); setText('grid-realized-profit', money(realized)); setText('grid-final-value', money(finalValue)); setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。右軸僅顯示 LOWER／UPPER／LATEST／SL／TP，中間網格保留虛線。`);
+    renderGridLines(levels, current, stop, take); setText('grid-active-symbol', meta.label); setText('grid-live-price', priceText(current)); setText('grid-spacing', `${pct(grossSpacing * 100)}${mode === 'geometric' ? '（比例）' : '（區間）'}`); setText('grid-net-margin', pct(netMargin * 100)); setText('grid-single-profit', money(Math.max(0, orderCapital * netMargin))); setText('grid-utilization', pct(utilization)); setText('grid-break-risk', breakRisk); setText('grid-drawdown', pct(maxDrawdown * 100)); setText('grid-realized-profit', money(realized)); setText('grid-final-value', money(finalValue)); setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。右軸僅顯示 LOWER／UPPER／LATEST／SL／TP，中間網格保留虛線。`); saveState();
   }
 
   function renderFallback(reason) {
@@ -308,15 +345,17 @@
   }
 
   async function loadMarket(requestedSymbol) {
-    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; activeSymbol = cleanSymbol(requestedSymbol || $('grid-symbol-search')?.value || $('grid-quick-symbol')?.value || 'BTCUSDT'); const meta = metaFor(activeSymbol); syncQuickSymbol(activeSymbol); syncSearchSymbol(activeSymbol); hideGridSuggestions(); closeLiveStream(); livePrice = NaN; liveChange = NaN; historyExhausted = false; setText('grid-active-symbol', meta.label); setText('grid-live-price', '—'); setText('grid-live-change', '—'); setText('grid-live-status', `載入 ${meta.label} · ${meta.name}…`); setText('grid-history-status', '正在取得歷史資料…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
+    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; activeSymbol = cleanSymbol(requestedSymbol || $('grid-symbol-search')?.value || $('grid-quick-symbol')?.value || 'BTCUSDT'); const meta = metaFor(activeSymbol); syncQuickSymbol(activeSymbol); syncSearchSymbol(activeSymbol); hideGridSuggestions(); saveState(); closeLiveStream(); livePrice = NaN; liveChange = NaN; historyExhausted = false; setText('grid-active-symbol', meta.label); setText('grid-live-price', '—'); setText('grid-live-change', '—'); setText('grid-live-status', `載入 ${meta.label} · ${meta.name}…`); setText('grid-history-status', '正在取得歷史資料…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
     try {
-      chartData = await fetchMarketInitial(activeSymbol, timeframe); if (requestId !== requestSequence) return; if (!chart) initChart(); renderCandles(); const lastClose = chartData[chartData.length - 1].close; setDefaultsAroundPrice(lastClose); updateLivePrice(lastClose, NaN, 'REST snapshot'); setText('grid-live-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`); setText('grid-history-status', meta.crypto ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`); simulateGrid(); connectLiveStream();
-    } catch (error) { if (requestId !== requestSequence) return; chartData = []; renderFallback(error.name === 'AbortError' ? '連線逾時' : error.message); setText('grid-live-status', `已切換 TradingView ${meta.label}`); setText('grid-history-status', '公開 K 線暫時不可用；稍後可更新行情重試。'); setText('grid-connection-status', meta.crypto ? 'WebSocket 未連線' : '股票／ETF 公開行情不可用'); }
+      chartData = await fetchMarketInitial(activeSymbol, timeframe); if (requestId !== requestSequence) return; if (!chart) initChart(); renderCandles(); const lastClose = chartData[chartData.length - 1].close; if (pendingHydration && pendingHydration.symbol === activeSymbol && pendingHydration.timeframe === timeframe) { applyRestoredParameters(pendingHydration); pendingHydration = null; } else { setDefaultsAroundPrice(lastClose); } updateLivePrice(lastClose, NaN, 'REST snapshot'); setText('grid-live-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`); setText('grid-history-status', meta.crypto ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`); simulateGrid(); connectLiveStream();
+    } catch (error) { if (requestId !== requestSequence) return; chartData = []; renderFallback(error.name === 'AbortError' ? '連線逾時' : error.message); setText('grid-live-status', `已切換 TradingView ${meta.label}`); setText('grid-history-status', '公開 K 線暫時不可用；稍後可更新行情重試。'); setText('grid-connection-status', meta.crypto ? 'WebSocket 未連線' : '股票／ETF 公開行情不可用'); saveState(); }
   }
 
   function bind() {
-    ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'].forEach((id) => $(id)?.addEventListener('input', () => { rangeTouched = true; simulateGrid(); }));
+    const persistAndSimulate = () => { rangeTouched = true; simulateGrid(); };
+    ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'].forEach((id) => ['input', 'change'].forEach((eventName) => $(id)?.addEventListener(eventName, persistAndSimulate)));
     $('grid-load-symbol')?.addEventListener('click', () => loadMarket());
+    window.GugoWatchlist?.mount({ prefix: 'grid', cleanSymbol, findMeta: metaFor, onSelect: (symbol) => loadMarket(symbol) });
     $('grid-quick-symbol')?.addEventListener('change', () => loadMarket($('grid-quick-symbol').value)); $('grid-timeframe')?.addEventListener('change', () => loadMarket(activeSymbol)); $('grid-refresh')?.addEventListener('click', () => loadMarket(activeSymbol));
     $('grid-symbol-search')?.addEventListener('input', updateGridSuggestions); $('grid-symbol-search')?.addEventListener('focus', updateGridSuggestions);
     $('grid-symbol-search')?.addEventListener('keydown', (event) => {
@@ -328,7 +367,8 @@
     $('grid-symbol-suggestions')?.addEventListener('click', (event) => { const button = event.target.closest('button[data-symbol]'); if (button) chooseGridSuggestion(button.dataset.symbol); });
     document.addEventListener('click', (event) => { if (!event.target.closest('.grid-hud-search')) hideGridSuggestions(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) closeLiveStream(); else connectLiveStream(); });
-    simulateGrid(); loadMarket();
+    pendingHydration = hydrateState();
+    loadMarket(pendingHydration?.symbol || 'BTCUSDT');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
