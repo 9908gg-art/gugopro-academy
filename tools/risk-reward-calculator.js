@@ -36,8 +36,10 @@
     { symbol: 'NVDA', name: 'NVIDIA Corp.', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA' },
     { symbol: 'TSLA', name: 'Tesla Inc.', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA' },
     { symbol: 'QQQ', name: 'Invesco QQQ Trust', source: 'Yahoo Finance', tv: 'NASDAQ:QQQ' },
+    { symbol: 'SPY', name: 'SPDR S&P 500 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY' },
     { symbol: '0050.TW', name: '元大台灣50', source: 'Yahoo Finance', tv: 'TWSE:0050' },
-    { symbol: '00919.TW', name: '群益台灣精選高息', source: 'Yahoo Finance', tv: 'TWSE:00919' }
+    { symbol: '00919.TW', name: '群益台灣精選高息', source: 'Yahoo Finance', tv: 'TWSE:00919' },
+    { symbol: '2330.TW', name: '台積電', source: 'Yahoo Finance', tv: 'TWSE:2330' }
   ];
 
   const timeframeConfig = {
@@ -426,6 +428,13 @@
     $('rr-chart')?.classList.add('is-fallback-hidden');
   }
 
+  function syncQuickSymbol(symbol) {
+    const quick = $('rr-quick-symbol');
+    if (!quick) return;
+    const normalized = cleanSymbol(symbol);
+    quick.value = Array.from(quick.options).some((option) => option.value === normalized) ? normalized : '';
+  }
+
   async function loadSymbol(value = $('rr-symbol-search')?.value) {
     const meta = findMeta(value);
     const timeframe = $('rr-timeframe')?.value || '1d';
@@ -436,6 +445,7 @@
     livePrice = NaN;
     historyExhausted = false;
     if ($('rr-symbol-search')) $('rr-symbol-search').value = meta.symbol;
+    syncQuickSymbol(meta.symbol);
     setText('rr-active-symbol', meta.symbol);
     setText('rr-active-name', meta.name);
     setText('rr-hud-live-price', '—');
@@ -526,6 +536,7 @@
     ['rr-stop-price', 'rr-target-price', 'rr-capital', 'rr-risk-percent'].forEach((id) => $(id)?.addEventListener('input', calculate));
     $('rr-entry-price')?.addEventListener('input', () => { entryPinnedToLive = false; calculate(); });
     $('rr-load-symbol')?.addEventListener('click', () => loadSymbol());
+    $('rr-quick-symbol')?.addEventListener('change', () => loadSymbol($('rr-quick-symbol').value));
     $('rr-timeframe')?.addEventListener('change', () => { syncTimeframeButtons($('rr-timeframe').value); loadSymbol(); });
     document.querySelectorAll('[data-rr-timeframe]').forEach((button) => button.addEventListener('click', () => { const timeframe = button.dataset.rrTimeframe; if (!$('rr-timeframe')) return; $('rr-timeframe').value = timeframe; syncTimeframeButtons(timeframe); loadSymbol(); }));
     $('rr-symbol-search')?.addEventListener('input', updateSuggestions); $('rr-symbol-search')?.addEventListener('focus', updateSuggestions);

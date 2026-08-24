@@ -73,27 +73,27 @@ for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-rew
     tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
     if guide_href not in tool_text: errors.append(f'{tool_page} missing guide link {guide_href}')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
-for field in ['rr-symbol-search','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older']:
+for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
-for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','hud-websocket-20260824']:
+for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','id="rr-quick-symbol"','value="SPY"','value="2330.TW"','ui-compact-hud-20260824']:
     if rr_marker not in rr_text: errors.append(f'rr calculator missing {rr_marker}')
 if 'lightweight-charts' not in rr_text: errors.append('rr calculator missing Lightweight Charts resource')
 if 'rr-chart-labels' in rr_text or 'position:absolute' in rr_text: errors.append('rr calculator still contains legacy overlay marker layer')
 rr_script = (ROOT / 'tools/risk-reward-calculator.js').read_text(encoding='utf-8')
-for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'new WebSocket', "'1w'"]:
+for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', "'1w'"]:
     if marker not in rr_script: errors.append(f'rr script missing {marker}')
 for page_name, fields in {
     'etf-dividend-calculator.html': ['etf-symbol','etf-investment','etf-monthly','etf-yield','etf-growth','etf-years','etf-reinvest','etf-chart','etf-reinvest-path','etf-cash-path'],
-    'grid-trading-calculator.html': ['grid-timeframe','grid-refresh','grid-live-price','grid-live-change','grid-live-status','grid-connection-status','grid-history-status','grid-load-older','grid-chart','grid-tv-widget','grid-lower','grid-upper','grid-count','grid-mode','grid-capital','grid-stop','grid-take','grid-fee','grid-spacing','grid-net-margin','grid-single-profit','grid-utilization','grid-break-risk','grid-drawdown','grid-realized-profit','grid-final-value']
+    'grid-trading-calculator.html': ['grid-quick-symbol','grid-active-symbol','grid-timeframe','grid-refresh','grid-live-price','grid-live-change','grid-live-status','grid-connection-status','grid-history-status','grid-load-older','grid-chart','grid-tv-widget','grid-lower','grid-upper','grid-count','grid-mode','grid-capital','grid-stop','grid-take','grid-fee','grid-spacing','grid-net-margin','grid-single-profit','grid-utilization','grid-break-risk','grid-drawdown','grid-realized-profit','grid-final-value']
 }.items():
     text = (ROOT / 'tools' / page_name).read_text(encoding='utf-8')
     for field in fields:
         if f'id="{field}"' not in text: errors.append(f'{page_name} missing {field}')
     if page_name == 'grid-trading-calculator.html':
-        for marker in ['value="4h"','value="1d"','value="1w"','hud-websocket-20260824','幣安／派網','右側 Y 軸只顯示']:
+        for marker in ['value="4h"','value="1d"','value="1w"','id="grid-quick-symbol"','value="SPY"','value="2330.TW"','ui-compact-hud-20260824','幣安／派網','右側 Y 軸只顯示']:
             if marker not in text: errors.append(f'grid calculator missing {marker}')
 grid_script = (ROOT / 'tools/grid-trading-calculator.js').read_text(encoding='utf-8')
-for marker in ['fetchBitcoinInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'LATEST', "'1w'"]:
+for marker in ['fetchMarketInitial', 'fetchYahooPage', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'activeSymbol', 'LATEST', "'1w'"]:
     if marker not in grid_script: errors.append(f'grid script missing {marker}')
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')

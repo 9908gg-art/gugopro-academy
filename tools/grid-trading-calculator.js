@@ -9,19 +9,34 @@
   const priceText = (amount) => Number.isFinite(amount) ? amount.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—';
   const setText = (id, text) => { if ($(id)) $(id).textContent = text; };
 
+  const symbolCatalog = [
+    { symbol: 'BTCUSDT', label: 'BTC/USDT', name: 'Bitcoin', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT', crypto: true },
+    { symbol: 'ETHUSDT', label: 'ETH/USDT', name: 'Ethereum', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT', crypto: true },
+    { symbol: 'SOLUSDT', label: 'SOL/USDT', name: 'Solana', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT', crypto: true },
+    { symbol: 'AAPL', label: 'AAPL', name: 'Apple', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL', crypto: false },
+    { symbol: 'NVDA', label: 'NVDA', name: 'NVIDIA', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA', crypto: false },
+    { symbol: 'TSLA', label: 'TSLA', name: 'Tesla', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA', crypto: false },
+    { symbol: 'SPY', label: 'SPY', name: 'S&P 500 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY', crypto: false },
+    { symbol: '0050.TW', label: '0050.TW', name: '元大台灣50', source: 'Yahoo Finance', tv: 'TWSE:0050', crypto: false },
+    { symbol: '00919.TW', label: '00919.TW', name: '群益高息', source: 'Yahoo Finance', tv: 'TWSE:00919', crypto: false },
+    { symbol: '2330.TW', label: '2330.TW', name: '台積電', source: 'Yahoo Finance', tv: 'TWSE:2330', crypto: false }
+  ];
+  const metaFor = (symbol) => symbolCatalog.find((item) => item.symbol === symbol) || symbolCatalog[0];
+
   const timeframeConfig = {
-    '5m': { interval: '5m', limit: 1000 },
-    '15m': { interval: '15m', limit: 1000 },
-    '1h': { interval: '1h', limit: 1000 },
-    '4h': { interval: '4h', limit: 1000 },
-    '1d': { interval: '1d', limit: 1000 },
-    '1w': { interval: '1w', limit: 1000 }
+    '5m': { interval: '5m', limit: 1000, range: '5d', yahooInterval: '5m' },
+    '15m': { interval: '15m', limit: 1000, range: '30d', yahooInterval: '15m' },
+    '1h': { interval: '1h', limit: 1000, range: '730d', yahooInterval: '1h' },
+    '4h': { interval: '4h', limit: 1000, range: '730d', yahooInterval: '1h' },
+    '1d': { interval: '1d', limit: 1000, range: '10y', yahooInterval: '1d' },
+    '1w': { interval: '1w', limit: 1000, range: 'max', yahooInterval: '1wk' }
   };
 
   let chart = null;
   let candleSeries = null;
   let volumeSeries = null;
   let chartData = [];
+  let activeSymbol = 'BTCUSDT';
   let livePrice = NaN;
   let liveChange = NaN;
   let priceLines = [];
@@ -51,22 +66,64 @@
     return Array.from(byTime.values()).sort((a, b) => a.time - b.time);
   }
 
-  async function fetchBitcoinPage(timeframe, endTime, timeout = 14000) {
+  function resampleCandles(data, bucketSeconds) {
+    const buckets = new Map();
+    data.forEach((row) => {
+      const bucket = Math.floor(row.time / bucketSeconds) * bucketSeconds;
+      const previous = buckets.get(bucket);
+      if (!previous) buckets.set(bucket, { time: bucket, open: row.open, high: row.high, low: row.low, close: row.close, volume: row.volume || 0 });
+      else { previous.high = Math.max(previous.high, row.high); previous.low = Math.min(previous.low, row.low); previous.close = row.close; previous.volume += row.volume || 0; }
+    });
+    return Array.from(buckets.values()).sort((a, b) => a.time - b.time);
+  }
+
+  async function fetchBinancePage(symbol, timeframe, endTime, timeout = 14000) {
     const config = timeframeConfig[timeframe] || timeframeConfig['15m'];
     const end = Number.isFinite(endTime) ? `&endTime=${Math.max(0, Math.floor(endTime))}` : '';
-    const url = `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=${config.interval}&limit=${config.limit}${end}`;
+    const url = `https://api.binance.com/api/v3/klines?symbol=${encodeURIComponent(symbol)}&interval=${config.interval}&limit=${config.limit}${end}`;
     const response = await fetchWithTimeout(url, timeout);
     if (!response.ok) throw new Error(`Binance HTTP ${response.status}`);
     const parsed = parseRows(await response.json());
-    if (parsed.length < 20) throw new Error('BTC K 線資料不足');
+    if (parsed.length < 20) throw new Error('K 線資料不足');
     return parsed;
   }
 
-  async function fetchBitcoinInitial(timeframe) {
-    const first = await fetchBitcoinPage(timeframe);
-    if (first.length < 1000) return first;
+  async function fetchYahooPage(symbol, timeframe, timeout = 14000) {
+    const config = timeframeConfig[timeframe] || timeframeConfig['1d'];
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=${config.range}&interval=${config.yahooInterval}&includePrePost=false&events=div%2Csplits`;
+    let json;
     try {
-      const older = await fetchBitcoinPage(timeframe, first[0].time * 1000 - 1);
+      const response = await fetchWithTimeout(url, timeout);
+      if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
+      json = await response.json();
+    } catch (directError) {
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+      const proxyResponse = await fetchWithTimeout(proxyUrl, timeout + 4000);
+      if (!proxyResponse.ok) throw directError;
+      const wrapper = await proxyResponse.json();
+      json = JSON.parse(wrapper.contents);
+    }
+    const result = json?.chart?.result?.[0];
+    if (!result?.timestamp?.length) throw new Error('公開股票／ETF K 線資料不足');
+    const quote = result.indicators?.quote?.[0] || {};
+    let parsed = result.timestamp.map((time, index) => ({ time: Number(time), open: Number(quote.open?.[index]), high: Number(quote.high?.[index]), low: Number(quote.low?.[index]), close: Number(quote.close?.[index]), volume: Number(quote.volume?.[index] || 0) })).filter((row) => [row.time, row.open, row.high, row.low, row.close].every(Number.isFinite));
+    if (timeframe === '4h') parsed = resampleCandles(parsed, 4 * 60 * 60);
+    if (parsed.length < 12) throw new Error('公開股票／ETF K 線資料不足');
+    return parsed;
+  }
+
+  async function fetchMarketPage(symbol, timeframe, endTime) {
+    const meta = metaFor(symbol);
+    if (meta.crypto) return fetchBinancePage(symbol, timeframe, endTime);
+    if (Number.isFinite(endTime)) throw new Error('股票／ETF 歷史分頁暫不支援');
+    return fetchYahooPage(symbol, timeframe);
+  }
+
+  async function fetchMarketInitial(symbol, timeframe) {
+    const first = await fetchMarketPage(symbol, timeframe);
+    if (!metaFor(symbol).crypto || first.length < 1000) return first;
+    try {
+      const older = await fetchMarketPage(symbol, timeframe, first[0].time * 1000 - 1);
       return mergeCandles(older, first);
     } catch (error) {
       return first;
@@ -90,7 +147,7 @@
     const observer = new ResizeObserver(() => chart?.resize(container.clientWidth, Math.max(400, container.clientHeight || 480)));
     observer.observe(container);
     chart.timeScale().subscribeVisibleLogicalRangeChange((range) => {
-      if (range && range.from < 28 && chartData.length && !historyLoading && !historyExhausted) {
+      if (range && range.from < 28 && chartData.length && metaFor(activeSymbol).crypto && !historyLoading && !historyExhausted) {
         window.clearTimeout(historyDebounce);
         historyDebounce = window.setTimeout(() => loadOlderHistory(), 220);
       }
@@ -133,12 +190,17 @@
     $('grid-lower').value = (current * 0.9).toFixed(2); $('grid-upper').value = (current * 1.1).toFixed(2); $('grid-stop').value = (current * 0.85).toFixed(2); $('grid-take').value = (current * 1.15).toFixed(2);
   }
 
+  function syncQuickSymbol(symbol) {
+    const quick = $('grid-quick-symbol');
+    if (quick) quick.value = symbol;
+  }
+
   function updateLivePrice(price, changePercent = NaN, source = 'Binance ticker') {
     const next = finitePrice(price, NaN); if (!Number.isFinite(next)) return;
     livePrice = next; liveChange = Number.isFinite(Number(changePercent)) ? Number(changePercent) : liveChange;
     setText('grid-live-price', priceText(next)); setText('grid-live-change', Number.isFinite(liveChange) ? `${liveChange >= 0 ? '+' : ''}${liveChange.toFixed(2)}%` : '—');
     setText('grid-connection-status', source === 'Binance ticker' ? 'WebSocket 已連線 · ticker' : source);
-    $('grid-hud')?.classList.add('is-stream-connected');
+    $('grid-hud')?.classList.toggle('is-stream-connected', source === 'Binance ticker');
     simulateGrid();
   }
 
@@ -149,28 +211,29 @@
   }
 
   function scheduleReconnect(generation) {
-    if (generation !== liveGeneration || document.hidden) return;
+    if (generation !== liveGeneration || document.hidden || !metaFor(activeSymbol).crypto) return;
     window.clearTimeout(liveReconnectTimer); liveReconnectTimer = window.setTimeout(() => connectLiveStream(), liveReconnectDelay); liveReconnectDelay = Math.min(30000, Math.round(liveReconnectDelay * 1.7));
   }
 
   function connectLiveStream() {
     closeLiveStream();
+    if (!metaFor(activeSymbol).crypto) { setText('grid-connection-status', '股票／ETF 使用公開 K 線'); return; }
     if (typeof WebSocket === 'undefined' || document.hidden) { setText('grid-connection-status', '瀏覽器不支援 WebSocket'); return; }
-    const generation = liveGeneration;
+    const generation = liveGeneration; const stream = `${activeSymbol.toLowerCase()}@ticker`;
     try {
-      liveSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+      liveSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${stream}`);
       liveSocket.addEventListener('open', () => { if (generation !== liveGeneration) return; liveReconnectDelay = 1200; setText('grid-connection-status', 'WebSocket 已連線 · ticker'); $('grid-hud')?.classList.add('is-stream-connected'); });
-      liveSocket.addEventListener('message', (event) => { if (generation !== liveGeneration) return; try { const payload = JSON.parse(event.data); if (payload?.s === 'BTCUSDT') updateLivePrice(payload.c, payload.P); } catch (error) { /* ignore malformed frames */ } });
+      liveSocket.addEventListener('message', (event) => { if (generation !== liveGeneration) return; try { const payload = JSON.parse(event.data); if (payload?.s === activeSymbol) updateLivePrice(payload.c, payload.P); } catch (error) { /* ignore malformed frames */ } });
       liveSocket.addEventListener('error', () => setText('grid-connection-status', 'WebSocket 異常，準備重連'));
       liveSocket.addEventListener('close', () => { if (generation !== liveGeneration) return; $('grid-hud')?.classList.remove('is-stream-connected'); setText('grid-connection-status', 'WebSocket 已斷線，準備重連'); scheduleReconnect(generation); });
     } catch (error) { setText('grid-connection-status', 'WebSocket 無法建立，準備重連'); scheduleReconnect(generation); }
   }
 
   async function loadOlderHistory() {
-    if (historyLoading || historyExhausted || !chartData.length) return;
+    if (!metaFor(activeSymbol).crypto || historyLoading || historyExhausted || !chartData.length) return;
     historyLoading = true; const oldRange = chart?.timeScale().getVisibleLogicalRange?.(); setText('grid-history-status', '正在載入更早 K 線…'); $('grid-load-older')?.setAttribute('disabled', 'disabled');
     try {
-      const timeframe = $('grid-timeframe')?.value || '15m'; const oldest = chartData[0].time * 1000 - 1; const older = await fetchBitcoinPage(timeframe, oldest); const beforeCount = chartData.length;
+      const timeframe = $('grid-timeframe')?.value || '15m'; const oldest = chartData[0].time * 1000 - 1; const older = await fetchMarketPage(activeSymbol, timeframe, oldest); const beforeCount = chartData.length;
       chartData = mergeCandles(older, chartData); const added = chartData.length - beforeCount; if (added < 10 || older.length < (timeframeConfig[timeframe]?.limit || 1000)) historyExhausted = true;
       renderCandles(oldRange && added ? { from: oldRange.from + added, to: oldRange.to + added } : oldRange); simulateGrid(); setText('grid-history-status', historyExhausted ? `歷史已接近資料起點 · ${chartData.length.toLocaleString()} 根` : `已載入 ${chartData.length.toLocaleString()} 根 · 可繼續向左捲動`);
     } catch (error) { setText('grid-history-status', `歷史載入失敗：${error.name === 'AbortError' ? '逾時' : '稍後重試'}`); }
@@ -189,26 +252,26 @@
       const inventoryValue = lots.reduce((sum, lot) => sum + lot.quantity * price, 0); const equity = cash + inventoryValue; maxInventoryValue = Math.max(maxInventoryValue, inventoryValue); peak = Math.max(peak, equity); maxDrawdown = Math.max(maxDrawdown, peak > 0 ? (peak - equity) / peak : 0); equityPath.push(equity); if (price <= stop) stopTriggered = true; if (price >= take) takeTriggered = true;
     }
     const finalValue = equityPath[equityPath.length - 1]; const utilization = capital > 0 ? (maxInventoryValue / capital) * 100 : 0; const lowerDistance = current > lower ? ((current - lower) / current) * 100 : 0; const upperDistance = current < upper ? ((upper - current) / current) * 100 : 0; const nearestBoundary = Math.min(lowerDistance, upperDistance); const breakRisk = current <= lower ? '已跌破下網' : current >= upper ? '已突破上網' : `${pct(nearestBoundary)} 距最近邊界`;
-    const statusParts = [`BTC/USDT ${$('grid-timeframe')?.value || '15m'} · ${chartData.length.toLocaleString()} 根 K 線`, stopTriggered ? '歷史路徑曾觸及止損' : '', takeTriggered ? '歷史路徑曾觸及止盈' : ''].filter(Boolean);
-    renderGridLines(levels, current, stop, take); setText('grid-live-price', priceText(current)); setText('grid-spacing', `${pct(grossSpacing * 100)}${mode === 'geometric' ? '（比例）' : '（區間）'}`); setText('grid-net-margin', pct(netMargin * 100)); setText('grid-single-profit', money(Math.max(0, orderCapital * netMargin))); setText('grid-utilization', pct(utilization)); setText('grid-break-risk', breakRisk); setText('grid-drawdown', pct(maxDrawdown * 100)); setText('grid-realized-profit', money(realized)); setText('grid-final-value', money(finalValue)); setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。右軸僅顯示 LOWER／UPPER／LATEST／SL／TP，中間網格保留虛線。`);
+    const timeframe = $('grid-timeframe')?.value || '15m'; const meta = metaFor(activeSymbol); const statusParts = [`${meta.label} ${timeframe} · ${chartData.length.toLocaleString()} 根 K 線`, stopTriggered ? '歷史路徑曾觸及止損' : '', takeTriggered ? '歷史路徑曾觸及止盈' : ''].filter(Boolean);
+    renderGridLines(levels, current, stop, take); setText('grid-active-symbol', meta.label); setText('grid-live-price', priceText(current)); setText('grid-spacing', `${pct(grossSpacing * 100)}${mode === 'geometric' ? '（比例）' : '（區間）'}`); setText('grid-net-margin', pct(netMargin * 100)); setText('grid-single-profit', money(Math.max(0, orderCapital * netMargin))); setText('grid-utilization', pct(utilization)); setText('grid-break-risk', breakRisk); setText('grid-drawdown', pct(maxDrawdown * 100)); setText('grid-realized-profit', money(realized)); setText('grid-final-value', money(finalValue)); setText('grid-status', `${statusParts.join('；')}；已完成 ${trades} 次網格回合，手續費按單邊 ${value('grid-fee', 0.1)}% 扣除。右軸僅顯示 LOWER／UPPER／LATEST／SL／TP，中間網格保留虛線。`);
   }
 
   function renderFallback(reason) {
-    const widget = $('grid-tv-widget'); if (!widget) return;
-    widget.innerHTML = `<div class="grid-tv-fallback-note"><i class="fa-solid fa-chart-line"></i><strong>Binance 公開 K 線暫時無法連線：${reason}</strong><span>以下仍可使用網格參數檢查；圖表會以 TradingView BTC/USDT fallback 顯示。</span></div><iframe title="TradingView BTCUSDT 即時圖表" src="https://www.tradingview.com/widgetembed/?symbol=BINANCE%3ABTCUSDT&interval=15&hidesidetoolbar=0&symboledit=0&saveimage=0&toolbarbg=%2307131d&theme=dark&style=1&timezone=Asia%2FTaipei&withdateranges=1&hideideas=1&studies=Volume%40tv-basicstudies" loading="eager" allow="fullscreen" referrerpolicy="origin"></iframe>`;
+    const widget = $('grid-tv-widget'); if (!widget) return; const meta = metaFor(activeSymbol); const interval = ({ '5m': '5', '15m': '15', '1h': '60', '4h': '240', '1d': 'D', '1w': 'W' })[$('grid-timeframe')?.value] || '15';
+    widget.innerHTML = `<div class="grid-tv-fallback-note"><i class="fa-solid fa-chart-line"></i><strong>${meta.label} 公開 K 線暫時無法連線：${reason}</strong><span>以下仍可使用網格參數檢查；圖表會以 TradingView ${meta.label} fallback 顯示。</span></div><iframe title="TradingView ${meta.label} 即時圖表" src="https://www.tradingview.com/widgetembed/?symbol=${encodeURIComponent(meta.tv)}&interval=${interval}&hidesidetoolbar=0&symboledit=1&saveimage=0&toolbarbg=%2307131d&theme=dark&style=1&timezone=Asia%2FTaipei&withdateranges=1&hideideas=1&studies=Volume%40tv-basicstudies" loading="eager" allow="fullscreen" referrerpolicy="origin"></iframe>`;
     widget.classList.add('is-visible'); $('grid-chart')?.classList.add('is-fallback-hidden');
   }
 
   async function loadMarket() {
-    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; closeLiveStream(); livePrice = NaN; historyExhausted = false; setText('grid-live-status', `載入 Binance BTC/USDT · ${timeframe}…`); setText('grid-history-status', '正在取得長週期歷史…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
+    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; activeSymbol = $('grid-quick-symbol')?.value || 'BTCUSDT'; const meta = metaFor(activeSymbol); syncQuickSymbol(activeSymbol); closeLiveStream(); livePrice = NaN; liveChange = NaN; historyExhausted = false; setText('grid-active-symbol', meta.label); setText('grid-live-price', '—'); setText('grid-live-change', '—'); setText('grid-live-status', `載入 ${meta.label} · ${meta.name}…`); setText('grid-history-status', '正在取得歷史資料…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
     try {
-      chartData = await fetchBitcoinInitial(timeframe); if (requestId !== requestSequence) return; if (!chart) initChart(); renderCandles(); const lastClose = chartData[chartData.length - 1].close; setDefaultsAroundPrice(lastClose); updateLivePrice(lastClose, NaN, 'REST snapshot'); setText('grid-live-status', `Binance Public API · ${chartData.length.toLocaleString()} 根 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`); setText('grid-history-status', `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料`); simulateGrid(); connectLiveStream();
-    } catch (error) { if (requestId !== requestSequence) return; chartData = []; renderFallback(error.name === 'AbortError' ? '連線逾時' : error.message); setText('grid-live-status', '已切換 TradingView BTC/USDT'); setText('grid-history-status', '公開 K 線暫時不可用；稍後可更新行情重試。'); }
+      chartData = await fetchMarketInitial(activeSymbol, timeframe); if (requestId !== requestSequence) return; if (!chart) initChart(); renderCandles(); const lastClose = chartData[chartData.length - 1].close; setDefaultsAroundPrice(lastClose); updateLivePrice(lastClose, NaN, 'REST snapshot'); setText('grid-live-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`); setText('grid-history-status', meta.crypto ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`); simulateGrid(); connectLiveStream();
+    } catch (error) { if (requestId !== requestSequence) return; chartData = []; renderFallback(error.name === 'AbortError' ? '連線逾時' : error.message); setText('grid-live-status', `已切換 TradingView ${meta.label}`); setText('grid-history-status', '公開 K 線暫時不可用；稍後可更新行情重試。'); setText('grid-connection-status', meta.crypto ? 'WebSocket 未連線' : '股票／ETF 公開行情不可用'); }
   }
 
   function bind() {
     ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'].forEach((id) => $(id)?.addEventListener('input', () => { rangeTouched = true; simulateGrid(); }));
-    $('grid-timeframe')?.addEventListener('change', loadMarket); $('grid-refresh')?.addEventListener('click', loadMarket); $('grid-load-older')?.addEventListener('click', loadOlderHistory);
+    $('grid-quick-symbol')?.addEventListener('change', loadMarket); $('grid-timeframe')?.addEventListener('change', loadMarket); $('grid-refresh')?.addEventListener('click', loadMarket); $('grid-load-older')?.addEventListener('click', loadOlderHistory);
     document.addEventListener('visibilitychange', () => { if (document.hidden) closeLiveStream(); else connectLiveStream(); });
     simulateGrid(); loadMarket();
   }

@@ -1228,7 +1228,7 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
 .hud-ghost-button { padding:8px 10px; border:1px solid rgba(255,178,95,.32); border-radius:7px; color:#ffbf78; background:rgba(255,178,95,.06); font:600 .7rem 'DM Sans',sans-serif; white-space:nowrap; }
 .hud-ghost-button:hover { border-color:#ffb25f; background:rgba(255,178,95,.13); }
 .rr-hud-status-row { display:flex; align-items:center; gap:12px; min-width:0; color:var(--copy-muted); font-size:.64rem; }
-.rr-hud-status-row > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rr-hud-status-row > span { min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .rr-hud-status-row > span:first-child { color:#9cebc5; font-weight:600; }
 .rr-hud-status-row > span:last-child { margin-left:auto; color:#83a0a6; }
 .rr-hud-panel.is-invalid { border-color:rgba(245,111,98,.65); }
@@ -1317,3 +1317,95 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
 }
 
 .hud-mirror-value { display:none !important; }
+
+
+/* Compact HUD refinement: readable controls, no decorative chart-header gap. */
+.visually-hidden { position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important; }
+.rr-hud-panel,
+.grid-hud-panel { gap:8px; padding:10px 12px 9px; }
+.rr-hud-market-row,
+.grid-hud-market-row { display:grid; grid-template-columns:minmax(160px,180px) minmax(240px,1fr) auto; align-items:end; gap:10px; }
+.rr-quick-symbol,
+.grid-quick-symbol { display:flex; min-width:0; flex:0 0 180px; flex-direction:column; gap:4px; }
+.rr-quick-symbol > span,
+.grid-quick-symbol > span,
+.rr-hud-search > label,
+.rr-hud-field > span,
+.grid-hud-field > span { color:var(--copy-soft); font-size:.88rem; font-weight:600; letter-spacing:0; text-transform:none; }
+.rr-quick-symbol select,
+.grid-quick-symbol select { width:100%; min-width:0; box-sizing:border-box; padding:9px 10px; border:1px solid rgba(255,178,95,.35); border-radius:8px; background:rgba(255,255,255,.07); color:#f4f8f6; outline:0; font:600 1rem 'Space Grotesk',sans-serif; font-variant-numeric:tabular-nums; }
+.rr-quick-symbol select:focus,
+.grid-quick-symbol select:focus { border-color:#ffb25f; box-shadow:0 0 0 3px rgba(255,178,95,.12); }
+.rr-hud-search { min-width:0; }
+.rr-hud-search .rr-search-line { max-width:none; }
+.rr-hud-search .rr-search-line input { min-height:41px; padding:8px 10px; font-size:1rem; }
+.rr-hud-search .rr-search-line .button { min-height:41px; font-size:.92rem; }
+.rr-hud-stream-state { min-width:168px; font-size:.78rem; }
+.rr-hud-stream-state small { font-size:.72rem; }
+.rr-hud-capsule { min-height:54px; padding:7px 11px; }
+.rr-hud-capsule span { font-size:.86rem; font-weight:600; }
+.rr-hud-capsule strong { font-size:1.24rem; }
+.rr-hud-capsule.ratio strong { font-size:1.75rem; letter-spacing:-.04em; }
+.rr-hud-capsule input { min-height:32px; font-size:1.12rem; font-weight:700; }
+.rr-hud-control-row { grid-template-columns:minmax(320px,1.7fr) 128px 168px 166px auto; gap:8px; }
+.hud-control-label { font-size:.88rem; font-weight:600; }
+.rr-timeframe-group { gap:5px; }
+.rr-timeframe-group button { min-width:43px; padding:8px 9px; font-size:.88rem; font-weight:700; }
+.rr-hud-field { gap:8px; font-size:.88rem; }
+.rr-hud-field input { width:104px; padding:9px 9px; font-size:1rem; font-weight:700; }
+.rr-hud-field.capital input { width:132px; }
+.rr-hud-position span { font-size:.86rem; font-weight:600; }
+.rr-hud-position strong { font-size:1.24rem; }
+.rr-hud-position small { font-size:.72rem; }
+.hud-ghost-button { padding:9px 11px; font-size:.86rem; font-weight:700; }
+.rr-hud-status-row { font-size:.78rem; }
+.rr-hud-chart-shell { margin-top:3px; padding:0 8px 10px; border:0; border-radius:0; background:transparent; }
+.rr-hud-chart-shell .rr-native-chart-frame { border-radius:10px; }
+.grid-live-symbol { gap:8px; }
+.grid-live-symbol strong { font-size:1rem; }
+.grid-live-symbol b { font-size:1.24rem; }
+.grid-live-symbol > span:not(.live-dot) { font-size:.86rem; }
+.grid-live-symbol small { font-size:.76rem; }
+.grid-hud-connection { min-width:168px; font-size:.78rem; }
+.grid-hud-connection span:last-child { font-size:.72rem; }
+.grid-hud-control-row { grid-template-columns:104px minmax(135px,1fr) minmax(135px,1fr) 100px 100px minmax(145px,1fr) auto; gap:8px; }
+.grid-hud-control-row.secondary { grid-template-columns:repeat(3,minmax(130px,170px)) auto 1fr; }
+.grid-hud-field { gap:4px; font-size:.88rem; }
+.grid-hud-field input,
+.grid-hud-field select { min-height:41px; padding:9px 10px; font-size:1rem; font-weight:700; }
+.grid-hud-tip { font-size:.78rem; }
+.grid-hud-chart-shell { margin-top:3px; padding:0 8px 10px; border:0; border-radius:0; background:transparent; }
+.grid-hud-chart-shell .chart-footnote { margin:6px 0 0; font-size:.76rem; }
+
+@media (max-width:980px) {
+  .rr-hud-market-row,
+  .grid-hud-market-row { grid-template-columns:minmax(145px,.55fr) minmax(220px,1fr) auto; }
+  .rr-hud-control-row { grid-template-columns:1fr 1fr; }
+  .rr-timeframe-group { grid-column:1/-1; }
+  .grid-hud-control-row { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .grid-hud-control-row.secondary { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media (max-width:720px) {
+  .rr-hud-market-row,
+  .grid-hud-market-row { grid-template-columns:1fr; align-items:stretch; }
+  .rr-quick-symbol,
+  .grid-quick-symbol { width:100%; }
+  .rr-hud-stream-state,
+  .grid-hud-connection { min-width:0; align-items:flex-start; text-align:left; }
+  .rr-hud-capsule span { font-size:.9rem; }
+  .rr-hud-capsule input { font-size:1.08rem; }
+  .grid-hud-control-row,
+  .grid-hud-control-row.secondary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:520px) {
+  .rr-hud-panel,
+  .grid-hud-panel { padding:9px; }
+  .rr-hud-capsule { min-height:52px; }
+  .rr-hud-capsule.ratio strong { font-size:1.6rem; }
+  .rr-hud-field input,
+  .rr-hud-field.capital input,
+  .grid-hud-field input,
+  .grid-hud-field select { width:100%; }
+  .grid-hud-chart-shell,
+  .rr-hud-chart-shell { padding-left:0; padding-right:0; }
+}

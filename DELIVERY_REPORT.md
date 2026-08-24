@@ -167,3 +167,21 @@ Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易�
 [6]: https://developers.binance.com/en/docs/products/spot/testnet/web-socket-streams "Binance Spot WebSocket Streams and Kline Streams"
 
 本報告由 **Manus AI** 撰寫；所有投資、交易、稅務與收益內容僅供教育與研究參考，不構成任何個人化建議。
+
+## 十一、本輪 UI 終極優化：零標題浪費、行內商品切換與可讀 HUD（2026-08-24）
+本輪針對 `tools/risk-reward-calculator.html` 與 `tools/grid-trading-calculator.html` 進行最後一層人性化修正。兩頁均移除 HUD 與 K 線之間的可見大型市場標題：R:R 不再顯示 `LIVE MARKET MAP / LIGHTWEIGHT CHARTS` 與 `BTCUSDT Bitcoin / Tether`，網格不再顯示 `LIVE MARKET / BTCUSDT` 與重複的大型商品標題；圖表容器現在直接接在 HUD 後方，只保留極小間距與必要的語意標題。
+
+兩個 HUD 最左側均新增原生快速商品下拉選單，包含 BTCUSDT、ETHUSDT、SOLUSDT、AAPL、NVDA、TSLA、SPY、0050.TW、00919.TW、2330.TW。選擇後會同步商品搜尋欄、行情載入、K 線資料、WebSocket 或股票／ETF fallback 路徑；加密資產維持 Binance 公開 REST／ticker WebSocket，股票與 ETF 則維持 Yahoo Finance 與既有 fallback，沒有新增伺服器或 API key。
+
+「緊湊」本輪只消除無意義的 padding、gap 與重複標題，沒有縮小可讀文字。桌面 Chromium 計算值為：R:R 設定標籤 14.08px、Entry 輸入值 17.92px、R:R 核心數字 28px；網格設定標籤 14.08px、輸入值 16px、最新價 19.84px。數值採粗體等寬數字，R:R ratio 保持最大視覺層級。
+
+| 回歸項目 | 本輪實測結果 |
+|---|---|
+| R:R 本地 BTC／ETH | BTC 預設流程與 ETHUSDT 快速切換成功；ETH 公開 K 線成功載入並以 Swing Low／High 更新 R:R |
+| 網格本地 BTC／ETH | BTC 成功載入 2,000 根後至 3,000 根歷史、WebSocket ticker 已連線；ETH 選擇後重新進入加密資產載入流程，網格統計與原生線維持可用 |
+| 股票／ETF安全切換 | R:R 與網格均測試 AAPL；HUD 與載入狀態安全更新，Yahoo CORS／休市時保留既有 fallback 與提示，不崩潰 |
+| 桌面可讀性 | 1280px viewport；兩頁標籤至少 14px、輸入值至少 16px，R:R 28px 粗體；舊市場標題可見數量 0 |
+| 行動版 RWD | 375px 同源 iframe：R:R 與網格 `bodyScrollWidth=367`、`rootScrollWidth=367`、`overflow=false`；quick selector／chart 均存在，舊市場標題可見數量 0 |
+| 既有功能保留 | 原生 Lightweight Charts 價格線拖曳、R:R Scanner、網格原生線、稀疏 LOWER／UPPER／LATEST／SL／TP 軸標籤、長歷史向左載入與 WebSocket 重連均未移除 |
+
+本輪檔案同步更新 `validate_site.py`，驗證兩頁快速選單、熱門代碼、新版 `ui-compact-hud-20260824` cache-bust 與可見舊標題移除。截圖檔案為：R:R 本地 ETH 版 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-11-41_9105.webp`、網格本地 BTC 版 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-12-18_6155.webp`；部署後將以正式站版本再補充最終 hash 與 workflow。

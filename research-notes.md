@@ -245,3 +245,26 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## 最終 main 26471cd 公開站核對（2026-08-24）
 
 最終 Pages workflow `32728517831` 已 `completed / success`。`https://academy.gugopro.com/?v=26471cd` 正常回傳首頁、12 類知識樹與三張實戰工具卡；`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=26471cd` 正常回傳 HUD、1m／5m／15m／1h／4h／1D／1W 按鈕、`rr-load-older`、Scanner 與 CTA。最終首頁截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-44-05_6952.webp`；最終 R:R 載入畫面：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-44-25_8135.webp`。
+
+
+## UI 終極優化本地 R:R 回歸（2026-08-24）
+
+本地 `?v=ui-compact-hud-20260824` 首屏已移除 `LIVE MARKET MAP / LIGHTWEIGHT CHARTS` 與 `BTCUSDT Bitcoin / Tether` 可見標題區；圖表前只保留隱藏語意 h2 與 K 線容器。頂部 HUD 新增原生 `#rr-quick-symbol`，可見 BTCUSDT、ETHUSDT、SOLUSDT、AAPL、NVDA、TSLA、SPY、0050.TW、00919.TW、2330.TW。選擇 ETHUSDT 後搜尋欄同步為 ETHUSDT，公開 Binance K 線成功載入，Swing Low 57,800.19、Swing High 82,850，HUD R:R 顯示 0.16R；Entry／Stop／Target 與 1m–1W 快速週期均清楚可見。更新後圖表直接位於 HUD 下方，無額外市場標題卡造成的垂直空白。正式截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-11-41_9105.webp`。
+
+## UI 終極優化本地網格回歸（2026-08-24）
+
+本地 `?v=ui-compact-hud-20260824` 網格頁已移除 `LIVE MARKET / BTCUSDT` 與大型圖表前標題；HUD 下方直接接 K 線容器，僅保留 3px 級距。`#grid-quick-symbol` 位於 HUD 左側，設定標籤／數值清楚呈現 Lower、Upper、Grids、模式、投資 USDT、SL、TP、單邊費率。BTC/USDT 成功載入 2,000 根後擴充至 3,000 根、WebSocket ticker 已連線，圖表網格線動態渲染；實測 Lower 71,395.21、Upper 87,260.81、每格間距 1.01%、費後單格利潤率 0.81%、資金利用率 19.85%、模擬回撤 0.7%，右軸僅顯示 LOWER／UPPER／LATEST／SL／TP。正式截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-12-18_6155.webp`。
+
+## UI 終極優化 375px 行動版初測（2026-08-24）
+
+同源 375px iframe 初測：網格頁 `bodyClientWidth=367`、`bodyScrollWidth=367`、`overflow=false`；R:R 頁 `bodyClientWidth=367`、`bodyScrollWidth=531`、`overflow=true`。兩頁 quick selector／chart 均存在，舊 `LIVE MARKET MAP / LIGHTWEIGHT CHARTS` 與 `LIVE MARKET / BTCUSDT` 可見標題數量均為 0。R:R 橫向溢出待定位修正後重測。
+
+## UI 終極優化行動版修正與股票切換（2026-08-24）
+
+修正 `.rr-hud-status-row > span` 的 flex `min-width:0` 後，375px 同源 iframe 重測：R:R 與網格皆 `bodyScrollWidth=367`、`rootScrollWidth=367`、`overflow=false`；兩頁 quick selector／chart 均存在，舊圖表大標題可見數量均為 0。網格現場再選擇 AAPL，HUD 商品摘要更新為 AAPL、搜尋／載入狀態更新為 AAPL · Apple，頁面無腳本崩潰；公開股票端點將依瀏覽器 CORS／休市條件顯示資料或 fallback，符合純前端限制。
+
+本地 R:R 選擇 AAPL 回歸：`#rr-quick-symbol` 與商品搜尋同步為 AAPL，狀態更新為「載入 AAPL · Yahoo Finance」，既有 HUD／R:R 欄位保持可用且頁面無崩潰。Yahoo 端點若受 CORS、休市或延遲影響，工具會保留前端 HUD 並依既有 fallback／提示處理，不引入伺服器或 API key。
+
+## UI 終極優化桌面 CSS 計算值（2026-08-24）
+
+本地 Chromium 桌面視窗 `innerWidth=1280` 計算值：R:R quick select 16px／600，設定標籤 14.08px／600，Entry 輸入值 17.92px／700，R:R 核心數字 28px／700；網格 quick select 16px／600，Upper／Lower 標籤 14.08px／600，輸入值 16px／700，最新價 19.84px／700。兩頁可見舊圖表標題數量均為 0；桌面截圖已顯示 HUD 與圖表無裝飾性大標題。
