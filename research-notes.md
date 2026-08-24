@@ -417,3 +417,12 @@ Run 85（workflow ID `32741997754`）已顯示 `Status Success`，commit head `7
 ## Final main official Grid autocomplete
 
 最終 main `7c57571` 的正式站網格頁輸入 `NV` 後，即時浮出單筆 `NVDA · NVIDIA · 美股與指數 ETF · 科技巨頭` 候選，清單不推擠下方參數或圖表；同頁 BTC/USDT 顯示 3,000 根 K 線、WebSocket 已連線、單格利潤率 0.81% 與完整網格輸出。最終操作截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-03-22_6111.webp`。
+
+## Final main Pages deployment checkpoint
+
+最終研究筆記提交 `448348c` 已觸發 Pages Run 86（workflow ID `32742573873`），公開列表目前顯示 `In progress`；文件提交 `7c57571` 對應 Run 85 已成功。下一步以 Run 86 詳情頁核對實際 job 狀態。
+
+
+## Final Pages deployment completed
+
+Run 86（workflow ID `32742573873`）詳情頁已顯示 `Status Success`，commit head 為 `448348c`；build 23s、report-build-status 5s、deploy 27s 均完成，公開部署網址為 `https://academy.gugopro.com/`。本次部署包含既有 autocomplete 功能與完整正式站驗證紀錄。
