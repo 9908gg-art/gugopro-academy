@@ -268,3 +268,15 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 ## UI 終極優化桌面 CSS 計算值（2026-08-24）
 
 本地 Chromium 桌面視窗 `innerWidth=1280` 計算值：R:R quick select 16px／600，設定標籤 14.08px／600，Entry 輸入值 17.92px／700，R:R 核心數字 28px／700；網格 quick select 16px／600，Upper／Lower 標籤 14.08px／600，輸入值 16px／700，最新價 19.84px／700。兩頁可見舊圖表標題數量均為 0；桌面截圖已顯示 HUD 與圖表無裝飾性大標題。
+
+## 本輪部署輪詢初始狀態（2026-08-24）
+
+提交 `113bb35` 已成功推送至 `origin/main`。GitHub 公開 Actions 頁目前顯示最新 `pages build and deployment` Run 78（workflow ID `32732000522`）仍為 `In progress`；上一個 Run 77 為 completed successfully。API 端點當下回應 403，改以公開 Actions 頁面核對，未把任何 token 寫入 remote URL 或報告。
+
+## 113bb35 正式站 R:R 驗證（2026-08-24）
+
+正式 `https://academy.gugopro.com/tools/risk-reward-calculator.html?v=113bb35` 已回傳本輪 HTML。瀏覽器可見 `#rr-quick-symbol` 與完整熱門清單、Entry／Stop／Target、1m／5m／15m／1h／4h／1D／1W、R:R、風險與資金控制；Markdown 與畫面均未出現已移除的 `LIVE MARKET MAP / LIGHTWEIGHT CHARTS` 或大型 `BTCUSDT Bitcoin / Tether` 圖表前標題。正式 R:R 截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-20-56_1406.webp`。
+
+## 113bb35 正式站網格驗證（2026-08-24）
+
+正式 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=113bb35` 已公開本輪 HTML／CSS／JS。瀏覽器可見 `#grid-quick-symbol` 完整熱門清單、Lower／Upper／Grids／模式／投資／SL／TP／費率控制；BTC/USDT 成功載入 2,000 根後擴充至 3,000 根歷史，WebSocket 顯示已連線，並輸出每格 1.01%、費後單格 0.81%、利用率 19.85%、回撤 0.73% 等有限數值。K 線前沒有 `LIVE MARKET / BTCUSDT` 或重複大型標題，右軸只保留 LOWER／UPPER／LATEST／SL／TP。正式網格截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-21-24_9912.webp`。

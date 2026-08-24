@@ -185,3 +185,14 @@ Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易�
 | 既有功能保留 | 原生 Lightweight Charts 價格線拖曳、R:R Scanner、網格原生線、稀疏 LOWER／UPPER／LATEST／SL／TP 軸標籤、長歷史向左載入與 WebSocket 重連均未移除 |
 
 本輪檔案同步更新 `validate_site.py`，驗證兩頁快速選單、熱門代碼、新版 `ui-compact-hud-20260824` cache-bust 與可見舊標題移除。截圖檔案為：R:R 本地 ETH 版 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-11-41_9105.webp`、網格本地 BTC 版 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_13-12-18_6155.webp`；部署後將以正式站版本再補充最終 hash 與 workflow。
+
+## 十二、113bb35 正式部署結論（2026-08-24）
+提交 `113bb35` 已使用使用者指定的 commit message 推送至 `main`；GitHub 公開 Actions 的 `pages build and deployment` Run 78（workflow ID `32732000522`）已完成且成功。正式站檢查 URL 如下：
+
+| 正式頁面 | 驗證結果 |
+|---|---|
+| [R:R HUD 工具](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=113bb35) | 行內商品選單、可讀 Entry／Stop／Target／風險／資金 HUD、放大 R:R、1m–1W 週期、原生 K 線與 Scanner 均存在；可見冗餘圖表標題為 0 |
+| [網格 HUD 工具](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=113bb35) | 行內商品選單、Lower／Upper／Grids／投資／SL／TP／費率 HUD、BTC K 線、長歷史、WebSocket、原生網格線與稀疏右軸均存在；可見冗餘圖表標題為 0 |
+| [GitHub Pages Actions Run 78](https://github.com/9908gg-art/gugopro-academy/actions/runs/32732000522) | `completed / success` |
+
+正式桌面回歸截圖：R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-20-56_1406.webp`；網格 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-21-24_9912.webp`。本輪所有行情均為公開資料教育用途；股票／ETF 仍受 Yahoo Finance CORS、休市與資料延遲影響，網格歷史模擬不等同交易所撮合，也不構成投資建議。
