@@ -10,18 +10,47 @@
   const setText = (id, text) => { if ($(id)) $(id).textContent = text; };
 
   const symbolCatalog = [
-    { symbol: 'BTCUSDT', label: 'BTC/USDT', name: 'Bitcoin', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT', crypto: true },
-    { symbol: 'ETHUSDT', label: 'ETH/USDT', name: 'Ethereum', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT', crypto: true },
-    { symbol: 'SOLUSDT', label: 'SOL/USDT', name: 'Solana', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT', crypto: true },
-    { symbol: 'AAPL', label: 'AAPL', name: 'Apple', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL', crypto: false },
-    { symbol: 'NVDA', label: 'NVDA', name: 'NVIDIA', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA', crypto: false },
-    { symbol: 'TSLA', label: 'TSLA', name: 'Tesla', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA', crypto: false },
-    { symbol: 'SPY', label: 'SPY', name: 'S&P 500 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY', crypto: false },
-    { symbol: '0050.TW', label: '0050.TW', name: '元大台灣50', source: 'Yahoo Finance', tv: 'TWSE:0050', crypto: false },
-    { symbol: '00919.TW', label: '00919.TW', name: '群益高息', source: 'Yahoo Finance', tv: 'TWSE:00919', crypto: false },
-    { symbol: '2330.TW', label: '2330.TW', name: '台積電', source: 'Yahoo Finance', tv: 'TWSE:2330', crypto: false }
+    { symbol: 'BTCUSDT', label: 'BTC/USDT', name: 'Bitcoin', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT', crypto: true },
+    { symbol: 'ETHUSDT', label: 'ETH/USDT', name: 'Ethereum', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT', crypto: true },
+    { symbol: 'SOLUSDT', label: 'SOL/USDT', name: 'Solana', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT', crypto: true },
+    { symbol: 'BNBUSDT', label: 'BNB/USDT', name: 'BNB', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BNBUSDT', crypto: true },
+    { symbol: 'DOGEUSDT', label: 'DOGE/USDT', name: 'Dogecoin', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:DOGEUSDT', crypto: true },
+    { symbol: 'XRPUSDT', label: 'XRP/USDT', name: 'XRP', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:XRPUSDT', crypto: true },
+    { symbol: 'ADAUSDT', label: 'ADA/USDT', name: 'Cardano', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:ADAUSDT', crypto: true },
+    { symbol: 'AVAXUSDT', label: 'AVAX/USDT', name: 'Avalanche', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:AVAXUSDT', crypto: true },
+    { symbol: 'LINKUSDT', label: 'LINK/USDT', name: 'Chainlink', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:LINKUSDT', crypto: true },
+    { symbol: 'SUIUSDT', label: 'SUI/USDT', name: 'Sui', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:SUIUSDT', crypto: true },
+    { symbol: '2330.TW', label: '2330.TW', name: '台積電', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2330', crypto: false },
+    { symbol: '2317.TW', label: '2317.TW', name: '鴻海', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2317', crypto: false },
+    { symbol: '2454.TW', label: '2454.TW', name: '聯發科', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2454', crypto: false },
+    { symbol: '0050.TW', label: '0050.TW', name: '元大台灣50', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0050', crypto: false },
+    { symbol: '0056.TW', label: '0056.TW', name: '元大高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0056', crypto: false },
+    { symbol: '00878.TW', label: '00878.TW', name: '國泰永續高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00878', crypto: false },
+    { symbol: '00919.TW', label: '00919.TW', name: '群益台灣精選高息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00919', crypto: false },
+    { symbol: '00929.TW', label: '00929.TW', name: '復華台灣科技優息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00929', crypto: false },
+    { symbol: 'AAPL', label: 'AAPL', name: 'Apple', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL', crypto: false },
+    { symbol: 'MSFT', label: 'MSFT', name: 'Microsoft', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:MSFT', crypto: false },
+    { symbol: 'NVDA', label: 'NVDA', name: 'NVIDIA', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA', crypto: false },
+    { symbol: 'TSLA', label: 'TSLA', name: 'Tesla', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA', crypto: false },
+    { symbol: 'GOOGL', label: 'GOOGL', name: 'Alphabet', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:GOOGL', crypto: false },
+    { symbol: 'AMZN', label: 'AMZN', name: 'Amazon', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AMZN', crypto: false },
+    { symbol: 'SPY', label: 'SPY', name: 'S&P 500', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY', crypto: false },
+    { symbol: 'QQQ', label: 'QQQ', name: 'Nasdaq 100', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:QQQ', crypto: false },
+    { symbol: 'SOXX', label: 'SOXX', name: '費城半導體', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:SOXX', crypto: false },
+    { symbol: 'TLT', label: 'TLT', name: '美國 20+ 年公債', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:TLT', crypto: false }
   ];
-  const metaFor = (symbol) => symbolCatalog.find((item) => item.symbol === symbol) || symbolCatalog[0];
+  function cleanSymbol(value) {
+    let symbol = String(value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
+    if (/^\d{4}$/.test(symbol)) symbol += '.TW';
+    if (/^(BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK|SUI)$/.test(symbol)) symbol += 'USDT';
+    return symbol || 'BTCUSDT';
+  }
+  const metaFor = (value) => {
+    const symbol = cleanSymbol(value);
+    return symbolCatalog.find((item) => item.symbol === symbol) || {
+      symbol, label: symbol, name: symbol, market: /\.TW$/.test(symbol) ? '台股與台股 ETF' : (/USDT$/.test(symbol) ? '加密貨幣' : '美股與指數 ETF'), category: /\.TW$/.test(symbol) ? 'tw' : (/USDT$/.test(symbol) ? 'crypto' : 'us'), group: '其他', source: /USDT$/.test(symbol) ? 'Binance Public API' : 'Yahoo Finance', tv: /USDT$/.test(symbol) ? `BINANCE:${symbol}` : (/\.TW$/.test(symbol) ? `TWSE:${symbol.replace('.TW', '')}` : `NASDAQ:${symbol}`), crypto: /USDT$/.test(symbol)
+    };
+  };
 
   const timeframeConfig = {
     '5m': { interval: '5m', limit: 1000, range: '5d', yahooInterval: '5m' },
@@ -49,6 +78,7 @@
   let liveReconnectTimer = null;
   let liveReconnectDelay = 1200;
   let liveGeneration = 0;
+  let suggestionIndex = -1;
 
   function fetchWithTimeout(url, timeout = 12000) {
     const controller = new AbortController();
@@ -191,9 +221,24 @@
   }
 
   function syncQuickSymbol(symbol) {
-    const quick = $('grid-quick-symbol');
-    if (quick) quick.value = symbol;
+    const quick = $('grid-quick-symbol'); if (!quick) return;
+    const normalized = cleanSymbol(symbol); quick.value = Array.from(quick.options).some((option) => option.value === normalized) ? normalized : '';
   }
+  function syncSearchSymbol(symbol) { const input = $('grid-symbol-search'); if (input) input.value = cleanSymbol(symbol); }
+  function hideGridSuggestions() { const input = $('grid-symbol-search'); const box = $('grid-symbol-suggestions'); if (box) box.classList.remove('is-visible'); if (input) { input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); } suggestionIndex = -1; }
+  function updateGridSuggestions() {
+    const input = $('grid-symbol-search'); const box = $('grid-symbol-suggestions'); if (!input || !box) return;
+    const query = String(input.value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
+    const matches = (query ? symbolCatalog.filter((item) => item.symbol.includes(query) || item.name.toUpperCase().includes(query) || item.market.includes(query) || item.group.toUpperCase().includes(query)) : symbolCatalog).slice(0, 8);
+    suggestionIndex = -1;
+    box.innerHTML = matches.length ? matches.map((item, index) => `<button type="button" role="option" id="grid-suggestion-${index}" data-symbol="${item.symbol}" aria-selected="false"><span class="rr-suggestion-main"><b>${item.symbol}</b><em>${item.name}</em></span><span class="rr-suggestion-market ${item.category}">${item.market}<small>${item.group}</small></span></button>`).join('') : '<div class="rr-suggestions-empty">找不到符合的商品，請改用代號或名稱。</div>';
+    const visible = Boolean(matches.length && document.activeElement === input); box.classList.toggle('is-visible', visible); input.setAttribute('aria-expanded', String(visible));
+  }
+  function activateGridSuggestion(index) {
+    const box = $('grid-symbol-suggestions'); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; if (!buttons.length) return false;
+    suggestionIndex = Math.max(0, Math.min(index, buttons.length - 1)); buttons.forEach((button, itemIndex) => { const active = itemIndex === suggestionIndex; button.classList.toggle('is-active', active); button.setAttribute('aria-selected', String(active)); if (active) { button.scrollIntoView({ block: 'nearest' }); $('grid-symbol-search')?.setAttribute('aria-activedescendant', button.id); } }); return true;
+  }
+  function chooseGridSuggestion(symbol) { const normalized = cleanSymbol(symbol); syncSearchSymbol(normalized); hideGridSuggestions(); loadMarket(normalized); }
 
   function updateLivePrice(price, changePercent = NaN, source = 'Binance ticker') {
     const next = finitePrice(price, NaN); if (!Number.isFinite(next)) return;
@@ -262,8 +307,8 @@
     widget.classList.add('is-visible'); $('grid-chart')?.classList.add('is-fallback-hidden');
   }
 
-  async function loadMarket() {
-    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; activeSymbol = $('grid-quick-symbol')?.value || 'BTCUSDT'; const meta = metaFor(activeSymbol); syncQuickSymbol(activeSymbol); closeLiveStream(); livePrice = NaN; liveChange = NaN; historyExhausted = false; setText('grid-active-symbol', meta.label); setText('grid-live-price', '—'); setText('grid-live-change', '—'); setText('grid-live-status', `載入 ${meta.label} · ${meta.name}…`); setText('grid-history-status', '正在取得歷史資料…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
+  async function loadMarket(requestedSymbol) {
+    const requestId = ++requestSequence; const timeframe = $('grid-timeframe')?.value || '15m'; activeSymbol = cleanSymbol(requestedSymbol || $('grid-symbol-search')?.value || $('grid-quick-symbol')?.value || 'BTCUSDT'); const meta = metaFor(activeSymbol); syncQuickSymbol(activeSymbol); syncSearchSymbol(activeSymbol); hideGridSuggestions(); closeLiveStream(); livePrice = NaN; liveChange = NaN; historyExhausted = false; setText('grid-active-symbol', meta.label); setText('grid-live-price', '—'); setText('grid-live-change', '—'); setText('grid-live-status', `載入 ${meta.label} · ${meta.name}…`); setText('grid-history-status', '正在取得歷史資料…'); $('grid-tv-widget')?.classList.remove('is-visible'); $('grid-chart')?.classList.remove('is-fallback-hidden');
     try {
       chartData = await fetchMarketInitial(activeSymbol, timeframe); if (requestId !== requestSequence) return; if (!chart) initChart(); renderCandles(); const lastClose = chartData[chartData.length - 1].close; setDefaultsAroundPrice(lastClose); updateLivePrice(lastClose, NaN, 'REST snapshot'); setText('grid-live-status', `${meta.source} · ${chartData.length.toLocaleString()} 根 · ${new Date(chartData[chartData.length - 1].time * 1000).toLocaleString('zh-TW')}`); setText('grid-history-status', meta.crypto ? `已載入 ${chartData.length.toLocaleString()} 根 · 向左捲動載入更早資料` : `已載入 ${chartData.length.toLocaleString()} 根 · ${timeframe}`); simulateGrid(); connectLiveStream();
     } catch (error) { if (requestId !== requestSequence) return; chartData = []; renderFallback(error.name === 'AbortError' ? '連線逾時' : error.message); setText('grid-live-status', `已切換 TradingView ${meta.label}`); setText('grid-history-status', '公開 K 線暫時不可用；稍後可更新行情重試。'); setText('grid-connection-status', meta.crypto ? 'WebSocket 未連線' : '股票／ETF 公開行情不可用'); }
@@ -271,7 +316,17 @@
 
   function bind() {
     ['grid-lower', 'grid-upper', 'grid-count', 'grid-mode', 'grid-capital', 'grid-stop', 'grid-take', 'grid-fee'].forEach((id) => $(id)?.addEventListener('input', () => { rangeTouched = true; simulateGrid(); }));
-    $('grid-quick-symbol')?.addEventListener('change', loadMarket); $('grid-timeframe')?.addEventListener('change', loadMarket); $('grid-refresh')?.addEventListener('click', loadMarket);
+    $('grid-load-symbol')?.addEventListener('click', () => loadMarket());
+    $('grid-quick-symbol')?.addEventListener('change', () => loadMarket($('grid-quick-symbol').value)); $('grid-timeframe')?.addEventListener('change', () => loadMarket(activeSymbol)); $('grid-refresh')?.addEventListener('click', () => loadMarket(activeSymbol));
+    $('grid-symbol-search')?.addEventListener('input', updateGridSuggestions); $('grid-symbol-search')?.addEventListener('focus', updateGridSuggestions);
+    $('grid-symbol-search')?.addEventListener('keydown', (event) => {
+      const box = $('grid-symbol-suggestions');
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { if (!box?.classList.contains('is-visible')) updateGridSuggestions(); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; const next = event.key === 'ArrowDown' ? suggestionIndex + 1 : suggestionIndex - 1; if (activateGridSuggestion((next + buttons.length) % Math.max(1, buttons.length))) event.preventDefault(); }
+      else if (event.key === 'Enter') { event.preventDefault(); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; const active = buttons[suggestionIndex >= 0 ? suggestionIndex : 0]; active && box?.classList.contains('is-visible') ? chooseGridSuggestion(active.dataset.symbol) : loadMarket(); if (!active || !box?.classList.contains('is-visible')) hideGridSuggestions(); }
+      else if (event.key === 'Escape') hideGridSuggestions();
+    });
+    $('grid-symbol-suggestions')?.addEventListener('click', (event) => { const button = event.target.closest('button[data-symbol]'); if (button) chooseGridSuggestion(button.dataset.symbol); });
+    document.addEventListener('click', (event) => { if (!event.target.closest('.grid-hud-search')) hideGridSuggestions(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) closeLiveStream(); else connectLiveStream(); });
     simulateGrid(); loadMarket();
   }

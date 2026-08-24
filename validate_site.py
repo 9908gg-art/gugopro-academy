@@ -17,6 +17,16 @@ class Validator(HTMLParser):
         if tag == 'a' and 'href' in data: self.hrefs.append(data['href'])
 
 errors = []
+expected_symbols = ['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','DOGEUSDT','XRPUSDT','ADAUSDT','AVAXUSDT','LINKUSDT','SUIUSDT','2330.TW','2317.TW','2454.TW','0050.TW','0056.TW','00878.TW','00919.TW','00929.TW','AAPL','MSFT','NVDA','TSLA','GOOGL','AMZN','SPY','QQQ','SOXX','TLT']
+expected_groups = ['加密貨幣 · Crypto Assets', '台股與台股 ETF · Taiwan Stocks &amp; ETFs', '美股與指數 ETF · US Equities &amp; Global ETFs']
+def validate_market_picker(text, page_name, search_id, suggestions_id):
+    if text.count('<optgroup') != 3: errors.append(f'{page_name} must contain exactly 3 optgroups')
+    for group in expected_groups:
+        if f'<optgroup label="{group}">' not in text: errors.append(f'{page_name} missing optgroup {group}')
+    for symbol in expected_symbols:
+        if f'value="{symbol}"' not in text: errors.append(f'{page_name} missing symbol option {symbol}')
+    for marker in [f'id="{search_id}"', f'id="{suggestions_id}"', 'aria-autocomplete="list"', 'aria-controls="'+suggestions_id+'"']:
+        if marker not in text: errors.append(f'{page_name} missing autocomplete marker {marker}')
 root = ROOT / 'index.html'
 root_text = root.read_text(encoding='utf-8')
 for anchor in ['knowledge-tree', 'tool-deck', 'reading-room', 'support']:
@@ -75,12 +85,13 @@ for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-rew
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
-for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','id="rr-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','ui-detail-fix-20260824']:
+for rr_marker in ['data-rr-timeframe="1m"','data-rr-timeframe="4h"','data-rr-timeframe="1w"','id="rr-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','autocomplete-search-20260824']:
     if rr_marker not in rr_text: errors.append(f'rr calculator missing {rr_marker}')
+validate_market_picker(rr_text, 'risk-reward-calculator.html', 'rr-symbol-search', 'rr-symbol-suggestions')
 if 'lightweight-charts' not in rr_text: errors.append('rr calculator missing Lightweight Charts resource')
 if 'rr-chart-labels' in rr_text or 'position:absolute' in rr_text: errors.append('rr calculator still contains legacy overlay marker layer')
 rr_script = (ROOT / 'tools/risk-reward-calculator.js').read_text(encoding='utf-8')
-for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', "'1w'"]:
+for marker in ['getSwingLevels', 'swingHigh', 'swingLow', 'coordinateToPrice', 'startScanner', 'fetchScannerCandles', 'loadScannerSelection', 'fetchBinanceInitial', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'updateSuggestions', 'activateSuggestion', 'chooseSuggestion', "'1w'"]:
     if marker not in rr_script: errors.append(f'rr script missing {marker}')
 for page_name, fields in {
     'etf-dividend-calculator.html': ['etf-symbol','etf-investment','etf-monthly','etf-yield','etf-growth','etf-years','etf-reinvest','etf-chart','etf-reinvest-path','etf-cash-path'],
@@ -90,15 +101,16 @@ for page_name, fields in {
     for field in fields:
         if f'id="{field}"' not in text: errors.append(f'{page_name} missing {field}')
     if page_name == 'grid-trading-calculator.html':
-        for marker in ['value="4h"','value="1d"','value="1w"','id="grid-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','ui-detail-fix-20260824','幣安／派網','右側 Y 軸只顯示']:
+        for marker in ['value="4h"','value="1d"','value="1w"','id="grid-quick-symbol"','value="ETHUSDT"','value="SOLUSDT"','value="AAPL"','value="NVDA"','value="TSLA"','value="SPY"','value="0050.TW"','value="00919.TW"','value="2330.TW"','autocomplete-search-20260824','幣安／派網','右側 Y 軸只顯示']:
             if marker not in text: errors.append(f'grid calculator missing {marker}')
+        validate_market_picker(text, 'grid-trading-calculator.html', 'grid-symbol-search', 'grid-symbol-suggestions')
         if 'grid-load-older' in text or '載入更早歷史' in text: errors.append('grid calculator still contains redundant history button')
 grid_script = (ROOT / 'tools/grid-trading-calculator.js').read_text(encoding='utf-8')
-for marker in ['fetchMarketInitial', 'fetchYahooPage', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'activeSymbol', 'LATEST', "'1w'"]:
+for marker in ['fetchMarketInitial', 'fetchYahooPage', 'loadOlderHistory', 'connectLiveStream', 'updateLivePrice', 'activeSymbol', 'updateGridSuggestions', 'activateGridSuggestion', 'chooseGridSuggestion', "'1w'"]:
     if marker not in grid_script: errors.append(f'grid script missing {marker}')
 if "$('grid-load-older')?.addEventListener" in grid_script: errors.append('grid script still binds redundant history button')
 css_text = (ROOT / 'style.css').read_text(encoding='utf-8')
-for css_marker in ['padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important']:
+for css_marker in ['padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100']:
     if css_marker not in css_text: errors.append(f'style missing {css_marker}')
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')

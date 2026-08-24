@@ -232,3 +232,21 @@ R:R 與網格工具的所有工具內 `<select>` 與 `<option>` 均加入深色�
 本輪本地回歸在桌面 Chromium 實測 R:R 商品輸入框 `width=180px`、`max-width=180px`、`padding-left=36px`、`font-size=16px`；R:R 與網格 select 實際背景為 `rgb(26,31,44)`、文字白色，option 為深色背景與白字。375px 同源 iframe 測試兩頁均 `bodyScrollWidth=367`、`documentScrollWidth=367`、`overflow=false`。網格 quick selector 展開後選擇 ETHUSDT 成功，重新取得 3,000 根歷史、WebSocket 與網格統計；AAPL 安全切換路徑亦維持既有 Yahoo／fallback 提示。
 
 正式桌面截圖為：R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-10_1226.webp`；網格 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-49_2401.webp`。本輪所有行情均為公開資料，可能受 CORS、休市、延遲或斷線影響；網格歷史回放與 R:R 點位僅供教育與研究，不構成投資建議。
+
+
+## 十五、本輪智慧商品搜尋與全市場分類快選升級（2026-08-24）
+
+本輪將 R:R 與網格工具的商品控制列升級為即時模糊搜尋與自動補全。使用者輸入至少 1 個字元即可取得候選；每筆候選以商品代號、全名、市場大分類與細分類呈現，例如 `BTCUSDT · Bitcoin / Tether · 加密貨幣 · 主流公鏈`、`0050.TW · 元大台灣50 · 台股與台股 ETF · 人氣高股息／市值 ETF` 與 `NVDA · NVIDIA · 美股與指數 ETF · 科技巨頭`。候選清單採 absolute 浮動定位與高 z-index，不會推擠 HUD 或 K 線圖；滑鼠點擊、ArrowUp／ArrowDown、Enter 與 Escape 均已接入既有商品載入管線。
+
+兩個工具的原生快速商品選單均改用三組 `<optgroup>`：`加密貨幣 · Crypto Assets`、`台股與台股 ETF · Taiwan Stocks & ETFs`、`美股與指數 ETF · US Equities & Global ETFs`，共 28 個熱門標的。加密貨幣涵蓋 BTCUSDT、ETHUSDT、SOLUSDT、BNBUSDT、DOGEUSDT、XRPUSDT、ADAUSDT、AVAXUSDT、LINKUSDT、SUIUSDT；台股與 ETF 涵蓋 2330.TW、2317.TW、2454.TW、0050.TW、0056.TW、00878.TW、00919.TW、00929.TW；美股與全球 ETF 涵蓋 AAPL、MSFT、NVDA、TSLA、GOOGL、AMZN、SPY、QQQ、SOXX、TLT。R:R 與網格共用一致的 metadata、搜尋比對與載入同步行為。
+
+| 回歸項目 | 本輪實測結果 |
+|---|---|
+| R:R `BT` autocomplete | 顯示 BTCUSDT、Bitcoin / Tether、加密貨幣、主流公鏈；候選為浮動清單，不推擠圖表 |
+| 網格 `NV` autocomplete | 顯示 NVDA、NVIDIA、美股與指數 ETF、科技巨頭；ArrowDown 後 Enter 會同步 quick selector、搜尋欄與 HUD，觸發 NVDA 載入 |
+| 分類快選 | R:R 與網格均有 3 組 optgroup、28 個 option；R:R 直接選 NVDA 後進入 Yahoo Finance 載入流程 |
+| 深色對比 | autocomplete 使用深色面板與白字；工具 select／option 延續深色高對比規則 |
+| 手機版 | 首次量測發現網格 market row 在 720px 以下未覆蓋 desktop 四欄規則，已修正為單欄；最新 R:R／網格 `bodyScrollWidth=367`、`overflow=false` |
+| 靜態檢查 | `validate_site.py` `errors=0`；兩個核心 JS、`app.js`、`advanced-tools.js` 語法檢查與 `git diff --check` 通過 |
+
+本輪本地操作截圖包括：R:R `BT` autocomplete `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-38-18_5753.webp`、網格 `NV` autocomplete `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-39-44_9786.webp`、網格 ArrowDown／Enter 後狀態 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-40-35_7528.webp`、R:R optgroup 展開 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-46-22_7658.webp`。正式部署完成後將在下一節補上最終提交與 Pages workflow。

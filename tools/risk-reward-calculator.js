@@ -28,18 +28,34 @@
   const isCrypto = (symbol) => /(?:USDT|USDC|BUSD)$/.test(symbol);
 
   const symbolCatalog = [
-    { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT' },
-    { symbol: 'ETHUSDT', name: 'Ethereum / Tether', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT' },
-    { symbol: 'SOLUSDT', name: 'Solana / Tether', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT' },
-    { symbol: 'AAPL', name: 'Apple Inc.', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL' },
-    { symbol: 'MSFT', name: 'Microsoft Corp.', source: 'Yahoo Finance', tv: 'NASDAQ:MSFT' },
-    { symbol: 'NVDA', name: 'NVIDIA Corp.', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA' },
-    { symbol: 'TSLA', name: 'Tesla Inc.', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA' },
-    { symbol: 'QQQ', name: 'Invesco QQQ Trust', source: 'Yahoo Finance', tv: 'NASDAQ:QQQ' },
-    { symbol: 'SPY', name: 'SPDR S&P 500 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY' },
-    { symbol: '0050.TW', name: '元大台灣50', source: 'Yahoo Finance', tv: 'TWSE:0050' },
-    { symbol: '00919.TW', name: '群益台灣精選高息', source: 'Yahoo Finance', tv: 'TWSE:00919' },
-    { symbol: '2330.TW', name: '台積電', source: 'Yahoo Finance', tv: 'TWSE:2330' }
+    { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BTCUSDT' },
+    { symbol: 'ETHUSDT', name: 'Ethereum / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:ETHUSDT' },
+    { symbol: 'SOLUSDT', name: 'Solana / Tether', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:SOLUSDT' },
+    { symbol: 'BNBUSDT', name: 'BNB', market: '加密貨幣', category: 'crypto', group: '主流公鏈', source: 'Binance Public API', tv: 'BINANCE:BNBUSDT' },
+    { symbol: 'DOGEUSDT', name: 'Dogecoin', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:DOGEUSDT' },
+    { symbol: 'XRPUSDT', name: 'XRP', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:XRPUSDT' },
+    { symbol: 'ADAUSDT', name: 'Cardano', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:ADAUSDT' },
+    { symbol: 'AVAXUSDT', name: 'Avalanche', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:AVAXUSDT' },
+    { symbol: 'LINKUSDT', name: 'Chainlink', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:LINKUSDT' },
+    { symbol: 'SUIUSDT', name: 'Sui', market: '加密貨幣', category: 'crypto', group: '明星生態／Layer2', source: 'Binance Public API', tv: 'BINANCE:SUIUSDT' },
+    { symbol: '2330.TW', name: '台積電', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2330' },
+    { symbol: '2317.TW', name: '鴻海', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2317' },
+    { symbol: '2454.TW', name: '聯發科', market: '台股與台股 ETF', category: 'tw', group: '權值核心', source: 'Yahoo Finance', tv: 'TWSE:2454' },
+    { symbol: '0050.TW', name: '元大台灣50', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0050' },
+    { symbol: '0056.TW', name: '元大高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:0056' },
+    { symbol: '00878.TW', name: '國泰永續高股息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00878' },
+    { symbol: '00919.TW', name: '群益台灣精選高息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00919' },
+    { symbol: '00929.TW', name: '復華台灣科技優息', market: '台股與台股 ETF', category: 'tw', group: '人氣高股息／市值 ETF', source: 'Yahoo Finance', tv: 'TWSE:00929' },
+    { symbol: 'AAPL', name: 'Apple', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AAPL' },
+    { symbol: 'MSFT', name: 'Microsoft', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:MSFT' },
+    { symbol: 'NVDA', name: 'NVIDIA', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:NVDA' },
+    { symbol: 'TSLA', name: 'Tesla', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:TSLA' },
+    { symbol: 'GOOGL', name: 'Alphabet', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:GOOGL' },
+    { symbol: 'AMZN', name: 'Amazon', market: '美股與指數 ETF', category: 'us', group: '科技巨頭', source: 'Yahoo Finance', tv: 'NASDAQ:AMZN' },
+    { symbol: 'SPY', name: 'S&P 500', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'AMEX:SPY' },
+    { symbol: 'QQQ', name: 'Nasdaq 100', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:QQQ' },
+    { symbol: 'SOXX', name: '費城半導體', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:SOXX' },
+    { symbol: 'TLT', name: '美國 20+ 年公債', market: '美股與指數 ETF', category: 'us', group: '大盤指數 ETF', source: 'Yahoo Finance', tv: 'NASDAQ:TLT' }
   ];
 
   const timeframeConfig = {
@@ -76,11 +92,12 @@
   let liveGeneration = 0;
   let livePrice = NaN;
   let entryPinnedToLive = false;
+  let suggestionIndex = -1;
 
   function cleanSymbol(value) {
     let symbol = String(value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
     if (/^\d{4}$/.test(symbol)) symbol += '.TW';
-    if (/^(BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK)$/.test(symbol)) symbol += 'USDT';
+    if (/^(BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK|SUI)$/.test(symbol)) symbol += 'USDT';
     return symbol || 'BTCUSDT';
   }
 
@@ -89,6 +106,9 @@
     return symbolCatalog.find((item) => item.symbol === symbol) || {
       symbol,
       name: symbol,
+      market: isCrypto(symbol) ? '加密貨幣' : (/\.TW$/.test(symbol) ? '台股與台股 ETF' : '美股與指數 ETF'),
+      category: isCrypto(symbol) ? 'crypto' : (/\.TW$/.test(symbol) ? 'tw' : 'us'),
+      group: '其他',
       source: isCrypto(symbol) ? 'Binance Public API' : 'Yahoo Finance',
       tv: isCrypto(symbol) ? `BINANCE:${symbol}` : (/\.TW$/.test(symbol) ? `TWSE:${symbol.replace('.TW', '')}` : `NASDAQ:${symbol}`)
     };
@@ -478,13 +498,24 @@
     }
   }
 
+  function hideSuggestions(inputId = 'rr-symbol-search', boxId = 'rr-symbol-suggestions') {
+    const input = $(inputId); const box = $(boxId); if (box) box.classList.remove('is-visible'); if (input) { input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); } suggestionIndex = -1;
+  }
   function updateSuggestions() {
-    const query = String($('rr-symbol-search')?.value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
-    const matches = symbolCatalog.filter((item) => !query || item.symbol.includes(query) || item.name.toUpperCase().includes(query)).slice(0, 6);
-    const box = $('rr-symbol-suggestions');
-    if (!box) return;
-    box.innerHTML = matches.map((item) => `<button type="button" role="option" data-symbol="${item.symbol}"><b>${item.symbol}</b><span>${item.name}</span></button>`).join('');
-    box.classList.toggle('is-visible', Boolean(matches.length && document.activeElement === $('rr-symbol-search')));
+    const input = $('rr-symbol-search'); const box = $('rr-symbol-suggestions'); if (!input || !box) return;
+    const query = String(input.value || '').trim().toUpperCase().replace(/[\s/:-]/g, '');
+    const matches = (query ? symbolCatalog.filter((item) => item.symbol.includes(query) || item.name.toUpperCase().includes(query) || item.market.includes(query) || item.group.toUpperCase().includes(query)) : symbolCatalog).slice(0, 8);
+    suggestionIndex = -1;
+    box.innerHTML = matches.length ? matches.map((item, index) => `<button type="button" role="option" id="rr-suggestion-${index}" data-symbol="${item.symbol}" aria-selected="false"><span class="rr-suggestion-main"><b>${item.symbol}</b><em>${item.name}</em></span><span class="rr-suggestion-market ${item.category}">${item.market}<small>${item.group}</small></span></button>`).join('') : '<div class="rr-suggestions-empty">找不到符合的商品，請改用代號或名稱。</div>';
+    const visible = Boolean(matches.length && document.activeElement === input);
+    box.classList.toggle('is-visible', visible); input.setAttribute('aria-expanded', String(visible));
+  }
+  function activateSuggestion(index) {
+    const box = $('rr-symbol-suggestions'); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; if (!buttons.length) return false;
+    suggestionIndex = Math.max(0, Math.min(index, buttons.length - 1)); buttons.forEach((button, itemIndex) => { const active = itemIndex === suggestionIndex; button.classList.toggle('is-active', active); button.setAttribute('aria-selected', String(active)); if (active) { button.scrollIntoView({ block: 'nearest' }); $('rr-symbol-search')?.setAttribute('aria-activedescendant', button.id); } }); return true;
+  }
+  function chooseSuggestion(symbol) {
+    const normalized = cleanSymbol(symbol); if ($('rr-symbol-search')) $('rr-symbol-search').value = normalized; hideSuggestions(); loadSymbol(normalized);
   }
 
   const scannerPool = [
@@ -540,9 +571,14 @@
     $('rr-timeframe')?.addEventListener('change', () => { syncTimeframeButtons($('rr-timeframe').value); loadSymbol(); });
     document.querySelectorAll('[data-rr-timeframe]').forEach((button) => button.addEventListener('click', () => { const timeframe = button.dataset.rrTimeframe; if (!$('rr-timeframe')) return; $('rr-timeframe').value = timeframe; syncTimeframeButtons(timeframe); loadSymbol(); }));
     $('rr-symbol-search')?.addEventListener('input', updateSuggestions); $('rr-symbol-search')?.addEventListener('focus', updateSuggestions);
-    $('rr-symbol-search')?.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); loadSymbol(); $('rr-symbol-suggestions')?.classList.remove('is-visible'); } });
-    $('rr-symbol-suggestions')?.addEventListener('click', (event) => { const button = event.target.closest('button[data-symbol]'); if (!button) return; $('rr-symbol-search').value = button.dataset.symbol; $('rr-symbol-suggestions').classList.remove('is-visible'); loadSymbol(button.dataset.symbol); });
-    document.addEventListener('click', (event) => { if (!$('rr-search-wrap')?.contains(event.target)) $('rr-symbol-suggestions')?.classList.remove('is-visible'); });
+    $('rr-symbol-search')?.addEventListener('keydown', (event) => {
+      const box = $('rr-symbol-suggestions');
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { if (!box?.classList.contains('is-visible')) updateSuggestions(); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; const next = event.key === 'ArrowDown' ? suggestionIndex + 1 : suggestionIndex - 1; if (activateSuggestion((next + buttons.length) % Math.max(1, buttons.length))) event.preventDefault(); }
+      else if (event.key === 'Enter') { event.preventDefault(); const buttons = box ? [...box.querySelectorAll('button[data-symbol]')] : []; const active = buttons[suggestionIndex >= 0 ? suggestionIndex : 0]; active && box?.classList.contains('is-visible') ? chooseSuggestion(active.dataset.symbol) : loadSymbol(); if (!active || !box?.classList.contains('is-visible')) hideSuggestions(); }
+      else if (event.key === 'Escape') { hideSuggestions(); }
+    });
+    $('rr-symbol-suggestions')?.addEventListener('click', (event) => { const button = event.target.closest('button[data-symbol]'); if (button) chooseSuggestion(button.dataset.symbol); });
+    document.addEventListener('click', (event) => { if (!event.target.closest('.rr-search-wrap')) hideSuggestions(); });
     $('rr-use-support')?.addEventListener('click', () => { $('rr-stop-price').value = $('rr-use-support').dataset.price || ''; calculate(); });
     $('rr-use-resistance')?.addEventListener('click', () => { $('rr-target-price').value = $('rr-use-resistance').dataset.price || ''; calculate(); });
     $('rr-reset-lines')?.addEventListener('click', resetLines); $('rr-load-older')?.addEventListener('click', loadOlderHistory);

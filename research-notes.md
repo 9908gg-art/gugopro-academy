@@ -317,3 +317,59 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 正式 R:R URL：`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=ui-detail-fix-20260824`。頁面實測商品輸入框文字與放大鏡保持 36px 左距、桌面欄寬收斂，quick selector 與 Scanner 下拉為深色白字，BTCUSDT 已載入 3,000 根公開 K 線並顯示 Binance ticker；截圖 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-10_1226.webp`。
 
 正式網格 URL：`https://academy.gugopro.com/tools/grid-trading-calculator.html?v=ui-detail-fix-20260824`。頁面實測 quick selector／週期／模式 select 深色白字；`#grid-load-older` 不存在，BTC/USDT 已載入 3,000 根歷史、WebSocket 已連線、費後單格利潤率約 0.81%；截圖 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_13-54-49_2401.webp`。
+
+## Autocomplete upgrade — local R:R checkpoint
+
+本地 `risk-reward-calculator.html?v=autocomplete-search-20260824` 已載入新版三大市場 optgroup。以 `BT` 觸發商品輸入事件，候選清單進入渲染流程；接續以瀏覽器視覺檢查與鍵盤回歸確認代號、全名、分類標籤及浮動定位。
+
+### Local R:R autocomplete visual check
+
+在本地 R:R 輸入 `BT` 後，浮動候選框顯示 `BTCUSDT`、`Bitcoin / Tether`、`加密貨幣` 與 `主流公鏈`；候選框位於搜尋列下方並疊在 HUD／圖表區前，不改變頁面流向。ArrowDown 操作已觸發候選 active 狀態，待以 Enter 完成載入回歸。
+
+## Autocomplete upgrade — local Grid checkpoint
+
+本地 `grid-trading-calculator.html?v=autocomplete-search-20260824` 已顯示新增 `商品／代號` 搜尋列、載入按鈕與 `grid-symbol-suggestions` 容器；快速商品選單已擴充為加密貨幣、台股／台股 ETF、美股與指數 ETF 三大 optgroup，HUD 控制列仍保持緊湊，未將圖表推出視野。
+
+### Local Grid autocomplete visual check
+
+在本地網格工具輸入 `NV` 後，浮動候選列顯示 `NVDA`、`NVIDIA`、`美股與指數 ETF` 與 `科技巨頭`；候選框位於商品搜尋列下方，未推擠週期、區間、網格數或投資額控制。分類 optgroup 與深色 HUD 仍正常呈現。
+
+### Local Grid keyboard check
+
+在網格工具輸入 `NV` 後，候選列可呈現 `NVDA / NVIDIA / 美股與指數 ETF / 科技巨頭`，ArrowDown 觸發第一項 active 狀態；同一畫面仍保有 BTC WebSocket、3,000 根歷史與網格統計，浮動清單未破壞 HUD 或圖表。
+
+### Local Grid Enter selection
+
+在 `NV` 候選 active 狀態按 Enter 後，網格搜尋框與 quick selector 均同步為 `NVDA`，HUD 也切換為 `NVDA · NVIDIA` 並進入公開行情載入流程。因 Yahoo 公開行情可能受 CORS、休市或延遲影響，本次以商品狀態切換與無腳本錯誤為主要回歸條件。
+
+## Autocomplete upgrade — 375px RWD checkpoint
+
+兩個工具的 `autocomplete-search-20260824` 版本已在同源 375px 隱藏 iframe 建立，並執行搜尋輸入、suggestions 容器、optgroup 數量與 body scrollWidth 量測腳本；後續再以更直接的頁面狀態讀取方式確認數值，避免 console 對 iframe 日誌的截斷。
+
+### 375px RWD overflow finding
+
+同源 iframe 量測結果：R:R `bodyScrollWidth=367`、`overflow=false`；網格 `bodyScrollWidth=677`、`overflow=true`。autocomplete 與三組 optgroup 均存在。需定位網格手機版超寬元素，優先檢查新增搜尋列、HUD market row、fallback iframe 與 chart shell。
+
+### Grid 375px overflow diagnosis and fix
+
+元素量測確認網格 `bodyScrollWidth=677` 的根因是新增四欄 `.grid-hud-market-row` 在 720px 以下仍保留 desktop min-width：`grid-hud-connection` 延伸到 677px。已在 autocomplete CSS 末端補上 `@media (max-width:720px)`，將 R:R／Grid market row 恢復為單欄 `grid-template-columns:1fr` 並 `align-items:stretch`。
+
+### 375px RWD final pass
+
+補上手機 media query 後重新量測結果：R:R 與網格 iframe 的 `bodyScrollWidth` 均為 `367px`（viewport 375px），兩頁皆 `overflow=false`；兩頁均有搜尋 input、suggestions 容器、3 組 optgroup 與 28 個 option。網格先前 677px 的橫向溢出已排除。
+
+## Local R:R categorized quick selector
+
+本地 R:R `autocomplete-search-20260824` 版本的 quick selector 已顯示 3 組市場 optgroup、28 個 option，以及商品／代號 autocomplete 輸入列；頁面仍可載入 BTC 公開 K 線並保留原生價格線與長歷史流程。
+
+### Local R:R optgroup visual check
+
+R:R 本地 quick selector 展開畫面確認原生 optgroup 標題以「加密貨幣 · Crypto Assets」「台股與台股 ETF · Taiwan Stocks & ETFs」「美股與指數 ETF · US Equities & Global ETFs」分層，候選文字在深色 HUD 上清晰可辨；畫面截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-46-22_7658.webp`。
+
+### Local R:R selector switch
+
+在 R:R 原生 optgroup 快選中選取 `NVDA · NVIDIA` 後，搜尋輸入同步為 `NVDA`，頁面狀態切換至 `載入 NVDA · Yahoo Finance`，確認分類快選與既有商品載入入口已整合；股票／ETF 仍依公開 Yahoo 端點可用性顯示狀態。
+
+### Local R:R Taiwan ETF autocomplete
+
+在 R:R 搜尋框輸入 `00` 後，候選清單即時顯示 `0050.TW`、`0056.TW`、`00878.TW`、`00919.TW`、`00929.TW`，並保留名稱、台股與台股 ETF 市場標籤及人氣高股息／市值 ETF 細分類；同時可依名稱／代碼比對出 SPY 與 QQQ。操作畫面：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-48-05_3721.webp`。
