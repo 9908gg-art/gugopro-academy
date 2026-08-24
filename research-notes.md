@@ -168,3 +168,16 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## 推送紀錄（2026-08-24）
 
 本輪功能提交已推送至 GitHub `main`：`18258d8`。提交訊息為 `Manus AI: restore R:R market scanner, fix swing-high anchor and grid Y-axis clutter, add grid/dividend guides with bidirectional links`。推送後 `HEAD` 與 `origin/main` 均指向 `18258d8`，remote URL 維持無認證網址，暫存 askpass 與 PAT 環境已清除。
+
+
+## a184b60 正式站部署回歸（2026-08-24）
+
+公開 GitHub Actions 查詢確認 `pages build and deployment` run `32711161385`、head `a184b60` 已 `completed / success`；前一個 `18258d8` run 被 GitHub Pages 以新提交取代並標示 cancelled，最終文件提交 a184b60 已完成部署。
+
+正式首頁 `https://academy.gugopro.com/?v=a184b60` 成功載入新版知識樹、12 個分類、三張高階工具卡與 Footer 導流。正式 R:R `https://academy.gugopro.com/tools/risk-reward-calculator.html?v=a184b60#rr-market-scanner` 成功載入 Binance Public API 500 根 BTCUSDT 日線、原生 canvas、Entry 77,298.02、Swing Low／Stop 57,800.19、Swing High／Target 82,850、ATR 2.9%，Scanner 控件與 `createPriceLine` 圖表可見。正式 R:R 截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-23-58_2896.webp` 與行情完成畫面 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-24-08_8146.webp`；首頁截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-23-42_3917.webp`。
+
+正式 BTC 網格 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=a184b60` 已成功載入 Binance Public API 1000 根 15m K 線與原生 Lightweight Charts。最新價 77,282.20；每格比例 1.01%、費後單格利潤率 0.81%、單格套利 4.04 USDT、資金利用率 24.93%、距最近邊界 10%、回撤 0.86%、期末模擬資產 9,941.15 USDT；圖表可見綠買入／紅賣出網格、黃色 SL、紫色 TP，以及只顯示關鍵價位的右側 Y 軸。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-24-48_1625.webp`。
+
+正式 `https://academy.gugopro.com/guides/grid-trading.html?v=a184b60` 已完成部署回歸：頁面顯示 12 + 3 主題導覽、動態網格定義、等差／等比與費後單格利潤公式、實戰流程、風險比較表、Binance／OKX 來源與文末 R:R／ETF／BTC 網格工具 CTA。截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-25-22_9354.webp`。
+
+正式 `https://academy.gugopro.com/guides/etf-dividend-drip.html?v=a184b60` 已完成部署回歸：頁面顯示 12 + 3 主題導覽、配息來源與除息、DRIP／總報酬公式、策略流程、風險比較表、SEC／Invesco 官方來源與文末三個工具 CTA；ETF 現金流工具回鏈可見。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-25-58_4543.webp`。

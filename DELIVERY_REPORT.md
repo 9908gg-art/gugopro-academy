@@ -1,8 +1,9 @@
 # GugoPro 財經學院：R:R 全市場 Scanner、BTC 網格與策略指南交付報告
 
-**專案：** `9908gg-art/gugopro-academy`  
-**正式站：** [academy.gugopro.com](https://academy.gugopro.com/)  
+**專案：** `9908gg-art/gugopro-academy`
+**正式站：** [academy.gugopro.com](https://academy.gugopro.com/)
 **本輪功能提交：** `18258d8`
+**文件同步提交：** 待補入
 **完成日期：** 2026-08-24
 **作者：** Manus AI
 
@@ -100,11 +101,15 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 
 本輪功能提交 `18258d8` 已推送至 GitHub `main`；提交訊息與上方指定內容完全一致。正式站驗證網址為：
 
-- [首頁](https://academy.gugopro.com/?v=latest)
-- [R:R K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=latest#rr-market-scanner)
-- [BTC/USDT 動態網格](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=latest)
-- [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=latest)
-- [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=latest)
+- [首頁](https://academy.gugopro.com/?v=a184b60)
+- [R:R K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=a184b60#rr-market-scanner)
+- [BTC/USDT 動態網格](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=a184b60)
+- [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=a184b60)
+- [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=a184b60)
+
+Pages workflow [32711161385](https://github.com/9908gg-art/gugopro-academy/actions/runs/32711161385) 已完成 `completed / success`，head 為 `a184b60`。正式首頁成功載入新版知識樹、12 個商品分類、三張高階工具卡與 Footer 導流；正式 R:R 頁成功載入 Binance 500 根 BTCUSDT 日線，顯示原生 canvas、Entry 77,298.02、Swing Low／Stop 57,800.19、Swing High／Target 82,850、約 2.9% ATR 與 Scanner 控件。正式 BTC 網格頁成功載入 Binance 1000 根 15m K 線，輸出 1.01% 比例間距、0.81% 費後單格利潤率、4.04 USDT 單格套利、24.93% 利用率、0.86% 回撤與 9,941.15 USDT 期末模擬資產；圖表只在右軸顯示 Upper／Lower／最新價／SL／TP。兩篇新增正式指南均顯示 12 + 3 主題導覽、官方來源、比較表與三個工具 CTA。
+
+正式截圖檔案：首頁 `academy_gugopro_2026-08-24_09-23-42_3917.webp`、R:R `academy_gugopro_2026-08-24_09-24-08_8146.webp`、BTC 網格 `academy_gugopro_2026-08-24_09-24-48_1625.webp`、動態網格指南 `academy_gugopro_2026-08-24_09-25-22_9354.webp`、ETF DRIP 指南 `academy_gugopro_2026-08-24_09-25-58_4543.webp`。
 
 ## 八、檔案導覽
 
