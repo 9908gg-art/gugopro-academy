@@ -397,3 +397,23 @@ Run 84（workflow ID `32741183018`）詳情頁已顯示 `Status Success`，commi
 ### Official Grid autocomplete
 
 正式站 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=autocomplete-search-20260824` 已核對 8528a10。頁面顯示三大 optgroup 與 28 個商品、`商品／代號` autocomplete 搜尋列；BTC/USDT 公開資料載入 3,000 根 K 線、WebSocket 顯示已連線、網格輸出與稀疏右軸正常。正式桌面截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_14-57-10_2855.webp`。
+
+## Final documentation Pages deployment checkpoint
+
+公開 GitHub Actions 顯示文件同步提交 `7c57571` 已觸發 pages-build-deployment Run 85（workflow ID `32741997754`），目前為 `In progress`；功能提交 `8528a10` 對應 Run 84 已完成成功。正式站 autocomplete 功能已由 Run 84 驗證，待 Run 85 完成後再以最終 main 版本做一次狀態核對。
+
+### Pages Run 85 extended polling
+
+公開 Actions 列表在後續刷新仍將 Run 85（workflow ID `32741997754`）標為 `In progress`；其前一個功能 Run 84 已成功。下一步開啟 Run 85 詳情頁確認實際狀態與部署 job。
+
+## Final main official R:R verification
+
+Run 85（workflow ID `32741997754`）已顯示 `Status Success`，commit head `7c57571`，build、report-build-status、deploy 均完成。正式站 R:R `?v=autocomplete-search-20260824` 回傳最終 main 的 3 組 optgroup、28 個熱門商品、autocomplete 輸入與 BTC 3,000 根資料流程；最終畫面截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-02-24_8126.webp`。
+
+## Final main official Grid initial verification
+
+正式站網格 `?v=autocomplete-search-20260824` 已回傳最終 main `7c57571` 的 quick selector、商品搜尋欄與 28 項商品分類 DOM；目前頁面正在取得 BTC 公開歷史，下一步驗證 `NV` autocomplete 與候選 metadata。初始截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-02-48_6737.webp`。
+
+## Final main official Grid autocomplete
+
+最終 main `7c57571` 的正式站網格頁輸入 `NV` 後，即時浮出單筆 `NVDA · NVIDIA · 美股與指數 ETF · 科技巨頭` 候選，清單不推擠下方參數或圖表；同頁 BTC/USDT 顯示 3,000 根 K 線、WebSocket 已連線、單格利潤率 0.81% 與完整網格輸出。最終操作截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_15-03-22_6111.webp`。
