@@ -3,7 +3,7 @@
 **專案：** `9908gg-art/gugopro-academy`  
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)  
 **功能提交：** `cd0309b`  
-**最終 main 提交：** `96ccdf9`  
+**最終 main 提交：** `acf1dec`  
 **完成日期：** 2026-08-24
 
 ## 一、交付摘要
@@ -98,7 +98,7 @@ Binance K 線成功時，工具使用 Lightweight Charts 原生價格線繪製�
 
 `Manus AI: inspect git history to fix inverted R:R lines and rebuild BTC grid trading station`
 
-功能提交為 `cd0309b`；文件同步提交為 `f485ccc`；最後 cache-bust 提交為 `96ccdf9`。GitHub Pages 對應 workflow 已完成 `success`，正式頁已確認採用 `native-grid-20260824` 資產版本。正式首頁、正式 R:R、正式 BTC 網格頁均以 `?v=96ccdf9` 版本參數驗證；remote URL 不含 PAT，工作樹保持乾淨。
+功能提交為 `cd0309b`；文件同步提交為 `f485ccc`；最後功能／cache-bust 提交為 `96ccdf9`；最終研究紀錄提交為 `acf1dec`。GitHub Pages 對應 workflow 已完成 `success`，正式頁已確認採用 `native-grid-20260824` 資產版本。正式首頁、正式 R:R、正式 BTC 網格頁均以 `?v=acf1dec` 版本參數驗證；remote URL 不含 PAT，工作樹保持乾淨。
 
 ## 八、檔案導覽
 
