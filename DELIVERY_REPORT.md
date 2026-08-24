@@ -3,6 +3,7 @@
 **專案：** `9908gg-art/gugopro-academy`  
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)  
 **功能提交：** `cd0309b`  
+**最終 main 提交：** `96ccdf9`  
 **完成日期：** 2026-08-24
 
 ## 一、交付摘要
@@ -26,7 +27,7 @@
 
 ## 三、R:R 原生 K 線分析儀
 
-正式工具：[R:R K 線分析儀](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=cd0309b)
+正式工具：[R:R K 線分析儀](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=96ccdf9)
 
 工具支援 1 分鐘、5 分鐘、15 分鐘、1 小時與 1 日五種週期；商品目錄包含 BTCUSDT、ETHUSDT、SOLUSDT、AAPL、MSFT、NVDA、TSLA、QQQ、0050.TW 與 00919.TW，也可輸入自訂代號。加密資產從 Binance Public API 載入，美股／ETF 優先嘗試 Yahoo Finance；公開端點因 CORS 或網路狀態無法讀取時，會切換 TradingView Advanced Chart Widget，數值風控仍可離線使用。
 
@@ -38,11 +39,11 @@
 
 ### 雙向拖曳回歸測試
 
-本地真實瀏覽器在 BTCUSDT 原生 K 線上執行 pointerdown／pointermove／pointerup 測試。向上拖曳進場線 36px，進場價由 **77,406.72** 增加至 **85,205.97**，變化 **+7,799.25**；向下拖曳 30px 後降至 **78,706.59**，變化 **−6,499.38**。兩次均輸出有限數值，沒有超過 `1e12` 的溢位，R:R 與建議部位同步更新。正式站 cd0309b 亦成功顯示 Binance BTCUSDT K 線、支撐 76,051、壓力 78,080 與約 2.9% ATR。
+本地真實瀏覽器在 BTCUSDT 原生 K 線上執行 pointerdown／pointermove／pointerup 測試。向上拖曳進場線 36px，進場價由 **77,406.72** 增加至 **85,205.97**，變化 **+7,799.25**；向下拖曳 30px 後降至 **78,706.59**，變化 **−6,499.38**。兩次均輸出有限數值，沒有超過 `1e12` 的溢位，R:R 與建議部位同步更新。最後部署 96ccdf9 的正式站亦成功顯示 Binance BTCUSDT K 線、支撐 76,051、壓力 78,080 與約 2.9% ATR。
 
 ## 四、BTC/USDT 動態網格交易工作台
 
-正式工具：[BTC/USDT 動態網格工作台](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=cd0309b)
+正式工具：[BTC/USDT 動態網格工作台](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=96ccdf9)
 
 ### 交易所標準參數
 
@@ -97,7 +98,7 @@ Binance K 線成功時，工具使用 Lightweight Charts 原生價格線繪製�
 
 `Manus AI: inspect git history to fix inverted R:R lines and rebuild BTC grid trading station`
 
-功能提交為 `cd0309b`。GitHub Pages 對應 workflow 已完成 `success`；正式首頁、正式 R:R、正式 BTC 網格頁均以版本參數驗證。最新文件同步將於本報告提交時推送，remote URL 不含 PAT，工作樹保持乾淨。
+功能提交為 `cd0309b`；文件同步提交為 `f485ccc`；最後 cache-bust 提交為 `96ccdf9`。GitHub Pages 對應 workflow 已完成 `success`，正式頁已確認採用 `native-grid-20260824` 資產版本。正式首頁、正式 R:R、正式 BTC 網格頁均以 `?v=96ccdf9` 版本參數驗證；remote URL 不含 PAT，工作樹保持乾淨。
 
 ## 八、檔案導覽
 

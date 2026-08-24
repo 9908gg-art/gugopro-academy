@@ -135,3 +135,11 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## 原生 R:R／BTC 網格正式站驗證
 
 提交 `cd0309b` 的 GitHub Pages workflow 已完成 success。正式 R:R 頁以 `?v=cd0309b` 載入 BTCUSDT，成功顯示 Binance Public API 500 根 K 線、支撐 76,051、壓力 78,080、ATR 約 2.9%，原生 Lightweight Charts 圖表與 3 條價格線均可見；週期選單包含 1m、5m、15m、1h、1d。正式網格頁成功顯示 BTC/USDT、Binance 1,000 根 15m K 線、等比網格、綠色買入線、紅色賣出線、黃色止損線與紫色止盈線，並輸出單格淨利潤率、資金利用率、破網風險與回撤。
+
+## 最後 cache-bust 版本正式 R:R
+
+`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=96ccdf9` 成功載入 `native-grid-20260824` 資產。瀏覽器顯示 Binance Public API 500 根 BTCUSDT K 線，原生 Lightweight Charts canvas 與進場／停損／目標價格線可見；最新價 77,311.51，支撐 76,051，壓力 78,080，ATR 約 2.9%。本次頁面結果為 R:R 2.00R、單位風險 2,319.35、建議單位數 2，均為有限數值。最終瀏覽器截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_07-57-19_6031.webp`。
+
+## 最後 cache-bust 版本正式 BTC 網格
+
+`https://academy.gugopro.com/tools/grid-trading-calculator.html?v=96ccdf9` 成功載入 `native-grid-20260824` 資產。瀏覽器顯示 Binance Public API 1,000 根 BTCUSDT K 線（15m），綠／紅網格、黃色止損與紫色止盈原生價格線均可見；最新價 77,293.06，單格扣雙邊 0.1% 手續費後淨利潤率 0.81%，單格套利金額 4.04 USDT，資金利用率 24.92%，破網風險距最近邊界 10%，模擬回撤 0.88%。歷史路徑曾觸及止損，故實現套利淨利為 -56.84 USDT；這是教育回放結果，不是座標溢位。最終瀏覽器截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_07-57-54_2631.webp`。
