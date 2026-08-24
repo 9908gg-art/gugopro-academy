@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
     <style>
         select option {
             background-color: #1a1f26 !important;
@@ -113,7 +113,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -127,7 +127,7 @@
                     <a href="tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -168,7 +168,7 @@
             <h2 style="font-size: 1.3rem; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #fff;">
                 <i class="fa-solid fa-square-rss" style="color: var(--accent);"></i> 搜尋篩選設定
             </h2>
-            
+
             <!-- Category Tabs -->
             <div class="category-tabs">
                 <button class="cat-tab active" onclick="setCategory('all')" id="cat-all">全市場</button>
@@ -183,7 +183,7 @@
                     <label><span>最低風報比要求 (Min R:R)</span><span id="scan-rr-val" style="color: var(--accent); font-weight: bold;">1 : 3.0</span></label>
                     <input type="range" id="scan-min-rr" min="1.5" max="5.0" step="0.5" value="3.0" oninput="document.getElementById('scan-rr-val').innerText = '1 : ' + parseFloat(this.value).toFixed(1)" style="-webkit-appearance: none; background: rgba(255, 255, 255, 0.05); height: 6px; border-radius: 3px; outline: none; margin-top: 10px; cursor: pointer;">
                 </div>
-                
+
                 <div class="input-group">
                     <label>K線時間週期 (Interval)</label>
                     <select id="scan-timeframe" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); padding: 10px; outline: none; cursor: pointer;">
@@ -210,12 +210,12 @@
                         <option value="365d">365天 (1年)</option>
                     </select>
                 </div>
-                
+
                 <button onclick="startScanning()" style="background: var(--accent); border: none; border-radius: 8px; color: #000; font-weight: bold; padding: 12px 24px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; height: 42px;">
                     <i class="fa-solid fa-play"></i> 開始掃描市場
                 </button>
             </div>
-            
+
             <!-- Progress Bar -->
             <div id="scan-progress-container" style="display: none; margin-bottom: 24px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">
@@ -226,7 +226,7 @@
                     <div id="scan-progress-bar" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear;"></div>
                 </div>
             </div>
-            
+
             <!-- Results Table -->
             <div id="scan-results-container" style="overflow-x: auto;">
                 <table class="results-table">
@@ -255,7 +255,9 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙階段</a>
@@ -269,7 +271,7 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
     <script>
         let currentCategory = 'all';
 
@@ -388,7 +390,7 @@
                         yahooInterval = "1wk";
                         yahooRange = "2y";
                     }
-                    
+
                     const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${rawQuery}?interval=${yahooInterval}&range=${yahooRange}`;
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
                     const res = await fetchWithTimeout(proxyUrl, { timeout: 7000 });
@@ -423,7 +425,7 @@
                 if (visibleData.length === 0) return { success: false };
 
                 const latestPrice = visibleData[visibleData.length - 1].close;
-                
+
                 let highSum = -99999999;
                 let lowSum = 99999999;
                 visibleData.forEach(d => {
@@ -522,7 +524,7 @@
 
             const durationMin = (durationMsMap[scanRange] || (7 * 24 * 3600000)) / 60000;
             const intervalMin = intervalMinMap[scanTf] || 1440;
-            
+
             // Compute candles count
             scanCandles = Math.round(durationMin / intervalMin);
             // Cap between 15 and 250 candles to keep the request stable
@@ -542,7 +544,7 @@
             for (let i = 0; i < filteredTickers.length; i++) {
                 const ticker = filteredTickers[i];
                 const progressPct = Math.round(((i + 1) / filteredTickers.length) * 100);
-                
+
                 progressBar.style.width = `${progressPct}%`;
                 progressText.innerText = `${progressPct}%`;
                 statusText.innerText = `正在讀取並分析商品: ${ticker.symbol} (${ticker.name}) [${i+1}/${filteredTickers.length}]`;
@@ -591,7 +593,7 @@
                             <span class="rank-badge ${rankClass}">${rankNum}</span>
                         </td>
                         <td style="padding: 14px 12px; font-weight: bold; color: #fff;">
-                            ${ticker.symbol} 
+                            ${ticker.symbol}
                             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:normal;">(${ticker.name})</span>
                         </td>
                         <td style="padding: 14px 12px;">

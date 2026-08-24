@@ -934,3 +934,10 @@ kbd { color: var(--copy-muted); border: 1px solid var(--line); padding: 1px 5px;
   .primary-nav.is-open a { padding: 11px 12px; border-radius: 8px; }
   .site-header .nav-container { position: relative; }
 }
+
+/* Shared resource CTA injected into legacy article and tool pages */
+.resource-strip { max-width: 1200px; margin: 28px auto 0; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 22px; border: 1px solid rgba(118,167,255,.3); border-radius: 15px; background: linear-gradient(135deg, rgba(30,63,92,.28), rgba(17,24,36,.65)); }
+.resource-strip h2 { margin: 8px 0 4px; color: var(--text-primary, #edf3fb); font-family: 'Space Grotesk', 'Outfit', sans-serif; font-size: 1.2rem; letter-spacing: -.04em; }
+.resource-strip p { margin: 0; color: var(--text-secondary, #a8b6c9); font-size: .8rem; line-height: 1.6; }
+.resource-strip .button { flex: 0 0 auto; }
+@media (max-width: 620px) { .resource-strip { margin-left: 16px; margin-right: 16px; align-items: flex-start; flex-direction: column; } }

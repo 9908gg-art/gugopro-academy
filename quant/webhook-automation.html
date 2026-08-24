@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
     <style>
         .code-block {
             background: #11141a;
@@ -50,7 +50,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -64,7 +64,7 @@
                     <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -168,16 +168,16 @@ PASSPHRASE = "MY_SECRET_KEY"
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.get_json()
-    
+
     # 1. 密碼驗證
     if not data or data.get('passphrase') != PASSPHRASE:
         return jsonify({"status": "error", "message": "Unauthorized"}), 401
-    
+
     # 2. 解析 TradingView 訊號
     symbol = data.get('symbol', 'BTCUSDT')
     side = data.get('action') # BUY or SELL
     qty = data.get('qty', 0.01)
-    
+
     # 3. 呼叫交易所 API 下單 (例如 Binance Futures API)
     endpoint = "https://fapi.binance.com/fapi/v1/order"
     timestamp = int(time.time() * 1000)
@@ -188,15 +188,15 @@ def webhook():
         "quantity": qty,
         "timestamp": timestamp
     }
-    
+
     # 產生 HMAC SHA256 簽名
     query_string = '&'.join([f"{k}={v}" for k, v in params.items()])
     signature = hmac.new(API_SECRET.encode('utf-8'), query_string.encode('utf-8'), hashlib.sha256).hexdigest()
     params['signature'] = signature
-    
+
     headers = {"X-MBX-APIKEY": API_KEY}
     res = requests.post(endpoint, headers=headers, params=params)
-    
+
     return jsonify({"status": "success", "exchange_response": res.json()}), 200
 
 if __name__ == '__main__':
@@ -216,7 +216,9 @@ if __name__ == '__main__':
     </main>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙階段</a>
@@ -230,6 +232,6 @@ if __name__ == '__main__':
     </footer>
 
     <!-- App Scripts -->
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
 </body>
 </html>

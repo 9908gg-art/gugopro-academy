@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
 </head>
 <body>
 
@@ -29,7 +29,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -43,7 +43,7 @@
                     <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -64,7 +64,7 @@
 
     <!-- Main Content Container -->
     <div class="container article-layout" style="padding-top: 40px;">
-        
+
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-box">
@@ -111,7 +111,7 @@
                             <br><em>為什麼會這樣？</em> 因為在這個價格區間，之前買入被套牢的人急著解套賣出，而低點買入的人想獲利了結。當「賣盤」大於「買盤」時，價格就很難突破。
                         </li>
                     </ul>
-                    
+
                     <h3>💡 簡單比喻：就像評估要不要玩擲硬幣遊戲</h3>
                     <p>
                         想像有人邀您玩一個遊戲：擲硬幣，出現人頭您輸 $100 元，出現字您贏 $200 元。您玩不玩？
@@ -129,35 +129,35 @@
                         <line x1="50" y1="130" x2="750" y2="130" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
                         <line x1="50" y1="210" x2="750" y2="210" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
                         <line x1="50" y1="290" x2="750" y2="290" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
-                        
+
                         <!-- Resistance Level ($108) -->
                         <line x1="50" y1="110" x2="750" y2="110" stroke="#ff3333" stroke-width="2" stroke-dasharray="6 4"/>
                         <text x="60" y="100" fill="#ff3333" font-size="13" font-weight="bold">壓力位 (Resistance) - $108 (目標停利區)</text>
-                        
+
                         <!-- Support Level ($98) -->
                         <line x1="50" y1="310" x2="750" y2="310" stroke="#4caf50" stroke-width="2" stroke-dasharray="6 4"/>
                         <text x="60" y="330" fill="#4caf50" font-size="13" font-weight="bold">支撐位 (Support) - $98 (技術停損防線)</text>
-                        
+
                         <!-- Price Action Path -->
                         <!-- Double bottom pattern and pullback to entry -->
                         <path d="M 80 180 L 180 310 L 280 110 L 380 310 L 450 200 L 520 270 L 680 110" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
                         <!-- Highlighted entry to profit path -->
                         <path d="M 520 270 L 680 110" fill="none" stroke="#2196f3" stroke-width="4"/>
-                        
+
                         <!-- Golden Entry Point ($100) -->
                         <circle cx="520" cy="270" r="8" fill="#ff9900"/>
                         <text x="540" y="266" fill="#ff9900" font-size="14" font-weight="bold">黃金進場點 (Entry) - $100</text>
                         <text x="540" y="282" fill="#808080" font-size="11">貼近支撐，只願承受 -2% 的下行風險</text>
-                        
+
                         <!-- Risk vs Reward Brackets -->
                         <!-- Risk Bracket (Entry 270 to Support 310 = 40px) -->
                         <path d="M 500 270 L 490 270 L 490 290 L 490 310 L 500 310" fill="none" stroke="#ff3333" stroke-width="2"/>
                         <text x="375" y="295" fill="#ff3333" font-size="13" font-weight="bold">風險 (Risk): 2% ($2)</text>
-                        
+
                         <!-- Reward Bracket (Entry 270 to Resistance 110 = 160px) -->
                         <path d="M 500 270 L 490 270 L 490 190 L 490 110 L 500 110" fill="none" stroke="#4caf50" stroke-width="2"/>
                         <text x="340" y="195" fill="#4caf50" font-size="13" font-weight="bold">預期報酬 (Reward): 8% ($8)</text>
-                        
+
                         <!-- Risk Reward Indicator Card -->
                         <rect x="630" y="180" width="145" height="75" rx="8" fill="rgba(20, 24, 33, 0.95)" stroke="#ff9900" stroke-width="1.5"/>
                         <text x="645" y="205" fill="#ff9900" font-size="12" font-weight="bold">風險報酬比 (R:R)</text>
@@ -382,7 +382,9 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="index.html">啟蒙階段</a>
@@ -395,7 +397,7 @@
         <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
     </footer>
 
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
 </body>
 </html>
 

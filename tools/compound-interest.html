@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
     <style>
         .tool-container {
             display: grid;
@@ -329,7 +329,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -343,7 +343,7 @@
                     <a href="tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -381,7 +381,7 @@
             <!-- Left panel: Parameters & Tab Switcher -->
             <div class="tool-panel">
                 <h3 style="margin-top:0; margin-bottom:16px; font-size:1.1rem;"><i class="fa-solid fa-sliders"></i> 計算模式</h3>
-                
+
                 <div class="calculator-tabs">
                     <button class="tab-btn active" id="tab-forward" onclick="switchMode('forward')">累積模擬</button>
                     <button class="tab-btn" id="tab-rate" onclick="switchMode('rate')">倒推報酬率</button>
@@ -390,7 +390,7 @@
                 </div>
 
                 <!-- Parameters list -->
-                
+
                 <!-- Target Amount (For Back Calculations) -->
                 <div class="input-group" id="group-target" style="display: none;">
                     <label for="target-amount">目標退休金 (元)</label>
@@ -476,7 +476,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="chart-wrapper" id="chart-container">
                         <svg class="compounding-chart" id="svg-chart"></svg>
                         <div class="chart-tooltip" id="tooltip"></div>
@@ -502,7 +502,9 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟盟階段</a>
@@ -516,14 +518,14 @@
         <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責聲明：計算機模擬結果僅供教育與學術參考，不保證實際市場收益。歷史績效不代表未來回報，請審慎評估投資風險。</p>
     </footer>
 
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
     <script>
         var currentMode = 'forward'; // 'forward', 'rate', 'years', 'monthly'
 
         // Switch active tab and adjust input fields visibility
         function switchMode(mode) {
             currentMode = mode;
-            
+
             // Toggle active classes on tab buttons
             document.querySelectorAll('.tab-btn').forEach(function(btn) {
                 btn.classList.remove('active');
@@ -583,7 +585,7 @@
                 var lastYear = yearlyData[yearlyData.length - 1];
                 finalTotal = lastYear.total;
                 finalPrincipal = lastYear.principal;
-            } 
+            }
             else if (currentMode === 'rate') {
                 // 1. Back-calculate Return Rate
                 var requiredRate = solveForRate(targetAmount, initialPrincipal, monthlyDeposit, totalYears);
@@ -599,12 +601,12 @@
                 var lastYear = yearlyData[yearlyData.length - 1];
                 finalTotal = lastYear.total;
                 finalPrincipal = lastYear.principal;
-            } 
+            }
             else if (currentMode === 'years') {
                 // 2. Back-calculate Years
                 var result = solveForYears(targetAmount, initialPrincipal, monthlyDeposit, annualRate);
                 document.getElementById('answer-title').innerText = "您預計需要";
-                
+
                 if (result.months > 0) {
                     var yText = Math.floor(result.months / 12);
                     var mText = result.months % 12;
@@ -618,7 +620,7 @@
                 var lastYear = yearlyData[yearlyData.length - 1];
                 finalTotal = lastYear.total;
                 finalPrincipal = lastYear.principal;
-            } 
+            }
             else if (currentMode === 'monthly') {
                 // 3. Back-calculate Monthly Saving
                 var requiredMonthly = solveForMonthly(targetAmount, initialPrincipal, annualRate, totalYears);
@@ -702,7 +704,7 @@
             var currentPrincipal = initial;
             var months = 0;
             var yearlyData = [];
-            
+
             yearlyData.push({
                 year: 0,
                 principal: Math.round(currentPrincipal),
@@ -715,7 +717,7 @@
 
             // Cap at 45 years to prevent infinite loops
             var maxMonths = 45 * 12;
-            
+
             while (currentTotal < target && months < maxMonths) {
                 months++;
                 currentTotal += monthly;
@@ -794,12 +796,12 @@
             grad.setAttribute('y1', '0%');
             grad.setAttribute('x2', '0%');
             grad.setAttribute('y2', '100%');
-            
+
             var stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
             stop1.setAttribute('offset', '0%');
             stop1.setAttribute('stop-color', '#ff9900');
             stop1.setAttribute('stop-opacity', '0.25');
-            
+
             var stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
             stop2.setAttribute('offset', '100%');
             stop2.setAttribute('stop-color', '#ff9900');
@@ -852,7 +854,7 @@
                 label.setAttribute('y', y + 4);
                 label.setAttribute('text-anchor', 'end');
                 label.setAttribute('class', 'axis-label');
-                
+
                 var labelText = '';
                 if (val >= 1000000) {
                     labelText = (val / 1000000).toFixed(1) + 'M';
@@ -931,11 +933,11 @@
                 var prefix = (i === 0) ? 'M' : 'L';
                 totalPathStr += prefix + ' ' + getX(i) + ' ' + getY(data[i].total) + ' ';
             }
-            
-            var areaPathStr = totalPathStr + 
+
+            var areaPathStr = totalPathStr +
                               'L ' + getX(data.length - 1) + ' ' + (padding.top + plotHeight) + ' ' +
                               'L ' + getX(0) + ' ' + (padding.top + plotHeight) + ' Z';
-            
+
             var areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             areaPath.setAttribute('d', areaPathStr);
             areaPath.setAttribute('class', 'area-total');
@@ -958,21 +960,21 @@
                     circle.addEventListener('mousemove', function(e) {
                         var tooltip = document.getElementById('tooltip');
                         tooltip.style.display = 'block';
-                        
+
                         var containerRect = document.getElementById('chart-container').getBoundingClientRect();
                         var posX = e.clientX - containerRect.left + 15;
                         var posY = e.clientY - containerRect.top - 50;
-                        
+
                         tooltip.style.left = posX + 'px';
                         tooltip.style.top = posY + 'px';
-                        
+
                         var earnings = d.total - d.principal;
                         tooltip.innerHTML = '<div><strong>第 ' + d.year + ' 年模擬結果</strong></div>' +
                                             '<div>本金: NT$ ' + d.principal.toLocaleString() + '</div>' +
                                             '<div>收益: NT$ ' + earnings.toLocaleString() + '</div>' +
                                             '<div><strong>資產總計: NT$ ' + d.total.toLocaleString() + '</strong></div>';
                     });
-                    
+
                     circle.addEventListener('mouseleave', function() {
                         document.getElementById('tooltip').style.display = 'none';
                     });

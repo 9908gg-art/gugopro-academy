@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
     <style>
         .tool-container {
             display: grid;
@@ -23,12 +23,12 @@
             gap: 32px;
             margin-top: 32px;
         }
-        
+
         .tf-btn.active {
             background: var(--accent) !important;
             color: #000 !important;
         }
-        
+
         @media (max-width: 992px) {
             .chart-body {
                 grid-template-columns: 1fr !important;
@@ -483,7 +483,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -497,7 +497,7 @@
                     <a href="tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -597,7 +597,7 @@
                             <span class="logo-tag" style="font-size: 0.75rem;" id="data-source-badge">Binance Realtime</span>
                             <button onclick="fetchChartData()" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; transition: var(--transition); font-size: 0.95rem; display: flex; align-items: center; justify-content: center; padding: 4px;" title="重新整理最新報價"><i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
-                        
+
                         <!-- Controls Group -->
                         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                             <!-- Timeframe Selector -->
@@ -609,7 +609,7 @@
                                 <button class="tf-btn" onclick="setTimeframe('1d')" data-tf="1d" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1D</button>
                                 <button class="tf-btn" onclick="setTimeframe('1w')" data-tf="1w" style="background: transparent; border: none; color: var(--text-secondary); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: var(--transition);">1W</button>
                             </div>
-                            
+
 
                         </div>
 
@@ -632,7 +632,7 @@
                                 </div>
                                 <canvas id="kline-canvas"></canvas>
                             </div>
-                            
+
                             <!-- Visible Duration Slider -->
                             <div style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
                                 <span style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; display: flex; align-items: center; gap: 6px;">
@@ -642,7 +642,7 @@
                                 <span id="visible-candles-val" style="font-size: 0.8rem; color: var(--accent); font-weight: bold; min-width: 120px; text-align: right;">3天 (載入中)</span>
                             </div>
                         </div>
-                        
+
                         <!-- Live Stats Sidebar -->
                         <div class="chart-sidebar" style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
                             <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -669,7 +669,7 @@
                                     <span id="side-rr-ratio" style="font-size: 2.2rem; font-weight: 900; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">1 : -</span>
                                 </div>
                             </div>
-                            
+
                             <div id="side-action-badge" style="text-align: center; padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
                                 等待數據...
                             </div>
@@ -739,7 +739,9 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟蒙階段</a>
@@ -753,7 +755,7 @@
     </footer>
 
     <!-- App Scripts -->
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
     <script>
         // Global Chart State Variables
         let chartData = [];
@@ -1160,7 +1162,7 @@
                 }
 
                 if (chartData.length === 0) throw new Error("Empty Quote dataset");
-                
+
                 // Start Polling
                 startStockPolling(symbol);
                 processMarketData();
@@ -1170,14 +1172,14 @@
                 if (yahooInterval === "1d") {
                     throw err; // throw to fetchChartData catch
                 }
-                
+
                 // Fallback to 1D
                 currentTimeframe = "1d";
                 updateTimeframeUI("1d");
-                
+
                 yahooInterval = "1d";
                 yahooRange = "6mo";
-                
+
                 const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${yahooInterval}&range=${yahooRange}`;
                 const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
                 const res = await fetchWithTimeout(proxyUrl, { timeout: 8000 });
@@ -1207,7 +1209,7 @@
                 }
 
                 if (chartData.length === 0) throw new Error("Empty Quote dataset during fallback");
-                
+
                 startStockPolling(symbol);
                 processMarketData();
             }
@@ -1240,7 +1242,7 @@
 
             // Update latest stats in Header based on visible range
             document.getElementById('price-latest').innerText = formatPrice(latestPrice);
-            
+
             let highSum = -99999999;
             let lowSum = 99999999;
             visibleData.forEach(d => {
@@ -1391,7 +1393,7 @@
                 icon.innerText = '✅';
                 title.innerText = `優質划算交易！目前的風報比為 ${rrText}`;
                 desc.innerText = `技術停損寬度合適，利潤空間約為風險的 ${rrRatio.toFixed(1)} 倍。屬於數學大數法則極具期望值的交易，值得考慮佈局。`;
-                
+
                 sideAction.style.background = 'rgba(76, 175, 80, 0.1)';
                 sideAction.style.color = '#4caf50';
                 sideAction.style.borderColor = 'rgba(76, 175, 80, 0.3)';
@@ -1401,7 +1403,7 @@
                 icon.innerText = '⚠️';
                 title.innerText = `普通交易。目前的風報比為 ${rrText}`;
                 desc.innerText = `風報比尚可但並不完美。建議您不要急著追高，可以耐心等待價格回檔到更接近支撐點（${formatPrice(supportPrice)}）的位置，以縮小停損空間。`;
-                
+
                 sideAction.style.background = 'rgba(255, 153, 0, 0.1)';
                 sideAction.style.color = 'var(--accent)';
                 sideAction.style.borderColor = 'rgba(255, 153, 0, 0.3)';
@@ -1411,7 +1413,7 @@
                 icon.innerText = '❌';
                 title.innerText = `風報比極差！不划算交易。目前的風報比為 ${rrText}`;
                 desc.innerText = `在此價位買入，您的風險距離太長而獲利空間被壓縮。代表目前正處於追高階段，強烈建議放棄這筆交易。`;
-                
+
                 sideAction.style.background = 'rgba(244, 67, 54, 0.1)';
                 sideAction.style.color = '#ff3333';
                 sideAction.style.borderColor = 'rgba(244, 67, 54, 0.3)';
@@ -1462,17 +1464,17 @@
         // Detect if clicked near any of the lines
         function getLineAtY(y) {
             const h = canvas.height / window.devicePixelRatio;
-            
+
             function getY(price) {
                 return h - 40 - ((price - minPriceWindow) / (maxPriceWindow - minPriceWindow)) * (h - 80);
             }
-            
+
             const ySupport = getY(supportPrice);
             const yResistance = getY(resistancePrice);
             const yEntry = getY(entryPrice);
-            
+
             const threshold = 12; // hover sensitivity in pixels
-            
+
             if (Math.abs(y - ySupport) <= threshold) {
                 return 'support';
             }
@@ -1752,7 +1754,7 @@
             });
         }
 
-        
+
         // Initialize App State
         window.addEventListener('load', () => {
             try {
@@ -1811,7 +1813,7 @@
                 fetchChartData();
             }
         });
-    
+
     </script>
 </body>
 </html>

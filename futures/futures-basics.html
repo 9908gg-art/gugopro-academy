@@ -15,7 +15,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=20260824">
     <style>
         .tutorial-container {
             display: grid;
@@ -23,7 +23,7 @@
             gap: 32px;
             margin-top: 32px;
         }
-        
+
         .sidebar {
             position: sticky;
             top: 100px;
@@ -33,7 +33,7 @@
             border-radius: 12px;
             padding: 20px;
         }
-        
+
         .sidebar h4 {
             font-family: 'Outfit', sans-serif;
             font-weight: 700;
@@ -43,15 +43,15 @@
             border-bottom: 1px solid var(--border-color);
             color: var(--accent);
         }
-        
+
         .sidebar-menu {
             list-style: none;
         }
-        
+
         .sidebar-menu li {
             margin-bottom: 12px;
         }
-        
+
         .sidebar-menu a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -63,32 +63,32 @@
             padding: 6px 10px;
             border-radius: 6px;
         }
-        
+
         .sidebar-menu a:hover, .sidebar-menu a.active {
             color: var(--accent);
             background: rgba(255, 153, 0, 0.08);
             font-weight: 600;
         }
-        
+
         .content-body {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 40px;
         }
-        
+
         .content-body section {
             margin-bottom: 40px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-bottom: 40px;
         }
-        
+
         .content-body section:last-child {
             margin-bottom: 0;
             border-bottom: none;
             padding-bottom: 0;
         }
-        
+
         .content-body h2 {
             font-family: 'Outfit', sans-serif;
             font-size: 1.8rem;
@@ -96,7 +96,7 @@
             margin-bottom: 16px;
             color: var(--text-primary);
         }
-        
+
         .content-body h3 {
             font-family: 'Outfit', sans-serif;
             font-size: 1.3rem;
@@ -105,14 +105,14 @@
             margin-bottom: 12px;
             color: var(--accent);
         }
-        
+
         .content-body p {
             color: var(--text-secondary);
             font-size: 1rem;
             line-height: 1.7;
             margin-bottom: 16px;
         }
-        
+
         .formula-box {
             background: rgba(255, 153, 0, 0.04);
             border-left: 4px solid var(--accent);
@@ -121,7 +121,7 @@
             margin: 20px 0;
             color: var(--text-primary);
         }
-        
+
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -132,7 +132,7 @@
             transition: var(--transition);
             margin-bottom: 24px;
         }
-        
+
         .back-btn:hover {
             color: var(--accent);
             transform: translateX(-4px);
@@ -145,7 +145,7 @@
             padding: 16px;
             margin: 16px 0;
         }
-        
+
         @media (max-width: 992px) {
             .tutorial-container {
                 grid-template-columns: 1fr;
@@ -170,7 +170,7 @@
                 <span class="logo-text">GugoPro Academy</span>
                 <span class="logo-tag">財經學院</span>
             </a>
-            
+
             <!-- Tools Selector -->
             <div class="tools-selector">
                 <button class="tools-btn">
@@ -184,7 +184,7 @@
                     <a href="../tools/tradingview-guide.html">TradingView 推薦註冊</a>
                 </div>
             </div>
-            
+
             <!-- Language Selector -->
             <div class="lang-selector">
                 <button class="lang-btn">
@@ -273,7 +273,7 @@
                         </ul>
                     </div>
                     <p>在進行配對交易時，我們通常會挑選**同一個月份到期（通常是近月合約）**的兩檔商品進行配對，以避免因為結算時間不同而產生不必要的價差扭曲。</p>
-                    
+
                     <div class="info-card" style="margin-top: 24px; border: 1px dashed rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.01);">
                         <h4 style="margin-top:0; color: var(--accent);"><i class="fa-solid fa-building-columns"></i> 實戰交易券商推薦</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 12px;">
@@ -399,7 +399,9 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+
+<section class="resource-strip" data-tradingview-cta aria-label="TradingView 合作資源"><div><span class="sponsor-eyebrow">PARTNER RESOURCE / TRADINGVIEW</span><h2>把這篇內容放回圖表驗證</h2><p>使用全球市場圖表、指標腳本與回測工具，把文章裡的假設放回價格與時間軸檢驗。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section>
+<footer>
         <div class="footer-links">
             <a href="../index.html">首頁</a>
             <a href="../fundamentals/index.html">啟盟階段</a>
@@ -413,6 +415,6 @@
         <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。</p>
     </footer>
 
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260824"></script>
 </body>
 </html>
