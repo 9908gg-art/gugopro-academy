@@ -109,3 +109,13 @@ GitHub Pages 已同步 commit `61731ad` 的版本化資源。正式站獨立 R:R
 ## R:R 加密標的回歸驗證
 
 重新載入競態修正後的 R:R 工具並切換 `BTCUSDT`，瀏覽器端成功取得 Binance Public API 的 180 根日線 K 線；頁面狀態正確更新為 `BTCUSDT / Bitcoin / Tether`，最近支撐約 62,535、最近壓力約 79,500、ATR 波動約 2.44%，Lightweight Charts canvas 與 3 個可拖曳價格標註均保持可見。此測試也確認慢速初始 AAPL 請求不會覆蓋後續 BTCUSDT 狀態。
+
+## 正式站首頁部署驗證
+
+GitHub Pages 設定確認 custom domain `academy.gugopro.com` 使用 `main` 根目錄；提交 `252fdf6` 對應的 Pages workflow 已完成且為 success。正式首頁在建置完成後重新開啟，已顯示 05 風報比即時 K 線分析儀、06 ETF 配息與 DRIP 試算、07 動態網格交易模擬器三張工具卡，並同步顯示 TradingView、Ko-fi、Amazon 與隱私／條款／關於我們 Footer 導覽。
+
+## 正式工具頁驗證
+
+正式 `tools/risk-reward-calculator.html?v=252fdf6` 已部署。公開 Yahoo 端點在瀏覽器受 CORS 限制時狀態顯示切換 TradingView，TradingView iframe 實際呈現 AAPL K 線工具列與圖表；R:R 預設 3R、5,000 風險預算、1,000 單位與三條彩色價格標註皆可見。正式 `tools/etf-dividend-calculator.html?v=252fdf6` 已公開並產生 0050 預設情境的配息、DRIP／領出現金資產比較與 SVG 曲線；頁底 TradingView、Amazon、Ko-fi 與三個政策頁連結均存在。
+
+正式 `tools/grid-trading-calculator.html?v=252fdf6` 已部署。預設等差情境產生 4% 間距、3 回合、NT$2,400 毛利、-1.12% 模擬報酬與 6.11% 最大回撤；切換等比與 80% 波動率後即時更新為 4.14% 比例間距、17 回合、NT$14,069 毛利、16.76% 最大回撤，SVG 路徑存在且頁底合作／政策連結完整。
