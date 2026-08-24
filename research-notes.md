@@ -186,3 +186,8 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## db1177b 最終正式 URL 核對（2026-08-24）
 
 最終文件提交的 Pages workflow `32711616557` 已 `completed / success`。`https://academy.gugopro.com/?v=db1177b` 成功顯示 12 類知識樹、三張高階工具卡、TradingView／Ko-fi／Amazon 與政策 Footer；`https://academy.gugopro.com/tools/risk-reward-calculator.html?v=db1177b#rr-market-scanner` 成功回傳 R:R Scanner、1m／5m／15m／1h／1d 選單、Binance Public API 載入狀態與原生圖表介面。行情完成數值已在上一個 a184b60 正式回歸紀錄確認，db1177b 只新增文件內容，不改動功能檔。最新截圖：首頁 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-28-42_9471.webp`、R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_09-29-04_8798.webp`。
+
+
+## 最終 main 與 Pages 部署（2026-08-24）
+
+最後文件與正式站核對提交為 `1794581`，Pages workflow `32711884118` 已完成 `completed / success`。最終核對 URL 使用 `?v=1794581`；功能提交 `18258d8` 保留使用者指定的完整 commit message，`1794581` 為文件與驗證紀錄同步提交。`HEAD`、`origin/main` 與 `origin/HEAD` 均指向 1794581，工作樹乾淨。
