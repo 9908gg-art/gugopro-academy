@@ -83,3 +83,9 @@ Google AdSense 官方說明要求隱私權政策揭露第三方供應商（包�
 ## AdSense 合規頁本地驗證
 
 `privacy.html` 已以新版緊湊 Header 與合法閱讀卡片渲染。DOM 有 6 個主要政策段落；Cookie、Google AdSense、localStorage、第三方分析四項關鍵揭露均存在；官方 AdSense 來源連結 3 個；Footer 顯示隱私權政策、服務條款與免責、關於我們三個合規入口。
+
+## 正式站 61731ad 最終驗證
+
+GitHub Pages 已同步 commit `61731ad` 的版本化資源。正式站獨立 R:R 工具已渲染新版雙欄工作台、3R 預設結果、TradingView CTA 與三個 Footer 合規連結；首頁已出現 R:R 工具卡與 R:R 閱讀室卡，TradingView CTA 計數 2，Footer 的 privacy、terms、about 各 1 個。首頁 `.site-header` 實際高度約 62px，`.tool-feature-grid` 已為 grid；Hero 標題字級約 69px，未再使用舊版過大的遮擋式 Header。
+
+正式站第一次讀到新 HTML 時仍套用舊 CSS，已透過第二個提交將 48 個頁面的 CSS／JavaScript query string 升級至 f4b3de7，並確認正式 CSS 含 `.rr-hero`、`.rr-tool-shell`、非 sticky 文章 Header 與 `.legal-card`；重新整理後正式 R:R 截圖已恢復卡片化排版。

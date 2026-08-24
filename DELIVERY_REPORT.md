@@ -48,13 +48,14 @@
 | 差異格式 | `git diff --check` 通過 |
 | TradingView 指定連結 | 13/13 新版指南含 CTA；首頁、工作台與獨立工具均含指定連結 |
 | Footer 合規連結 | 全站 HTML 已補上新政策頁入口，舊政策連結已清除 |
-| 本地視覺檢查 | R:R 工具、R:R 指南、Privacy 頁均以瀏覽器檢查，Header 與內容可見 |
+| 本地視覺檢查 | R:R 工具、R:R 指南、Privacy 頁均以瀏覽器檢查，Header 與內容可見 | 
+| 正式站視覺檢查 | `?v=61731ad` 的首頁與 R:R 工具已確認新版卡片、Header 與 CTA |
 
 本地 DOM 檢查確認 R:R 指南有 6 個主要章節、3 列四欄風險比較表、14 個側欄連結、1 個 TradingView CTA、1 個獨立工具連結，以及各 1 個 privacy、terms、about Footer 連結。Privacy 頁有 6 個主要政策段落與 3 個 Google AdSense 官方來源連結。
 
 ## 八、部署狀態
 
-本次程式與文件變更以使用者指定的 commit message 提交至 GitHub `main`，並以不含憑證的 remote URL 推送。正式站 [https://academy.gugopro.com/](https://academy.gugopro.com/) 已完成部署後驗證；建議以版本化查詢參數重新整理，檢查首頁、R:R 指南、獨立工具與三個政策頁。
+本次程式與文件變更以使用者指定的 commit message 提交至 GitHub `main`，並以不含憑證的 remote URL 推送。正式站 [https://academy.gugopro.com/](https://academy.gugopro.com/) 已完成部署後驗證。主要內容提交為 `f4b3de7`，資源快取修正提交為 `61731ad`；兩者均已推送至 `main`，正式站已以 `?v=61731ad` 重新整理確認。建議日後以版本化查詢參數重新整理，檢查首頁、R:R 指南、獨立工具與三個政策頁。
 
 ## 九、檔案導覽
 
