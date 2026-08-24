@@ -1,402 +1,175 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-GF1DYLWMKX');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GugoPro 財經教學學院 | 系統化交易學習殿堂</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
-    <!-- Language Redirect Script -->
-    <script>
-        (function() {
-            var savedLang = localStorage.getItem('user-language');
-            var path = window.location.pathname;
-            var isRoot = path === '/' || path === '/index.html' || path.endsWith('/gugopro-academy/') || path.endsWith('/gugopro-academy/index.html');
-            
-            if (savedLang && isRoot) {
-                if (savedLang !== 'zh-tw') {
-                    window.location.href = savedLang + '/index.html';
-                }
-                return;
-            }
-            
-            if (isRoot) {
-                var userLang = navigator.language || navigator.userLanguage;
-                userLang = userLang.toLowerCase();
-                var langMap = {
-                    'en': 'en',
-                    'ja': 'ja',
-                    'ko': 'ko',
-                    'es': 'es',
-                    'vi': 'vi',
-                    'zh-cn': 'zh-cn',
-                    'zh-sg': 'zh-cn'
-                };
-                for (var key in langMap) {
-                    if (userLang.indexOf(key) === 0) {
-                        window.location.href = langMap[key] + '/index.html';
-                        break;
-                    }
-                }
-            }
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GugoPro 財經學院：用知識樹、純前端計算工具與結構化指南，建立可複製的投資研究流程。">
+  <title>GugoPro 財經學院｜12 類金融商品知識樹與實戰工具</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-
-    <!-- Header Navigation -->
-    <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <span class="logo-text">GugoPro Academy</span>
-                <span class="logo-tag">財經學院</span>
-            </a>
-            
-            <!-- Tools Selector -->
-            <div class="tools-selector">
-                <button class="tools-btn">
-                    <i class="fa-solid fa-screwdriver-wrench"></i> 實戰工具 / Tools <i class="fa-solid fa-caret-down"></i>
-                </button>
-                <div class="tools-dropdown">
-                    <a href="tools/compound-interest.html">高殖利率複利計算機</a>
-                    <a href="tools/risk-reward-calculator.html">交易風報比 (R:R) 即時計算機</a>
-                    <a href="tools/risk-reward-scanner.html">風報比即時篩選搜尋器 (Scanner)</a>
-                    <a href="tools/tradingview-guide.html">TradingView 推薦註冊</a>
-                </div>
-            </div>
-            
-            <!-- Language Selector -->
-            <div class="lang-selector">
-                <button class="lang-btn">
-                    <i class="fa-solid fa-globe"></i> 語言 / Language <i class="fa-solid fa-caret-down"></i>
-                </button>
-                <div class="lang-dropdown">
-                    <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
-                    <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
-                    <a href="#" onclick="changeLanguage('en')">English</a>
-                    <a href="#" onclick="changeLanguage('ja')">日本語</a>
-                    <a href="#" onclick="changeLanguage('ko')">한국어</a>
-                    <a href="#" onclick="changeLanguage('es')">Español</a>
-                    <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
-                </div>
-            </div>
+<body class="home-page">
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="GugoPro 財經學院首頁">
+        <span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span>
+        <span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span>
+      </a>
+      <nav class="primary-nav" aria-label="主要導覽">
+        <a href="#knowledge-tree">知識樹</a>
+        <a href="#tool-deck">實戰工具</a>
+        <a href="#reading-room">閱讀室</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a>
+        <div class="lang-selector">
+          <button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button>
+          <div class="lang-dropdown">
+            <a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a>
+            <a href="#" onclick="changeLanguage('zh-cn')">简体中文</a>
+            <a href="#" onclick="changeLanguage('en')">English</a>
+            <a href="#" onclick="changeLanguage('ja')">日本語</a>
+            <a href="#" onclick="changeLanguage('ko')">한국어</a>
+            <a href="#" onclick="changeLanguage('es')">Español</a>
+            <a href="#" onclick="changeLanguage('vi')">Tiếng Việt</a>
+          </div>
         </div>
-    </header>
+        <button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-badge">
-            <i class="fa-solid fa-diagram-next"></i> 學程晉級制 ‧ 系統化交易學習路徑
+  <main>
+    <section class="hero-shell">
+      <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> GUGOPRO / FINANCIAL EDUCATION SYSTEM</div>
+          <h1>把市場雜訊，整理成一條<strong>可走的路。</strong></h1>
+          <p class="hero-lede">從股票與 ETF 的基本功，到債券、衍生品、加密資產與全球指數，透過一棵可探索的知識樹，找到下一個該學、該算、該驗證的問題。</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#knowledge-tree">探索 12 類知識樹 <i class="fa-solid fa-arrow-down"></i></a>
+            <a class="button button-ghost" href="tools/index.html">開啟計算工作台 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+          <div class="hero-proof"><span><i class="fa-solid fa-circle-check"></i> 瀏覽器本地運算</span><span><i class="fa-solid fa-circle-check"></i> 文章與工具配對</span><span><i class="fa-solid fa-circle-check"></i> 教育用途聲明</span></div>
         </div>
-        <h1>從零開始的策略交易學習之旅</h1>
-        <p>歡迎來到 GugoPro 財經教學學院。在這裡，我們依據「學程晉級制」規劃了四個學習階段，從最基礎的觀念心態到股票、期貨實務，最後進入高階的統計套利與量化交易，為您建立全面且系統性的交易邏輯。</p>
+        <div class="hero-console" aria-label="學院學習路徑概覽">
+          <div class="console-top"><span class="console-label">LEARNING CONSOLE</span><span class="console-live"><i class="fa-solid fa-signal"></i> LIVE MAP</span></div>
+          <div class="console-title">你的投資研究<br><span>從哪裡開始？</span></div>
+          <div class="console-track"><div class="track-line"></div><div class="track-step is-current"><span>01</span><small>理解商品</small></div><div class="track-step"><span>02</span><small>量化假設</small></div><div class="track-step"><span>03</span><small>管理風險</small></div><div class="track-step"><span>04</span><small>建立系統</small></div></div>
+          <div class="console-footer"><span>12 個核心分類</span><span>10+ 個本地工具</span></div>
+        </div>
+      </div>
     </section>
 
-    <!-- Main Content Grid -->
-    <main class="container">
-        <h2 class="section-heading"><i class="fa-solid fa-map-signs"></i> 學院學習地圖</h2>
-        <p class="section-sub">請點選您目前的學習進度，進入對應的系統化學程單元：</p>
-        
-        <div class="modules-grid">
-            <!-- Level 1 -->
-            <div class="module-card featured">
-                <div class="module-meta">
-                    <span class="module-badge badge-easy">Level 1: 🌟 啟蒙階段</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個科目</span>
-                </div>
-                <h3>交易啟蒙與心態資金管理</h3>
-                <p>探索市場運作的本質。從股票與期貨的定義開始，學習保證金交易風險、停損紀律、總體經濟 (Fed/CPI) 與全球資產連動，奠定最關鍵的安全邊際基礎。</p>
-                <div class="course-list-preview">
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 1.1 交易基本常識 (Market Basics)</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 1.2 交易心態與三大禁忌</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 1.3 找出支撐與壓力：進出場點與風報比</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 1.4 總體經濟指標全解析 (Fed / CPI / 非農)</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 1.5 全球資產連動與美元指數 (DXY / 殖利率)</li>
-                    </ul>
-                </div>
-                <a href="fundamentals/index.html" class="module-btn">
-                    進入學程 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Level 2 -->
-            <div class="module-card featured">
-                <div class="module-meta">
-                    <span class="module-badge badge-medium">Level 2: 📈 股票學程</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 3 個科目</span>
-                </div>
-                <h3>股票策略與存股價值投資</h3>
-                <p>專注於股權投資的核心策略。學習葛拉漢價值投資的安全邊際、財報分析要領，以及如何篩選高股息標的進行長線存股，並輔以技術分析尋找波段進出場點。</p>
-                <div class="course-list-preview">
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 2.1 價值投資大師心法</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 2.2 高殖利率存股策略</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 2.3 技術分析與波動交易</li>
-                    </ul>
-                </div>
-                <a href="stocks/index.html" class="module-btn">
-                    進入學程 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Level 3 -->
-            <div class="module-card featured">
-                <div class="module-meta">
-                    <span class="module-badge badge-hard">Level 3: 🌪️ 期貨學程</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 5 個科目</span>
-                </div>
-                <h3>期貨價差與選擇權避險</h3>
-                <p>深入衍生性商品微觀機制。從保證金槓桿計算，學習跨期價差套利、跨市場對沖，進而掌握選擇權 (Options) 希臘字母與 Covered Call / Cash-Secured Put 實戰策略。</p>
-                <div class="course-list-preview">
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 3.1 期貨合約與保證金運作</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 3.2 價差與跨期套利實務</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 3.3 跨市場對沖與風險平衡</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 3.4 選擇權 (Options) 基礎與希臘字母</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 3.5 Covered Call 與 Put 打折買股策略</li>
-                    </ul>
-                </div>
-                <a href="futures/index.html" class="module-btn">
-                    進入學程 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Level 4 -->
-            <div class="module-card featured">
-                <div class="module-meta">
-                    <span class="module-badge badge-hard" style="background:rgba(156,39,176,0.1); color:#e040fb; border:1px solid rgba(156,39,176,0.2);">Level 4: ⚖️ 量化學程</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 6 個科目</span>
-                </div>
-                <h3>量化交易與統計套利實戰</h3>
-                <p>踏入系統化交易殿堂。運用統計學協整性測試篩選配對標的、Pine Script 程式編寫，並配置 Webhook 直連 API 24小時自動下單與蒙地卡羅壓力測試。</p>
-                <div class="course-list-preview">
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.1 配對交易實戰 (Pairs Trading)</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.2 Pine Script 程式入門</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.3 策略回測與跟單實務</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.4 傳奇大師交易心法應用</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.5 TradingView Webhook 直連 API 自動化下單</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 4.6 蒙地卡羅模擬與 MDD 壓力測試</li>
-                    </ul>
-                </div>
-                <a href="quant/index.html" class="module-btn">
-                    進入學程 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Level 5 -->
-            <div class="module-card featured">
-                <div class="module-meta">
-                    <span class="module-badge" style="background:rgba(247,147,26,0.1); color:#f7931a; border:1px solid rgba(247,147,26,0.2);">Level 5: 🪙 加密貨幣學程</span>
-                    <span class="module-duration"><i class="fa-regular fa-clock"></i> 2 個科目</span>
-                </div>
-                <h3>加密貨幣與 Web3 交易學程</h3>
-                <p>解密 24/7 高波動資產市場。掌握比特幣 4 年減半週期、鏈上指標 (MVRV / NUPL) 測頂估底，並運用永續合約資金費率 (Funding Rate) 執行 Delta 中性無風險套利。</p>
-                <div class="course-list-preview">
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 5.1 比特幣減半週期與鏈上數據 (MVRV / NUPL)</li>
-                        <li><i class="fa-solid fa-circle-check"></i> 5.2 永續合約與資金費率 (Funding Rate) 套利</li>
-                    </ul>
-                </div>
-                <a href="crypto/index.html" class="module-btn">
-                    進入學程 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+    <section class="container section-block" id="knowledge-tree">
+      <div class="section-heading-row">
+        <div><div class="section-kicker">01 / KNOWLEDGE TREE</div><h2>一張地圖，定位你的金融問題</h2><p>先選資產類別，再用關鍵字縮小範圍。每個節點都連到一篇結構化指南與相關計算工具。</p></div>
+        <div class="tree-count"><strong>12</strong><span>核心分類</span></div>
+      </div>
+      <div class="tree-toolbar">
+        <label class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="knowledge-search" type="search" placeholder="搜尋：ETF、久期、選擇權、美元…" autocomplete="off"><kbd>/</kbd></label>
+        <div class="tree-filters" role="tablist" aria-label="知識樹分類篩選">
+          <button class="filter-chip is-active" type="button" data-filter="all">全部 <span>12</span></button>
+          <button class="filter-chip" type="button" data-filter="equity">股票市場 <span>3</span></button>
+          <button class="filter-chip" type="button" data-filter="fixed">固定收益 <span>2</span></button>
+          <button class="filter-chip" type="button" data-filter="derivatives">衍生品 <span>3</span></button>
+          <button class="filter-chip" type="button" data-filter="macro">宏觀與另類 <span>4</span></button>
         </div>
+      </div>
+      <div class="knowledge-grid" id="knowledge-grid">
+        <article class="knowledge-card tone-orange" data-category="equity" data-search="台股 股票 除權息 本益比 殖利率 技術面 基本面">
+          <div class="card-index">01</div><div class="card-icon"><i class="fa-solid fa-building-columns"></i></div><div class="card-topline"><span>股票市場</span><span class="card-status">CORE</span></div>
+          <h3>台股／股票</h3><p>從除權息、本益比、殖利率到基本面與技術面，建立看懂企業與價格的雙軌框架。</p>
+          <div class="topic-tags"><span>除權息</span><span>估值</span><span>技術面</span></div><a href="guides/taiwan-stocks.html" class="text-link">閱讀台股指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-blue" data-category="equity" data-search="美股 US Stocks 開戶 三大指數 交易規則 財報">
+          <div class="card-index">02</div><div class="card-icon"><i class="fa-solid fa-globe-americas"></i></div><div class="card-topline"><span>股票市場</span><span class="card-status">GLOBAL</span></div>
+          <h3>美股</h3><p>理解開戶、交易時段、三大指數與財報閱讀，讓跨市場研究不只停留在報價畫面。</p>
+          <div class="topic-tags"><span>S&amp;P 500</span><span>財報</span><span>ADR</span></div><a href="guides/us-stocks.html" class="text-link">閱讀美股指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-violet" data-category="equity" data-search="ETF 0050 00919 VOO QQQ 債券 費用率 折溢價">
+          <div class="card-index">03</div><div class="card-icon"><i class="fa-solid fa-layer-group"></i></div><div class="card-topline"><span>股票市場</span><span class="card-status">POPULAR</span></div>
+          <h3>ETF</h3><p>從指數、配息、內扣費用到折溢價，辨識「看起來分散」與真正理解風險的差別。</p>
+          <div class="topic-tags"><span>0050／00919</span><span>VOO／QQQ</span><span>費用率</span></div><a href="guides/etf.html" class="text-link">閱讀 ETF 指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-cyan" data-category="fixed" data-search="債券 美國國債 殖利率曲線 倒掛 久期 升息 降息">
+          <div class="card-index">04</div><div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div><div class="card-topline"><span>固定收益</span><span class="card-status">DEFENSIVE</span></div>
+          <h3>債券</h3><p>把票息、殖利率、價格與久期連成一張圖，理解利率變化如何穿透固定收益部位。</p>
+          <div class="topic-tags"><span>美債</span><span>殖利率曲線</span><span>Duration</span></div><a href="guides/bonds.html" class="text-link">閱讀債券指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-green" data-category="fixed" data-search="基金 共同基金 主動型 被動型 經理人 費用">
+          <div class="card-index">05</div><div class="card-icon"><i class="fa-solid fa-sitemap"></i></div><div class="card-topline"><span>固定收益</span><span class="card-status">MANAGED</span></div>
+          <h3>基金</h3><p>比較共同基金、主動型與被動型產品的費用、風格漂移與經理人選擇邏輯。</p>
+          <div class="topic-tags"><span>主動管理</span><span>被動投資</span><span>經理人</span></div><a href="guides/funds.html" class="text-link">閱讀基金指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-yellow" data-category="macro" data-search="外匯 Forex 匯率避險 美元指數 DXY 外幣定存 換匯">
+          <div class="card-index">06</div><div class="card-icon"><i class="fa-solid fa-money-bill-transfer"></i></div><div class="card-topline"><span>宏觀與另類</span><span class="card-status">MACRO</span></div>
+          <h3>外匯</h3><p>由匯率報價、美元指數到換匯成本與避險，建立跨幣別資產的曝險語言。</p>
+          <div class="topic-tags"><span>DXY</span><span>避險</span><span>點差</span></div><a href="guides/forex.html" class="text-link">閱讀外匯指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-gold" data-category="macro" data-search="商品 原物料 黃金 原油 期貨 通膨 避險">
+          <div class="card-index">07</div><div class="card-icon"><i class="fa-solid fa-cubes-stacked"></i></div><div class="card-topline"><span>宏觀與另類</span><span class="card-status">REAL ASSET</span></div>
+          <h3>商品原物料</h3><p>掌握黃金避險、原油供需與通膨連動商品，理解現貨、期貨與金融產品的差異。</p>
+          <div class="topic-tags"><span>黃金</span><span>原油</span><span>通膨</span></div><a href="guides/commodities.html" class="text-link">閱讀商品指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-red" data-category="derivatives" data-search="期貨 Futures 台指期 富台期 保證金 結算日 多空 避險">
+          <div class="card-index">08</div><div class="card-icon"><i class="fa-solid fa-bolt"></i></div><div class="card-topline"><span>衍生品</span><span class="card-status">LEVERAGED</span></div>
+          <h3>期貨</h3><p>用保證金、契約乘數、結算與避險情境拆解槓桿，不把名目價值誤認為最大損失。</p>
+          <div class="topic-tags"><span>臺指期</span><span>保證金</span><span>避險</span></div><a href="guides/futures.html" class="text-link">閱讀期貨指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-pink" data-category="derivatives" data-search="選擇權 Options 買權 賣權 隱含波動率 買方 賣方 希臘字母">
+          <div class="card-index">09</div><div class="card-icon"><i class="fa-solid fa-shuffle"></i></div><div class="card-topline"><span>衍生品</span><span class="card-status">NON-LINEAR</span></div>
+          <h3>選擇權</h3><p>從買賣權、權利金與隱含波動率，走到買方／賣方策略與希臘字母風險地圖。</p>
+          <div class="topic-tags"><span>IV</span><span>Delta</span><span>策略</span></div><a href="guides/options.html" class="text-link">閱讀選擇權指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-purple" data-category="derivatives" data-search="權證 Warrants 認購 認售 槓桿 時間價值 量能">
+          <div class="card-index">10</div><div class="card-icon"><i class="fa-solid fa-ticket"></i></div><div class="card-topline"><span>衍生品</span><span class="card-status">OPTION-LIKE</span></div>
+          <h3>權證</h3><p>理解認購／認售、槓桿倍數、時間價值耗損與流動性，避免只看價差倍率。</p>
+          <div class="topic-tags"><span>槓桿</span><span>時間價值</span><span>流動性</span></div><a href="guides/warrants.html" class="text-link">閱讀權證指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-orange" data-category="macro" data-search="虛擬貨幣 Cryptocurrency 比特幣 以太幣 冷錢包 熱錢包 網格 質押 鏈上">
+          <div class="card-index">11</div><div class="card-icon"><i class="fa-brands fa-bitcoin"></i></div><div class="card-topline"><span>宏觀與另類</span><span class="card-status">24 / 7</span></div>
+          <h3>虛擬貨幣</h3><p>從比特幣、以太幣、錢包保管到網格與質押，先建立鏈上與交易所風險意識。</p>
+          <div class="topic-tags"><span>BTC／ETH</span><span>錢包</span><span>鏈上風險</span></div><a href="guides/crypto.html" class="text-link">閱讀加密指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+        <article class="knowledge-card tone-indigo" data-category="macro" data-search="CFD 指數 Indices 槓桿 點差 隔夜利息 全球主要指數">
+          <div class="card-index">12</div><div class="card-icon"><i class="fa-solid fa-chart-column"></i></div><div class="card-topline"><span>宏觀與另類</span><span class="card-status">GLOBAL</span></div>
+          <h3>CFD／指數</h3><p>辨識槓桿、點差、隔夜利息與追繳風險，建立全球主要指數的交易前檢查單。</p>
+          <div class="topic-tags"><span>NASDAQ</span><span>點差</span><span>隔夜費</span></div><a href="guides/cfd-indices.html" class="text-link">閱讀 CFD 指南 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+      </div>
+      <div class="empty-state" id="knowledge-empty" hidden><i class="fa-solid fa-compass"></i><h3>找不到相符節點</h3><p>試試「ETF」、「風險」、「美元」或清除篩選條件。</p></div>
+    </section>
 
-        <!-- Interactive Tools Section -->
-        <h2 class="section-heading" style="margin-top: 48px;"><i class="fa-solid fa-screwdriver-wrench"></i> 實戰工具與平台資源</h2>
-        <p class="section-sub">透過互動式計算機與全球頂尖圖表平台，將您的交易學理化為實戰操作：</p>
-        
-        <div class="modules-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-bottom: 40px;">
-            <!-- Tool 1 -->
-            <div class="module-card" style="border-color: rgba(29, 96, 240, 0.2); background: rgba(29, 96, 240, 0.01);">
-                <div class="module-meta">
-                    <span class="module-badge" style="background: rgba(29, 96, 240, 0.1); color: #29b6f6; border: 1px solid rgba(29, 96, 240, 0.2);">互動計算機</span>
-                </div>
-                <h3 style="margin-top: 12px; margin-bottom: 12px;">高殖利率複利與退休規劃計算機</h3>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px;">支援四種模式：本金累積模擬、逆推年化報酬率、逆推達成年限、逆推每月存股金額，搭配動態 SVG 成長曲線圖表，打造專屬理財計畫。</p>
-                <a href="tools/compound-interest.html" class="module-btn">
-                    立即使用工具 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+    <section class="container section-block tool-preview-section" id="tool-deck">
+      <div class="section-heading-row compact"><div><div class="section-kicker">02 / TOOL DECK</div><h2>把觀念，變成可以驗證的數字</h2><p>所有輸入都在你的瀏覽器中計算。沒有帳號、沒有後端資料傳輸，只有清楚的假設與結果。</p></div><a class="section-link" href="tools/index.html">查看完整工作台 <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="tool-feature-grid">
+        <a class="tool-feature-card featured-tool" href="tools/index.html#compound-panel"><span class="feature-number">01</span><span class="feature-icon"><i class="fa-solid fa-chart-line"></i></span><span class="feature-label">複利與退休</span><h3>高殖利率複利試算</h3><p>把本金、每月投入、年化報酬與時間放在同一條成長曲線上，先檢查假設，再談目標。</p><span class="feature-cta">開始計算 <i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
+        <a class="tool-feature-card" href="tools/index.html#bond-panel"><span class="feature-number">02</span><span class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></span><span class="feature-label">固定收益</span><h3>債券價格與久期</h3><p>輸入票息、殖利率與到期年限，觀察利率變動對價格的近似敏感度。</p><span class="feature-cta">查看工具 <i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
+        <a class="tool-feature-card" href="tools/index.html#risk-panel"><span class="feature-number">03</span><span class="feature-icon"><i class="fa-solid fa-shield-halved"></i></span><span class="feature-label">交易風控</span><h3>風報比與 Kelly 部位</h3><p>在下單以前，先知道每一筆交易能承擔多少，以及盈虧結構是否值得執行。</p><span class="feature-cta">查看工具 <i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
+        <a class="tool-feature-card" href="tools/index.html#valuation-panel"><span class="feature-number">04</span><span class="feature-icon"><i class="fa-solid fa-building-columns"></i></span><span class="feature-label">企業估值</span><h3>DCF 與安全邊際</h3><p>用現金流與市場價格做情境比較，讓「便宜」有清楚的計算條件。</p><span class="feature-cta">查看工具 <i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
+      </div>
+    </section>
 
-            <!-- Tool 2 -->
-            <div class="module-card" style="border-color: rgba(255, 153, 0, 0.2); background: rgba(255, 153, 0, 0.01);">
-                <div class="module-meta">
-                    <span class="module-badge" style="background: rgba(255, 153, 0, 0.1); color: #ff9900; border: 1px solid rgba(255, 153, 0, 0.2);">限定優惠</span>
-                </div>
-                <h3 style="margin-top: 12px; margin-bottom: 12px;">TradingView 專業圖表平台</h3>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px;">註冊即享 30 天免費試用與 15 美元訂閱優惠券！體驗極速流暢的全球實時圖表、編寫 Pine Script 自動化回測，本院量化策略首選推薦工具。</p>
-                <a href="tools/tradingview-guide.html" class="module-btn" style="border-color: #ff9900; color: #ff9900;">
-                    領取優惠註冊 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+    <section class="container section-block reading-section" id="reading-room">
+      <div class="section-heading-row compact"><div><div class="section-kicker">03 / READING ROOM</div><h2>用結構化文章，建立判斷順序</h2><p>每篇指南都以「先理解商品、再看指標、最後做風險檢查」的順序編排。</p></div></div>
+      <div class="reading-grid"><a href="guides/bonds.html" class="reading-card"><div class="reading-mark">FIXED INCOME</div><h3>殖利率曲線倒掛，真的代表要下跌嗎？</h3><p>把警示訊號拆成期限、景氣與部位管理三層，不用單一指標做決策。</p><span>閱讀債券指南 <i class="fa-solid fa-arrow-right"></i></span></a><a href="guides/etf.html" class="reading-card"><div class="reading-mark">PASSIVE INVESTING</div><h3>高股息 ETF 的配息，不等於完整報酬</h3><p>用費用率、折溢價、成分集中度與總報酬檢查投資敘事。</p><span>閱讀 ETF 指南 <i class="fa-solid fa-arrow-right"></i></span></a><a href="guides/options.html" class="reading-card"><div class="reading-mark">DERIVATIVES</div><h3>選擇權買方與賣方，風險到底差在哪？</h3><p>從權利金、時間價值與希臘字母，看見非線性損益的另一面。</p><span>閱讀選擇權指南 <i class="fa-solid fa-arrow-right"></i></span></a></div>
+    </section>
 
-            <!-- Tool 3 -->
-            <div class="module-card" style="border-color: rgba(76, 175, 80, 0.2); background: rgba(76, 175, 80, 0.01);">
-                <div class="module-meta">
-                    <span class="module-badge" style="background: rgba(76, 175, 80, 0.1); color: #4caf50; border: 1px solid rgba(76, 175, 80, 0.2);">即時圖表與分析</span>
-                </div>
-                <h3 style="margin-top: 12px; margin-bottom: 12px;">交易風報比 (R:R) 即時計算機</h3>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px;">一鍵輸入美股、台股或加密貨幣，智慧演算法自動偵測最近的技術支撐位與壓力位，並即時運算交易風報比，搭配全自動 K 線圖繪製。</p>
-                <a href="tools/risk-reward-calculator.html" class="module-btn" style="border-color: #4caf50; color: #4caf50;">
-                    立即使用工具 <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+    <section class="container sponsor-stack" id="support">
+      <div class="sponsor-grid">
+        <div class="tradingview-cta"><div class="sponsor-eyebrow"><i class="fa-solid fa-chart-simple"></i> PARTNER RESOURCE</div><h2>用 TradingView 把研究流程視覺化</h2><p>全球市場圖表、指標腳本與回測工具，適合把文章裡的假設放回價格與時間軸檢驗。</p><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a><small>優惠內容依合作頁面與所在地區規則為準。</small></div>
+        <div class="support-cta"><div class="sponsor-eyebrow"><i class="fa-solid fa-mug-hot"></i> KEEP IT OPEN</div><h2>免費內容，需要你的支持</h2><p>如果知識樹或工具對你有幫助，可以透過 Ko-fi 支持學院持續維護文章與計算器。</p><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="button button-outline-light">前往 Ko-fi 支持 <i class="fa-solid fa-heart"></i></a><small>目前連結以設定檔為準；若有專屬頁面可更新 `config.json`。</small></div>
+      </div>
+      <div class="amazon-hub"><div class="hub-head"><div><div class="sponsor-eyebrow"><i class="fa-brands fa-amazon"></i> AMAZON HUB</div><h2>研究桌上的精選資源</h2></div><span class="affiliate-note">聯盟連結支持本站</span></div><p>從價值投資、交易心理到量化研究，選一本能讓你把概念讀深的書；商品連結使用學院既有聯盟標記。</p><div class="amazon-grid"><a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" rel="noopener noreferrer"><span class="book-icon"><i class="fa-solid fa-book-open"></i></span><div><strong>《原則》</strong><small>系統思考與決策</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" rel="noopener noreferrer"><span class="book-icon"><i class="fa-solid fa-landmark"></i></span><div><strong>《聰明的投資人》</strong><small>價值投資與安全邊際</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" rel="noopener noreferrer"><span class="book-icon"><i class="fa-solid fa-microchip"></i></span><div><strong>金融機器學習</strong><small>量化研究方法</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a><a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" rel="noopener noreferrer"><span class="book-icon"><i class="fa-solid fa-brain"></i></span><div><strong>Trading in the Zone</strong><small>交易心理與紀律</small></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div>
+    </section>
+  </main>
 
-            <!-- Advanced Tool Library -->
-            <div class="module-card" style="border-color: rgba(156, 39, 176, 0.25); background: rgba(156, 39, 176, 0.03);">
-                <div class="module-meta">
-                    <span class="module-badge" style="background: rgba(156, 39, 176, 0.1); color: #e040fb; border: 1px solid rgba(156, 39, 176, 0.2);">完整工具庫</span>
-                </div>
-                <h3 style="margin-top: 12px; margin-bottom: 12px;">估值、風險與資金管理工作台</h3>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px;">整合 DCF、VaR、債券久期、部位大小、Kelly、資產配置與蒙地卡羅風險模擬七項純前端工具。</p>
-                <a href="tools/index.html" class="module-btn" style="border-color: #e040fb; color: #e040fb;">開啟完整工具庫 <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-        </div>
-
-        <!-- Amazon Affiliate Section -->
-        <div class="card amazon-affiliate-card">
-            <div class="card-header-flex">
-                <h2>
-                    <i class="fa-brands fa-amazon"></i> 🛒 學院精選書單與產品推薦 (Amazon Hub)
-                </h2>
-                <span class="badge-promo">推廣專區</span>
-            </div>
-            <p class="amazon-desc">
-                歡迎透過以下專屬連結探索精選的財經經典書籍與交易周邊商品，支持我們持續創作高質量的免費教學內容！
-            </p>
-            
-            <div class="amz-grid">
-                <!-- Bestsellers -->
-                <a href="https://www.amazon.com/dp/1501124021?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-solid fa-fire"></i>
-                        </div>
-                        <strong>暢銷財經書籍</strong>
-                    </div>
-                    <p>
-                        閱讀雷·達里歐著作《原則 (Principles)》，學習如何透過客觀邏輯與系統思考進行決策。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-
-                <!-- Trading Tools -->
-                <a href="https://www.amazon.com/dp/B076VNFZJG?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-solid fa-desktop"></i>
-                        </div>
-                        <strong>交易員設備與周邊</strong>
-                    </div>
-                    <p>
-                        精選 BenQ ScreenBar 螢幕懸掛智慧護眼閱讀燈，為您的多螢幕交易室提供無反光照明。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-
-                <!-- Investment Classics -->
-                <a href="https://www.amazon.com/dp/0060555661?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-                        <strong>最想擁有的交易聖經</strong>
-                    </div>
-                    <p>
-                        價值投資大師葛拉漢（Benjamin Graham）的傳世經典《聰明的投資人》，奠定安全邊際觀念。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-
-                <!-- New Releases -->
-                <a href="https://www.amazon.com/dp/1119482089?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        </div>
-                        <strong>量化交易最新力作</strong>
-                    </div>
-                    <p>
-                        Marcos Lopez de Prado 著作《Advances in Financial Machine Learning》，掌握最前沿的金融機器學習策略。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-
-                <!-- Card 5: Python Algorithmic Trading -->
-                <a href="https://www.amazon.com/dp/149205335X?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-brands fa-python"></i>
-                        </div>
-                        <strong>程式交易入門指南</strong>
-                    </div>
-                    <p>
-                        Yves Hilpisch 著作《Python for Algorithmic Trading》，學習如何使用 Python 建立交易演算法、處理資料與串接 API。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-
-                <!-- Card 6: Trading Psychology -->
-                <a href="https://www.amazon.com/dp/0735201447?tag=9908qq-20" target="_blank" class="amz-item-card">
-                    <div class="amz-title-flex">
-                        <div class="amz-icon-box">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-                        <strong>交易心態經典必讀</strong>
-                    </div>
-                    <p>
-                        Mark Douglas 著作《Trading in the Zone》，掌握交易心理學，培養贏家的機率思維與堅強的紀律。
-                    </p>
-                    <div class="amz-action-text">
-                        在 Amazon 購買 ➡️
-                    </div>
-                </a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-links">
-            <a href="index.html">首頁</a>
-            <a href="fundamentals/index.html">啟蒙階段</a>
-            <a href="stocks/index.html">股票學程</a>
-            <a href="futures/index.html">期貨學程</a>
-            <a href="quant/index.html">量化學程</a>
-            <a href="privacy-policy.html">隱私權政策</a>
-            <a href="terms-of-service.html">免責聲明與使用條款</a>
-        </div>
-        <p>&copy; 2026 GugoPro Academy. All rights reserved.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">免責聲明：本站所有教學內容僅供學術研究與教育參考，不構成任何投資建議。交易具有高風險，請審慎評估。</p>
-    </footer>
-
-    <script src="/app.js"></script>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="#knowledge-tree">12 類知識樹</a><a href="tools/index.html">實戰工具庫</a><a href="#reading-room">閱讀室</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer">TradingView 合作頁</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="privacy-policy.html">隱私權政策</a><a href="terms-of-service.html">使用條款與免責</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>所有內容僅供教育與研究參考，不構成投資建議。</span></div></footer>
+  <script src="/app.js"></script>
 </body>
 </html>

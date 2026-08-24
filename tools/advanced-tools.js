@@ -1,115 +1,113 @@
-/* GugoPro Academy advanced tools: browser-only calculations. */
+/* GugoPro Academy: browser-only finance calculators. No network calls are made. */
 (function () {
   'use strict';
-
   const $ = (id) => document.getElementById(id);
-  const num = (id, fallback = 0) => {
-    const value = Number($(id)?.value);
-    return Number.isFinite(value) ? value : fallback;
-  };
-  const money = (value) => Number.isFinite(value) ? value.toLocaleString('zh-TW', { maximumFractionDigits: 2 }) : '—';
-  const pct = (value) => `${(value * 100).toFixed(2)}%`;
-  const show = (id, value) => { if ($(id)) $(id).textContent = value; };
+  const value = (id, fallback = 0) => { const n = Number($(id)?.value); return Number.isFinite(n) ? n : fallback; };
+  const money = (n) => Number.isFinite(n) ? `NT$ ${Math.round(n).toLocaleString('zh-TW')}` : '—';
+  const pct = (n) => `${(n * 100).toFixed(2)}%`;
+  const result = (id, text, warning = false) => { const el = $(id); if (!el) return; el.textContent = text; el.classList.toggle('tool-warning', warning); };
+  const validPositive = (...numbers) => numbers.every((n) => Number.isFinite(n) && n > 0);
 
-  window.getGugoProGeminiKey = function () {
-    return localStorage.getItem('gugopro_gemini_api_key') || '';
-  };
-  window.saveGugoProGeminiKey = function () {
+  window.getGugoProGeminiKey = () => localStorage.getItem('gugopro_gemini_api_key') || '';
+  window.saveGugoProGeminiKey = () => {
     const input = $('gemini-api-key');
     if (!input) return;
-    localStorage.setItem('gugopro_gemini_api_key', input.value.trim());
-    show('key-status', input.value.trim() ? '已儲存於本機瀏覽器' : '已清除本機金鑰');
+    const key = input.value.trim();
+    if (key) localStorage.setItem('gugopro_gemini_api_key', key);
+    else localStorage.removeItem('gugopro_gemini_api_key');
+    if ($('key-status')) $('key-status').textContent = key ? '已儲存於本機瀏覽器，不會上傳至學院伺服器。' : '已清除本機金鑰。';
   };
 
-  function dcf() {
-    const fcf = num('dcf-fcf');
-    const growth = num('dcf-growth') / 100;
-    const terminalGrowth = num('dcf-terminal-growth') / 100;
-    const discount = num('dcf-discount') / 100;
-    const years = Math.max(1, Math.floor(num('dcf-years', 5)));
-    const shares = Math.max(1, num('dcf-shares', 1));
-    if (fcf <= 0 || discount <= terminalGrowth || shares <= 0) return show('dcf-result', '請確認現金流、股數與折現率條件。');
-    let pv = 0;
-    for (let year = 1; year <= years; year += 1) pv += fcf * ((1 + growth) ** year) / ((1 + discount) ** year);
-    const terminal = (fcf * ((1 + growth) ** years) * (1 + terminalGrowth)) / (discount - terminalGrowth);
-    const enterprise = pv + terminal / ((1 + discount) ** years);
-    show('dcf-result', `每股估值 ${money(enterprise / shares)}；企業價值 ${money(enterprise)}`);
+  function compound() {
+    const principal = value('compound-principal'); const monthly = value('compound-monthly');
+    const rate = (value('compound-rate') - value('compound-fee')) / 100; const years = Math.floor(value('compound-years', 20));
+    if (!validPositive(principal, years) || monthly < 0 || !Number.isFinite(rate) || rate <= -1) return result('compound-result', '請輸入有效的本金、投入、報酬率與年限。', true);
+    const months = years * 12; const monthlyRate = Math.pow(1 + rate, 1 / 12) - 1; let total = principal;
+    for (let i = 0; i < months; i += 1) total = (total + monthly) * (1 + monthlyRate);
+    const invested = principal + monthly * months;
+    result('compound-result', `預估終值 ${money(total)}；投入本金 ${money(invested)}；複利增值 ${money(total - invested)}。模型採月末投入，淨報酬率已扣除年度費用。`);
   }
 
-  function varStress() {
-    const capital = num('var-capital');
-    const mean = num('var-mean') / 100;
-    const volatility = num('var-vol') / 100;
-    const z = num('var-confidence') >= 99 ? 2.326 : num('var-confidence') >= 97.5 ? 1.96 : 1.645;
-    const varLoss = Math.max(0, -(mean - z * volatility) * capital);
-    const stress = Math.max(0, -(mean - 2.5 * volatility) * capital);
-    show('var-result', `單日 VaR ${money(varLoss)}；2.5σ 壓力損失 ${money(stress)}`);
+  function etfFee() {
+    const principal = value('etf-principal'); const gross = value('etf-return') / 100; const fee = value('etf-fee') / 100; const years = Math.floor(value('etf-years', 20));
+    if (!validPositive(principal, years) || gross <= -1 || fee < 0) return result('etf-result', '請輸入有效的本金、報酬、費用率與年限。', true);
+    const grossFinal = principal * Math.pow(1 + gross, years); const netFinal = principal * Math.pow(1 + gross - fee, years); const drag = grossFinal - netFinal;
+    result('etf-result', `未扣費用終值 ${money(grossFinal)}；扣除年度費用後 ${money(netFinal)}；估計費用複利拖累 ${money(drag)}。此結果未含稅費、追蹤差異與交易成本。`);
   }
 
   function duration() {
-    const face = num('bond-face', 1000);
-    const coupon = num('bond-coupon') / 100;
-    const ytm = num('bond-ytm') / 100;
-    const years = Math.max(1, Math.floor(num('bond-years', 5)));
-    const frequency = Math.max(1, Math.floor(num('bond-frequency', 2)));
+    const face = value('bond-face', 1000); const couponRate = value('bond-coupon') / 100; const ytm = value('bond-ytm') / 100;
+    const years = Math.floor(value('bond-years', 5)); const frequency = Math.floor(value('bond-frequency', 2)); const shift = value('bond-shift') / 10000;
+    const periods = years * frequency; const ratePerPeriod = ytm / frequency;
+    if (!validPositive(face, years, frequency) || ratePerPeriod <= -1 || couponRate < 0) return result('bond-result', '請確認面額、到期年數、付息頻率與殖利率。', true);
     let price = 0; let weighted = 0;
-    for (let t = 1; t <= years * frequency; t += 1) {
-      const cash = t === years * frequency ? face * coupon / frequency + face : face * coupon / frequency;
-      const pv = cash / ((1 + ytm / frequency) ** t);
-      price += pv; weighted += (t / frequency) * pv;
-    }
-    const macaulay = weighted / price;
-    show('bond-result', `債券價格 ${money(price)}；Macaulay 久期 ${macaulay.toFixed(2)} 年；修正久期 ${(macaulay / (1 + ytm / frequency)).toFixed(2)} 年`);
+    for (let t = 1; t <= periods; t += 1) { const cash = face * couponRate / frequency + (t === periods ? face : 0); const pv = cash / Math.pow(1 + ratePerPeriod, t); price += pv; weighted += (t / frequency) * pv; }
+    const macaulay = weighted / price; const modified = macaulay / (1 + ratePerPeriod); const approxChange = -modified * shift * price;
+    result('bond-result', `理論價格 ${money(price)}；Macaulay 久期 ${macaulay.toFixed(2)} 年；修正久期 ${modified.toFixed(2)} 年；殖利率變動 ${value('bond-shift').toFixed(0)} bp 時，近似價格變動 ${money(approxChange)}，新價格約 ${money(price + approxChange)}。`);
   }
 
-  function positionSize() {
-    const equity = num('pos-equity');
-    const risk = num('pos-risk') / 100;
-    const entry = num('pos-entry');
-    const stop = num('pos-stop');
-    const fee = num('pos-fee') / 100;
-    const riskBudget = equity * risk;
-    const perShare = Math.abs(entry - stop) + entry * fee;
-    if (riskBudget <= 0 || perShare <= 0) return show('position-result', '請輸入有效的資金、風險與停損價格。');
-    show('position-result', `建議部位 ${Math.floor(riskBudget / perShare).toLocaleString()} 股；風險預算 ${money(riskBudget)}；每股風險 ${money(perShare)}`);
+  function curve() {
+    const shortRate = value('curve-short'); const longRate = value('curve-long'); const threshold = value('curve-threshold'); const spread = (shortRate - longRate) * 100;
+    if (![shortRate, longRate, threshold].every(Number.isFinite)) return result('curve-result', '請輸入有效的短、長天期殖利率。', true);
+    const inverted = spread > threshold; const text = inverted ? '倒掛警示' : spread < -Math.abs(threshold || 1) ? '正常斜率' : '接近持平';
+    result('curve-result', `${text}：短長天期利差為 ${spread.toFixed(0)} bp（短天期 ${shortRate.toFixed(2)}% − 長天期 ${longRate.toFixed(2)}%）。這是情境訊號，不是精準擇時工具。`, inverted);
   }
 
-  function kelly() {
-    const win = num('kelly-win') / 100;
-    const payoff = num('kelly-payoff');
-    const loss = 1 - win;
-    const raw = payoff > 0 ? win - loss / payoff : 0;
-    show('kelly-result', `Kelly 理論值 ${pct(raw)}；半 Kelly 參考 ${pct(Math.max(0, raw / 2))}`);
+  function risk() {
+    const entry = value('rr-entry'); const stop = value('rr-stop'); const target = value('rr-target'); const equity = value('rr-equity'); const riskPct = value('rr-risk') / 100;
+    const win = value('kelly-win') / 100; const payoff = value('kelly-payoff'); const riskPerUnit = Math.abs(entry - stop); const rewardPerUnit = Math.abs(target - entry);
+    if (!validPositive(entry, equity, riskPerUnit, rewardPerUnit) || riskPct <= 0 || win <= 0 || win >= 1 || payoff <= 0) return result('risk-result', '請確認進場、停損、目標、資金與勝率條件。', true);
+    const rr = rewardPerUnit / riskPerUnit; const budget = equity * riskPct; const units = Math.floor(budget / riskPerUnit); const kelly = win - (1 - win) / payoff;
+    result('risk-result', `交易風報比 ${rr.toFixed(2)}R；單筆風險預算 ${money(budget)}；以價格距離估算最多 ${units.toLocaleString()} 單位；Kelly 理論值 ${pct(kelly)}，半 Kelly 參考 ${pct(Math.max(0, kelly / 2))}。`);
+  }
+
+  function dcf() {
+    const fcf = value('dcf-fcf'); const growth = value('dcf-growth') / 100; const terminalGrowth = value('dcf-terminal') / 100; const discount = value('dcf-discount') / 100; const years = Math.floor(value('dcf-years', 5)); const shares = value('dcf-shares'); const price = value('dcf-price'); const mos = value('dcf-mos') / 100;
+    if (!validPositive(fcf, years, shares) || discount <= terminalGrowth || discount <= -1 || growth <= -1 || mos < 0 || mos >= 1) return result('dcf-result', '請確認 FCF、折現率、終值成長率、股數與安全邊際條件。', true);
+    let pv = 0; for (let y = 1; y <= years; y += 1) pv += fcf * Math.pow(1 + growth, y) / Math.pow(1 + discount, y);
+    const terminal = fcf * Math.pow(1 + growth, years) * (1 + terminalGrowth) / (discount - terminalGrowth); const enterprise = pv + terminal / Math.pow(1 + discount, years); const perShare = enterprise / shares; const buyBelow = perShare * (1 - mos);
+    const comparison = price > 0 ? (price <= buyBelow ? `目前價格低於安全邊際價格 ${money(buyBelow)}。` : `目前價格高於安全邊際價格 ${money(buyBelow)}。`) : `安全邊際價格 ${money(buyBelow)}。`;
+    result('dcf-result', `簡化企業價值 ${money(enterprise)}；每股價值 ${money(perShare)}；${comparison} 結果高度取決於成長率與折現率假設，不能取代完整估值。`, price > 0 && price > buyBelow);
+  }
+
+  function retirement() {
+    let balance = value('ret-capital'); const withdrawalRate = value('ret-withdrawal') / 100; const annualReturn = value('ret-return') / 100; const inflation = value('ret-inflation') / 100; const years = Math.floor(value('ret-years', 30));
+    if (!validPositive(balance, years) || withdrawalRate < 0 || annualReturn <= -1 || inflation < 0) return result('retirement-result', '請輸入有效的本金、提領率、報酬率、通膨與年限。', true);
+    const firstWithdrawal = balance * withdrawalRate; let withdrawal = firstWithdrawal; let totalWithdrawn = 0; let depletedAt = 0;
+    for (let y = 1; y <= years; y += 1) { balance *= 1 + annualReturn; balance -= withdrawal; totalWithdrawn += Math.max(0, withdrawal); if (balance <= 0) { balance = 0; depletedAt = y; break; } withdrawal *= 1 + inflation; }
+    const status = depletedAt ? `在第 ${depletedAt} 年耗盡` : `期末剩餘 ${money(balance)}`;
+    result('retirement-result', `首年提領 ${money(firstWithdrawal)}；模擬期間累計提領 ${money(totalWithdrawn)}；${status}。此為固定報酬情境，未模擬報酬順序風險。`, Boolean(depletedAt));
   }
 
   function allocation() {
-    const a = Math.max(0.0001, num('alloc-a'));
-    const b = Math.max(0.0001, num('alloc-b'));
-    const c = Math.max(0.0001, num('alloc-c'));
-    const inv = [1 / a, 1 / b, 1 / c]; const total = inv.reduce((s, x) => s + x, 0);
-    show('allocation-result', `波動度反比配置：股票 ${pct(inv[0] / total)}、債券 ${pct(inv[1] / total)}、現金 ${pct(inv[2] / total)}`);
+    const values = [value('alloc-stock-value'), value('alloc-bond-value'), value('alloc-cash-value')]; const targets = [value('alloc-stock-target'), value('alloc-bond-target'), value('alloc-cash-target')]; const total = values.reduce((a, b) => a + b, 0); const targetTotal = targets.reduce((a, b) => a + b, 0);
+    if (total <= 0 || targetTotal <= 0 || Math.abs(targetTotal - 100) > 0.01 || values.some((n) => n < 0) || targets.some((n) => n < 0)) return result('allocation-result', '請確認資產金額非負，且三項目標權重合計為 100%。', true);
+    const labels = ['股票', '債券', '現金']; const changes = targets.map((target, i) => total * target / 100 - values[i]); const text = changes.map((n, i) => `${labels[i]}${n >= 0 ? '買入' : '減碼'} ${money(Math.abs(n))}`).join('；');
+    result('allocation-result', `投資組合總額 ${money(total)}；再平衡建議：${text}。這是目標權重差額，不含稅務、交易成本與流動性限制。`);
   }
 
   function seededRandom(seed) { let x = seed >>> 0; return () => ((x = (1664525 * x + 1013904223) >>> 0) / 4294967296); }
   function monteCarlo() {
-    const capital = num('mc-capital'); const winRate = num('mc-win') / 100; const payoff = num('mc-payoff');
-    const risk = num('mc-risk') / 100; const trades = Math.max(10, Math.floor(num('mc-trades', 100))); const paths = 1000;
-    if (capital <= 0 || payoff <= 0) return show('mc-result', '請確認本金與盈虧比。');
-    const random = seededRandom(20260824); let ruin = 0; let drawdowns = [];
-    for (let p = 0; p < paths; p += 1) { let equity = capital; let peak = capital; let maxDD = 0; let breached = false;
-      for (let t = 0; t < trades; t += 1) { equity *= 1 + (random() < winRate ? risk * payoff : -risk); peak = Math.max(peak, equity); maxDD = Math.max(maxDD, (peak - equity) / peak); if (equity <= capital * 0.5) breached = true; }
-      drawdowns.push(maxDD); if (breached) ruin += 1;
-    }
-    drawdowns.sort((x, y) => x - y); show('mc-result', `估計跌破半數本金機率 ${pct(ruin / paths)}；95% 路徑最大回撤 ${pct(drawdowns[Math.floor(paths * 0.95)])}`);
+    const capital = value('mc-capital'); const winRate = value('mc-win') / 100; const payoff = value('mc-payoff'); const risk = value('mc-risk') / 100; const trades = Math.floor(value('mc-trades', 100)); const paths = 1000;
+    if (!validPositive(capital, payoff, trades) || winRate < 0 || winRate > 1 || risk <= 0 || risk >= 1) return result('mc-result', '請確認本金、勝率、盈虧比、風險與交易次數。', true);
+    const random = seededRandom(20260824); let breached = 0; const drawdowns = [];
+    for (let p = 0; p < paths; p += 1) { let equity = capital; let peak = capital; let maxDD = 0; let hit = false; for (let t = 0; t < trades; t += 1) { equity *= 1 + (random() < winRate ? risk * payoff : -risk); peak = Math.max(peak, equity); maxDD = Math.max(maxDD, (peak - equity) / peak); if (equity <= capital * .5) hit = true; } if (hit) breached += 1; drawdowns.push(maxDD); }
+    drawdowns.sort((a, b) => a - b); result('mc-result', `1,000 條固定種子路徑中，跌破半數本金機率 ${pct(breached / paths)}；95% 路徑最大回撤 ${pct(drawdowns[Math.floor(paths * .95)])}。模擬不代表未來分布。`, breached / paths > .1);
   }
 
-  const bindings = { dcf, 'var-stress': varStress, duration, 'position-size': positionSize, kelly, allocation, 'monte-carlo': monteCarlo };
+  const bindings = { compound, 'etf-fee': etfFee, duration, curve, risk, dcf, retirement, allocation, 'monte-carlo': monteCarlo };
+  function activatePanel(id, updateHash = true) {
+    const button = document.querySelector(`[data-tab="${id}"]`); const panel = $(id);
+    if (!button || !panel) return;
+    document.querySelectorAll('[data-tab]').forEach((el) => el.classList.toggle('active', el === button));
+    document.querySelectorAll('.advanced-tool-panel').forEach((el) => el.classList.toggle('active', el === panel));
+    if (updateHash) history.replaceState(null, '', `#${id}`);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const key = $('gemini-api-key'); if (key) key.value = window.getGugoProGeminiKey();
     document.querySelectorAll('[data-calc]').forEach((button) => button.addEventListener('click', () => bindings[button.dataset.calc]?.()));
-    document.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {
-      document.querySelectorAll('[data-tab], .advanced-tool-panel').forEach((el) => el.classList.remove('active'));
-      button.classList.add('active'); $(button.dataset.tab)?.classList.add('active');
-    }));
+    document.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => activatePanel(button.dataset.tab)));
+    const hash = window.location.hash.slice(1); if (hash && $(hash)) activatePanel(hash, false);
   });
 })();
