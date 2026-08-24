@@ -143,3 +143,7 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## 最後 cache-bust 版本正式 BTC 網格
 
 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=96ccdf9` 成功載入 `native-grid-20260824` 資產。瀏覽器顯示 Binance Public API 1,000 根 BTCUSDT K 線（15m），綠／紅網格、黃色止損與紫色止盈原生價格線均可見；最新價 77,293.06，單格扣雙邊 0.1% 手續費後淨利潤率 0.81%，單格套利金額 4.04 USDT，資金利用率 24.92%，破網風險距最近邊界 10%，模擬回撤 0.88%。歷史路徑曾觸及止損，故實現套利淨利為 -56.84 USDT；這是教育回放結果，不是座標溢位。最終瀏覽器截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_07-57-54_2631.webp`。
+
+## b5f1539 最終 R:R 重新載入
+
+最後文件提交後，正式 R:R 首次載入遇到一次 Binance 連線逾時並正確切換 TradingView fallback；重新按下「載入 K 線」後即成功恢復 Binance Public API 500 根 K 線與原生價格線。最新價 77,339.03，支撐 76,051，壓力 78,080，ATR 約 2.9%，R:R 2.00R，單位風險 2,320.17，建議單位數 2，均為有限數值。重新載入成功畫面：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_08-00-38_5814.webp`。
