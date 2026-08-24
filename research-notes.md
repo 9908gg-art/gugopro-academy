@@ -560,3 +560,12 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 
 
 最新 cache-bust R:R MSTR 載入回歸：選取「任意標準代碼」候選後，頁面狀態改為 `已切換 TradingView Advanced Chart · MSTR`，TradingView 圖表實際顯示 `M Strategy Inc`、`BATS_DLY:MSTR`、1D，證實未知標準 ticker 可由自由搜尋導向可用的 TradingView exchange:symbol。
+
+
+正式站 Run 90 成功後回歸：以額外 refresh query 重新載入 R:R，live DOM 實際顯示 3 個全球預設 optgroup，option values 為 6 個 crypto、NQ／ES／GOLD／OIL、NVDA／TSLA／AAPL／MSFT／AMZN，共 15 筆；`hasTaiwan=false`，`IBIT` 自訂清單仍存在。HTML scripts 全部使用 `global-symbols-tradingview-20260825`，搜尋 placeholder 為「輸入 SOLUSDT、XAUUSD、EURUSD、NVDA 或任意代碼」。頁面文字抽取仍曾殘留舊版本內容，但 DOM query 已確認正式部署檔案正確。
+
+
+正式站 Grid Run 90 後回歸：以額外 refresh query 載入最新頁面，live DOM 實際顯示六個 crypto、NQ／ES／GOLD／OIL、NVDA／TSLA／AAPL／MSFT／AMZN 共 15 筆預設，`hasTaiwan=false`；`IBIT` watchlist 仍存在，所有 scripts 使用 `global-symbols-tradingview-20260825`。Grid 初始仍以 BTCUSDT 啟動，與既有 Grid 初始化契約一致；後續以搜尋候選手動切換 EURUSD 驗證 TradingView route。
+
+
+正式 Grid 全球 route 實測：Run 90 success 後，在最新正式頁輸入並選取 `EURUSD`，狀態改為 `已切換 TradingView Advanced Chart · EURUSD`；嵌入圖表實際顯示 `Euro / U.S. Dollar`、`FXCM`、15 minutes，且 `TradingView Advanced Chart 已待命`。EURUSD 切換後仍保留 Lower／Upper／Grids／模式／投資／SL／TP／費率等 HUD 欄位與瀏覽器端網格計算。
