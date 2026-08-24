@@ -230,7 +230,7 @@ risk = {
     'slug': 'risk-reward-ratio', 'index': 'RR', 'group': '交易風控', 'title': '交易風險報酬比（R:R）',
     'eyebrow': 'RISK MANAGEMENT / R:R',
     'intro': '用風險報酬比、期望值、勝率矩陣與部位大小，把「這筆交易值得做嗎」轉成可驗證的交易前問題。',
-    'tool': ('開啟 R:R 即時計算機', '../tools/risk-reward-calculator.html'),
+    'tool': ('開啟 R:R 即時 K 線分析儀', '../tools/risk-reward-calculator.html'),
     'concept_title': 'R:R 是每承擔一單位風險，期待換取多少報酬',
     'concept': '''<p>風險報酬比（Risk-to-Reward Ratio）通常把進場到停損的距離視為 1R，再將進場到目標的距離除以這個風險。多頭例子中，進場 100、停損 95、目標 115，風險距離是 5、潛在報酬距離是 15，因此報酬是 3R；若是空頭，方向相反但計算仍要使用絕對價格距離。R:R 不是預測會賺多少，而是把交易計畫的損益結構標準化。</p><p>高勝率不等於賺錢，因為勝率必須和平均獲利、平均虧損、交易成本與尾部損失一起看。高勝率策略可能靠大量小利換取少數大損；低勝率策略也可能因為獲利單足夠大而有正期望值。專業交易員把停損當成風險邊界，把部位大小當成風險控制旋鈕，而不是把停損越放越遠來避免認錯。</p><div class="guide-callout"><strong>核心觀念：</strong>先定義「錯了會在哪裡」，再問「正確時能走多遠」，最後由可承擔損失反推單位數。</div>''',
     'metrics_title': '期望值、損益平衡勝率與 R 倍數',
@@ -241,7 +241,7 @@ risk = {
     'compare_title': '勝率與 R:R 的動態平衡矩陣',
     'compare_rows': [('勝率 25%','若平均獲利 3R、平均虧損 1R，理論接近損益平衡','連敗長、樣本需求高','需較小單筆風險與足夠資金緩衝'),('勝率 40%','1.5R 以上可能有正期望值','容易因提前止盈降低平均獲利','必須尊重目標與交易成本'),('勝率 60%','1R 也可能有正期望值','尾部單筆損失可能摧毀多次小利','停損、跳空與黑天鵝管理最重要')],
     'checklist': '''<p>交易前逐項回答：失效在哪裡、每單位風險多少、目標是否有市場結構支持、計畫 R:R 是否扣除成本、單筆最多損失多少、連續五到十筆虧損能否承受、是否與既有部位高度相關。若任何一題沒有可量化答案，先縮小部位或放棄交易。</p>''',
-    'tool_note': '專屬 R:R 即時計算機提供進場、停損、目標、資金與風險百分比輸入，會輸出 R 倍數、風險預算、建議單位數與名目部位；TradingView 用於驗證價格結構，不替代風控。',
+    'tool_note': '專屬 R:R 即時 K 線分析儀提供熱門商品搜尋、K 線、進場／停損／目標標註、支撐壓力與部位大小試算；TradingView 用於驗證價格結構，不替代風控。',
     'references': [('FINRA 投資人風險與產品教育','https://www.finra.org/investors/investing/investment-products/options'), ('SEC What is Risk?','https://www.investor.gov/introduction-investing/investing-basics/what-risk')]
 }
 
@@ -269,13 +269,13 @@ for c in all_topics:
   <title>{escape(c['title'])}｜GugoPro 財經學院</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=20260824">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=tools-upgrade-20260824">
 </head>
 <body class="guide-page">
 <header class="site-header"><div class="nav-container"><a href="../index.html" class="logo" aria-label="GugoPro 財經學院首頁"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><nav class="primary-nav" aria-label="主要導覽"><a href="../index.html#knowledge-tree">知識樹</a><a href="../tools/index.html">實戰工具</a><a href="../index.html#reading-room">閱讀室</a></nav><div class="nav-actions"><a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a><div class="lang-selector"><button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button><div class="lang-dropdown"><a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a><a href="#" onclick="changeLanguage('zh-cn')">简体中文</a><a href="#" onclick="changeLanguage('en')">English</a></div></div><button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div></div></header>
 <main><div class="guide-layout"><aside class="guide-sidebar"><div class="section-kicker">12 + 1 TOPICS</div>{sidebar}<a href="../tools/index.html" class="guide-sidebar-tool">開啟工具工作台 →</a></aside><article class="guide-content"><header class="guide-hero"><div class="eyebrow"><span class="eyebrow-dot"></span>{c['eyebrow']}</div><h1>{escape(c['title'])}：先理解，再計算，最後管理風險。</h1><p>{c['intro']}</p><div class="guide-meta"><span>{c['group']}</span><span>深度專題</span><span>教育用途</span></div></header><div class="guide-body">{sections}{ref_section}<div class="guide-tools"><a href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i> {c['tool'][0]}</a><a href="../index.html#knowledge-tree"><i class="fa-solid fa-compass"></i> 回到知識樹</a></div><div class="guide-cta"><div><h3>把這篇文章放回圖表驗證</h3><p>TradingView 可用來觀察全球市場、建立指標與回測假設；優惠內容以合作頁與所在地區規則為準。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div><p class="tool-disclaimer">本頁內容僅供教育與研究參考，不構成投資、稅務或法律建議。金融商品可能產生本金損失，請依自身情況審慎評估。</p></div></article></div></main>
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">12 類知識樹</a><a href="../tools/index.html">實戰工具庫</a><a href="../index.html#reading-room">閱讀室</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
-<script src="/app.js?v=20260824"></script>
+<script src="/app.js?v=tools-upgrade-20260824"></script>
 </body></html>'''
     (OUT / f'{c["slug"]}.html').write_text(html, encoding='utf-8')
 

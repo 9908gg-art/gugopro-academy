@@ -93,3 +93,19 @@ GitHub Pages 已同步 commit `61731ad` 的版本化資源。正式站獨立 R:R
 ## 正式站最終 R:R 專題驗證（a15f29e）
 
 正式站 `guides/risk-reward-ratio.html?v=a15f29e` 已完成最終檢查：6 個主要章節、3 列四欄比較表、14 個側欄連結、1 個獨立 R:R 工具連結、1 個 TradingView CTA，以及 Footer privacy、terms、about 各 1 個。`.site-header` 高度約 62px，文章內層 `.guide-hero` 的 position 為 relative、top 為 0px，確認不再以 sticky Header 遮擋文章內容。
+
+## 工具升級本地驗證
+
+新版 `tools/risk-reward-calculator.html` 已渲染搜尋商品／代號、週期、K 線容器、進場／停損／目標三條可拖曳標註、獲利／虧損區間與最近支撐／壓力面板。瀏覽器測試顯示 Binance 公開 K 線端點可直接回應；Yahoo Finance 端點在本地瀏覽器受 CORS 限制時，頁面正確顯示「已切換 TradingView」，TradingView iframe 最終載入 AAPL K 線與圖表工具列，三條價格標註仍覆蓋在圖表上。
+
+## ETF 現金流工具本地驗證
+
+`tools/etf-dividend-calculator.html` 已渲染主流 ETF 選單、單筆投入、每月投入、年化配息率、價格成長、年數與 DRIP 切換。預設 0050 情境可產生 NT$9,600 第一年度配息、期末再投入／領出現金資產與 SVG 曲線。瀏覽器將標的切換為 00919 後，配息率即時更新為 8.5%；關閉 DRIP 後狀態改為領出現金，兩條 SVG path 均有更新資料。
+
+## 網格交易工具本地驗證
+
+`tools/grid-trading-calculator.html` 已渲染上下限、網格數、等差／等比模式、資金、波動率與模擬天數。預設等差 10 格、80–120 區間、90 天、35% 波動率產生 3 回合、NT$2,400 模擬套利毛利與 6.11% 最大回撤。切換等比模式並提高波動率至 80% 後，結果更新為 4.14% 比例間距、17 回合、NT$14,069 毛利、16.76% 最大回撤，SVG 價格路徑也重新產生。
+
+## R:R 加密標的回歸驗證
+
+重新載入競態修正後的 R:R 工具並切換 `BTCUSDT`，瀏覽器端成功取得 Binance Public API 的 180 根日線 K 線；頁面狀態正確更新為 `BTCUSDT / Bitcoin / Tether`，最近支撐約 62,535、最近壓力約 79,500、ATR 波動約 2.44%，Lightweight Charts canvas 與 3 個可拖曳價格標註均保持可見。此測試也確認慢速初始 AAPL 請求不會覆蓋後續 BTCUSDT 狀態。
