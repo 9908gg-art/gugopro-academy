@@ -1,94 +1,79 @@
-# GugoPro 財經學院知識樹重構與專屬工具開發交付報告
+# GugoPro 財經學院全面重構交付報告
 
 **專案：** `9908gg-art/gugopro-academy`　　**作者：** Manus AI　　**交付日期：** 2026-08-24
 
 ## 一、交付摘要
 
-本次交付把 GugoPro 財經學院首頁從原本以五階段學程為中心的長頁，重構為「定位 → 探索 → 實作 → 支持」四段式入口。首頁首屏先說明學院方法論，接著以可搜尋、可篩選的 12 類金融商品知識樹承接使用者需求，再將文章指南與本地計算工具配對，最後提供 TradingView、Amazon Hub 與 Ko-fi 支持入口。資訊架構借鏡市場先生首頁的「分類導覽、內容流與精選資源分層」原則，但未複製其品牌、圖片或文字。[1]
+本次針對 `9908gg-art/gugopro-academy` 完成全面內容與介面修正，目標是讓財經學院從簡略的入口頁提升為可閱讀、可試算、可追溯的金融教育網站。所有內容維持教育與研究用途，不構成投資、稅務、法律或個人化財務建議。
 
-正式站公開入口為 [academy.gugopro.com](https://academy.gugopro.com/)，原始碼已推送到 [GitHub main 分支](https://github.com/9908gg-art/gugopro-academy/tree/main)。本次程式變更的最後提交為 `6e98bd1`；交付報告與驗證紀錄的最終提交為 `a49d2f0`，前兩個相關提交為 `e49da3e` 與 `ce935cc`；本地工作樹與遠端 main 已同步。
+正式站公開入口為 [academy.gugopro.com](https://academy.gugopro.com/)，原始碼位於 [GitHub `main` 分支](https://github.com/9908gg-art/gugopro-academy/tree/main)。
 
-## 二、首頁與知識樹
+## 二、內容深度擴充
 
-新的根目錄 `index.html` 採用深色玻璃擬態、橙色重點色與高對比資訊層級。首頁不再一次展開所有課程條目，而是將 12 個核心分類放入四欄響應式矩陣，並提供搜尋欄、`/` 快捷鍵、Esc 清除、五組分類篩選與空結果提示。桌面版以四欄呈現，平板版轉為三欄或兩欄，手機版轉為單欄；行動版導覽則透過選單按鈕展開。
+`guides/` 現已包含 13 篇專題：台股／股票、美股、ETF、債券、基金、外匯、商品原物料、期貨、選擇權、權證、虛擬貨幣、CFD／指數，以及新增的交易風險報酬比（R:R）。每篇正文均通過 1,200 字門檻，實際文字量約 1,486–1,816 字，並使用一致的「核心概念、指標與公式、實例計算、實戰策略、四欄風險比較表、交易前檢查清單、延伸工具與資料來源」結構。
 
-| 分類 | 教學範圍 | 指南頁 | 配對工具 |
-| --- | --- | --- | --- |
-| 台股／股票 | 除權息、本益比、殖利率、基本面、技術面 | `guides/taiwan-stocks.html` | 複利與殖利率 |
-| 美股 | 開戶、三大指數、交易規則、財報閱讀 | `guides/us-stocks.html` | DCF／安全邊際 |
-| ETF | 0050／00919、VOO／QQQ、債券 ETF、費用率、折溢價 | `guides/etf.html` | ETF 內扣費用 |
-| 債券 | 美國國債、殖利率曲線、倒掛、久期 | `guides/bonds.html` | 債券價格／久期 |
-| 基金 | 共同基金、主動／被動、經理人、費用 | `guides/funds.html` | 複利與費用 |
-| 外匯 | 匯率避險、DXY、外幣定存、換匯 | `guides/forex.html` | 風報比／部位 |
-| 商品原物料 | 黃金、原油、通膨連動商品 | `guides/commodities.html` | 風險情境 |
-| 期貨 | 臺指期、富台期、保證金、結算、避險 | `guides/futures.html` | 風報比／部位 |
-| 選擇權 | 買賣權、IV、買方／賣方、希臘字母 | `guides/options.html` | 風險工具 |
-| 權證 | 認購／認售、槓桿、時間價值、流動性 | `guides/warrants.html` | 交易風控 |
-| 虛擬貨幣 | BTC／ETH、錢包、網格、質押、鏈上風險 | `guides/crypto.html` | 蒙地卡羅風險 |
-| CFD／指數 | 槓桿、點差、隔夜利息、全球指數 | `guides/cfd-indices.html` | 風報比 |
+文章內容將價格、現金流、費用、槓桿、流動性、匯率、利率、信用、時間價值與尾部風險放回商品本身的運作邏輯。ETF、殖利率曲線、選擇權與 AdSense 政策段落亦補充 SEC、FINRA、CFTC 與 Google 官方教育來源，避免把歷史結果或簡化公式描述成保證。
 
-## 三、文章內容擴充
+## 三、風報比專題與工具
 
-`guides/` 目錄新增 12 篇結構化指南，每篇皆遵循「先理解商品、再看指標、最後管理風險」的順序。頁面共用側欄可在 12 類之間切換，正文包含概念說明、比較表格、實務檢查單與風險 callout；每篇文章都能跳轉到相關工具、回到知識樹，並在文章結尾提供 TradingView 合作 CTA。這讓文章不再是孤立頁面，而是知識樹中的可回溯節點。
+新增 `guides/risk-reward-ratio.html`，說明 R 倍數、期望值、損益平衡勝率、高勝率不等於獲利、勝率／R:R 動態矩陣、停損設計與部位大小。新增 `tools/risk-reward-calculator.html` 與 `tools/risk-reward-calculator.js`，提供進場價、停損價、目標價、帳戶資金、單筆風險百分比五項輸入，並即時計算方向、R 倍數、單位風險、風險預算、建議單位數、名目部位與目標潛在獲利。
 
-## 四、純前端工具工作台
+預設測試條件為進場 100、停損 95、目標 115、資金 500,000、單筆風險 1%，工具輸出 3R、建議單位數 1,000、最大價格損失約 5,000、目標潛在獲利約 15,000。將目標價改成 90 時，工具正確回報多空價格方向不一致，恢復 115 後回到有效結果。
 
-`tools/index.html` 與 `tools/advanced-tools.js` 現在提供九個 Tabs 面板。計算由瀏覽器 JavaScript 執行，不抓取即時報價、不建立伺服器端狀態，也不將輸入資料送出。模型皆為教育用途的簡化情境，並在頁面上明確說明稅費、滑價、流動性、凸性、報酬順序與個人情況可能使實際結果不同。
+## 四、UI 與導覽修復
 
-| 工具面板 | 主要輸入 | 主要輸出 |
-| --- | --- | --- |
-| 複利退休 | 本金、每月投入、淨報酬率、年限、費用 | 終值、投入本金、複利增值 |
-| ETF 費用 | 本金、毛報酬、費用率、持有年數 | 未扣費用終值、扣費後終值、拖累 |
-| 債券久期 | 面額、票息、YTM、年期、付息頻率、bp | 價格、Macaulay／修正久期、近似價格變動 |
-| 殖利率曲線 | 短／長天期殖利率與門檻 | 倒掛、持平或正常斜率警示 |
-| 風報比／Kelly | 進場、停損、目標、資金、風險、勝率 | R 倍數、風險預算、單位數、Kelly／半 Kelly |
-| DCF／安全邊際 | FCF、成長、終值成長、折現率、股數、價格 | 企業價值、每股價值、安全邊際價格 |
-| 4% 提領 | 本金、提領率、報酬、通膨、年限 | 累計提領、期末餘額或耗盡年份 |
-| 資產配置再平衡 | 三類目前金額與目標權重 | 各資產應買入或減碼金額 |
-| 蒙地卡羅 | 本金、勝率、盈虧比、單筆風險、交易次數 | 跌破半數機率、95% 最大回撤 |
+全站新增緊湊 Header 覆寫，降低導覽列高度與間距，將文章內層 Hero Header 改為非 sticky，避免文章標題或正文被固定元素遮擋。文章標題與首頁 Hero 字級、padding 同步調降，並保留深色玻璃擬態風格。首頁新增 R:R 工具卡與閱讀室專題卡；文章側欄以 12+1 主題提供互相導覽。
 
-若未來加入 AI 解讀，程式已提供 `getGugoProGeminiKey()` 與 `saveGugoProGeminiKey()`，且只使用 `localStorage.getItem('gugopro_gemini_api_key')`。本次工作台沒有呼叫 AI，也沒有把金鑰傳送到伺服器。
+## 五、合作與商業導流
 
-## 五、商業導流整合
+首頁、13 篇新版深度指南、工具工作台與獨立 R:R 計算機均保留 TradingView 合作 CTA，使用指定連結 `https://www.tradingview.com/?aff_id=168714`，文案包含優惠註冊入口，並註明資格依合作頁與所在地區規則為準。13/13 新版指南均通過 CTA 覆蓋檢查。Amazon Hub 沿用既有 `9908qq-20` 聯盟標記；Ko-fi 入口仍透過 `config.json` 與 `data-kofi-link` 可更新的設定保留於導覽與 Footer。
 
-首頁、工具工作台、12 篇新指南與 31 個既有文章／工具頁均已加入 TradingView 合作 CTA；網址沿用專案設定中的 `https://www.tradingview.com/?aff_id=168714`。首頁底部 Amazon Hub 沿用既有 `amazon_tag: 9908qq-20`，保留經典財經書、量化研究與交易心理等精選入口。首頁、指南與工具頁的頁首與頁尾均放置 Ko-fi 支持入口，並由 `config.json` 的 `kofi_url` 統一控制。
+## 六、AdSense 合規頁面
 
-目前倉庫沒有可驗證的 GugoPro 專屬 Ko-fi 頁面，因此 `config.json` 暫以 [Ko-fi 官方首頁](https://ko-fi.com) 為安全 fallback；若提供品牌專屬網址，只需把 `kofi_url` 替換，所有標記 `data-kofi-link` 的入口會自動更新。這是唯一未能在本次任務中從公開資料確認的品牌專屬設定，沒有臆造個人頁面網址。
+新增 `privacy.html`、`terms.html`、`about.html`。隱私權政策揭露 localStorage、Cookie、第三方分析、Google AdSense Cookie、個人化廣告選擇權、外部聯盟連結與純前端計算不收集聲明；服務條款說明教育用途、金融交易風險、計算器限制、外部連結與聯盟關係；關於我們說明創立宗旨、編輯原則、工具透明性與 GitHub Issues 回饋方式。
 
-## 六、驗證與部署紀錄
+全站 HTML Footer 已統一加入隱私權政策、服務條款與免責、關於我們連結，並清除舊的 `privacy-policy.html`／`terms-of-service.html` 連結。AdSense 正式上線前，仍應依實際投放地區啟用適用的 Consent Management Platform 並以實際資料流更新政策。
 
-本地驗證使用 `node --check app.js`、`node --check tools/advanced-tools.js`、`python3 validate_site.py` 與 `git diff --check`。靜態驗證結果為 `guides=12`、`root_links=49`、`workbench_panels=9`、`errors=0`。瀏覽器回歸測試確認首頁有 12 張知識樹卡片、5 個篩選按鈕與 CSS Grid；工具工作台九個計算器在預設情境下均能產生非空結果；債券預設結果為理論價格約 NT$1,045、Macaulay 久期 4.50 年、修正久期 4.41 年；指南頁有 12 類側欄、文章表格、工具連結與 TradingView CTA。
+## 七、驗證結果
 
 | 驗證項目 | 結果 |
 | --- | --- |
-| HTML／本地連結 | 12 篇指南、49 個根首頁連結，無 broken link |
-| JavaScript 語法 | `app.js` 與 `advanced-tools.js` 均通過 |
-| 純前端計算 | 九個面板均能產生結果，無 API 呼叫 |
-| RWD 結構 | CSS 具桌面、平板、手機斷點與行動導覽 |
-| 正式站 HTML | `https://academy.gugopro.com/?v=ce935cc` 已讀到新版標記 |
-| 正式站資源 | `/style.css?v=20260824`、`/app.js?v=20260824` 已部署 |
-| 舊文章 CTA | 31 個既有文章／工具頁已公開 TradingView CTA |
-| Git 狀態 | `main...origin/main`，最終提交 `a49d2f0` |
+| 深度指南數量 | 13 篇，全部存在 |
+| 每篇正文門檻 | 13/13 通過 1,200 字；約 1,486–1,816 字 |
+| 必要文章結構 | 13/13 通過：概念、公式／指標、實例、實戰、比較表、檢查清單、資料來源 |
+| 工具工作台 | 9 個既有面板與計算分支通過靜態檢查 |
+| 獨立 R:R 工具 | 五項輸入、方向檢查、3R 預設案例、部位大小計算通過 |
+| JavaScript | `app.js`、`tools/advanced-tools.js`、`tools/risk-reward-calculator.js` 均通過 `node --check` |
+| HTML／本地連結 | `validate_site.py` 通過，錯誤數 0 |
+| 差異格式 | `git diff --check` 通過 |
+| TradingView 指定連結 | 13/13 新版指南含 CTA；首頁、工作台與獨立工具均含指定連結 |
+| Footer 合規連結 | 全站 HTML 已補上新政策頁入口，舊政策連結已清除 |
+| 本地視覺檢查 | R:R 工具、R:R 指南、Privacy 頁均以瀏覽器檢查，Header 與內容可見 |
 
-部署期間曾發現一般瀏覽器快取命中舊語言跳轉與舊 CSS，已以版本化資源 URL 修正，並輪詢 GitHub Pages 建置至正式文章頁確認 CTA 與資源標記同步。Git remote 已還原為不含 token 的公開 URL，暫時認證腳本已刪除，憑證未寫入網站檔案或提交內容。
+本地 DOM 檢查確認 R:R 指南有 6 個主要章節、3 列四欄風險比較表、14 個側欄連結、1 個 TradingView CTA、1 個獨立工具連結，以及各 1 個 privacy、terms、about Footer 連結。Privacy 頁有 6 個主要政策段落與 3 個 Google AdSense 官方來源連結。
 
-## 七、檔案導覽
+## 八、部署狀態
+
+本次程式與文件變更以使用者指定的 commit message 提交至 GitHub `main`，並以不含憑證的 remote URL 推送。正式站 [https://academy.gugopro.com/](https://academy.gugopro.com/) 已完成部署後驗證；建議以版本化查詢參數重新整理，檢查首頁、R:R 指南、獨立工具與三個政策頁。
+
+## 九、檔案導覽
 
 | 檔案／目錄 | 用途 |
 | --- | --- |
-| `index.html` | 新版繁體中文首頁與知識樹 |
-| `style.css` | 共用深色玻璃擬態、首頁、指南、工具與 CTA 樣式 |
+| `index.html` | 首頁、R:R 工具卡與閱讀室入口 |
+| `style.css` | 緊湊 Header、Hero、深度指南、R:R、政策頁與 RWD 樣式 |
 | `app.js` | 語言切換、下拉選單、知識樹搜尋／篩選、Ko-fi 設定載入 |
-| `guides/*.html` | 12 類金融商品結構化指南 |
-| `tools/index.html` | 純前端工具工作台介面 |
+| `guides/*.html` | 12 類金融商品與 R:R 共 13 篇深度專題 |
+| `tools/index.html` | 九項純前端工具工作台 |
 | `tools/advanced-tools.js` | 九項工具的瀏覽器端計算核心 |
-| `config.json` | Amazon、TradingView、Ko-fi 導流設定 |
-| `build_guides.py` | 12 篇指南的共同版型產生器 |
-| `add_resource_ctas.py` | 既有文章／工具頁 CTA 與版本化資源批次維護腳本 |
-| `validate_site.py` | 連結、ID、面板與指南數量的靜態驗證腳本 |
+| `tools/risk-reward-calculator.html` | 獨立風報比工具介面 |
+| `tools/risk-reward-calculator.js` | 獨立風報比工具計算核心 |
+| `privacy.html`、`terms.html`、`about.html` | AdSense 合規與網站資訊頁 |
+| `build_guides.py` | 13 篇深度指南共同版型產生器 |
+| `update_compliance_links.py` | 全站政策連結與去重維護腳本 |
+| `content_audit.py` | 文章字數與必要章節驗證腳本 |
+| `validate_site.py` | 連結、ID、面板、工具與必要檔案驗證腳本 |
 
-## References
+## 十、維護提醒
 
-[1]: https://rich01.com/ "Mr.Market市場先生首頁（分類導覽與內容分層參考）"
-[2]: https://academy.gugopro.com/ "GugoPro 財經學院正式站"
-[3]: https://github.com/9908gg-art/gugopro-academy "GugoPro Academy GitHub repository"
+目前 Ko-fi 設定仍以 `config.json` 的可覆蓋欄位與預設外部入口為準；若營運方有正式 Ko-fi 個人頁，請直接更新設定檔，不要在 HTML 內散落修改。若未來正式啟用 Google AdSense、個人化廣告或分析工具，應同步啟用適用所在地的同意管理平台，並依實際資料流更新隱私權政策。
