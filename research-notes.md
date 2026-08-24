@@ -119,3 +119,7 @@ GitHub Pages 設定確認 custom domain `academy.gugopro.com` 使用 `main` 根�
 正式 `tools/risk-reward-calculator.html?v=252fdf6` 已部署。公開 Yahoo 端點在瀏覽器受 CORS 限制時狀態顯示切換 TradingView，TradingView iframe 實際呈現 AAPL K 線工具列與圖表；R:R 預設 3R、5,000 風險預算、1,000 單位與三條彩色價格標註皆可見。正式 `tools/etf-dividend-calculator.html?v=252fdf6` 已公開並產生 0050 預設情境的配息、DRIP／領出現金資產比較與 SVG 曲線；頁底 TradingView、Amazon、Ko-fi 與三個政策頁連結均存在。
 
 正式 `tools/grid-trading-calculator.html?v=252fdf6` 已部署。預設等差情境產生 4% 間距、3 回合、NT$2,400 毛利、-1.12% 模擬報酬與 6.11% 最大回撤；切換等比與 80% 波動率後即時更新為 4.14% 比例間距、17 回合、NT$14,069 毛利、16.76% 最大回撤，SVG 路徑存在且頁底合作／政策連結完整。
+
+## 最終提交部署
+
+文件同步提交 `aed398d` 已推送至 GitHub main；GitHub Pages workflow 對應 aed398d 完成 success。正式首頁以 `?v=aed398d-ready` 載入，已確認 05 風報比即時 K 線分析儀、06 ETF 配息與 DRIP 試算、07 動態網格交易模擬器三張工具卡，以及 TradingView／Ko-fi／Amazon／政策 Footer 全部公開。正式站最後輪詢的首頁資源為 `style.css?v=tools-upgrade-20260824`。
