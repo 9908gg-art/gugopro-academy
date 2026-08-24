@@ -373,3 +373,27 @@ R:R 本地 quick selector 展開畫面確認原生 optgroup 標題以「加密�
 ### Local R:R Taiwan ETF autocomplete
 
 在 R:R 搜尋框輸入 `00` 後，候選清單即時顯示 `0050.TW`、`0056.TW`、`00878.TW`、`00919.TW`、`00929.TW`，並保留名稱、台股與台股 ETF 市場標籤及人氣高股息／市值 ETF 細分類；同時可依名稱／代碼比對出 SPY 與 QQQ。操作畫面：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-48-05_3721.webp`。
+
+## Autocomplete upgrade — Pages deployment checkpoint
+
+最終功能提交 `8528a10` 已成功推送至 `main`，公開 GitHub Actions 顯示 Pages Run 84（workflow ID `32741183018`）正在進行；待完成後以 `autocomplete-search-20260824` cache-bust 核對正式站兩頁。
+
+### Pages Run 84 continued polling
+
+公開 Actions 在後續刷新仍顯示 Run 84（workflow ID `32741183018`）`In progress`；其餘最近 Runs 82／83 均 completed successfully。功能提交 `8528a10` 已推送且本地／origin HEAD 一致，待 Run 84 完成後再進行正式站 cache-bust 核對。
+
+### Pages Run 84 extended polling
+
+公開 Actions 在約四分鐘後刷新仍將 Run 84（workflow ID `32741183018`）標為 `In progress`。下一步開啟該 run 詳情頁確認實際 job 狀態；未將正式站 cache-bust 視為已完成部署。
+
+## Autocomplete upgrade — Run 84 and official R:R
+
+Run 84（workflow ID `32741183018`）詳情頁已顯示 `Status Success`，commit head 為 `8528a10`，build、report-build-status、deploy 三個 job 均完成；正式站 R:R `?v=autocomplete-search-20260824` 已回傳新版 quick selector、搜尋 input 與 28 項分類商品 DOM，待行情載入後進行正式 autocomplete 操作回歸。
+
+### Official R:R autocomplete
+
+正式站 `https://academy.gugopro.com/tools/risk-reward-calculator.html?v=autocomplete-search-20260824` 已核對 8528a10 的 autocomplete。輸入 `00` 即時顯示 0050.TW、0056.TW、00878.TW、00919.TW、00929.TW，以及名稱比對出的 SPY／QQQ；每列包含代號、全名、市場大分類與細分類。同期 BTC 公開行情顯示 3,000 根 K 線與 Binance ticker，操作截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_14-56-33_3657.webp`。
+
+### Official Grid autocomplete
+
+正式站 `https://academy.gugopro.com/tools/grid-trading-calculator.html?v=autocomplete-search-20260824` 已核對 8528a10。頁面顯示三大 optgroup 與 28 個商品、`商品／代號` autocomplete 搜尋列；BTC/USDT 公開資料載入 3,000 根 K 線、WebSocket 顯示已連線、網格輸出與稀疏右軸正常。正式桌面截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_14-57-10_2855.webp`。

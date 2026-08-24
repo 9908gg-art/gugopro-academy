@@ -250,3 +250,16 @@ R:R 與網格工具的所有工具內 `<select>` 與 `<option>` 均加入深色�
 | 靜態檢查 | `validate_site.py` `errors=0`；兩個核心 JS、`app.js`、`advanced-tools.js` 語法檢查與 `git diff --check` 通過 |
 
 本輪本地操作截圖包括：R:R `BT` autocomplete `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-38-18_5753.webp`、網格 `NV` autocomplete `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-39-44_9786.webp`、網格 ArrowDown／Enter 後狀態 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-40-35_7528.webp`、R:R optgroup 展開 `/home/ubuntu/screenshots/127_0_0_1_2026-08-24_14-46-22_7658.webp`。正式部署完成後將在下一節補上最終提交與 Pages workflow。
+
+
+## 十六、本輪智慧搜尋正式部署結論（2026-08-24）
+
+本輪功能提交為 `8528a10`，commit message 完全符合使用者指定內容：`Manus AI: implement instant symbol autocomplete search and multi-category quick selector for R:R and Grid tools`。GitHub Pages Run 84（[workflow ID 32741183018](https://github.com/9908gg-art/gugopro-academy/actions/runs/32741183018)）的 build、report-build-status 與 deploy jobs 均顯示 `Status Success`，正式部署入口為 [academy.gugopro.com](https://academy.gugopro.com/)。
+
+| 正式頁面 | 本輪核對結果 |
+|---|---|
+| [R:R autocomplete](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=autocomplete-search-20260824) | `00` 即時顯示 0050.TW、0056.TW、00878.TW、00919.TW、00929.TW，以及名稱比對出的 SPY／QQQ；每列具代號、全名、市場大分類與細分類；BTC 同期 3,000 根 K 線與 Binance ticker 正常 |
+| [網格 autocomplete](https://academy.gugopro.com/tools/grid-trading-calculator.html?v=autocomplete-search-20260824) | `NV` 即時顯示 NVDA／NVIDIA／美股與指數 ETF／科技巨頭；ArrowDown 後 Enter 同步搜尋框、quick selector 與 HUD；BTC 3,000 根 K 線、WebSocket、網格統計與右軸標籤正常 |
+| [Pages Run 84](https://github.com/9908gg-art/gugopro-academy/actions/runs/32741183018) | `completed successfully`；commit head `8528a10` |
+
+本輪正式操作截圖為 R:R `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_14-56-33_3657.webp` 與網格 `/home/ubuntu/screenshots/academy_gugopro_2026-08-24_14-57-10_2855.webp`。公開行情仍可能受 Binance／Yahoo Finance CORS、休市、資料延遲或連線狀態影響；股票與 ETF 不可用時，頁面維持安全 fallback 與狀態提示。所有 R:R 與網格數字僅供教育與研究，不構成投資建議。
