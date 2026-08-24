@@ -163,3 +163,8 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 
 
 美股 Scanner 回歸：切換「美股」並啟動批次後，公開 Yahoo／CORS 請求在本次瀏覽器執行中出現逾時，頁面保持「正在批次讀取公開行情」並不把空資料混入結果；與原生圖表同步顯示 TradingView fallback，數值欄位仍可用。此結果驗證了失敗端點的安全排除與使用者提示；加密貨幣批次已在同一版本成功完成 6/16。截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_09-19-14_2656.webp`。
+
+
+## 推送紀錄（2026-08-24）
+
+本輪功能提交已推送至 GitHub `main`：`18258d8`。提交訊息為 `Manus AI: restore R:R market scanner, fix swing-high anchor and grid Y-axis clutter, add grid/dividend guides with bidirectional links`。推送後 `HEAD` 與 `origin/main` 均指向 `18258d8`，remote URL 維持無認證網址，暫存 askpass 與 PAT 環境已清除。

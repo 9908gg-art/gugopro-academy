@@ -2,7 +2,7 @@
 
 **專案：** `9908gg-art/gugopro-academy`  
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)  
-**本輪功能提交：** 待本輪推送後補入
+**本輪功能提交：** `18258d8`
 **完成日期：** 2026-08-24
 **作者：** Manus AI
 
@@ -98,7 +98,7 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 
 `Manus AI: restore R:R market scanner, fix swing-high anchor and grid Y-axis clutter, add grid/dividend guides with bidirectional links`
 
-本報告建立於功能提交前，待提交完成後會將實際 commit hash 補入本節，再同步到 `main`。正式站驗證網址為：
+本輪功能提交 `18258d8` 已推送至 GitHub `main`；提交訊息與上方指定內容完全一致。正式站驗證網址為：
 
 - [首頁](https://academy.gugopro.com/?v=latest)
 - [R:R K 線與 Market Scanner](https://academy.gugopro.com/tools/risk-reward-calculator.html?v=latest#rr-market-scanner)
