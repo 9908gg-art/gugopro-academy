@@ -136,6 +136,28 @@ Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易�
 
 波段高低點只是所選回溯窗口的機械化參考，會隨週期與窗口改變，不能視為支撐阻力保證。網格歷史回放使用 K 線路徑近似成交，未等同交易所撮合；真實執行還要納入滑價、流動性、最小下單量、部分成交、API 中斷、資金費率、稅務與資產配置。ETF DRIP 模型也未完整模擬除息日、稅務、匯率、費用與配息調整。
 
+## 十、本輪 HUD 儀表板與即時行情重構（2026-08-24）
+
+本輪將 R:R 與 BTC 網格工具由「圖表下方設定區」改成 **頂部緊湊 HUD**。R:R HUD 會在圖表前集中顯示現價、Entry、Stop、Target、R:R、風險百分比、帳戶資金、建議部位與風險預算；1m、5m、15m、1h、4h、1D、1W 由按鈕快速切換。網格 HUD 則將 Binance／Pionex 實盤定位、Lower、Upper、Grids、等差／等比、總投資、SL、TP、單邊費率與歷史載入控制集中在 K 線上方，調整任何參數即重繪原生買賣網格。
+
+| 回歸項目 | 實測結果 |
+|---|---|
+| R:R 初始歷史 | Binance BTCUSDT 初始 2,000 根；向左觸發追加後狀態達 3,000 根 |
+| R:R 長週期 | 1W 可載入約 472 根週線；Swing Low 約 49,000、Swing High 約 126,199.63、ATR 約 7.61% |
+| R:R 即時行情 | Binance ticker WebSocket console 探針 `status=open`，成功取得 BTCUSDT 價格；頁面 HUD 曾實測由約 78,357.52 更新至 78,386.00，狀態顯示 `Binance ticker` |
+| 網格初始歷史 | Binance BTCUSDT 初始 2,000 根；向左追加後狀態達 3,000 根 |
+| 網格即時行情 | 頁面顯示 `WebSocket 已連線 · ticker`，最新價約 78,408、24 小時變化約 +1.68% |
+| 網格 15m 教育情境 | 每格約 1.01%、費後約 0.81%、單格 4.04 USDT、利用率約 19.81%、回撤約 0.8% |
+| 網格 4h 教育情境 | 3,000 根 K 線、176 次網格回合、利用率約 89.08%、回撤約 26.27%；曾觸及 SL／TP，明確標示為歷史回放 |
+| Y 軸策略 | 右軸只顯示 LOWER／UPPER／LATEST／SL／TP；中間網格保留原生虛線，不建立 absolute 疊層 |
+| 手機版 | 375px 同源 iframe：R:R `overflow=false`、HUD 339px、圖表 313px；網格 `overflow=false`、HUD／圖表 335px、控制列 311px |
+
+即時連線依 Binance 官方 Spot WebSocket Streams 文件使用 `<symbol>@ticker` close price 欄位 `c`，並在頁面隱藏時關閉、回到頁面時重連；斷線會以遞增延遲重試。歷史資料依官方 Kline interval 使用 REST `limit` 與 `endTime` 向左分頁，且 1W 使用官方支援的週線 interval。[6] 由於這是公開前端行情，連線狀態、資料延遲、瀏覽器網路政策與交易所服務狀態都可能影響畫面；失敗時仍顯示 fallback 或明確錯誤，不把缺資料當成交易訊號。
+
+本輪提交使用者指定訊息：
+
+`Manus AI: streamline R:R and grid tools into compact HUD dashboard with live WebSocket ticks and deep history`
+
 ## References
 
 [1]: https://www.binance.com/en/support/faq/detail/688ff6ff08734848915de76a07b953dd "Binance Spot Grid Trading Parameters"
@@ -143,5 +165,6 @@ Yahoo Finance 與其他公開行情端點可能因 CORS、連線逾時、交易�
 [3]: https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/fund-distributions-investor-bulletin "SEC Fund Distributions Investor Bulletin"
 [4]: https://www.invesco.com/qqq-etf/en/innovation/dividends-and-capital-appreciation-understanding-total-return.html "Invesco Understanding Total Return"
 [5]: https://www.sec.gov/investor/alerts/etfs.pdf "SEC ETF Investor Bulletin"
+[6]: https://developers.binance.com/en/docs/products/spot/testnet/web-socket-streams "Binance Spot WebSocket Streams and Kline Streams"
 
 本報告由 **Manus AI** 撰寫；所有投資、交易、稅務與收益內容僅供教育與研究參考，不構成任何個人化建議。

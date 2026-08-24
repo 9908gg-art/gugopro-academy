@@ -191,3 +191,31 @@ Git 歷史顯示 `45a2957`／`d7fe005` 使用 Canvas 與手動滑桿，後續 `2
 ## 最終 main 與 Pages 部署（2026-08-24）
 
 最後文件與正式站核對提交為 `1794581`，Pages workflow `32711884118` 已完成 `completed / success`。最終核對 URL 使用 `?v=1794581`；功能提交 `18258d8` 保留使用者指定的完整 commit message，`1794581` 為文件與驗證紀錄同步提交。`HEAD`、`origin/main` 與 `origin/HEAD` 均指向 1794581，工作樹乾淨。
+
+
+## HUD 即時行情設計研究（2026-08-24）
+
+本輪前端即時行情採 Binance 官方公開市場資料：官方 Spot WebSocket 文件列出單一 symbol ticker stream `<symbol>@ticker` 的 close price 欄位 `c`、價格變化百分比 `P` 與 1 秒更新；Kline stream `<symbol>@kline_<interval>` 支援 1m、5m、15m、1h、4h、1d、1w 等週期，非 1s 週期通常約 2 秒更新。官方也說明連線會由伺服器發送 ping，客戶端需及時 pong；連線有訊息頻率、stream 數量與週期性斷線限制，因此前端需實作斷線重連、頁面隱藏時清理或降載，以及明確顯示連線狀態。[Binance Spot WebSocket Streams](https://developers.binance.com/en/docs/products/spot/testnet/web-socket-streams)
+
+本輪歷史 K 線仍使用 Binance Spot REST `/api/v3/klines`，以 `limit`、`endTime` 向左分頁載入，避免把 1,000 根視為長期歷史的上限；Lightweight Charts 的 timeScale scroll position 用於觸發較早資料追加。1W 長週期使用官方支援的 `1w` Kline interval；R:R 的股票／ETF 仍保留 Yahoo／fallback 限制，WebSocket 即時跳動只對 Binance 加密資產啟用。
+
+
+## 本地 R:R HUD 回歸（2026-08-24）
+
+本地 `risk-reward-calculator.html?v=hud-websocket-20260824` 顯示頂部 HUD：商品搜尋、現價／Entry／Stop／Target／R:R 膠囊、1m／5m／15m／1h／4h／1D／1W 快速週期、風險百分比、帳戶資金、建議部位與重置。Binance BTCUSDT 初始載入 2,000 根 K 線，圖表向左歷史邊界測試後狀態更新為已載入 3,000 根；原生 Lightweight Charts canvas 可見。測試數值為現價約 78,357.52、Entry 78,357.52、Swing Low／Stop 57,800.19、Swing High／Target 82,850、ATR 約 2.93%，均為有限值；R:R HUD 會同步更新。瀏覽器頁面顯示本次環境的 WebSocket 狀態仍為未連線，需在網格頁與 console 進一步確認是否為公開 WSS 網路限制或連線重試狀態。截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_12-23-14_3433.webp`。
+
+一次性 browser console WebSocket 探針在本地 R:R 頁成功：`status=open`、`symbol=BTCUSDT`、取得價格約 `78,355.53`。因此先前 HUD 顯示未連線屬於頁面連線重試時序／狀態刷新問題，公開 WSS 本身可達；正式回歸需再等頁面事件或重新載入確認 HUD 狀態文字。
+
+本地 R:R 1W 切換測試完成：快速按鈕可切換並載入約 472 根 BTCUSDT 週線，Swing Low／Stop 約 49,000、Swing High／Target 約 126,199.63、ATR 約 7.61%，均為有限值；圖表原生 canvas 與 HUD 控制無水平溢出。該次公開 REST 歷史追加顯示稍後重試，仍保留已載入週線與可用計畫。
+
+
+## 本地網格 HUD 回歸（2026-08-24）
+
+本地 `grid-trading-calculator.html?v=hud-websocket-20260824` 成功顯示 Binance／Pionex 現貨網格定位、Upper／Lower／Grids／模式／投資額與 SL／TP／費率緊湊控制列。BTCUSDT 初始載入 2,000 根後狀態更新為 3,000 根；等待後 WebSocket 狀態變為 `WebSocket 已連線 · ticker`，最新價約 78,408、24h 變化約 +1.68%，並即時變動。原生圖表顯示綠色買入、紅色賣出、黃色 SL、紫色 TP，右軸只有 LOWER／UPPER／LATEST／SL／TP；15m 教育情境輸出每格約 1.01%、費後 0.81%、單格 4.04 USDT、利用率約 19.81%、回撤約 0.8%，均無 NaN／Infinity／數億溢位。截圖：`/home/ubuntu/screenshots/127_0_0_1_2026-08-24_12-25-11_1026.webp`。
+
+本地網格 4h 切換測試完成：週期選單可載入 3,000 根 K 線，模擬狀態更新為 `BTC/USDT 4h · 3,000 根 K 線`，歷史路徑曾觸及止損與止盈，完成 176 次網格回合；利用率約 89.08%、模擬回撤約 26.27%、期末資產約 9,497.51 USDT，均為教育回放數字，圖表與右軸關鍵標籤維持正常。
+
+
+## 手機寬度 HUD 回歸（2026-08-24）
+
+以一次性同源 iframe 在 375px 寬度測試兩頁：R:R `viewport=367, scrollWidth=367, overflow=false`，HUD 寬 339、圖表框 313、週期群 315；BTC 網格 `viewport=367, scrollWidth=367, overflow=false`，HUD 寬 335、圖表框 335、控制列 311。兩頁在手機版 CSS 折行後沒有水平溢出。
