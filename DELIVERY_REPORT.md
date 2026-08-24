@@ -3,7 +3,7 @@
 **專案：** `9908gg-art/gugopro-academy`
 **正式站：** [academy.gugopro.com](https://academy.gugopro.com/)
 **本輪功能提交：** `578876f`
-**文件同步提交：** 待同步（功能提交 `578876f` 已部署）
+**文件同步提交：** `1b25eed`
 **完成日期：** 2026-08-24
 **作者：** Manus AI
 
@@ -97,7 +97,7 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 
 本輪指定提交訊息為：
 `Manus AI: streamline R:R and grid tools into compact HUD dashboard with live WebSocket ticks and deep history`
-本輪功能提交 `578876f` 已推送至 GitHub `main`，並以 Pages workflow `32727416900` 完成 `completed / success`；提交訊息與上方指定內容完全一致。
+本輪功能提交 `578876f` 已推送至 GitHub `main`，並以 Pages workflow `32727416900` 完成 `completed / success`；最終文件同步提交 `1b25eed` 的 Pages workflow `32728003776` 亦為 `completed / success`。提交訊息與上方指定內容完全一致。
 
 正式站驗證網址為：
 
@@ -107,7 +107,7 @@ BTC 網格測試載入 Binance 1000 根 15m K 線，初始輸出為 1.01% 比例
 - [ETF DRIP 指南](https://academy.gugopro.com/guides/etf-dividend-drip.html?v=578876f)
 - [動態網格指南](https://academy.gugopro.com/guides/grid-trading.html?v=578876f)
 
-前一輪功能／文件 workflow 已成功；本輪 HUD 功能 workflow [32727416900](https://github.com/9908gg-art/gugopro-academy/actions/runs/32727416900) 的 head 為 `578876f`，已完成 `completed / success`。正式首頁、R:R HUD、BTC 網格 HUD 與兩篇指南均以 `?v=578876f` 核對；本地與正式站均完成 HUD、WebSocket、2,000→3,000 根歷史、1W／4h 長週期與 375px 手機無溢出測試。
+本輪 HUD 功能 workflow [32727416900](https://github.com/9908gg-art/gugopro-academy/actions/runs/32727416900) 的 head 為 `578876f`，以及最終文件同步 workflow [32728003776](https://github.com/9908gg-art/gugopro-academy/actions/runs/32728003776) 的 head 為 `1b25eed`，均已完成 `completed / success`。正式首頁、R:R HUD、BTC 網格 HUD 與兩篇指南以 `?v=578876f` 核對功能；文件同步後正式站仍維持相同資產與功能。
 
 本輪正式截圖檔案：R:R HUD `academy_gugopro_2026-08-24_12-31-53_4770.webp`、BTC 網格 HUD `academy_gugopro_2026-08-24_12-34-06_8061.webp`；前一輪首頁與指南截圖仍保留於附件與研究紀錄。
 

@@ -233,3 +233,8 @@ Pages workflow `32727416900` 已 `completed / success`。正式 `https://academy
 正式網格頁首次等待時 Binance REST 載入較慢；點擊「更新行情」後成功恢復原生圖表。正式頁顯示 BTC/USDT 約 78,444、24h +1.77%、`Binance BTC/USDT · 15m`、已載入 3,000 根歷史；更新後 15m 教育情境為每格 1.01%、費後 0.81%、單格 4.04 USDT、利用率 24.63%、距最近邊界 9.73%、回撤 0.67%、期末模擬資產約 9,972.98 USDT，完成 25 次網格回合。圖表可見原生綠／紅網格與 SL，右軸標示 LOWER／UPPER／LATEST／SL／TP；HUD、4h／1D／1W 選單、載入更早歷史與指南 CTA 均在正式版本存在。此次正式頁 WebSocket 狀態在更新瞬間仍顯示未連線，與本地及正式 R:R 已成功連線的結果一致於公開 WSS 可能需要頁面等待／重試；REST 原生圖表與即時 ticker 顯示均可恢復。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-33-20_3251.webp`。
 
 正式網格頁再等待後成功顯示 `WebSocket 已連線 · ticker`；最新價約 78,525.99（畫面後續約 78,519.99）與 24h 約 +1.88%。已載入 3,000 根 15m K 線，費後單格約 0.81%、單格 4.04 USDT、利用率約 19.9%、回撤約 0.75%、期末模擬資產約 9,959.36 USDT；原生網格與 LOWER／UPPER／LATEST／SL／TP 軸標籤可見。最終正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-24_12-34-06_8061.webp`。
+
+
+## 最終文件同步狀態（2026-08-24）
+
+功能提交 `578876f` 的 Pages workflow `32727416900` 與文件同步提交 `1b25eed` 的 Pages workflow `32728003776` 均為 `completed / success`。最終報告將以 `1b25eed` 作為文件同步提交；工具功能仍以 `?v=578876f` cache-bust 版本核對，報告與正式站狀態一致。
