@@ -2,14 +2,16 @@
   'use strict';
 
   const $ = (id) => document.getElementById(id);
-  const CONFIG = { yahooHost: 'query2.finance.yahoo.com', yahooRange: '2y', yahooInterval: '1d', binanceInterval: '1d', binanceLimit: 1000, batchSize: 5 };
+  const CONFIG = { yahooHost: 'query2.finance.yahoo.com', yahooRange: '2y', yahooInterval: '1d', binanceInterval: '1d', binanceLimit: 1000, batchSize: 5, analysisTimeout: 45000 };
   const UNIVERSES = {
-    all: ['tw', 'us', 'global', 'crypto'],
+    all: ['tw', 'us', 'global', 'futures', 'crypto'],
     tw: ['tw'],
     us: ['us'],
-    global: ['global'],
+    global: ['global', 'futures'],
     crypto: ['crypto']
   };
+  // 全球 metadata 只負責商品發現；分析請求永遠使用受控的候選上限，避免把數十萬筆目錄當成行情池。
+  const ANALYSIS_POOL_LIMITS = { all: { tw: 6, us: 8, global: 6, futures: 4, crypto: 4 }, tw: 16, us: 18, global: 20, crypto: 8 };
   const LOOKBACK_LABELS = { 30: '短期動能', 60: '中期波段', 120: '半年結構', 250: '年線週期' };
   const tvOverrides = { GOLD: 'GC=F', OIL: 'CL=F', NQ: 'NQ=F', ES: 'ES=F', SILVER: 'SI=F', COPPER: 'HG=F', NG: 'NG=F', DXY: 'DX-Y.NYB', XAUUSD: 'GC=F', USOIL: 'CL=F', BTCUSD: 'BTC-USD', ETHUSD: 'ETH-USD' };
   const binancePattern = /(?:USDT|USDC|BUSD)$/;
@@ -63,7 +65,7 @@
     { symbol: 'TXF', name: '臺股期貨／大台', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
     { symbol: 'MXF', name: '小型臺指期貨／小台', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
     { symbol: 'TMF', name: '微型臺指期貨', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
-    { symbol: 'FTX', name: '富台指期貨', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
+    { symbol: 'FTX', name: '富台指期貨', market: 'SGX 新加坡富時臺灣指數期貨', category: 'futures', pickerCategory: 'globalfutures', exchangeName: 'SGX 新加坡交易所', country: '🇸🇬', yahoo: '^TWII' },
     { symbol: 'GC', name: '黃金期貨', market: 'COMEX 黃金', category: 'futures', pickerCategory: 'commodities', yahoo: 'GC=F' },
     { symbol: 'MGC', name: '微型黃金期貨', market: 'COMEX 黃金', category: 'futures', pickerCategory: 'commodities', yahoo: 'GC=F' },
     { symbol: 'GOLD', name: '黃金現貨／黃金期貨代理', market: '黃金原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'GC=F' },
@@ -108,6 +110,63 @@
     { symbol: 'SUIUSDT', name: 'Sui 蘇伊／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true }
   ];
 
+  // 交易所期貨快選目錄：只供商品選擇；不併入 universeMetas，避免一次對 29 萬筆 metadata 或大量合約發出行情請求。
+  const EXCHANGE_FUTURES_CATALOG = [
+    { symbol: 'TWF', name: '臺灣中型100 指數期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'TE', name: '電子類股指數期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'TF', name: '金融類股指數期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'XIF', name: '非金電類股指數期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'SHF', name: '航運與運輸類股期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'SOF', name: '臺灣半導體30 期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'TPX2', name: 'TPEx 200 指數期貨', market: 'TAIFEX 股價指數期貨', pickerCategory: 'twfutures', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: '^TWII' },
+    { symbol: 'TGF', name: '新臺幣計價黃金期貨', market: 'TAIFEX 商品期貨', pickerCategory: 'commodities', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: 'GC=F' },
+    { symbol: 'BRF', name: '布蘭特原油期貨（臺灣掛牌）', market: 'TAIFEX 商品期貨', pickerCategory: 'commodities', exchangeName: 'TAIFEX 臺灣期貨交易所', country: '🇹🇼', yahoo: 'BZ=F' },
+    { symbol: 'ZT', name: '美國2年期國債期貨', market: 'CBOT 利率期貨', pickerCategory: 'globalfutures', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZT=F' },
+    { symbol: 'UB', name: '超長期美國國債期貨', market: 'CBOT 利率期貨', pickerCategory: 'globalfutures', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'UB=F' },
+    { symbol: '6C', name: '加幣兌美元期貨', market: 'CME 外匯期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: '6C=F' },
+    { symbol: '6S', name: '瑞士法郎兌美元期貨', market: 'CME 外匯期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: '6S=F' },
+    { symbol: '6N', name: '紐西蘭幣兌美元期貨', market: 'CME 外匯期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: '6N=F' },
+    { symbol: '6M', name: '墨西哥披索兌美元期貨', market: 'CME 外匯期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: '6M=F' },
+    { symbol: 'SR3', name: '3個月 SOFR 利率期貨', market: 'CME 利率期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'SR3=F' },
+    { symbol: 'BTCF', name: '比特幣期貨', market: 'CME 數位資產期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'BTC=F' },
+    { symbol: 'MBT', name: '微型比特幣期貨', market: 'CME 數位資產期貨', pickerCategory: 'globalfutures', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'MBT=F' },
+    { symbol: 'ZC', name: '玉米期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZC=F' },
+    { symbol: 'ZS', name: '黃豆期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZS=F' },
+    { symbol: 'ZW', name: '小麥期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZW=F' },
+    { symbol: 'ZM', name: '黃豆粉期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZM=F' },
+    { symbol: 'ZL', name: '黃豆油期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZL=F' },
+    { symbol: 'ZO', name: '燕麥期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZO=F' },
+    { symbol: 'ZR', name: '稻米期貨', market: 'CBOT 農產品期貨', pickerCategory: 'commodities', exchangeName: 'CBOT 芝加哥期貨交易所', country: '🇺🇸', yahoo: 'ZR=F' },
+    { symbol: 'LE', name: '活牛期貨', market: 'CME 農畜產品期貨', pickerCategory: 'commodities', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'LE=F' },
+    { symbol: 'GF', name: '飼養牛期貨', market: 'CME 農畜產品期貨', pickerCategory: 'commodities', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'GF=F' },
+    { symbol: 'HE', name: '瘦豬期貨', market: 'CME 農畜產品期貨', pickerCategory: 'commodities', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'HE=F' },
+    { symbol: 'MCL', name: '微型西德州原油期貨', market: 'NYMEX 能源期貨', pickerCategory: 'commodities', exchangeName: 'NYMEX 紐約商業交易所', country: '🇺🇸', yahoo: 'MCL=F' },
+    { symbol: 'BZ', name: '布蘭特原油期貨', market: 'ICE／NYMEX 能源期貨', pickerCategory: 'commodities', exchangeName: 'ICE 洲際交易所', country: '🇬🇧', yahoo: 'BZ=F' },
+    { symbol: 'DX', name: 'ICE 美元指數期貨', market: 'ICE 美元指數期貨', pickerCategory: 'globalfutures', exchangeName: 'ICE 洲際交易所', country: '🇺🇸', yahoo: 'DX=F' },
+    { symbol: 'OJ', name: '冷凍濃縮橙汁期貨', market: 'ICE 軟性商品期貨', pickerCategory: 'commodities', exchangeName: 'ICE 洲際交易所', country: '🇺🇸', yahoo: 'OJ=F' },
+    { symbol: 'LBS', name: '木材期貨', market: 'CME／CME Globex 木材期貨', pickerCategory: 'commodities', exchangeName: 'CME 芝商所', country: '🇺🇸', yahoo: 'LBS=F' },
+    { symbol: 'FDAX', name: 'DAX 指數期貨', market: 'Eurex 歐洲股指期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: 'FDAX=F' },
+    { symbol: 'FESX', name: '歐洲 Euro Stoxx 50 期貨', market: 'Eurex 歐洲股指期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: 'FESX=F' },
+    { symbol: 'FGBL', name: '德國長期公債期貨', market: 'Eurex 歐洲利率期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: 'FGBL=F' },
+    { symbol: 'FGBM', name: '德國中期公債期貨', market: 'Eurex 歐洲利率期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: 'FGBM=F' },
+    { symbol: 'FVS', name: 'VSTOXX 歐洲波動率期貨', market: 'Eurex 波動率期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: '^V2TX' },
+    { symbol: 'NKD', name: '日經225 指數期貨', market: 'JPX／大阪交易所股指期貨', pickerCategory: 'globalfutures', exchangeName: 'JPX 日本交易所集團', country: '🇯🇵', yahoo: '^N225' },
+    { symbol: 'TPX', name: 'TOPIX 指數期貨', market: 'JPX／大阪交易所股指期貨', pickerCategory: 'globalfutures', exchangeName: 'JPX 日本交易所集團', country: '🇯🇵', yahoo: '^TPX' },
+    { symbol: 'SPI200', name: 'S&P／ASX 200 指數期貨', market: 'ASX 股指期貨', pickerCategory: 'globalfutures', exchangeName: 'ASX 澳洲證券交易所', country: '🇦🇺', yahoo: '^AXJO' },
+    { symbol: 'HSCEI', name: '恒生中國企業指數期貨', market: 'HKEX 香港股指期貨', pickerCategory: 'globalfutures', exchangeName: 'HKEX 香港交易所', country: '🇭🇰', yahoo: '^HSCE' },
+    { symbol: 'MHI', name: '小型恆生指數期貨', market: 'HKEX 香港股指期貨', pickerCategory: 'globalfutures', exchangeName: 'HKEX 香港交易所', country: '🇭🇰', yahoo: '^HSI' },
+    { symbol: 'XIN', name: '富時中國 A50 指數期貨', market: 'SGX 亞洲股指期貨', pickerCategory: 'globalfutures', exchangeName: 'SGX 新加坡交易所', country: '🇸🇬', yahoo: 'XIN=F' },
+    { symbol: 'CN', name: '新加坡日經225 指數期貨', market: 'SGX 亞洲股指期貨', pickerCategory: 'globalfutures', exchangeName: 'SGX 新加坡交易所', country: '🇸🇬', yahoo: '^N225' },
+    { symbol: 'IND', name: '巴西 Ibovespa 指數期貨', market: 'B3 巴西股指期貨', pickerCategory: 'globalfutures', exchangeName: 'B3 巴西交易所', country: '🇧🇷', yahoo: '^BVSP' },
+    { symbol: 'NIFTY', name: '印度 Nifty 50 指數期貨', market: 'NSE 印度股指期貨', pickerCategory: 'globalfutures', exchangeName: 'NSE 印度國家證券交易所', country: '🇮🇳', yahoo: '^NSEI' },
+    { symbol: 'FCE', name: '法國 CAC 40 指數期貨', market: 'Euronext 巴黎股指期貨', pickerCategory: 'globalfutures', exchangeName: 'Euronext 巴黎交易所', country: '🇫🇷', yahoo: '^FCHI' },
+    { symbol: 'FTSE', name: '英國 FTSE 100 指數期貨', market: 'ICE 歐洲股指期貨', pickerCategory: 'globalfutures', exchangeName: 'ICE 洲際交易所', country: '🇬🇧', yahoo: '^FTSE' },
+    { symbol: 'BTP', name: '義大利 BTP 國債期貨', market: 'Eurex 歐洲利率期貨', pickerCategory: 'globalfutures', exchangeName: 'Eurex 歐洲期貨交易所', country: '🇩🇪', yahoo: 'BTP=F' },
+    { symbol: 'JGB', name: '日本國債期貨', market: 'JPX 利率期貨', pickerCategory: 'globalfutures', exchangeName: 'JPX 日本交易所集團', country: '🇯🇵', yahoo: 'JGB=F' },
+    { symbol: 'K200', name: '韓國 KOSPI 200 指數期貨', market: 'KRX 股指期貨', pickerCategory: 'globalfutures', exchangeName: 'KRX 韓國交易所', country: '🇰🇷', yahoo: '^KS200' },
+    { symbol: 'DOL', name: '巴西美元期貨', market: 'B3 外匯期貨', pickerCategory: 'globalfutures', exchangeName: 'B3 巴西交易所', country: '🇧🇷', yahoo: 'BRL=X' }
+  ];
+
   let targetMeta = findMeta('2330.TW');
   let currentLookback = 60;
   let currentResults = [];
@@ -149,7 +208,7 @@
 
   function findMeta(value) {
     const symbol = cleanSymbol(value);
-    const known = CATALOG.find((item) => item.symbol === symbol);
+    const known = CATALOG.find((item) => item.symbol === symbol) || EXCHANGE_FUTURES_CATALOG.find((item) => item.symbol === symbol);
     if (known) return { ...known };
     const extended = EXTENDED_META_BY_SYMBOL.get(symbol);
     if (extended) return { ...extended };
@@ -346,7 +405,12 @@
 
   function universeMetas(value) {
     const categories = UNIVERSES[value] || UNIVERSES.all;
-    return CATALOG.filter((item) => categories.includes(item.category));
+    if (value === 'all') {
+      return Object.entries(ANALYSIS_POOL_LIMITS.all).flatMap(([category, limit]) => CATALOG.filter((item) => item.category === category).slice(0, limit));
+    }
+    const limit = Number(ANALYSIS_POOL_LIMITS[value]);
+    const items = CATALOG.filter((item) => categories.includes(item.category));
+    return Number.isFinite(limit) ? items.slice(0, limit) : items;
   }
 
   function sortResults(results) {
@@ -513,6 +577,7 @@
   const modalCategoryFor = (item) => item.pickerCategory || (item.category === 'tw' || item.category === 'us' ? 'foreignstocks' : item.category === 'global' ? (item.symbol === 'DXY' ? 'forex' : 'commodities') : item.category);
   const modalExchangeFor = (item) => {
     const symbol = item.symbol; const category = modalCategoryFor(item);
+    if (item.exchangeName) return { name: item.exchangeName, country: item.country || '🌐' };
     if (item.binance) return { name: '幣安 Binance', country: '🪙' };
     if (category === 'twstocks') return { name: '臺灣證交所', country: '🇹🇼' };
     if (category === 'foreignstocks') return { name: ['SPY', 'QQQ', 'SOXX', 'TLT', 'GLD', 'SLV'].includes(symbol) ? 'NYSE Arca' : 'NASDAQ／NYSE', country: '🇺🇸' };
@@ -539,7 +604,7 @@
     NVDA: 'US67066G1040', TSLA: 'US88160R1014', AAPL: 'US0378331005', MSFT: 'US5949181045', AMZN: 'US0231351067', GOOGL: 'US02079K3059',
     SPY: 'US78462F1030', QQQ: 'US46090E1038', SOXX: 'US4642875235', TLT: 'US4642874655'
   };
-  const SYMBOL_SEARCH_CATALOG = CATALOG.map((item) => ({
+  const SYMBOL_SEARCH_CATALOG = [...CATALOG, ...EXCHANGE_FUTURES_CATALOG].map((item) => ({
     ...item,
     modalCategory: modalCategoryFor(item),
     exchange: modalExchangeFor(item).name,
@@ -740,8 +805,10 @@
       targetSeries = await fetchHistory(targetMeta);
       if (runId !== runSequence) return;
       const candidates = universeMetas(universe).filter((item) => item.symbol !== targetMeta.symbol);
+      const analysisDeadline = Date.now() + CONFIG.analysisTimeout;
+      setStatus('分析中…', `${targetMeta.symbol} 已載入；本次只掃描 ${candidates.length} 個精選候選，全球完整目錄僅供商品選擇。`);
       const successes = []; let completed = 0;
-      for (let index = 0; index < candidates.length; index += CONFIG.batchSize) {
+      for (let index = 0; index < candidates.length && Date.now() < analysisDeadline; index += CONFIG.batchSize) {
         const batch = candidates.slice(index, index + CONFIG.batchSize);
         const batchResults = await Promise.all(batch.map(async (meta) => {
           try {
@@ -764,10 +831,12 @@
       renderRanking();
       renderSelection();
       const source = targetMeta.binance ? 'Binance REST' : 'Yahoo Finance／CORS fallback';
+      const completedAll = completed >= candidates.length;
+      const timeoutNote = completedAll ? '' : `；為避免長時間等待，已在 ${Math.round(CONFIG.analysisTimeout / 1000)} 秒後停止新增請求`;
       if (currentResults.length) {
-        setStatus('分析完成', `${targetMeta.symbol} · ${LOOKBACK_LABELS[currentLookback]} · ${source} · ${currentResults.length}/${candidates.length} 個對標可用。`);
+        setStatus('分析完成', `${targetMeta.symbol} · ${LOOKBACK_LABELS[currentLookback]} · ${source} · ${currentResults.length}/${candidates.length} 個對標可用${timeoutNote}。`);
       } else {
-        setStatus('資料不足', `${targetMeta.symbol} 已載入，但比對池暫時沒有足夠共同交易日；可切換池或稍後重試。`, true);
+        setStatus('資料不足', `${targetMeta.symbol} 已載入，但比對池暫時沒有足夠共同交易日${timeoutNote}；可切換池或稍後重試。`, true);
       }
     } catch (error) {
       currentResults = []; renderSelectedOptions(); renderRanking(); drawOverlay(null); drawScatter(null);

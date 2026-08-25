@@ -116,6 +116,7 @@
     .cba-lookback.is-active, .cba-lookback:hover { color:#102118; border-color:var(--cba-green); background:var(--cba-green); }
     .cba-rank-mode { margin-left:auto; display:flex; align-items:center; gap:7px; }
     .cba-rank-mode select { min-height:30px; padding:5px 8px; font-size:.72rem; }
+    .cba-field-note { display:block; margin-top:5px; color:#7f9c90; font-size:.6rem; line-height:1.35; }
     .cba-status { display:flex; justify-content:space-between; gap:12px; min-height:32px; padding:9px 3px 8px; color:var(--cba-muted); font-size:.72rem; }
     .cba-status strong { color:var(--cba-green); font-weight:700; }
     .cba-status.is-error strong { color:var(--cba-red); }
@@ -259,7 +260,7 @@
     <section class="cba-control-panel" aria-label="分析控制列">
       <div class="cba-control-grid">
         <div class="cba-field"><span>基準標的 Target · Symbol Search</span><div class="cba-target-pickers"><div id="cba-search-trigger" class="cba-search-box cba-search-trigger" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="cba-symbol-modal" aria-label="開啟商品搜尋彈窗"><input id="cba-symbol-search" class="cba-input" type="search" readonly autocomplete="off" spellcheck="false" placeholder="點擊搜尋商品、代碼或 ISIN"><i class="fa-solid fa-magnifying-glass"></i></div><button id="cba-open-symbol-modal" class="cba-open-symbol-modal" type="button"><i class="fa-solid fa-magnifying-glass"></i><span>選擇標的</span></button></div></div>
-        <label class="cba-field"><span>比對池 Asset Universe</span><select id="cba-universe" class="cba-select"><option value="all">全市場綜合池</option><option value="tw">台股熱門池</option><option value="us">美股科技權值池</option><option value="global">全球期貨／原物料池</option><option value="crypto">加密貨幣主流池</option></select></label>
+        <label class="cba-field"><span>分析候選池 Asset Universe</span><select id="cba-universe" class="cba-select"><option value="all">跨市場精選池（28 項）</option><option value="tw">台股熱門池（最多 16 項）</option><option value="us">美股科技權值池（最多 18 項）</option><option value="global">全球期貨／原物料池（最多 20 項）</option><option value="crypto">加密貨幣主流池（最多 8 項）</option></select><small class="cba-field-note">完整全球目錄僅供上方商品選擇，不會全部送入行情運算。</small></label>
         <label class="cba-field"><span>排序模式 Ranking</span><select id="cba-rank-mode" class="cba-select"><option value="positive">正相關最高 Top Positive</option><option value="negative">負相關／避險 Top Negative</option></select></label>
         <label class="cba-field"><span>目前選取 Benchmark</span><select id="cba-selected" class="cba-select" aria-label="目前選取的對標商品"><option value="">分析完成後選取</option></select></label>
         <button id="cba-run" class="cba-run" type="button"><i class="fa-solid fa-bolt"></i> 開始分析</button>
@@ -297,6 +298,6 @@
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r17" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r19" defer></script>
 </body>
 </html>
