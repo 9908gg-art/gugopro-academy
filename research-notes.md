@@ -761,3 +761,29 @@ Scrollspy 向下滾動補充回歸：本地外匯頁由 `#forex-carry` 手動滾
 
 
 首頁 390×844 回歸補充：以未導航同源 iframe 測得 `cards=13`、`cardLinkCount=13`、`clientWidth=382`、`scrollWidth=382`、`overflow=false`；第一張卡片的 `role="link"`、`tabindex="0"` 已正確初始化。console 僅有預期的 click／keyboard／mobile 回歸輸出，未見 JavaScript error。
+
+
+## 2026-08-25 Tools Hub／台股工具開發：本地 Tools Hub 初測
+
+本地 `http://127.0.0.1:4173/tools/index.html?qa=tw-tools-20260825` 已成功渲染 Converter-style Tools Hub。DOM 回歸確認 17 張 `data-tool-card`、14 個 `data-tool-filter`（全市場＋13 類）、分類 `equity` 顯示 9 個工具；搜尋「法人」精確留下三大法人工具；點擊估值工作台卡片後 `#valuation-panel` 面板為 active。桌面截圖已保存於 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_14-29-34_8375.webp`。
+
+
+本地籌碼工具回歸：`tw-institutional-tracker.html` 預設值產生 6 格統計（法人合計 12,000 張、日均 2,400 張、券資比 15%、集中度 42%），指南回鏈為 `../guides/taiwan-stocks.html#chips-analysis`。把融券餘額調高至 30,000 張後，券資比升至 25% 並正確顯示條件式警戒；教育看板與結果區均正常渲染。
+
+
+本地均線工具回歸：`tw-ma-deduction-calculator.html` 預設值產生今日至第 3 日共 4 列 5MA／20MA 扣抵表，RSI、KD、MACD 三個診斷膠囊均有數值，指南回鏈為 `../guides/taiwan-stocks.html#technical-analysis`。將收盤價縮為 3 筆後，工具正確顯示至少需要 20 筆有效收盤價的警示並套用 warning 狀態。
+
+
+本地估值工具回歸：`tw-stock-valuation.html` 預設值產生 6 格輸出（便宜／合理／昂貴參考價、PEG、除息參考價、填息參考分數），SVG 估值帶含 4 個矩形圖形，指南回鏈為 `../guides/taiwan-stocks.html#fundamentals-analysis`。將 PE 上限改成低於中位數後，工具正確顯示本益比區間錯誤警示。
+
+
+本地交易成本工具回歸：`tw-day-trading-fee-calc.html` 預設情境產生 8 格統計，包含手續費／證交稅、成本後淨損益、損益平衡賣價、T+2 需準備資金與風險股數上限；指南回鏈為 `../guides/taiwan-stocks.html#trading-rules`。切換一般現股後證交稅由 0.150% 更新為 0.300%，成本由 NT$3,099 更新為 NT$4,539，確認 select change 與即時計算正常。
+
+
+本地台股指南回歸：`guides/taiwan-stocks.html` 有 4 個章節快選錨點、4 個 `.tw-inline-tool-link` 行內高亮連結；四章節各自的專屬工具檔案在章節內出現 2 次（行內連結＋章節 CTA），並各自指向正確工具。`IntersectionObserver` 可用，既有 Scrollspy 結構仍存在。
+
+
+本地 Tools Hub 手機回歸：以同源 390×844 iframe 載入後，`viewport=390`、17 張卡片全數可見且均為 anchor/button 可聚焦入口，14 個分類按鈕存在；`documentElement.scrollWidth=382`、`body.scrollWidth=382`，確認沒有水平溢出。
+
+
+既有工作台回歸：重構後在 `tools/index.html` 逐一觸發複利、ETF 費用、債券久期、曲線警示、R:R／Kelly、DCF、安全邊際、4% 提領、再平衡與蒙地卡羅九個 `data-calc`，全部產生非空結果；預設值仍輸出既有代表性數字（複利終值約 NT$4,877,171、風報比 3.00R、債券理論價格約 NT$1,045）。

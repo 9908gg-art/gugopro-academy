@@ -84,7 +84,11 @@ required_files = [
     'privacy.html', 'terms.html', 'about.html',
     'tools/risk-reward-calculator.html', 'tools/risk-reward-calculator.js',
     'tools/etf-dividend-calculator.html', 'tools/etf-dividend-calculator.js',
-    'tools/grid-trading-calculator.html', 'tools/grid-trading-calculator.js', 'tools/watchlist.js'
+    'tools/grid-trading-calculator.html', 'tools/grid-trading-calculator.js', 'tools/watchlist.js',
+    'tools/tw-institutional-tracker.html', 'tools/tw-institutional-tracker.js',
+    'tools/tw-ma-deduction-calculator.html', 'tools/tw-ma-deduction-calculator.js',
+    'tools/tw-stock-valuation.html', 'tools/tw-stock-valuation.js',
+    'tools/tw-day-trading-fee-calc.html', 'tools/tw-day-trading-fee-calc.js', 'tools/tools-hub.js'
 ]
 for required in required_files:
     if not (ROOT / required).exists(): errors.append(f'missing required file {required}')
@@ -92,6 +96,7 @@ for required in required_files:
 pages = [
     root, ROOT / 'tools/index.html', ROOT / 'tools/risk-reward-calculator.html',
     ROOT / 'tools/etf-dividend-calculator.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/grid-trading-calculator.html',
+    ROOT / 'tools/tw-institutional-tracker.html', ROOT / 'tools/tw-ma-deduction-calculator.html', ROOT / 'tools/tw-stock-valuation.html', ROOT / 'tools/tw-day-trading-fee-calc.html',
     ROOT / 'privacy.html', ROOT / 'terms.html', ROOT / 'about.html',
     *sorted((ROOT / 'guides').glob('*.html'))
 ]
@@ -109,14 +114,21 @@ for page in pages:
     if page.name in {'risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html'}:
         for required_marker in ['tradingview.com/?aff_id=168714', 'amazon.com/?tag=9908qq-20', 'data-kofi-link', '/privacy.html', '/terms.html', '/about.html']:
             if required_marker not in text: errors.append(f'{page.name} missing {required_marker}')
+    if page.name in {'tw-institutional-tracker.html', 'tw-ma-deduction-calculator.html', 'tw-stock-valuation.html', 'tw-day-trading-fee-calc.html'}:
+        for required_marker in ['tw-tool-page', 'tw-guide-return', '../guides/taiwan-stocks.html#', 'tradingview.com/?aff_id=168714', 'amazon.com/?tag=9908qq-20', 'data-kofi-link', '/privacy.html', '/terms.html', '/about.html']:
+            if required_marker not in text: errors.append(f'{page.name} missing {required_marker}')
 
 workbench_text = (ROOT / 'tools/index.html').read_text(encoding='utf-8')
 for panel in ['compound-panel','etf-panel','bond-panel','curve-panel','risk-panel','valuation-panel','retirement-panel','allocation-panel','mc-panel']:
     if f'id="{panel}"' not in workbench_text: errors.append(f'workbench missing {panel}')
 for calc in ['compound','etf-fee','duration','curve','risk','dcf','retirement','allocation','monte-carlo']:
     if f'data-calc="{calc}"' not in workbench_text: errors.append(f'workbench missing calc {calc}')
-for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html']:
+for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html', 'tw-institutional-tracker.html', 'tw-ma-deduction-calculator.html', 'tw-stock-valuation.html', 'tw-day-trading-fee-calc.html']:
     if link not in workbench_text: errors.append(f'workbench missing link {link}')
+for hub_marker in ['tools-hub-layout', 'tools-hub-sidebar', 'tools-hub-filters', 'tool-library-search', 'tool-library-grid', 'data-tool-filter', 'data-tool-card', 'tools-hub.js', '全市場工具', '01 · 台股／股票']:
+    if hub_marker not in workbench_text: errors.append(f'workbench missing Tools Hub marker {hub_marker}')
+if workbench_text.count('data-tool-filter=') != 14: errors.append('workbench must contain 14 tool hub filter buttons')
+if workbench_text.count('data-tool-card') != 17: errors.append('workbench must contain exactly 17 tool cards')
 compact_pages = {
     'tools/index.html': ['tools-library-page', 'single-screen-tools-20260825'],
     'tools/compound-interest.html': ['compact-calculator-page', 'single-screen-tools-20260825'],
@@ -134,6 +146,18 @@ for guide_slug, tool_href in [('risk-reward-ratio','../tools/risk-reward-calcula
 for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-reward-ratio.html'), ('etf-dividend-calculator.html','../guides/etf-dividend-drip.html'), ('grid-trading-calculator.html','../guides/grid-trading.html')]:
     tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
     if guide_href not in tool_text: errors.append(f'{tool_page} missing guide link {guide_href}')
+for tool_page, guide_href, markers in [
+    ('tw-institutional-tracker.html', '../guides/taiwan-stocks.html#chips-analysis', ['tw-inst-calc', 'tw-inst-foreign', 'tw-inst-margin', 'tw-institutional-tracker.js']),
+    ('tw-ma-deduction-calculator.html', '../guides/taiwan-stocks.html#technical-analysis', ['tw-ma-calc', 'tw-ma-prices', 'tw-ma-rsi-pill', 'tw-ma-deduction-calculator.js']),
+    ('tw-stock-valuation.html', '../guides/taiwan-stocks.html#fundamentals-analysis', ['tw-val-calc', 'tw-val-eps', 'tw-val-valuation-chart', 'tw-stock-valuation.js']),
+    ('tw-day-trading-fee-calc.html', '../guides/taiwan-stocks.html#trading-rules', ['tw-fee-calc', 'tw-fee-mode', 'tw-fee-discount', 'tw-day-trading-fee-calc.js']),
+]:
+    tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
+    if guide_href not in tool_text: errors.append(f'{tool_page} missing guide backlink {guide_href}')
+    for marker in markers:
+        if marker not in tool_text: errors.append(f'{tool_page} missing tool marker {marker}')
+for chapter, tool_href in [('chips-analysis', '../tools/tw-institutional-tracker.html'), ('technical-analysis', '../tools/tw-ma-deduction-calculator.html'), ('fundamentals-analysis', '../tools/tw-stock-valuation.html'), ('trading-rules', '../tools/tw-day-trading-fee-calc.html')]:
+    if tool_href not in taiwan_text: errors.append(f'taiwan-stocks.html missing chapter tool link {tool_href}')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older','rr-watchlist-options','rr-watchlist-add','rr-watchlist-manage','rr-watchlist-count','rr-watchlist-panel','rr-watchlist-close','rr-watchlist-items','rr-watchlist-feedback','rr-watchlist-clear']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
@@ -164,11 +188,11 @@ if "$('grid-load-older')?.addEventListener" in grid_script: errors.append('grid 
 watchlist_script = (ROOT / 'tools/watchlist.js').read_text(encoding='utf-8')
 for marker in ['gugopro_academy_watchlist_v1', 'localStorage', 'CustomEvent', 'watchlist-panel', 'watchlist-remove', 'watchlist-clear']:
     if marker not in watchlist_script: errors.append(f'watchlist script missing {marker}')
-css_text = (ROOT / 'style.css').read_text(encoding='utf-8')
+css_text = (ROOT / 'style.css').read_text(encoding='utf-8') + (ROOT / 'tools' / 'advanced-tools.css').read_text(encoding='utf-8')
 app_text = (ROOT / 'app.js').read_text(encoding='utf-8')
 for app_marker in ['function initGuideNavigation', 'function initKnowledgeCardLinks', 'function initGuideChapterScrollspy', 'IntersectionObserver', "rootMargin: '-20% 0px -70% 0px'", 'scrollIntoView', 'aria-current', "sidebar.querySelectorAll('a[href]')", 'card.dataset.cardLink', "event.target.closest('a,button,input,select,textarea,label')"]:
     if app_marker not in app_text: errors.append(f'app.js missing guide navigation marker {app_marker}')
-for css_marker in ['.home-page .hero-shell', '.home-page .hero-copy h1 .hero-title-line', '.home-page .tool-feature-card', '.home-page .knowledge-card[data-card-link]', 'cursor: pointer', 'outline: 2px solid #f97316', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', '.guide-chapter-nav a.active', 'background-color: #f97316 !important', 'color: #ffffff !important', 'font-weight: 700 !important', 'box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35)', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', '.guide-longform main', '.guide-longform .guide-module', '.guide-diagram', '.guide-table-wrap', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', 'white-space: nowrap', 'transform: none', '@media (max-width: 390px)']:
+for css_marker in ['.home-page .hero-shell', '.home-page .hero-copy h1 .hero-title-line', '.home-page .tool-feature-card', '.home-page .knowledge-card[data-card-link]', 'cursor: pointer', 'outline: 2px solid #f97316', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', '.guide-chapter-nav a.active', 'background-color: #f97316 !important', 'color: #ffffff !important', 'font-weight: 700 !important', 'box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35)', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.tools-hub-sidebar', '.tool-hub-card', '.tw-tool-page', '.tw-inline-tool-link', '.compact-calculator-page', '.compact-tool-page', '.guide-longform main', '.guide-longform .guide-module', '.guide-diagram', '.guide-table-wrap', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', 'white-space: nowrap', 'transform: none', '@media (max-width: 390px)']:
     if css_marker not in css_text: errors.append(f'style missing {css_marker}')
 for forbidden_file in [
     ROOT / 'tools/index.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/etf-dividend-calculator.html',
