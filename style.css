@@ -3338,3 +3338,43 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
     padding: 17px 15px;
   }
 }
+
+
+/* =========================================================
+   Guide chapter Scrollspy · 2026-08-25
+   Active state is deliberately high-contrast: orange surface, white type.
+   ========================================================= */
+.guide-page .guide-chapter-nav a.active,
+.guide-page .guide-chapter-nav a[aria-current="true"],
+.guide-page .guide-chapter-nav button.active,
+.guide-page .guide-chapter-nav button[aria-current="true"],
+.guide-topic-hub .guide-chapter-nav a.active,
+.guide-topic-hub .guide-chapter-nav a[aria-current="true"],
+.guide-topic-hub .guide-chapter-nav button.active,
+.guide-topic-hub .guide-chapter-nav button[aria-current="true"] {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-color: #f97316 !important;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
+}
+.guide-page .guide-chapter-nav a.active:hover,
+.guide-page .guide-chapter-nav a.active:focus-visible,
+.guide-page .guide-chapter-nav a[aria-current="true"]:hover,
+.guide-page .guide-chapter-nav a[aria-current="true"]:focus-visible,
+.guide-topic-hub .guide-chapter-nav a.active:hover,
+.guide-topic-hub .guide-chapter-nav a.active:focus-visible,
+.guide-topic-hub .guide-chapter-nav a[aria-current="true"]:hover,
+.guide-topic-hub .guide-chapter-nav a[aria-current="true"]:focus-visible {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  border-color: #f97316 !important;
+}
+html:has(body.guide-page) {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.guide-page) {
+    scroll-behavior: auto;
+  }
+}

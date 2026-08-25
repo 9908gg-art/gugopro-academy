@@ -507,3 +507,21 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | [GitHub Pages Run 100](https://github.com/9908gg-art/gugopro-academy/actions/runs/32837369026) | `completed / success`；artifact `github-pages` 約 1.22 MB。 |
 
 正式站已以 cache-bust URL 核對新文章內容；本地 390×844 與 375×667 批次回歸則確認 16/16 頁均可自然垂直滾動、無水平溢出。金融內容與公式為教育模型，實際交易前仍須核對最新交易所／券商／法規資料，不構成投資、稅務或法律建議。
+
+
+## 三十一、指南章節 Scrollspy 與 active 狀態同步（2026-08-25）
+
+本輪在所有 16 篇 `guides/*.html` 共用的 `app.js` 加入 `initGuideChapterScrollspy()`。初始化時讀取 `.guide-chapter-nav a, .guide-chapter-nav button`，將其 hash／target 對應到實質章節容器；IntersectionObserver 使用 `rootMargin: '-20% 0px -70% 0px'`，並以 25% viewport focus line 的 nearest visible chapter 作為穩定 fallback。進入章節時，導航列只保留一個 `.active`，並同步 `aria-current="true"`。
+
+章節按鈕點擊會立即變色，呼叫 `scrollIntoView` 平滑跳轉並以 `history.replaceState` 更新 hash；hash 初始值、瀏覽器 back／forward 與 reduced-motion 偏好也有處理。`style.css` 對 `.guide-page .guide-chapter-nav a.active`、button 變體與 `aria-current="true"` 加上高對比樣式：亮橘 `#f97316` 背景、純白 `#ffffff` 文字、700 字重、橘色邊框與 `0 2px 8px rgba(249,115,22,.35)` 陰影。
+
+| 驗證項目 | 結果 |
+|---|---|
+| 本地外匯初始 hash | `#forex-foundation` 正確高亮「報價、Pip 與交易成本」 |
+| 本地點擊同步 | 點擊「利差交易與 Swap」後 120ms 內唯一 active／`aria-current=true`，hash=`#forex-carry`；平滑滾動完成後 target top 約 108px |
+| computed style | 背景 `rgb(249,115,22)`、文字 `rgb(255,255,255)`、font-weight 700、橘色 border、橘色 shadow |
+| 390×844 批次 | 16/16 指南通過；每頁點擊第二章與章節滾動 active 均正確，`failures=[]`，`scrollWidth=382`，無水平溢出 |
+| 桌面版 | 外匯 viewport 1280、`scrollWidth=1272`；本地 console 未見 JavaScript error |
+| 建置契約 | `python3 build_guides.py`、`validate_site.py`（`errors=0`）、語法檢查與 `git diff --check` 通過 |
+
+指南資產 query 已更新為 `longform-encyclopedia-scrollspy-20260825`，沒有觸碰 R:R／Grid 工具核心檔案。實際部署仍須以本輪指定 commit 完成後的 GitHub Pages workflow 與 cache-bust live DOM 為準。

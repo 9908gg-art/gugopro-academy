@@ -94,6 +94,114 @@
     });
   }
 
+  function initGuideChapterScrollspy() {
+    var nav = document.querySelector('.guide-chapter-nav');
+    if (!nav) return;
+
+    var controls = Array.prototype.slice.call(nav.querySelectorAll('a, button'));
+    if (!controls.length) return;
+
+    function targetIdFor(control) {
+      var href = control.getAttribute('href') || '';
+      var hashIndex = href.indexOf('#');
+      var raw = hashIndex >= 0 ? href.slice(hashIndex + 1) : (control.getAttribute('data-target') || control.getAttribute('aria-controls') || '');
+      try { return decodeURIComponent(raw).trim(); } catch (error) { return raw.trim(); }
+    }
+
+    var controlTargets = controls.map(function (control) {
+      return { control: control, id: targetIdFor(control) };
+    });
+    var targetIds = controlTargets.map(function (item) { return item.id; }).filter(Boolean);
+    var chapters = Array.prototype.slice.call(document.querySelectorAll('section[id], div[id^="chapter-"], div[id^="module-"], .guide-module[id]')).filter(function (chapter) {
+      return targetIds.indexOf(chapter.id) !== -1;
+    });
+    if (!chapters.length) return;
+
+    function setActive(id) {
+      controlTargets.forEach(function (item) {
+        var active = item.id === id;
+        item.control.classList.toggle('active', active);
+        if (active) item.control.setAttribute('aria-current', 'true');
+        else item.control.removeAttribute('aria-current');
+      });
+    }
+
+    function syncHash() {
+      var hash = (window.location.hash || '').slice(1);
+      try { hash = decodeURIComponent(hash); } catch (error) { /* Keep the raw hash. */ }
+      if (targetIds.indexOf(hash) !== -1) setActive(hash);
+    }
+
+    function chooseVisibleChapter(ids) {
+      var focusLine = window.innerHeight * 0.25;
+      var candidate = null;
+      var nearest = Infinity;
+      ids.forEach(function (id) {
+        var chapter = document.getElementById(id);
+        if (!chapter) return;
+        var rect = chapter.getBoundingClientRect();
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+        var distance = Math.abs(rect.top - focusLine);
+        if (distance < nearest) { nearest = distance; candidate = chapter; }
+      });
+      if (candidate) setActive(candidate.id);
+    }
+
+    var initialHash = (window.location.hash || '').slice(1);
+    try { initialHash = decodeURIComponent(initialHash); } catch (error) { /* Keep the raw hash. */ }
+    setActive(targetIds.indexOf(initialHash) !== -1 ? initialHash : chapters[0].id);
+
+    controlTargets.forEach(function (item) {
+      item.control.addEventListener('click', function (event) {
+        var target = item.id ? document.getElementById(item.id) : null;
+        if (!target) return;
+        event.preventDefault();
+        setActive(item.id);
+        var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + item.id);
+        else window.location.hash = item.id;
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      var intersecting = {};
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) intersecting[entry.target.id] = true;
+          else delete intersecting[entry.target.id];
+        });
+        chooseVisibleChapter(Object.keys(intersecting));
+      }, { root: null, rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.01, 0.2, 0.5] });
+      chapters.forEach(function (chapter) { observer.observe(chapter); });
+
+      var scrollTick = false;
+      window.addEventListener('scroll', function () {
+        if (scrollTick) return;
+        scrollTick = true;
+        window.requestAnimationFrame(function () {
+          scrollTick = false;
+          if (Object.keys(intersecting).length) chooseVisibleChapter(Object.keys(intersecting));
+        });
+      }, { passive: true });
+    } else {
+      var fallbackTick = false;
+      var fallback = function () {
+        if (fallbackTick) return;
+        fallbackTick = true;
+        window.requestAnimationFrame(function () {
+          fallbackTick = false;
+          chooseVisibleChapter(chapters.map(function (chapter) { return chapter.id; }));
+        });
+      };
+      window.addEventListener('scroll', fallback, { passive: true });
+      fallback();
+    }
+
+    window.addEventListener('hashchange', syncHash);
+    window.addEventListener('popstate', syncHash);
+  }
+
   function initSiteConfig() {
     fetch('/config.json', { cache: 'no-store' }).then(function (response) {
       if (!response.ok) throw new Error('config unavailable');
@@ -108,6 +216,7 @@
     initDropdowns();
     initKnowledgeTree();
     initGuideNavigation();
+    initGuideChapterScrollspy();
     initSiteConfig();
     document.querySelectorAll('.sidebar-menu a').forEach(function (link) {
       link.addEventListener('click', function () {

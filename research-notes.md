@@ -732,3 +732,26 @@ Run 100 第四輪公開頁輪詢（約 10:33）：`32837369026` 仍為 `In progr
 
 
 Run 100 最終結果：GitHub Pages workflow `32837369026` 對應 head `034aabc`，公開頁回報 `Status Success`，build 24s、report-build-status 7s、deploy 10s、總計 46s；唯一 annotation 為 Node.js 20 deprecation warning，artifact github-pages 約 1.22 MB。正式首頁 `?v=034aabc&refresh=20260825-1040#knowledge-tree` live DOM 確認 13 cards、filters `全部 13／股票市場 3／固定收益 2／衍生品 2／宏觀與另類 5／實戰交易 1`，主分類 href 依序為 `taiwan-stocks, us-stocks, etf, bonds, funds, forex, commodities, futures, options, crypto, real-estate, macro-economics, trading-strategy`，`scrollWidth=1272`、viewport width=1280，虛擬貨幣／房地產／總體經濟／實戰交易入口均存在。
+
+
+Scrollspy 本地外匯回歸（`v=longform-encyclopedia-scrollspy-20260825#forex-foundation`）：初始 4 個導航按鈕中「報價、Pip 與交易成本」同步具有 `.active`／`aria-current="true"`；程式化點擊「利差交易與 Swap」後 120ms 內已變為唯一 active，hash 為 `#forex-carry`，等待平滑滾動完成後章節 top 約 108px，該章仍為唯一 active。頁面 `bodyClass=guide-page guide-longform`、navCount=4，證明點擊與 IntersectionObserver／scroll 同步均運作。
+
+
+Scrollspy 390×844 批次回歸：以同源 iframe 測試全部 16 篇指南，結果 `pages=16`、`failures=[]`。每頁均為 `guide-page guide-longform`，一般頁 4 個章節導航、實戰交易 5 個；所有頁面點擊第二個章節後皆為唯一 `.active` 且 `aria-current="true"`，再將對應章節滾到 viewport 後 active 仍同步；每頁 `scrollWidth=382`、viewport=390，16/16 `overflow=false`。
+
+
+Scrollspy active style 本地核對：外匯頁「利差交易與 Swap」實際 computed style 為 `background-color: rgb(249, 115, 22)`、`color: rgb(255, 255, 255)`、`fontWeight=700`、border `rgb(249, 115, 22)`、box-shadow `rgba(249, 115, 22, 0.35) 0px 2px 8px 0px`；desktop viewport 1280、`scrollWidth=1272`。console 回顧只見預期回歸結果，沒有 JS error。
+
+
+## Scrollspy 章節導航優化（2026-08-25）
+
+本輪在共用 `app.js` 新增 `initGuideChapterScrollspy()`，針對 `.guide-chapter-nav a, .guide-chapter-nav button` 解析 hash／data target，搭配 IntersectionObserver 的 `rootMargin: '-20% 0px -70% 0px'` 與 passive scroll fallback，依 viewport 中最接近 25% focus line 的實質章節切換唯一 `.active` 與 `aria-current="true"`。點擊章節按鈕會立即設定 active、以 `scrollIntoView({ behavior: 'smooth', block: 'start' })` 平滑跳轉並同步 hash；瀏覽器 back／forward 也會重新同步 hash 狀態。
+
+`style.css` 新增 `.guide-page .guide-chapter-nav a.active`、`[aria-current="true"]` 與 button 變體的強制高對比規則：`#f97316` 背景、`#ffffff` 文字、700 字重、橘色邊框與橘色陰影，並保留 reduced-motion 行為。指南資產 query 更新為 `longform-encyclopedia-scrollspy-20260825`。
+
+本地外匯頁回歸：初始 `#forex-foundation` 高亮「報價、Pip 與交易成本」；點擊「利差交易與 Swap」後 120ms 內已成為唯一 active／`aria-current=true`，hash 變為 `#forex-carry`，平滑滾動後章節 top 約 108px。computed style 實測為橘底 `rgb(249,115,22)`、白字 `rgb(255,255,255)`、700、橘色 border 與 `rgba(249,115,22,.35) 0 2px 8px`。
+
+以同源 iframe 批次驗證 16 篇指南的 390×844：`pages=16`、`failures=[]`；每頁 4 個章節按鈕（實戰交易 5 個），點擊第二章後均為唯一 active／`aria-current=true`，滾到對應章節後仍正確同步；全部頁面 `scrollWidth=382`、viewport=390、`overflow=false`。桌面外匯頁 viewport 1280、`scrollWidth=1272`；console 僅有預期回歸輸出，未見 JavaScript error。
+
+
+Scrollspy 向下滾動補充回歸：本地外匯頁由 `#forex-carry` 手動滾到 `#forex-risk`，等待 smooth scroll 完成後 active／`aria-current=true` 已切換為唯一的「槓桿、強平與交易制度」，target top=108px、scrollY=3748。hash 保持前一次明確點擊的 `#forex-carry`，符合 scrollspy 僅同步閱讀狀態、不在每次手動滾動時改寫瀏覽歷史的設計。
