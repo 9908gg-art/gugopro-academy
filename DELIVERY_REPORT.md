@@ -460,3 +460,10 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 正式站操作畫面：首頁 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-03_9966.webp`、實戰交易 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-36_6197.webp`、ETF `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-09_8644.webp`、房地產 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-42_9725.webp`、總體經濟 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-38-17_1104.webp`。R:R／Grid 核心 HTML／JS 未在本輪修改，提交前 `git diff --numstat` 為空，既有行情、Scanner、原生圖表、watchlist、拖曳與網格功能維持原狀。
 
 正式內容仍為教育與研究用途；市場資料、交易規則、稅費、資格與工具輸出可能變動，實際交易前應核對交易所、券商與法規最新公告，不構成投資、稅務或法律建議。
+
+
+## 二十八、最終 main 文件同步部署（2026-08-25）
+
+文件同步提交 **227285c** 已推送至 `main`，GitHub Pages [Run 98](https://github.com/9908gg-art/gugopro-academy/actions/runs/32822649505) 對應 head `227285c`，公開 API 最終回報 `status=completed`、`conclusion=success`。因此正式站最終 main 版本以 227285c 為準；rich overhaul 功能本體與使用者指定 commit 仍以 **e79cd65** 為核心提交。
+
+正式首頁以 [227285c cache-bust URL](https://academy.gugopro.com/index.html?v=227285c&refresh=20260825-0748#knowledge-tree) 核對成功，13 類卡片、10／11 類排序、filter 計數與 `content-architecture-20260825-rich` 資產均正常。上一節已核對的實戰交易、ETF、房地產與總體經濟指南均由同一 Pages artifact 發布；R:R／Grid 核心工具在 e79cd65 前後均沒有本輪 source diff。
