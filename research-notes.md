@@ -709,3 +709,26 @@ Run 97 workflow API 已回報 `status=completed`、`conclusion=success`、head S
 
 
 375×667 mobile batch：16/16 指南 `allLongerThanViewport=true` 且 `allNoOverflow=true`，每頁 4 diagrams／4 nav links，實戰交易 5 diagrams／5 nav links；scrollWidth=367，scrollHeight 約 6,491–11,577px。桌面實戰交易頁 live view 顯示 5 個實質章節（價格行為與技術分析、風報比與期望值、配對／價差與協整、動態網格、資金／Kelly／MDD），其中各自可直接進入 R:R、Grid 或風險檢查工具。
+
+
+## 長篇百科提交部署輪詢（2026-08-25）
+
+長文百科指定 commit `034aabc` 已推送至 `origin/main`，GitHub Actions Pages Run 100（workflow `32837369026`）已觸發；公開詳情頁初始狀態為 `In progress`，workflow graph 顯示 `build` 已運行、`report-build-status` 與 `deploy` 等待後續完成。後續需以 machine-readable 狀態與正式 URL 核對，不將 queued／in-progress 誤判為已上線。
+
+
+Run 100 第二輪公開頁輪詢（workflow `32837369026`）：截至 10:30 左右仍顯示 `In progress`；head 為 `034aabc`，build job 已持續執行約 2 分鐘，report-build-status／deploy 尚未完成。此狀態僅代表 Pages worker 尚在處理，未把它當作失敗或成功。
+
+
+Run 100 第三輪公開頁輪詢：`32837369026` head `034aabc` 仍顯示 `In progress`，build 約 3 分鐘，report-build-status／deploy 尚未完成。長文頁本地已完成驗證；正式站狀態仍等待 Pages worker，尚未宣告成功。
+
+
+Run 100 第四輪公開頁輪詢（約 10:33）：`32837369026` 仍為 `In progress`，head `034aabc`，build job 約 5 分鐘；report-build-status／deploy 尚未轉為完成。需繼續輪詢或以正式站 cache-bust 回應交叉核對。
+
+
+正式站 034aabc 外匯 live DOM 回歸（cache-bust `?v=034aabc&refresh=20260825-1035`）：`bodyClass=guide-page guide-longform`、style `/style.css?v=longform-encyclopedia-20260825`、app `/app.js?v=longform-encyclopedia-20260825`；4 modules、4 diagrams、4 chapter links、16 h3、19 段 module prose，`scrollHeight=6118`、`scrollWidth=1272`、viewport width=1280，`oldVisualMap=false`。這證明正式站已載入長文 renderer 與新主題圖，不是舊 rich wireframe 版本。
+
+
+正式站外匯頁在 Run 100 尚顯示 In progress 期間仍持續可讀取 034aabc 長文版本：cache-bust `?v=034aabc&refresh=20260825-1035` 顯示 4 個實質章節、CFTC／BIS／NFA references、4 個概念圖與完整 h3 正文，無舊 VISUAL MAP。這是內容已服務但 workflow 尚未結束的交叉觀察，不取代 Pages 最終成功狀態。
+
+
+Run 100 最終結果：GitHub Pages workflow `32837369026` 對應 head `034aabc`，公開頁回報 `Status Success`，build 24s、report-build-status 7s、deploy 10s、總計 46s；唯一 annotation 為 Node.js 20 deprecation warning，artifact github-pages 約 1.22 MB。正式首頁 `?v=034aabc&refresh=20260825-1040#knowledge-tree` live DOM 確認 13 cards、filters `全部 13／股票市場 3／固定收益 2／衍生品 2／宏觀與另類 5／實戰交易 1`，主分類 href 依序為 `taiwan-stocks, us-stocks, etf, bonds, funds, forex, commodities, futures, options, crypto, real-estate, macro-economics, trading-strategy`，`scrollWidth=1272`、viewport width=1280，虛擬貨幣／房地產／總體經濟／實戰交易入口均存在。

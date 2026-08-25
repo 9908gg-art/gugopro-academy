@@ -493,3 +493,17 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 [8]: https://www.bis.org/statistics/rpfx25_fx.htm "BIS OTC foreign exchange turnover in April 2025"
 
 本輪內容仍為教育與研究用途，不構成投資、交易、稅務或法律建議。外匯報價、利差、稅費、交易制度、基金分配、貸款條件與工具輸出可能變動；實際操作前應查閱所在地主管機關、交易所、券商、基金／債券文件與最新公告。
+
+
+## 三十、034aabc 正式部署與長文 live 驗證（2026-08-25）
+
+長篇百科功能提交 **034aabc** 已推送至 `main`，完整 commit message 為：`Manus AI: complete revamp of all academy guides with comprehensive long-form knowledge, remove generic visual map wires, and detail all terms`。GitHub Pages [Run 100](https://github.com/9908gg-art/gugopro-academy/actions/runs/32837369026) 對應 head `034aabc`，公開結果為 `Status Success`；build 24 秒、report-build-status 7 秒、deploy 10 秒，總計 46 秒。唯一 annotation 是 GitHub Actions Node.js 20 deprecation warning，沒有 build 或 deploy error。
+
+| 正式頁面 | live 核對結果 |
+|---|---|
+| [首頁 13 類知識樹](https://academy.gugopro.com/index.html?v=034aabc&refresh=20260825-1040#knowledge-tree) | 13 張 cards；filter 為全部 13、股票市場 3、固定收益 2、衍生品 2、宏觀與另類 5、實戰交易 1；主分類順序含第 10 類虛擬貨幣、第 11 類房地產、第 12 類總體經濟；1280px `scrollWidth=1272`。 |
+| [外匯長文百科](https://academy.gugopro.com/guides/forex.html?v=034aabc&refresh=20260825-1035) | `guide-page guide-longform`；4 chapters、4 diagrams、16 h3、19 段 module prose；`scrollHeight=6118`；正式載入 `longform-encyclopedia-20260825` CSS／JS；`VISUAL MAP=false`。 |
+| [實戰交易長文百科](https://academy.gugopro.com/guides/trading-strategy.html?v=034aabc&refresh=20260825-1040) | 本地與生成檢查為 5 chapters／5 diagrams／21 h3；直接 CTA 連 R:R、風險／配對檢查與 Grid。 |
+| [GitHub Pages Run 100](https://github.com/9908gg-art/gugopro-academy/actions/runs/32837369026) | `completed / success`；artifact `github-pages` 約 1.22 MB。 |
+
+正式站已以 cache-bust URL 核對新文章內容；本地 390×844 與 375×667 批次回歸則確認 16/16 頁均可自然垂直滾動、無水平溢出。金融內容與公式為教育模型，實際交易前仍須核對最新交易所／券商／法規資料，不構成投資、稅務或法律建議。
