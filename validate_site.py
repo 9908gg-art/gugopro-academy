@@ -51,7 +51,7 @@ for required in required_files:
 
 pages = [
     root, ROOT / 'tools/index.html', ROOT / 'tools/risk-reward-calculator.html',
-    ROOT / 'tools/etf-dividend-calculator.html', ROOT / 'tools/grid-trading-calculator.html',
+    ROOT / 'tools/etf-dividend-calculator.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/grid-trading-calculator.html',
     ROOT / 'privacy.html', ROOT / 'terms.html', ROOT / 'about.html',
     *sorted((ROOT / 'guides').glob('*.html'))
 ]
@@ -77,6 +77,15 @@ for calc in ['compound','etf-fee','duration','curve','risk','dcf','retirement','
     if f'data-calc="{calc}"' not in workbench_text: errors.append(f'workbench missing calc {calc}')
 for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'grid-trading-calculator.html']:
     if link not in workbench_text: errors.append(f'workbench missing link {link}')
+compact_pages = {
+    'tools/index.html': ['tools-library-page', 'single-screen-tools-20260825'],
+    'tools/compound-interest.html': ['compact-calculator-page', 'single-screen-tools-20260825'],
+    'tools/etf-dividend-calculator.html': ['compact-tool-page', 'single-screen-tools-20260825'],
+}
+for relative, markers in compact_pages.items():
+    text = (ROOT / relative).read_text(encoding='utf-8')
+    for marker in markers:
+        if marker not in text: errors.append(f'{relative} missing compact marker {marker}')
 for guide_slug, tool_href in [('risk-reward-ratio','../tools/risk-reward-calculator.html'), ('grid-trading','../tools/grid-trading-calculator.html'), ('etf-dividend-drip','../tools/etf-dividend-calculator.html')]:
     guide_text = (ROOT / 'guides' / f'{guide_slug}.html').read_text(encoding='utf-8')
     if tool_href not in guide_text: errors.append(f'{guide_slug} missing primary tool link')
@@ -116,8 +125,15 @@ watchlist_script = (ROOT / 'tools/watchlist.js').read_text(encoding='utf-8')
 for marker in ['gugopro_academy_watchlist_v1', 'localStorage', 'CustomEvent', 'watchlist-panel', 'watchlist-remove', 'watchlist-clear']:
     if marker not in watchlist_script: errors.append(f'watchlist script missing {marker}')
 css_text = (ROOT / 'style.css').read_text(encoding='utf-8')
-for css_marker in ['padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120']:
+for css_marker in ['padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', 'font-size: 16px', '@media (max-width: 390px)']:
     if css_marker not in css_text: errors.append(f'style missing {css_marker}')
+for forbidden_file in [
+    ROOT / 'tools/index.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/etf-dividend-calculator.html',
+    ROOT / 'tools/advanced-tools.js', ROOT / 'tools/advanced-tools.css', ROOT / 'style.css'
+]:
+    forbidden_text = forbidden_file.read_text(encoding='utf-8').lower()
+    for forbidden in ['gemini-api-key', 'gugopro_gemini_api_key', 'savegugoprogeminikey', '本機 ai 設定', 'api-key-panel']:
+        if forbidden in forbidden_text: errors.append(f'{forbidden_file.relative_to(ROOT)} still contains forbidden API key marker {forbidden}')
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')
 print('deep_guides_expected=15')

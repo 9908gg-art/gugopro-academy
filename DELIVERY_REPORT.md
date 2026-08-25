@@ -323,3 +323,33 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | 靜態／腳本檢查 | `python3 validate_site.py` 為 `errors=0`；R:R、Grid、watchlist、`app.js`、`advanced-tools.js` 均通過 `node --check`；`git diff --check` 通過。 |
 
 因 TradingView Advanced Chart 是跨來源 iframe，瀏覽器安全模型不允許本站將 Lightweight Charts 的原生價格線或 Grid 虛線直接覆蓋在外部 TradingView canvas 上；因此 Binance 路由保留既有原生 overlays，TradingView 路由則提供完整全球圖表，而本頁 HUD／R:R 試算／網格參數仍獨立運作。這是跨來源嵌入的技術邊界，不是後端或 API key 限制。所有搜尋、watchlist 與參數仍只保留在使用者瀏覽器 localStorage，本站不接收帳戶資金、風險參數或網格設定；清除網站資料或瀏覽器資料會移除保存內容。公開行情與 TradingView widget 可能受網路、休市、地區、資料延遲、CORS 或供應商限制影響，工具輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。
+
+
+## 二十一、其他財經工具單屏緊湊化與 API Key 清理（2026-08-25）
+
+本輪針對 R:R／Grid 以外的財經計算工具完成收斂，範圍包括 `tools/index.html` 的九個本地計算面板、`tools/compound-interest.html` 複利獨立頁與 `tools/etf-dividend-calculator.html` ETF DRIP 獨立頁。`risk-reward-scanner.html` 是導向新版 R:R Scanner 的相容轉址頁，`tradingview-guide.html` 是資源導覽頁，兩者沒有本機 AI 設定或計算 API Key 面板，因此未做不必要改動；R:R／Grid 專用 HUD、watchlist、行情與原生圖表行為保持不變。
+
+本輪已徹底移除工具頁底部「本機 AI 設定（選填）」／Gemini API Key 面板、相關輸入框、`saveGugoProGeminiKey`／`getGugoProGeminiKey` 函式、`gugopro_gemini_api_key` localStorage 存取與 API Key 面板 CSS。工具總頁與 advanced-tools.js 仍只處理瀏覽器端金融公式，不再維護無實際用途的 AI 金鑰狀態。
+
+| 版面範圍 | 收斂內容 |
+|---|---|
+| 工具總頁九個面板 | Hero、工具卡、分頁與 active calculator 改為 compact order；桌面採三欄參數網格，輸入標籤 14px、數值輸入 16px；結果卡保留高對比 14px 輸出。 |
+| 複利獨立頁 | 桌面改為左側參數、右側結果／摘要的雙欄；手機修正 legacy header 橫溢出，縮短 hero 與輸入控制高度，保留 16px 數字輸入，核心摘要優先呈現。 |
+| ETF DRIP 獨立頁 | 桌面輸入／結果並排，手機六項參數與六個結果指標採三欄緊湊網格；說明、狀態提示與圖表保留於核心操作下方，不犧牲輸入與結果字級。 |
+| 資料與隱私 | 本輪沒有新增後端、資料庫、API key 或資料上傳；既有計算仍在瀏覽器內完成。 |
+
+### 本地驗證
+
+使用 `single-screen-tools-20260825` cache-bust 重新載入本地頁面。靜態搜尋 `tools/index.html`、複利頁、ETF DRIP 頁、advanced-tools.js／CSS 與 style.css 的 API Key markers 結果為零；`python3 validate_site.py` 顯示 `errors=0`，所有既有 JavaScript `node --check` 與 `git diff --check` 通過。
+
+| 測試視窗 | 驗證結果 |
+|---|---|
+| 工具總頁 390×844 | 九個計算面板逐一切換並執行後，結果 bottom 均不超過 640px；`scrollWidth=382`、API Key marker=false。 |
+| ETF DRIP 390×844 | 輸出卡 bottom=774；API Key marker=false，無水平溢出。 |
+| ETF DRIP 375×667 | 最終輸入項 bottom=424、核心輸出卡 bottom=661；`scrollWidth=367`、無水平溢出。 |
+| 複利 390×844 | 最後參數與核心摘要均在第一屏；header overflow 已修正。 |
+| 複利 375×667 | 最後參數 bottom=658、核心摘要 bottom=437、`scrollWidth=367`；計算模式按鈕與核心摘要皆可在首屏使用／查看。 |
+
+> 「單一屏幕」本輪定義為核心輸入、操作與計算結果在指定第一屏優先可見；完整圖表、說明、策略指南、合作資源與頁尾仍保留於下方，避免以隱藏內容犧牲教學完整性。390／375px 測試中的首屏高度依瀏覽器 viewport 而定，實際字型、系統瀏覽器工具列與使用者縮放設定可能令可見範圍不同。
+
+正式部署後將以版本化 CSS／JS URL 驗證工具總頁、複利與 ETF DRIP 頁，並檢查 API Key marker、第一屏核心區與水平溢出結果。所有計算輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。

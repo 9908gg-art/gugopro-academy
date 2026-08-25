@@ -8,16 +8,6 @@
   const result = (id, text, warning = false) => { const el = $(id); if (!el) return; el.textContent = text; el.classList.toggle('tool-warning', warning); };
   const validPositive = (...numbers) => numbers.every((n) => Number.isFinite(n) && n > 0);
 
-  window.getGugoProGeminiKey = () => localStorage.getItem('gugopro_gemini_api_key') || '';
-  window.saveGugoProGeminiKey = () => {
-    const input = $('gemini-api-key');
-    if (!input) return;
-    const key = input.value.trim();
-    if (key) localStorage.setItem('gugopro_gemini_api_key', key);
-    else localStorage.removeItem('gugopro_gemini_api_key');
-    if ($('key-status')) $('key-status').textContent = key ? '已儲存於本機瀏覽器，不會上傳至學院伺服器。' : '已清除本機金鑰。';
-  };
-
   function compound() {
     const principal = value('compound-principal'); const monthly = value('compound-monthly');
     const rate = (value('compound-rate') - value('compound-fee')) / 100; const years = Math.floor(value('compound-years', 20));
@@ -105,7 +95,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const key = $('gemini-api-key'); if (key) key.value = window.getGugoProGeminiKey();
     document.querySelectorAll('[data-calc]').forEach((button) => button.addEventListener('click', () => bindings[button.dataset.calc]?.()));
     document.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => activatePanel(button.dataset.tab)));
     const hash = window.location.hash.slice(1); if (hash && $(hash)) activatePanel(hash, false);

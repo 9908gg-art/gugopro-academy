@@ -922,7 +922,7 @@ kbd { color: var(--copy-muted); border: 1px solid var(--line); padding: 1px 5px;
 .guide-page main { max-width: 1240px; padding-top: 55px; }.guide-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 26px; align-items: start; }.guide-sidebar { position: sticky; top: 90px; padding: 19px; border: 1px solid var(--line); border-radius: 15px; background: rgba(15,22,33,.7); }.guide-sidebar .section-kicker { margin-bottom: 14px; }.guide-sidebar a { display: block; padding: 9px 10px; border-radius: 8px; color: var(--copy-muted); font-size: .78rem; text-decoration: none; }.guide-sidebar a:hover, .guide-sidebar a.active { color: var(--orange); background: rgba(255,159,67,.08); }.guide-content { min-width: 0; }.guide-hero { padding: 35px 38px; border: 1px solid var(--line); border-radius: 19px; background: linear-gradient(145deg, rgba(26,35,51,.85), rgba(12,17,26,.9)); }.guide-hero h1 { max-width: 800px; margin: 14px 0; font-size: clamp(2rem, 4vw, 3.65rem); line-height: 1.06; letter-spacing: -.065em; }.guide-hero p { max-width: 760px; margin: 0; color: var(--copy-soft); line-height: 1.75; }.guide-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }.guide-meta span { color: var(--copy-muted); border: 1px solid var(--line); border-radius: 99px; padding: 5px 9px; font-size: .68rem; }.guide-body { padding: 34px 38px; border: 1px solid var(--line); border-radius: 19px; margin-top: 13px; background: rgba(14,20,30,.62); }.guide-body h2 { margin: 30px 0 12px; font-size: 1.45rem; letter-spacing: -.045em; }.guide-body h2:first-child { margin-top: 0; }.guide-body h3 { margin: 22px 0 8px; font-size: 1rem; }.guide-body p { color: var(--copy-soft); line-height: 1.8; font-size: .9rem; }.guide-body ul { padding-left: 20px; color: var(--copy-soft); line-height: 1.8; font-size: .88rem; }.guide-body li::marker { color: var(--orange); }.guide-callout { margin: 22px 0; padding: 16px 18px; border-left: 2px solid var(--orange); background: rgba(255,159,67,.06); color: var(--copy-soft); font-size: .86rem; line-height: 1.7; }.guide-table { width: 100%; border-collapse: collapse; margin: 17px 0 25px; font-size: .82rem; }.guide-table th, .guide-table td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }.guide-table th { color: var(--orange); font-weight: 700; }.guide-table td { color: var(--copy-soft); }.guide-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 13px; padding: 20px; border: 1px solid rgba(118,167,255,.3); border-radius: 15px; background: rgba(30,63,92,.28); }.guide-cta h3 { margin: 0 0 6px; color: var(--copy); }.guide-cta p { margin: 0; font-size: .78rem; }.guide-cta a { flex: 0 0 auto; }.guide-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }.guide-tools a { color: var(--orange); font-size: .76rem; border: 1px solid rgba(255,159,67,.32); border-radius: 8px; padding: 8px 10px; text-decoration: none; }.guide-tools a:hover { background: rgba(255,159,67,.1); }
 
 /* New tool workbench */
-.tools-page main { padding-top: 55px; }.tools-hero { max-width: 800px; margin-bottom: 34px; }.tools-hero h1 { margin: 14px 0; font-size: clamp(2.3rem, 5vw, 4rem); letter-spacing: -.07em; line-height: 1.04; }.tools-hero p { color: var(--copy-soft); line-height: 1.75; }.tool-tabs { display: flex; flex-wrap: wrap; gap: 7px; padding: 7px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.025); margin-bottom: 13px; }.tool-tabs button { flex: 1 0 auto; border: 0; border-radius: 8px; padding: 10px 11px; background: transparent; color: var(--copy-muted); cursor: pointer; font-size: .76rem; }.tool-tabs button:hover, .tool-tabs button.active { color: #17100a; background: var(--orange); }.advanced-tool-panel { display: none; padding: 30px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(20,29,43,.76), rgba(11,16,25,.88)); }.advanced-tool-panel.active { display: block; animation: tool-in .25s var(--ease); }.advanced-tool-panel h2 { margin: 0 0 8px; font-size: 1.45rem; letter-spacing: -.05em; }.tool-note { color: var(--copy-muted); font-size: .8rem; line-height: 1.65; }.tool-form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 23px 0; }.tool-form-grid label { display: flex; flex-direction: column; gap: 7px; color: var(--copy-soft); font-size: .75rem; }.tool-form-grid input, .tool-form-grid select { width: 100%; padding: 11px 12px; color: var(--copy); background: rgba(5,9,15,.72); border: 1px solid var(--line-bright); border-radius: 9px; }.tool-form-grid input:focus, .tool-form-grid select:focus { border-color: var(--orange); outline: 0; }.tool-calc-button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px; border: 0; border-radius: 9px; background: var(--orange); color: #1b1108; font-weight: 700; cursor: pointer; }.tool-calc-button:hover { background: var(--orange-bright); }.tool-result { min-height: 50px; margin-top: 18px; padding: 15px; border: 1px solid rgba(92,219,189,.25); border-radius: 10px; background: rgba(92,219,189,.06); color: var(--mint); font-size: .86rem; line-height: 1.7; }.tool-warning { border-color: rgba(255,136,122,.3); background: rgba(255,136,122,.06); color: #ffaaa0; }.tool-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 13px; }.tool-detail-card { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }.tool-detail-card h3 { margin: 0 0 8px; font-size: .95rem; }.tool-detail-card p { margin: 0; color: var(--copy-muted); font-size: .78rem; line-height: 1.7; }.tool-disclaimer { margin-top: 20px; color: var(--copy-muted); font-size: .7rem; line-height: 1.6; }.api-key-panel { margin-top: 13px; padding: 21px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.02); }.api-key-panel h3 { margin: 0 0 7px; font-size: .95rem; }.api-key-row { display: flex; gap: 8px; }.api-key-row input { flex: 1; min-width: 0; padding: 10px 12px; color: var(--copy); background: var(--bg-secondary); border: 1px solid var(--line); border-radius: 8px; }.api-key-row button { padding: 10px 13px; border: 1px solid rgba(255,159,67,.4); border-radius: 8px; background: transparent; color: var(--orange); cursor: pointer; }
+.tools-page main { padding-top: 55px; }.tools-hero { max-width: 800px; margin-bottom: 34px; }.tools-hero h1 { margin: 14px 0; font-size: clamp(2.3rem, 5vw, 4rem); letter-spacing: -.07em; line-height: 1.04; }.tools-hero p { color: var(--copy-soft); line-height: 1.75; }.tool-tabs { display: flex; flex-wrap: wrap; gap: 7px; padding: 7px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.025); margin-bottom: 13px; }.tool-tabs button { flex: 1 0 auto; border: 0; border-radius: 8px; padding: 10px 11px; background: transparent; color: var(--copy-muted); cursor: pointer; font-size: .76rem; }.tool-tabs button:hover, .tool-tabs button.active { color: #17100a; background: var(--orange); }.advanced-tool-panel { display: none; padding: 30px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(20,29,43,.76), rgba(11,16,25,.88)); }.advanced-tool-panel.active { display: block; animation: tool-in .25s var(--ease); }.advanced-tool-panel h2 { margin: 0 0 8px; font-size: 1.45rem; letter-spacing: -.05em; }.tool-note { color: var(--copy-muted); font-size: .8rem; line-height: 1.65; }.tool-form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 23px 0; }.tool-form-grid label { display: flex; flex-direction: column; gap: 7px; color: var(--copy-soft); font-size: .75rem; }.tool-form-grid input, .tool-form-grid select { width: 100%; padding: 11px 12px; color: var(--copy); background: rgba(5,9,15,.72); border: 1px solid var(--line-bright); border-radius: 9px; }.tool-form-grid input:focus, .tool-form-grid select:focus { border-color: var(--orange); outline: 0; }.tool-calc-button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px; border: 0; border-radius: 9px; background: var(--orange); color: #1b1108; font-weight: 700; cursor: pointer; }.tool-calc-button:hover { background: var(--orange-bright); }.tool-result { min-height: 50px; margin-top: 18px; padding: 15px; border: 1px solid rgba(92,219,189,.25); border-radius: 10px; background: rgba(92,219,189,.06); color: var(--mint); font-size: .86rem; line-height: 1.7; }.tool-warning { border-color: rgba(255,136,122,.3); background: rgba(255,136,122,.06); color: #ffaaa0; }.tool-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 13px; }.tool-detail-card { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }.tool-detail-card h3 { margin: 0 0 8px; font-size: .95rem; }.tool-detail-card p { margin: 0; color: var(--copy-muted); font-size: .78rem; line-height: 1.7; }.tool-disclaimer { margin-top: 20px; color: var(--copy-muted); font-size: .7rem; line-height: 1.6; }
 @keyframes tool-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 1040px) { .knowledge-grid, .tool-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }.amazon-grid { grid-template-columns: repeat(2, 1fr); }.hero-grid { gap: 5%; }.primary-nav { gap: 15px; } }
@@ -1515,4 +1515,243 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
   .watchlist-actions { width:100%; }
   .watchlist-action { flex:1 1 0; }
   .watchlist-panel { left:0; right:auto; width:100%; }
+}
+
+
+/* 2026 single-screen compact finance tools: excludes the dedicated R:R and Grid dashboards. */
+.tools-library-page main { padding-top: 20px; padding-bottom: 34px; }
+.tools-library-page .tools-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 20px; max-width: none; margin-bottom: 14px; }
+.tools-library-page .tools-hero h1 { margin: 6px 0; font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.06; }
+.tools-library-page .tools-hero p { max-width: 760px; margin: 0; font-size: .9rem; line-height: 1.5; }
+.tools-library-page .market-tool-grid { margin: 12px 0 14px; gap: 10px; }
+.tools-library-page .market-tool-card { min-height: 154px; padding: 16px; }
+.tools-library-page .market-tool-card h2 { margin: 12px 0 7px; font-size: 1.08rem; }
+.tools-library-page .market-tool-card p { margin: 0; font-size: .76rem; line-height: 1.5; }
+.tools-library-page .market-tool-action { padding-top: 11px; font-size: .75rem; }
+.tools-library-page .tool-tabs { gap: 4px; padding: 4px; margin-bottom: 10px; }
+.tools-library-page .tool-tabs button { min-height: 38px; padding: 8px 9px; font-size: .8rem; }
+.tools-library-page .advanced-tool-panel { padding: 17px; }
+.tools-library-page .advanced-tool-panel h2 { margin-bottom: 5px; font-size: 1.22rem; }
+.tools-library-page .tool-note { margin: 0; font-size: 14px; line-height: 1.5; }
+.tools-library-page .tool-form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin: 13px 0; }
+.tools-library-page .tool-form-grid label { gap: 5px; color: var(--copy-soft); font-size: 14px; line-height: 1.25; }
+.tools-library-page .tool-form-grid input, .tools-library-page .tool-form-grid select { min-height: 42px; padding: 8px 10px; font-size: 16px; font-weight: 600; }
+.tools-library-page .tool-calc-button { min-height: 42px; padding: 9px 13px; font-size: 14px; }
+.tools-library-page .tool-result { min-height: 42px; margin-top: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.5; }
+.tools-library-page .tool-detail-grid { gap: 9px; margin-top: 10px; }
+.tools-library-page .tool-detail-card { padding: 12px; }
+.tools-library-page .tool-detail-card h3 { margin-bottom: 5px; font-size: 14px; }
+.tools-library-page .tool-detail-card p { font-size: 13px; line-height: 1.45; }
+.tools-library-page .guide-cta { margin-top: 10px; padding: 13px 15px; }
+.tools-library-page .guide-cta h3 { font-size: 14px; }
+.tools-library-page .guide-cta p { font-size: 13px; }
+
+/* Standalone compound-interest calculator. */
+.compact-calculator-page > .hero { padding: 20px 0 !important; }
+.compact-calculator-page > .hero h1 { margin: 7px 0 !important; font-size: clamp(1.8rem, 3.6vw, 2.8rem) !important; line-height: 1.08 !important; }
+.compact-calculator-page > .hero p { max-width: 760px; margin: 0 !important; font-size: 14px !important; line-height: 1.5 !important; }
+.compact-calculator-page main.container { padding-top: 14px !important; padding-bottom: 30px; }
+.compact-calculator-page .back-btn { margin-bottom: 10px !important; font-size: 14px; }
+.compact-calculator-page .tool-container { grid-template-columns: minmax(270px, 320px) minmax(0, 1fr) !important; gap: 14px !important; margin-top: 10px !important; }
+.compact-calculator-page .tool-panel { padding: 15px !important; }
+.compact-calculator-page .tool-panel h3 { margin-bottom: 10px !important; font-size: 16px !important; }
+.compact-calculator-page .calculator-tabs { gap: 4px !important; margin-bottom: 12px !important; padding: 4px !important; }
+.compact-calculator-page .tab-btn { min-height: 38px; padding: 8px 4px !important; font-size: 14px !important; }
+.compact-calculator-page .input-group { margin-bottom: 10px !important; }
+.compact-calculator-page .input-group label { margin-bottom: 5px !important; font-size: 14px !important; }
+.compact-calculator-page .input-field-wrapper input[type="number"] { min-height: 42px; padding: 8px 10px !important; font-size: 16px !important; font-weight: 600; }
+.compact-calculator-page .input-range { height: 7px; margin-top: 4px; }
+.compact-calculator-page .results-panel { gap: 10px !important; }
+.compact-calculator-page .answer-box { padding: 12px !important; }
+.compact-calculator-page .answer-box span { margin-bottom: 5px; font-size: 14px; }
+.compact-calculator-page .answer-box strong { font-size: 1.85rem; }
+.compact-calculator-page .summary-cards { gap: 8px !important; }
+.compact-calculator-page .summary-card { padding: 12px !important; }
+.compact-calculator-page .summary-card span { margin-bottom: 5px; font-size: 13px; }
+.compact-calculator-page .summary-card strong { font-size: 1.08rem; }
+.compact-calculator-page .chart-card { padding: 14px !important; }
+.compact-calculator-page .chart-header { margin-bottom: 8px !important; }
+.compact-calculator-page .chart-header h3 { font-size: 16px; }
+.compact-calculator-page .chart-legend { gap: 9px; font-size: 13px; }
+.compact-calculator-page .chart-wrapper { height: 220px !important; }
+.compact-calculator-page main.container > .card { margin-top: 12px !important; padding: 14px !important; }
+.compact-calculator-page main.container > .card h3 { margin-top: 0; font-size: 16px; }
+.compact-calculator-page main.container > .card p { margin: 7px 0; font-size: 14px; line-height: 1.55; }
+
+/* Standalone ETF DRIP calculator. */
+.compact-tool-page .advanced-tool-main { padding: 14px 18px 36px; }
+.compact-tool-page .rr-breadcrumb { margin-bottom: 9px; font-size: 13px; }
+.compact-tool-page .advanced-tool-hero { min-height: 0; padding: 18px 20px; gap: 16px; }
+.compact-tool-page .advanced-tool-hero h1 { margin: 7px 0; font-size: clamp(1.8rem, 3.5vw, 2.7rem); line-height: 1.08; }
+.compact-tool-page .advanced-tool-hero p { margin: 0; font-size: 14px; line-height: 1.5; }
+.compact-tool-page .advanced-hero-mark { width: 92px; height: 92px; }
+.compact-tool-page .advanced-hero-mark span { font-size: 1.4rem; }
+.compact-tool-page .advanced-hero-mark small { font-size: 11px; }
+.compact-tool-page .advanced-tool-grid { gap: 10px; margin-top: 10px; }
+.compact-tool-page .advanced-input-card, .compact-tool-page .advanced-result-card { padding: 15px; }
+.compact-tool-page .advanced-input-card h2, .compact-tool-page .advanced-result-card h2 { margin: 6px 0 11px; font-size: 1.18rem; }
+.compact-tool-page .section-kicker { font-size: 11px; }
+.compact-tool-page .advanced-form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.compact-tool-page .advanced-form-grid label { gap: 5px; font-size: 14px; line-height: 1.25; }
+.compact-tool-page .advanced-form-grid input, .compact-tool-page .advanced-form-grid select { min-height: 42px; padding: 8px 10px; font-size: 16px; font-weight: 600; }
+.compact-tool-page .toggle-row { margin-top: 11px; font-size: 14px; }
+.compact-tool-page .advanced-note { margin-top: 9px; font-size: 13px; line-height: 1.45; }
+.compact-tool-page .advanced-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.compact-tool-page .advanced-stat-grid > div { padding: 10px; }
+.compact-tool-page .advanced-stat-grid span { font-size: 13px; line-height: 1.25; }
+.compact-tool-page .advanced-stat-grid strong { margin-top: 5px; font-size: 17px; line-height: 1.2; }
+.compact-tool-page .advanced-status { margin-top: 10px; padding: 9px 11px; font-size: 13px; line-height: 1.45; }
+.compact-tool-page .svg-chart-card { margin-top: 10px; padding: 14px 15px 11px; }
+.compact-tool-page .chart-card-head h2 { margin: 5px 0 8px; font-size: 1.12rem; }
+.compact-tool-page .svg-legend { gap: 9px; font-size: 13px; }
+.compact-tool-page .scenario-svg { min-height: 190px; }
+.compact-tool-page .chart-footnote { margin-top: 7px; font-size: 12px; }
+.compact-tool-page .tool-explain-grid { gap: 10px; margin-top: 10px; padding: 15px; }
+.compact-tool-page .tool-explain-grid h2 { margin: 5px 0; font-size: 1.15rem; }
+.compact-tool-page .tool-explain-grid p, .compact-tool-page .checklist-card span { font-size: 13px; line-height: 1.5; }
+.compact-tool-page .tool-guide-link-card { margin-top: 10px; padding: 14px 15px; }
+.compact-tool-page .tool-resource-strip { gap: 10px; margin-top: 10px; }
+.compact-tool-page .resource-card { padding: 15px; }
+.compact-tool-page .resource-card p { font-size: 13px; line-height: 1.5; }
+.compact-tool-page .tool-disclaimer { margin-top: 11px; font-size: 12px; }
+
+@media (max-width: 820px) {
+  .tools-library-page .tools-hero { grid-template-columns: 1fr; gap: 7px; }
+  .tools-library-page .market-tool-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tools-library-page .market-tool-card { min-height: 132px; padding: 12px; }
+  .tools-library-page .market-tool-card h2 { font-size: .95rem; }
+  .tools-library-page .market-tool-card p { font-size: .7rem; }
+  .tools-library-page .tool-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .compact-tool-page .advanced-tool-hero { grid-template-columns: minmax(0, 1fr) auto; }
+  .compact-calculator-page .tool-container { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 560px) {
+  .tools-library-page main { padding: 14px 12px 26px; }
+  .tools-library-page .tools-hero h1 { font-size: 1.9rem; }
+  .tools-library-page .tools-hero p { font-size: 14px; }
+  .tools-library-page .market-tool-grid { grid-template-columns: 1fr; gap: 7px; }
+  .tools-library-page .market-tool-card { min-height: 0; padding: 11px 12px; }
+  .tools-library-page .market-tool-card h2 { margin: 7px 0 4px; font-size: 1rem; }
+  .tools-library-page .market-tool-card p { display: none; }
+  .tools-library-page .market-tool-action { padding-top: 7px; }
+  .tools-library-page .tool-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tools-library-page .tool-tabs button { min-height: 40px; padding: 7px 3px; font-size: 13px; }
+  .tools-library-page .advanced-tool-panel { padding: 13px; }
+  .tools-library-page .tool-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tools-library-page .tool-detail-grid { grid-template-columns: 1fr 1fr; }
+  .tools-library-page .guide-cta { align-items: flex-start; flex-direction: column; }
+  .compact-calculator-page > .hero { padding: 15px 0 !important; }
+  .compact-calculator-page > .hero h1 { font-size: 1.85rem !important; }
+  .compact-calculator-page > .hero p { font-size: 14px !important; }
+  .compact-calculator-page main.container { padding: 11px 14px 26px !important; }
+  .compact-calculator-page .tool-container { gap: 9px !important; margin-top: 7px !important; }
+  .compact-calculator-page .tool-panel, .compact-calculator-page .chart-card { padding: 12px !important; }
+  .compact-calculator-page .calculator-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .compact-calculator-page .input-group { margin-bottom: 8px !important; }
+  .compact-calculator-page .chart-wrapper { height: 185px !important; }
+  .compact-calculator-page .summary-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .compact-calculator-page .summary-card { padding: 9px 6px !important; }
+  .compact-calculator-page .summary-card span { font-size: 12px; }
+  .compact-calculator-page .summary-card strong { font-size: 14px; }
+  .compact-calculator-page main.container > .card { padding: 12px !important; }
+  .compact-tool-page .advanced-tool-main { padding: 10px 12px 28px; }
+  .compact-tool-page .advanced-tool-hero { grid-template-columns: minmax(0, 1fr) auto; padding: 8px 10px; gap: 6px; }
+  .compact-tool-page .advanced-tool-hero h1 { font-size: 1.5rem; line-height: 1.04; }
+  .compact-tool-page .advanced-tool-hero h1 br { display: none; }
+  .compact-tool-page .advanced-tool-hero p { display: none; }
+  .compact-tool-page .advanced-hero-mark { width: 52px; height: 52px; }
+  .compact-tool-page .advanced-hero-mark span { font-size: 1.1rem; }
+  .compact-tool-page .advanced-hero-mark small { display: none; }
+  .compact-tool-page .advanced-tool-grid { grid-template-columns: 1fr; }
+  .compact-tool-page .advanced-input-card, .compact-tool-page .advanced-result-card { padding: 10px; }
+  .compact-tool-page .advanced-input-card h2, .compact-tool-page .advanced-result-card h2 { margin: 3px 0 7px; font-size: 1.05rem; }
+  .compact-tool-page .advanced-note { display: none; }
+  .compact-tool-page .advanced-status { display: none; }
+  .compact-tool-page .advanced-form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .compact-tool-page .advanced-form-grid label { gap: 3px; font-size: 14px; line-height: 1.12; }
+  .compact-tool-page .advanced-form-grid input, .compact-tool-page .advanced-form-grid select { min-height: 36px; padding: 5px 6px; font-size: 16px; }
+  .compact-tool-page .advanced-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .compact-tool-page .advanced-stat-grid > div { height: 42px; min-height: 0; overflow: hidden; padding: 4px; }
+  .compact-tool-page .advanced-stat-grid span { font-size: 10px; line-height: 1.1; }
+  .compact-tool-page .advanced-stat-grid strong { margin-top: 2px; font-size: 14px; line-height: 1.05; }
+  .compact-tool-page .svg-chart-card { padding: 12px; }
+  .compact-tool-page .scenario-svg { min-height: 170px; }
+  .compact-tool-page .chart-card-head { align-items: flex-start; flex-direction: column; gap: 0; }
+  .compact-tool-page .tool-explain-grid { grid-template-columns: 1fr; padding: 12px; }
+  .compact-tool-page .tool-guide-link-card { align-items: flex-start; flex-direction: column; padding: 12px; }
+}
+
+@media (max-width: 390px) {
+  .tools-library-page .tools-hero h1 { font-size: 1.75rem; }
+  .tools-library-page .tool-form-grid { gap: 7px; }
+  .tools-library-page .tool-form-grid label { font-size: 14px; }
+  .tools-library-page .tool-form-grid input, .tools-library-page .tool-form-grid select { padding-left: 7px; padding-right: 7px; }
+  .compact-tool-page .advanced-tool-hero h1 { font-size: 1.65rem; }
+  .compact-tool-page .advanced-form-grid { gap: 7px; }
+  .compact-tool-page .advanced-form-grid label { font-size: 14px; }
+}
+
+
+/* Final mobile fit for the legacy compound calculator. */
+@media (max-width: 820px) {
+  .compact-calculator-page > header { box-sizing: border-box; width: 100%; overflow: hidden; }
+  .compact-calculator-page > header .nav-container { box-sizing: border-box; width: 100%; max-width: 100%; min-height: 42px; flex-wrap: nowrap; }
+  .compact-calculator-page > header .primary-nav, .compact-calculator-page > header .tools-selector { display: none !important; }
+  .compact-calculator-page > header .lang-selector { flex: 0 0 auto; width: auto; max-width: 82px; margin-left: auto; overflow: hidden; }
+  .compact-calculator-page > header .lang-btn { max-width: 82px; padding: 8px 6px; font-size: 12px; white-space: nowrap; }
+}
+
+@media (max-width: 560px) {
+  .compact-calculator-page > .hero { display: block !important; box-sizing: border-box; width: 100%; min-height: 0 !important; padding: 12px 14px !important; }
+  .compact-calculator-page > .hero .hero-badge { margin: 0 0 6px; font-size: 11px; }
+  .compact-calculator-page > .hero h1 { margin: 5px 0 !important; font-size: 1.7rem !important; line-height: 1.08 !important; }
+  .compact-calculator-page > .hero p { max-height: 2.8em; overflow: hidden; font-size: 13px !important; line-height: 1.4 !important; }
+  .compact-calculator-page .tool-container { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) !important; align-items: start; gap: 8px !important; }
+  .compact-calculator-page .tool-panel { padding: 9px !important; }
+  .compact-calculator-page .calculator-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px !important; margin-bottom: 8px !important; padding: 3px !important; }
+  .compact-calculator-page .tab-btn { min-height: 34px; padding: 6px 2px !important; font-size: 13px !important; }
+  .compact-calculator-page .input-group { margin-bottom: 6px !important; }
+  .compact-calculator-page .input-group label { margin-bottom: 3px !important; font-size: 14px !important; }
+  .compact-calculator-page .input-field-wrapper input[type="number"] { min-height: 38px; padding: 6px 7px !important; font-size: 16px !important; }
+  .compact-calculator-page .input-range { display: none; }
+  .compact-calculator-page .results-panel { gap: 6px !important; }
+  .compact-calculator-page .summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px !important; }
+  .compact-calculator-page .summary-card { padding: 7px 5px !important; }
+  .compact-calculator-page .summary-card:nth-child(3) { grid-column: 1 / -1; }
+  .compact-calculator-page .summary-card span { font-size: 11px; }
+  .compact-calculator-page .summary-card strong { font-size: 14px; }
+  .compact-calculator-page .chart-card, .compact-calculator-page main.container > .card { display: none; }
+}
+
+
+@media (max-width: 560px) {
+  .compact-calculator-page .input-field-wrapper input[type="number"] { box-sizing: border-box; height: 34px; min-height: 34px; padding: 4px 7px !important; font-size: 16px !important; line-height: 1.1; }
+}
+
+
+@media (max-width: 560px) {
+  .tools-library-page main { display: flex; flex-direction: column; }
+  .tools-library-page .tools-hero { order: 1; }
+  .tools-library-page .tool-tabs { order: 2; }
+  .tools-library-page .advanced-tool-panel.active { order: 3; }
+  .tools-library-page .market-tool-grid { order: 4; }
+  .tools-library-page .guide-cta { order: 5; }
+  .tools-library-page .tool-disclaimer { order: 6; }
+}
+
+
+@media (max-width: 560px) {
+  .tools-library-page .tools-hero p { display: none; }
+  .tools-library-page .tools-hero { margin-bottom: 8px; }
+  .tools-library-page .tool-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; }
+  .tools-library-page .tool-tabs button { min-height: 36px; padding: 5px 2px; font-size: 12px; line-height: 1.15; }
+  .tools-library-page .advanced-tool-panel { padding: 10px; }
+  .tools-library-page .advanced-tool-panel h2 { margin: 0 0 4px; font-size: 1.08rem; }
+  .tools-library-page .tool-note { display: none; }
+  .tools-library-page .tool-form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+  .tools-library-page .tool-form-grid label { gap: 3px; font-size: 14px; line-height: 1.1; }
+  .tools-library-page .tool-form-grid input, .tools-library-page .tool-form-grid select { box-sizing: border-box; min-height: 36px; padding: 5px 6px; font-size: 16px; font-weight: 600; }
+  .tools-library-page .tool-calc-button { min-height: 36px; padding: 7px 10px; font-size: 14px; }
+  .tools-library-page .tool-result { min-height: 0; margin-top: 7px; padding: 8px 9px; font-size: 14px; line-height: 1.35; }
 }

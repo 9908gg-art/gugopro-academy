@@ -569,3 +569,17 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 
 
 正式 Grid 全球 route 實測：Run 90 success 後，在最新正式頁輸入並選取 `EURUSD`，狀態改為 `已切換 TradingView Advanced Chart · EURUSD`；嵌入圖表實際顯示 `Euro / U.S. Dollar`、`FXCM`、15 minutes，且 `TradingView Advanced Chart 已待命`。EURUSD 切換後仍保留 Lower／Upper／Grids／模式／投資／SL／TP／費率等 HUD 欄位與瀏覽器端網格計算。
+
+
+## 2026-08-25：非 R:R／Grid 工具單屏緊湊化回歸
+
+本輪處理範圍為 `tools/index.html` 的九個本地計算面板、`tools/compound-interest.html` 複利獨立頁與 `tools/etf-dividend-calculator.html` ETF DRIP 獨立頁；`risk-reward-scanner.html` 僅為導向新版 R:R 的相容轉址頁，`tradingview-guide.html` 為資源導覽頁，均沒有本機計算 API Key 面板，因此未納入改造。R:R 與 Grid 專用儀表板保持原樣。
+
+已從工具相關 HTML、JavaScript 與 CSS 移除「本機 AI 設定／Gemini API Key」介面、`saveGugoProGeminiKey`、`getGugoProGeminiKey`、`gugopro_gemini_api_key` 與 API Key 面板樣式；靜態搜尋結果為無殘留。工具計算仍由既有純前端公式執行。
+
+本地 cache-bust 使用 `single-screen-tools-20260825`。390×844 同源 iframe 測試中，工具總頁九個面板逐一切換後，API Key marker 均為 false、`scrollWidth=382`，各面板結果底部均在 844px 內。ETF DRIP 在 390×844 測得輸出卡 bottom=774、無水平溢出；375×667 最終測得輸入最後一項 bottom=424、輸出卡 bottom=661、無水平溢出。複利頁 390×844 測得最後參數與核心摘要均在第一屏；375×667 測得最後參數 bottom=658、核心摘要 bottom=437、`scrollWidth=367`，header overflow 根因已修正。工具總頁 390×844 最終九個面板結果 bottom 均不超過 640px，`scrollWidth=382`。
+
+靜態品質門檻同步更新至 `validate_site.py`，要求 compact body marker、cache-bust、共用工具頁存在，並阻止 Gemini／API Key UI 或儲存邏輯復出；目前 validator `errors=0`，相關 JS `node --check` 與 `git diff --check` 均通過。
+
+
+最終 375×667 交叉回歸補充：工具總頁九個面板逐一切換後，每個面板自身的 `.tool-result` bottom 均在 640px 以內；複利頁最後數字輸入 bottom=658、計算模式操作區 bottom=395、核心摘要 bottom=437；ETF DRIP 最後輸入 bottom=424、DRIP 操作 bottom=468、核心輸出卡 bottom=661。三頁 API Key marker 均為 false，工具總頁／複利／ETF 的 document scrollWidth 分別為 367／367／367，均未出現水平溢出。
