@@ -143,17 +143,18 @@
       if (!response.ok) throw new Error(`Yahoo HTTP ${response.status}`);
       json = await response.json();
     } catch (directError) {
+      const jinaUrl = `https://r.jina.ai/http://${url.slice('https://'.length)}`;
       const fallbackUrls = [
-        { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, wrapped: false },
-        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, wrapped: true }
+        { url: jinaUrl, parser: (text) => JSON.parse(text.split('Markdown Content:\\n').slice(1).join('Markdown Content:\\n').trim()) },
+        { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(text) },
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(JSON.parse(text).contents) }
       ];
       let lastError = directError;
       for (const fallback of fallbackUrls) {
         try {
-          const fallbackResponse = await fetchWithTimeout(fallback.url, 8000);
+          const fallbackResponse = await fetchWithTimeout(fallback.url, 10000);
           if (!fallbackResponse.ok) throw new Error(`CORS fallback HTTP ${fallbackResponse.status}`);
-          const payload = await fallbackResponse.json();
-          json = fallback.wrapped ? JSON.parse(payload.contents) : payload;
+          json = fallback.parser(await fallbackResponse.text());
           break;
         } catch (fallbackError) {
           lastError = fallbackError;
