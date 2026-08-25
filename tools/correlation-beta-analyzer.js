@@ -16,6 +16,10 @@
   const CATALOG = [
     { symbol: '2330.TW', name: '台積電 Taiwan Semiconductor', market: '台股', category: 'tw', yahoo: '2330.TW' },
     { symbol: '0050.TW', name: '元大台灣 50 ETF', market: '台股 ETF', category: 'tw', yahoo: '0050.TW' },
+    { symbol: '0056.TW', name: '元大高股息 ETF', market: '台股 ETF', category: 'tw', yahoo: '0056.TW' },
+    { symbol: '00878.TW', name: '國泰永續高股息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00878.TW' },
+    { symbol: '00919.TW', name: '群益台灣精選高息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00919.TW' },
+    { symbol: '00929.TW', name: '復華台灣科技優息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00929.TW' },
     { symbol: '2317.TW', name: '鴻海 Hon Hai', market: '台股', category: 'tw', yahoo: '2317.TW' },
     { symbol: '2454.TW', name: '聯發科 MediaTek', market: '台股', category: 'tw', yahoo: '2454.TW' },
     { symbol: '2308.TW', name: '台達電 Delta Electronics', market: '台股', category: 'tw', yahoo: '2308.TW' },
@@ -26,6 +30,9 @@
     { symbol: 'AMZN', name: 'Amazon', market: '美股科技權值', category: 'us', yahoo: 'AMZN' },
     { symbol: 'META', name: 'Meta Platforms', market: '美股科技權值', category: 'us', yahoo: 'META' },
     { symbol: 'TSLA', name: 'Tesla', market: '美股科技權值', category: 'us', yahoo: 'TSLA' },
+    { symbol: 'GOOGL', name: 'Alphabet Google', market: '美股科技權值', category: 'us', yahoo: 'GOOGL' },
+    { symbol: 'SOXX', name: 'iShares 半導體 ETF', market: '美股 ETF', category: 'us', yahoo: 'SOXX' },
+    { symbol: 'TLT', name: 'iShares 20 年美債 ETF', market: '美股 ETF', category: 'us', yahoo: 'TLT' },
     { symbol: 'QQQ', name: 'Invesco Nasdaq-100 ETF', market: '美股 ETF', category: 'us', yahoo: 'QQQ' },
     { symbol: 'SPY', name: 'SPDR S&P 500 ETF', market: '美股 ETF', category: 'us', yahoo: 'SPY' },
     { symbol: 'NQ', name: 'Nasdaq-100 E-mini Futures', market: '全球期貨', category: 'global', yahoo: 'NQ=F' },
@@ -417,10 +424,19 @@
     drawOverlay(activeSelection); drawScatter(activeSelection); renderRanking();
   }
 
+  function syncQuickSelection(symbol) {
+    const quick = $('analyzer-quick-select');
+    if (!quick) return;
+    const normalized = cleanSymbol(symbol);
+    const isKnown = Array.from(quick.options).some((option) => option.value === normalized);
+    quick.value = isKnown ? normalized : '';
+  }
+
   function activateSuggestion(symbol) {
     const meta = findMeta(symbol);
     const input = $('cba-symbol-search');
     if (input) input.value = meta.symbol;
+    syncQuickSelection(meta.symbol);
     $('cba-suggestions')?.classList.remove('is-visible');
     if (input) input.setAttribute('aria-expanded', 'false');
     suggestionIndex = -1;
@@ -448,6 +464,7 @@
     const button = $('cba-run'); const input = $('cba-symbol-search'); const universe = $('cba-universe')?.value || 'all';
     targetMeta = findMeta(input?.value || '2330.TW');
     if (input) input.value = targetMeta.symbol;
+    syncQuickSelection(targetMeta.symbol);
     $('cba-suggestions')?.classList.remove('is-visible');
     if (input) input.setAttribute('aria-expanded', 'false');
     if (button) { button.disabled = true; button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 讀取中'; }
@@ -496,11 +513,21 @@
 
   function bind() {
     $('cba-run')?.addEventListener('click', runAnalysis);
+    $('analyzer-quick-select')?.addEventListener('change', () => {
+      const quick = $('analyzer-quick-select');
+      if (!quick?.value) return;
+      const input = $('cba-symbol-search');
+      if (input) input.value = cleanSymbol(quick.value);
+      runAnalysis();
+    });
     $('cba-universe')?.addEventListener('change', runAnalysis);
     $('cba-selected')?.addEventListener('change', renderSelection);
     $('cba-limit')?.addEventListener('change', renderRanking);
     $('cba-rank-mode')?.addEventListener('change', renderRanking);
-    $('cba-symbol-search')?.addEventListener('input', renderSuggestions);
+    $('cba-symbol-search')?.addEventListener('input', (event) => {
+      syncQuickSelection(event.target.value);
+      renderSuggestions();
+    });
     $('cba-symbol-search')?.addEventListener('focus', renderSuggestions);
     $('cba-symbol-search')?.addEventListener('keydown', (event) => {
       const box = $('cba-suggestions'); const options = box ? [...box.querySelectorAll('button[data-symbol]')] : [];
@@ -525,6 +552,7 @@
     window.addEventListener('resize', () => { if (activeSelection) { drawOverlay(activeSelection); drawScatter(activeSelection); } });
     const params = new URLSearchParams(window.location.search); const requested = params.get('symbol'); if (requested) { targetMeta = findMeta(requested); if ($('cba-symbol-search')) $('cba-symbol-search').value = targetMeta.symbol; }
     if ($('cba-symbol-search') && !$('cba-symbol-search').value) $('cba-symbol-search').value = targetMeta.symbol;
+    syncQuickSelection($('cba-symbol-search')?.value || targetMeta.symbol);
     window.setTimeout(runAnalysis, 180);
   }
 

@@ -46,6 +46,10 @@
     .cba-field > span, .cba-control-label { color:var(--cba-muted); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
     .cba-search-box { position:relative; }
     .cba-input, .cba-select { width:100%; min-height:38px; padding:9px 10px; color:var(--cba-ink); background:#0d211c; border:1px solid rgba(173,226,199,.22); border-radius:8px; outline:none; font:600 .82rem "DM Sans", sans-serif; }
+    #analyzer-quick-select { min-width:0; background:#1a1f2c; color:#ffffff; color-scheme:dark; border-color:rgba(138,215,232,.3); }
+    #analyzer-quick-select option, #analyzer-quick-select optgroup { background:#1a1f2c; color:#ffffff; }
+    .cba-target-pickers { display:grid; grid-template-columns:minmax(124px,.82fr) minmax(0,1.18fr); gap:6px; min-width:0; }
+    .cba-target-pickers .cba-search-box { min-width:0; }
     .cba-input:focus, .cba-select:focus { border-color:var(--cba-green); box-shadow:0 0 0 3px rgba(126,214,176,.11); }
     .cba-search-box .cba-input { padding-right:34px; }
     .cba-search-box > i { position:absolute; right:11px; top:12px; color:var(--cba-muted); pointer-events:none; }
@@ -133,6 +137,7 @@
       .cba-control-panel { padding:9px; border-radius:12px; }
       .cba-control-grid { grid-template-columns:1fr 1fr; gap:7px; }
       .cba-control-grid .cba-field:first-child { grid-column:1 / -1; }
+      .cba-target-pickers { grid-template-columns:minmax(132px,.82fr) minmax(0,1.18fr); }
       .cba-control-grid .cba-run { grid-column:1 / -1; }
       .cba-lookback-row { padding-top:8px; }
       .cba-lookback-row .cba-control-label { width:100%; }
@@ -154,6 +159,7 @@
       .cba-main { width:calc(100% - 14px); }
       .cba-control-grid { grid-template-columns:1fr; }
       .cba-control-grid .cba-field:first-child, .cba-control-grid .cba-run { grid-column:auto; }
+      .cba-target-pickers { grid-template-columns:minmax(112px,.82fr) minmax(0,1.18fr); }
       .cba-lookback-buttons { width:100%; }
       .cba-lookback { flex:1; min-width:0; padding-inline:4px; }
       .cba-method-grid { grid-template-columns:1fr; }
@@ -176,7 +182,7 @@
     </section>
     <section class="cba-control-panel" aria-label="分析控制列">
       <div class="cba-control-grid">
-        <label class="cba-field"><span>基準標的 Target</span><div class="cba-search-box"><input id="cba-symbol-search" class="cba-input" type="search" autocomplete="off" spellcheck="false" placeholder="2330.TW、NVDA、GOLD、BTCUSDT" aria-autocomplete="list" aria-controls="cba-suggestions" aria-expanded="false"><i class="fa-solid fa-magnifying-glass"></i><div id="cba-suggestions" class="cba-suggestions" role="listbox" aria-label="商品搜尋建議"></div></div></label>
+        <label class="cba-field"><span>基準標的 Target · 快速選擇</span><div class="cba-target-pickers"><select id="analyzer-quick-select" class="cba-select" aria-label="分類快選商品"><option value="" selected>自訂代碼 / Custom</option><optgroup label="🇹🇼 台股與熱門 ETF · Taiwan Stocks &amp; ETFs"><option value="2330.TW">2330.TW · 台積電</option><option value="2317.TW">2317.TW · 鴻海</option><option value="2454.TW">2454.TW · 聯發科</option><option value="0050.TW">0050.TW · 元大台灣50</option><option value="0056.TW">0056.TW · 元大高股息</option><option value="00878.TW">00878.TW · 國泰永續高股息</option><option value="00919.TW">00919.TW · 群益台灣精選高息</option><option value="00929.TW">00929.TW · 復華台灣科技優息</option></optgroup><optgroup label="🇺🇸 美股與指數 ETF · US Equities &amp; Index ETFs"><option value="SPY">SPY · S&amp;P 500</option><option value="QQQ">QQQ · 那斯達克</option><option value="NVDA">NVDA · 輝達</option><option value="AAPL">AAPL · 蘋果</option><option value="MSFT">MSFT · 微軟</option><option value="TSLA">TSLA · 特斯拉</option><option value="AMZN">AMZN · 亞馬遜</option><option value="GOOGL">GOOGL · 谷歌</option><option value="SOXX">SOXX · 半導體 ETF</option><option value="TLT">TLT · 20年美債 ETF</option></optgroup><optgroup label="🌍 全球期貨與原物料 · Futures &amp; Commodities"><option value="GOLD">GOLD · 黃金現貨／期貨</option><option value="OIL">OIL · 原油／WTI</option><option value="NQ">NQ · 那斯達克期貨</option><option value="ES">ES · S&amp;P 期貨</option><option value="DXY">DXY · 美元指數</option></optgroup><optgroup label="🪙 加密貨幣主流資產 · Crypto Assets"><option value="BTCUSDT">BTCUSDT · 比特幣</option><option value="ETHUSDT">ETHUSDT · 以太幣</option><option value="SOLUSDT">SOLUSDT · 索拉納</option><option value="BNBUSDT">BNBUSDT · 幣安幣</option><option value="DOGEUSDT">DOGEUSDT · 狗狗幣</option></optgroup></select><div class="cba-search-box"><input id="cba-symbol-search" class="cba-input" type="search" autocomplete="off" spellcheck="false" placeholder="搜尋或輸入任意代碼" aria-autocomplete="list" aria-controls="cba-suggestions" aria-expanded="false"><i class="fa-solid fa-magnifying-glass"></i><div id="cba-suggestions" class="cba-suggestions" role="listbox" aria-label="商品搜尋建議"></div></div></div></label>
         <label class="cba-field"><span>比對池 Asset Universe</span><select id="cba-universe" class="cba-select"><option value="all">全市場綜合池</option><option value="tw">台股熱門池</option><option value="us">美股科技權值池</option><option value="global">全球期貨／原物料池</option><option value="crypto">加密貨幣主流池</option></select></label>
         <label class="cba-field"><span>排序模式 Ranking</span><select id="cba-rank-mode" class="cba-select"><option value="positive">正相關最高 Top Positive</option><option value="negative">負相關／避險 Top Negative</option></select></label>
         <label class="cba-field"><span>目前選取 Benchmark</span><select id="cba-selected" class="cba-select" aria-label="目前選取的對標商品"><option value="">分析完成後選取</option></select></label>
@@ -201,6 +207,6 @@
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r4" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r5" defer></script>
 </body>
 </html>
