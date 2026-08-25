@@ -353,3 +353,19 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 > 「單一屏幕」本輪定義為核心輸入、操作與計算結果在指定第一屏優先可見；完整圖表、說明、策略指南、合作資源與頁尾仍保留於下方，避免以隱藏內容犧牲教學完整性。390／375px 測試中的首屏高度依瀏覽器 viewport 而定，實際字型、系統瀏覽器工具列與使用者縮放設定可能令可見範圍不同。
 
 正式部署後將以版本化 CSS／JS URL 驗證工具總頁、複利與 ETF DRIP 頁，並檢查 API Key marker、第一屏核心區與水平溢出結果。所有計算輸出僅供教育與研究，不構成投資建議、交易指令或收益保證。
+
+
+## 二十二、首頁知識樹極致緊湊重構與按鈕對比修復（2026-08-25）
+
+本輪針對首頁 `index.html#knowledge-tree` 完成高資訊密度重構。原有 12 張知識樹卡片、五個分類篩選、搜尋功能與各指南連結均保留；R:R／Grid HUD、watchlist、行情、TradingView 與原生圖表腳本未修改。首頁資產 URL 更新為 `knowledge-tree-compact-20260825`，避免正式站沿用舊版 CSS／JS 快取。
+
+篩選列現在採緊湊水平布局：桌面搜尋框與分類 chip 並排，搜尋框高度 38px、chip 最低高度 36px，與卡片群的間距收斂至 12–14px。啟用分類按鈕強制採 `#f97316` 橘底與 `#ffffff` 純白粗體文字，數量 badge 同樣繼承白色；未啟用狀態使用深色底與淺灰字，hover／focus-visible 提供清晰的橘色邊框與白字回饋，解決原本橘色背景／橘色文字的對比衝突。篩選按鈕同步補上 `role="tab"` 與 `aria-selected`，互動腳本只在知識樹範圍內更新狀態。
+
+| 版面 | 本輪收斂結果 |
+|---|---|
+| 桌面 1280px | 4 欄；卡片 padding 22px→14px、高度 316px→214px；知識樹核心區約 1282px→877px，縮減約 31.6%；搜尋／分類列 38px；商品標題 17px、描述與關鍵字 13px。 |
+| 平板 800px | 3 欄；卡片寬約 241px；搜尋／分類列高度 38px；document/body scrollWidth=792，無水平溢出。 |
+| 手機 390×844 | 2 欄；卡片寬約 163px；搜尋列高度 38px、toolbar 高度 120px；document/body scrollWidth=382，無水平溢出。 |
+| 對比與互動 | 桌面與兩個響應式斷點點選「股票市場」均顯示 3 張卡片、`aria-selected=true`、完成 transition 後為橘底白字；輸入 `ETF` 均篩出 ETF 單一卡片。 |
+
+本地 validator `python3 validate_site.py` 回報 `errors=0`；`app.js`、`advanced-tools.js`、ETF、R:R、Grid、watchlist 等既有 JavaScript 均通過 `node --check`，`git diff --check` 亦通過。正式部署後將以版本化 URL 核對首頁 DOM、computed style、搜尋／分類互動與正式 Pages workflow；所有知識樹內容仍屬教育用途，不構成投資建議。

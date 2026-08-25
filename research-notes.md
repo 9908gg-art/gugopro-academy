@@ -583,3 +583,16 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 
 
 最終 375×667 交叉回歸補充：工具總頁九個面板逐一切換後，每個面板自身的 `.tool-result` bottom 均在 640px 以內；複利頁最後數字輸入 bottom=658、計算模式操作區 bottom=395、核心摘要 bottom=437；ETF DRIP 最後輸入 bottom=424、DRIP 操作 bottom=468、核心輸出卡 bottom=661。三頁 API Key marker 均為 false，工具總頁／複利／ETF 的 document scrollWidth 分別為 367／367／367，均未出現水平溢出。
+
+
+## 2026-08-25 知識樹極致緊湊化與按鈕對比回歸
+
+本輪只針對首頁 `index.html#knowledge-tree` 及其共享首頁互動處理，不改動 R:R／Grid HUD、watchlist、行情與圖表腳本。`index.html` 的知識樹分類按鈕補上 `role="tab"` 與 `aria-selected`，`app.js` 將 chip 事件限制於 `#knowledge-tree`，並在切換時同步更新 `aria-selected`，既有搜尋與分類篩選邏輯維持不變。
+
+首頁資產 URL 更新為 `style.css?v=knowledge-tree-compact-20260825` 與 `app.js?v=knowledge-tree-compact-20260825`。新增 scoped CSS 將知識樹桌面維持 4 欄、800px 平板切換 3 欄、390px 手機切換 2 欄；搜尋列高度 38px、filter chip 最低高度 36px；卡片 padding 由 22px 收斂至 14px，商品標題 17px、描述與關鍵字標籤 13px，閱讀連結 13px。啟用 chip 強制使用 `#f97316` 背景與 `#ffffff` 文字，未啟用狀態維持深色底與淺灰文字，hover／focus-visible 另提供高對比回饋。
+
+本地 Chromium 1280×1100 改造前 knowledge grid top=308、height=974、bottom=1282，卡片高度 316px，toolbar height 48px；改造後 grid top=216、height=661、bottom=877，卡片高度 214px，toolbar height 38px。知識樹核心區高度由約 1282px 收斂至 877px，縮減約 31.6%，仍保留 4 欄與商品名稱、描述、關鍵字的可讀字級；document/body scrollWidth=1272，無水平溢出。主頁實際點選「固定收益」後 active chip 為橘底白字，搜尋框輸入 `ETF` 後既有交集篩選正確顯示 empty state。
+
+隱藏 iframe 斷點回歸確認：390×844 為 2 欄、卡片寬約 163px、toolbar height 120px、search height 38px、scrollWidth=382，無水平溢出；800×900 為 3 欄、卡片寬約 241px、toolbar/search height 38px、scrollWidth=792，無水平溢出。兩個斷點點選「股票市場」均顯示 3 張卡片並同步 `aria-selected=true`，輸入 `ETF` 均顯示 1 張 ETF 卡片。最終 validator `errors=0`，全既有 JavaScript 語法檢查與 `git diff --check` 均通過。
+
+本地視覺截圖：改造後知識樹桌面 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-35-08_1993.webp`；主頁 active「固定收益」`/home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-37-53_9848.webp`；搜尋 `ETF` ` /home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-38-03_9246.webp`。

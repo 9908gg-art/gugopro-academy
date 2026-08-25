@@ -65,10 +65,11 @@
       });
       if (empty) empty.hidden = visible !== 0;
     }
-    document.querySelectorAll('.filter-chip').forEach(function (chip) {
+    var chips = Array.prototype.slice.call(document.querySelectorAll('#knowledge-tree .filter-chip'));
+    chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
-        document.querySelectorAll('.filter-chip').forEach(function (item) { item.classList.remove('is-active'); });
-        chip.classList.add('is-active'); activeFilter = chip.dataset.filter || 'all'; render();
+        chips.forEach(function (item) { item.classList.remove('is-active'); item.setAttribute('aria-selected', 'false'); });
+        chip.classList.add('is-active'); chip.setAttribute('aria-selected', 'true'); activeFilter = chip.dataset.filter || 'all'; render();
       });
     });
     if (search) search.addEventListener('input', render);

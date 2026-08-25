@@ -1755,3 +1755,246 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
   .tools-library-page .tool-calc-button { min-height: 36px; padding: 7px 10px; font-size: 14px; }
   .tools-library-page .tool-result { min-height: 0; margin-top: 7px; padding: 8px 9px; font-size: 14px; line-height: 1.35; }
 }
+
+
+/* =========================================================
+   Knowledge tree compact density pass · 2026-08-25
+   Scoped to the homepage so R:R / Grid HUD and other tools stay unchanged.
+   ========================================================= */
+.home-page #knowledge-tree {
+  max-width: 1180px;
+  padding-top: 56px;
+}
+.home-page #knowledge-tree .section-heading-row {
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.home-page #knowledge-tree .section-heading-row h2 {
+  margin: 5px 0 6px;
+  font-size: clamp(1.65rem, 2.8vw, 2.3rem);
+  line-height: 1.12;
+}
+.home-page #knowledge-tree .section-heading-row p {
+  max-width: 700px;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+.home-page #knowledge-tree .tree-count {
+  gap: 7px;
+  padding-left: 14px;
+}
+.home-page #knowledge-tree .tree-count strong {
+  font-size: 1.9rem;
+}
+.home-page #knowledge-tree .tree-toolbar {
+  display: grid;
+  grid-template-columns: minmax(250px, .9fr) minmax(0, 1.6fr);
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.home-page #knowledge-tree .search-box {
+  width: auto;
+  min-width: 0;
+  height: 38px;
+  padding: 7px 10px;
+  gap: 8px;
+  box-sizing: border-box;
+}
+.home-page #knowledge-tree .search-box input {
+  font-size: .86rem;
+}
+.home-page #knowledge-tree .tree-filters {
+  min-width: 0;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.home-page #knowledge-tree .filter-chip {
+  min-height: 36px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: var(--copy-muted);
+  background: rgba(255,255,255,.035);
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.home-page #knowledge-tree .filter-chip span {
+  margin-left: 3px;
+  color: inherit;
+}
+.home-page #knowledge-tree .filter-chip:not(.is-active):hover,
+.home-page #knowledge-tree .filter-chip:not(.is-active):focus-visible {
+  border-color: rgba(255,159,67,.58);
+  color: #fff;
+  background: rgba(255,159,67,.12);
+}
+.home-page #knowledge-tree .filter-chip.is-active,
+.home-page #knowledge-tree .filter-chip.is-active:hover,
+.home-page #knowledge-tree .filter-chip.is-active:focus-visible {
+  border-color: #f97316;
+  background: #f97316;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 5px 14px rgba(249,115,22,.18);
+}
+.home-page #knowledge-tree .filter-chip.is-active span {
+  color: #fff;
+}
+.home-page #knowledge-tree .filter-chip:focus-visible,
+.home-page #knowledge-tree .search-box:focus-within {
+  outline: 2px solid rgba(255,193,91,.78);
+  outline-offset: 2px;
+}
+.home-page #knowledge-tree .knowledge-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.home-page #knowledge-tree .knowledge-card {
+  min-height: 0;
+  padding: 14px;
+  border-radius: 13px;
+}
+.home-page #knowledge-tree .card-index {
+  top: 12px;
+  right: 13px;
+  font-size: 12px;
+}
+.home-page #knowledge-tree .card-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 10px;
+  border-radius: 9px;
+}
+.home-page #knowledge-tree .card-topline {
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.home-page #knowledge-tree .card-status {
+  font-size: 10px;
+}
+.home-page #knowledge-tree .knowledge-card h3 {
+  margin: 7px 0 5px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.home-page #knowledge-tree .knowledge-card p {
+  min-height: 0;
+  font-size: 13px;
+  line-height: 1.38;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.home-page #knowledge-tree .topic-tags {
+  gap: 4px;
+  margin: 10px 0 9px;
+}
+.home-page #knowledge-tree .topic-tags span {
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.home-page #knowledge-tree .text-link {
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.25;
+}
+.home-page #knowledge-tree .empty-state {
+  padding: 28px 16px;
+}
+
+@media (max-width: 1040px) {
+  .home-page #knowledge-tree .knowledge-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .home-page #knowledge-tree {
+    padding-top: 46px;
+  }
+  .home-page #knowledge-tree .section-heading-row {
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .home-page #knowledge-tree .section-heading-row h2 {
+    font-size: 1.75rem;
+  }
+  .home-page #knowledge-tree .tree-toolbar {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .home-page #knowledge-tree .search-box {
+    width: 100%;
+  }
+  .home-page #knowledge-tree .tree-filters {
+    justify-content: flex-start;
+  }
+  .home-page #knowledge-tree .knowledge-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .home-page #knowledge-tree .knowledge-card {
+    padding: 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  .home-page #knowledge-tree {
+    padding-top: 40px;
+  }
+  .home-page #knowledge-tree .section-heading-row h2 {
+    font-size: 1.62rem;
+  }
+  .home-page #knowledge-tree .section-heading-row p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .home-page #knowledge-tree .tree-count {
+    padding-left: 0;
+  }
+  .home-page #knowledge-tree .filter-chip {
+    min-height: 34px;
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .home-page #knowledge-tree .knowledge-card {
+    padding: 12px;
+  }
+  .home-page #knowledge-tree .card-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+  .home-page #knowledge-tree .card-topline {
+    font-size: 11px;
+  }
+  .home-page #knowledge-tree .card-status {
+    font-size: 9px;
+  }
+  .home-page #knowledge-tree .knowledge-card h3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .home-page #knowledge-tree .knowledge-card p {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .home-page #knowledge-tree .topic-tags {
+    margin-top: 8px;
+  }
+  .home-page #knowledge-tree .topic-tags span,
+  .home-page #knowledge-tree .text-link {
+    font-size: 13px;
+  }
+}
