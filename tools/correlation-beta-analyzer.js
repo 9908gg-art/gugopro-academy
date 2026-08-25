@@ -418,10 +418,10 @@
     return [...results].sort((a, b) => mode === 'negative' ? a.corr - b.corr : b.corr - a.corr);
   }
 
-  function renderSelectedOptions() {
+  function renderSelectedOptions(preferredSymbol = '') {
     const select = $('cba-selected');
     if (!select) return;
-    const previous = select.value;
+    const previous = preferredSymbol || select.value;
     select.innerHTML = currentResults.map((result) => `<option value="${escapeHtml(result.meta.symbol)}">${escapeHtml(result.meta.symbol)} · ${escapeHtml(result.meta.name)}</option>`).join('');
     const next = currentResults.some((result) => result.meta.symbol === previous) ? previous : currentResults[0]?.meta.symbol || '';
     select.value = next;
@@ -434,6 +434,24 @@
     if (Math.abs(result.zScore) >= 2) return { text: '偏離警示', negative: false };
     if (result.alpha > 0) return { text: '相對強勢', negative: false };
     return { text: '關係穩定', negative: false };
+  }
+
+  function renderCorrelationThreshold() {
+    const summary = $('cba-threshold-summary');
+    const results = $('cba-threshold-results');
+    if (!summary || !results) return;
+    const input = $('cba-correlation-threshold');
+    const rawThreshold = Number(input?.value);
+    const threshold = Number.isFinite(rawThreshold) ? Math.max(-1, Math.min(1, rawThreshold)) : 0.7;
+    if (input) input.value = threshold.toFixed(2);
+    if (!currentResults.length) {
+      summary.textContent = '分析完成後輸入 −1 至 1 的 r 值，列出高於門檻的已分析交易對。';
+      results.innerHTML = '';
+      return;
+    }
+    const matches = currentResults.filter((result) => Number.isFinite(result.corr) && result.corr > threshold).sort((a, b) => b.corr - a.corr);
+    summary.textContent = `${targetMeta.symbol}：共有 ${matches.length} 組交易對的 r 高於 ${formatNumber(threshold, 2)}（本次已完成 ${currentResults.length} 個候選）。`;
+    results.innerHTML = matches.length ? matches.map((result) => `<button type="button" class="cba-threshold-pair" data-cba-threshold-select="${escapeHtml(result.meta.symbol)}"><strong>${escapeHtml(result.meta.symbol)}</strong> ${escapeHtml(result.meta.name)} · r ${formatNumber(result.corr, 3)}</button>`).join('') : '<span class="cba-threshold-summary">目前沒有高於此門檻的已分析交易對。</span>';
   }
 
   function renderRanking() {
@@ -798,9 +816,9 @@
     syncQuickSelection(targetMeta.symbol);
     $('cba-suggestions')?.classList.remove('is-visible');
     if (input) input.setAttribute('aria-expanded', 'false');
-    if (button) { button.disabled = true; button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 讀取中'; }
-    setStatus('分析中…', `正在讀取 ${targetMeta.symbol} 的 ${currentLookback}D 歷史收盤價與比對池。`);
-    currentResults = []; targetSeries = []; activeSelection = null; renderRanking(); drawOverlay(null); drawScatter(null);
+    if (button) { button.disabled = true; button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 分析中'; }
+    setStatus('分析中…', `正在分析 ${targetMeta.symbol} 的 ${currentLookback}D 歷史收盤價與比對池。`);
+    currentResults = []; targetSeries = []; activeSelection = null; renderRanking(); renderCorrelationThreshold(); drawOverlay(null); drawScatter(null);
     try {
       targetSeries = await fetchHistory(targetMeta);
       if (runId !== runSequence) return;
@@ -827,8 +845,10 @@
         if (runId !== runSequence) return;
       }
       currentResults = successes;
-      renderSelectedOptions();
+      const highestCorrelation = currentResults.filter((result) => Number.isFinite(result.corr)).sort((a, b) => b.corr - a.corr)[0] || null;
+      renderSelectedOptions(highestCorrelation?.meta.symbol || '');
       renderRanking();
+      renderCorrelationThreshold();
       renderSelection();
       const source = targetMeta.binance ? 'Binance REST' : 'Yahoo Finance／CORS fallback';
       const completedAll = completed >= candidates.length;
@@ -857,6 +877,10 @@
     });
     $('cba-universe')?.addEventListener('change', runAnalysis);
     $('cba-selected')?.addEventListener('change', renderSelection);
+    $('cba-correlation-threshold')?.addEventListener('change', renderCorrelationThreshold);
+    $('cba-correlation-threshold')?.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); renderCorrelationThreshold(); } });
+    $('cba-threshold-apply')?.addEventListener('click', renderCorrelationThreshold);
+    $('cba-threshold-results')?.addEventListener('click', (event) => { const pair = event.target.closest('[data-cba-threshold-select]'); if (!pair) return; const select = $('cba-selected'); if (select) select.value = pair.dataset.cbaThresholdSelect; renderSelection(); });
     $('cba-limit')?.addEventListener('change', renderRanking);
     $('cba-rank-mode')?.addEventListener('change', renderRanking);
 

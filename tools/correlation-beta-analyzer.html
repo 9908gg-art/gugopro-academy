@@ -125,6 +125,17 @@
     .cba-panel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px 15px 10px; border-bottom:1px solid var(--cba-line); }
     .cba-panel-head h2 { margin:4px 0 0; font:700 1.08rem/1.15 "Space Grotesk", sans-serif; }
     .cba-panel-head p { margin:4px 0 0; color:var(--cba-muted); font-size:.7rem; line-height:1.45; }
+    .cba-threshold-box { padding:10px 15px 11px; border-bottom:1px solid var(--cba-line); background:rgba(255,178,95,.035); }
+    .cba-threshold-controls { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+    .cba-threshold-label { color:#bdd3c8; font-size:.68rem; font-weight:700; }
+    .cba-threshold-input { width:82px; min-height:30px; padding:6px 8px; border:1px solid rgba(255,178,95,.34); border-radius:7px; color:#fff3e7; background:#17241e; font:700 .74rem "DM Sans", sans-serif; }
+    .cba-threshold-input:focus { border-color:var(--cba-orange); outline:2px solid rgba(255,178,95,.18); }
+    .cba-threshold-button { min-height:30px; padding:6px 10px; border:1px solid rgba(126,214,176,.34); border-radius:7px; color:#122219; background:var(--cba-green); font-size:.68rem; font-weight:800; }
+    .cba-threshold-summary { margin:6px 0 0; color:var(--cba-muted); font-size:.64rem; line-height:1.4; }
+    .cba-threshold-results { display:flex; gap:6px; flex-wrap:wrap; max-height:108px; margin-top:7px; overflow:auto; }
+    .cba-threshold-pair { padding:5px 7px; border:1px solid rgba(126,214,176,.2); border-radius:6px; color:#d9f4e6; background:rgba(126,214,176,.08); font-size:.62rem; text-align:left; }
+    .cba-threshold-pair:hover { border-color:var(--cba-orange); background:rgba(255,178,95,.1); }
+    .cba-threshold-pair strong { color:var(--cba-orange); }
     .cba-signal { flex:none; padding:5px 8px; border-radius:999px; color:#122219; background:var(--cba-green); font-size:.64rem; font-weight:800; letter-spacing:.04em; }
     .cba-signal.negative { color:#ffe9df; background:rgba(244,123,111,.24); border:1px solid rgba(244,123,111,.38); }
     .cba-table-wrap { overflow:auto; }
@@ -284,6 +295,7 @@
     <section class="cba-dashboard" aria-label="Correlation Beta HUD 儀表板">
       <aside class="cba-panel" aria-labelledby="cba-ranking-title">
         <div class="cba-panel-head"><div><div class="cba-kicker">RANKING / RELATIONSHIP MATRIX</div><h2 id="cba-ranking-title">對標關係排行榜</h2><p>同時比較 r、Beta、Alpha 與價差 Z。</p></div><span id="cba-ranking-signal" class="cba-signal">等待分析</span></div>
+        <div class="cba-threshold-box"><div class="cba-threshold-controls"><label class="cba-threshold-label" for="cba-correlation-threshold">找出相關係數高於</label><input id="cba-correlation-threshold" class="cba-threshold-input" type="number" min="-1" max="1" step="0.01" value="0.70" aria-describedby="cba-threshold-summary"><span class="cba-threshold-label">的交易對</span><button id="cba-threshold-apply" class="cba-threshold-button" type="button">查詢</button></div><p id="cba-threshold-summary" class="cba-threshold-summary">分析完成後輸入 −1 至 1 的 r 值，列出高於門檻的已分析交易對。</p><div id="cba-threshold-results" class="cba-threshold-results" aria-live="polite"></div></div>
         <div class="cba-table-wrap"><table class="cba-table"><thead><tr><th>標的</th><th>r</th><th>β</th><th>Alpha</th><th>Z</th><th>樣本</th><th>操作</th></tr></thead><tbody id="cba-results-body"><tr><td colspan="7" class="cba-empty"><i class="fa-solid fa-chart-network"></i><br>載入資料後顯示市場關係。</td></tr></tbody></table></div>
       </aside>
       <section class="cba-visual-panel" aria-label="走勢與分佈圖表">
@@ -298,6 +310,6 @@
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r19" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r20" defer></script>
 </body>
 </html>
