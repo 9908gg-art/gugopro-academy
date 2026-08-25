@@ -443,3 +443,20 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | R:R／Grid 保護 | 四個 R:R／Grid 核心 HTML／JS `git diff --numstat` 無輸出，未改動既有行情、Scanner、原生圖表、watchlist、拖曳與網格實作 |
 
 本輪本地視覺證據：首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_06-06-12_4789.webp`；實戰交易 rich guide `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_06-05-38_9111.webp`。內容引用台股制度來源與各頁官方教育資料；正式交易前仍須核對 TWSE／TDCC、券商、交易所與所在地法規的最新版本。全部內容僅供教育與研究參考，不構成投資、稅務、法律或個人化交易建議。
+
+
+## 二十七、e79cd65 正式部署與 live 驗證結論（2026-08-25）
+
+功能提交 **e79cd65** 已推送至 GitHub `main`，完整提交訊息為：`Manus AI: comprehensive overhaul of all 13 academy categories with rich modules, illustrations, and interactive tool integrations`。GitHub Pages [Run 97](https://github.com/9908gg-art/gugopro-academy/actions/runs/32822074959) 對應 head `e79cd65`，公開 API 最終回報 `status=completed`、`conclusion=success`；build、report-build-status 與 deploy 均完成。唯一 annotation 為 GitHub Actions 的 Node.js 20 deprecation warning，非本輪程式碼錯誤。
+
+| 正式頁面 | live 驗證結果 |
+|---|---|
+| [首頁 13 類知識樹](https://academy.gugopro.com/index.html?v=e79cd65&refresh=20260825-0738#knowledge-tree) | 13 張卡片，順序為台股、美股、ETF、債券、基金、外匯、商品原物料、期貨、選擇權、虛擬貨幣、房地產、總體經濟、實戰交易；filter 為 13／3／2／2／5／1；資產使用 `content-architecture-20260825-rich`；1280px `scrollWidth=1272`。 |
+| [實戰交易指南](https://academy.gugopro.com/guides/trading-strategy.html?v=e79cd65&refresh=20260825-0740) | 5 modules、5 SVG、5 anchors、active `13 · 實戰交易`；CTA 直接覆蓋 R:R、風險／配對檢查與 Grid；無水平溢出。 |
+| [ETF 指南](https://academy.gugopro.com/guides/etf.html?v=e79cd65&refresh=20260825-0742) | 4 modules、4 SVG、4 anchors、active `03 · ETF`；四個模組 CTA 均直連 `etf-dividend-calculator.html`；無水平溢出。 |
+| [房地產指南](https://academy.gugopro.com/guides/real-estate.html?v=e79cd65&refresh=20260825-0744) | 新第 11 類頁面，4 modules、4 SVG、4 anchors、active `11 · 房地產`；資產配置工具 CTA 正常；無水平溢出。 |
+| [總體經濟指南](https://academy.gugopro.com/guides/macro-economics.html?v=e79cd65&refresh=20260825-0746) | 新第 12 類頁面，4 modules、4 SVG、4 anchors、active `12 · 總體經濟`；債券／久期工具 CTA 正常；無水平溢出。 |
+
+正式站操作畫面：首頁 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-03_9966.webp`、實戰交易 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-36_6197.webp`、ETF `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-09_8644.webp`、房地產 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-42_9725.webp`、總體經濟 `/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-38-17_1104.webp`。R:R／Grid 核心 HTML／JS 未在本輪修改，提交前 `git diff --numstat` 為空，既有行情、Scanner、原生圖表、watchlist、拖曳與網格功能維持原狀。
+
+正式內容仍為教育與研究用途；市場資料、交易規則、稅費、資格與工具輸出可能變動，實際交易前應核對交易所、券商與法規最新公告，不構成投資、稅務或法律建議。

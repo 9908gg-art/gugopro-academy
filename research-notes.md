@@ -642,3 +642,41 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 最終本地驗證如下：`python3 build_guides.py` 成功；`python3 validate_site.py` 回報 `errors=0`；`python3 -m py_compile build_guides.py`、`node --check`（app、advanced tools、ETF、R:R、Grid、watchlist）與 `git diff --check` 全部通過。受保護的 R:R／Grid 四個核心 HTML／JS 檔案 `git diff --numstat` 無輸出。首頁 1280px 無水平溢出；同源 iframe 批次測試 390×844 與 375×667 的 16 篇指南均為 16/16 通過，所有頁面至少 4 個模組、SVG 數不低於模組數、至少 4 個章節連結、active sidebar 恰為 1 個，390px `scrollWidth=382`、375px `scrollWidth=367`。實戰交易頁為 5／5／5（模組／SVG／anchors）。
 
 本輪修正前初版紀錄曾將實戰交易描述為 3 個模組；那是台股任務的中間里程碑，最終 rich 版本已更新為 5 個模組。所有指南仍是教育與研究內容，不構成投資、稅務或法律建議；金融規則、費率與市場資料可能更新，使用者應在實際交易前核對官方與券商最新資訊。
+
+
+## e79cd65 推送與 Pages Run 97 初始狀態（2026-08-25）
+
+本輪指定 commit 已完成：`e79cd65`，提交訊息為 `Manus AI: comprehensive overhaul of all 13 academy categories with rich modules, illustrations, and interactive tool integrations`；推送後 `HEAD`、`origin/main` 與 `origin/HEAD` 均指向 e79cd65，工作樹乾淨。GitHub Actions 公開頁已建立 `pages-build-deployment` Run 97（workflow ID `32822074959`），目前初始狀態為 `Queued`；上一個 Run 96 為成功，待 Run 97 完成後進行正式站 cache-bust 核對。
+
+Run 97 詳情頁輪詢：workflow `32822074959` 已對應 commit `e79cd65`；build job 已完成約 26 秒，report-build-status 已完成約 12 秒，deploy job 仍在等待，整體狀態尚為 `Queued`。頁面唯一 annotation 為 GitHub Actions Node.js 20 deprecation warning，非本次程式碼錯誤；待 deploy 完成後再進行正式站頁面核對。
+
+Run 97（workflow `32822074959`）第二次詳細輪詢：build 與 report-build-status 均維持完成，deploy job 尚未完成，公開頁整體仍為 `Queued`；唯一 warning 仍為 actions/upload-artifact@v4 使用 Node.js 20 的平台棄用提醒，與本輪程式碼無關。
+
+Run 97（`32822074959`）第三次輪詢仍顯示 overall `Queued`；build 約 26 秒完成、report-build-status 約 46 秒完成，deploy job 尚未標示完成。e79cd65 的 Pages artifact 已產生，待正式 deploy 結束後再做 live URL cache-bust 驗證。
+
+Run 97（`32822074959`）第四次輪詢：等待後公開頁仍顯示 overall `Queued`，build 約 26 秒、report-build-status 約 1 分 30 秒已完成，deploy job 仍未轉為完成；artifact 已產生。尚未把正式站視為已發布。
+
+
+## e79cd65 正式首頁回歸（2026-08-25）
+
+Run 97 workflow API 已回報 `status=completed`、`conclusion=success`、head SHA 為 e79cd65。正式首頁 `https://academy.gugopro.com/index.html?v=e79cd65&refresh=20260825-0738#knowledge-tree` 已由 live browser 載入 `style.css?v=content-architecture-20260825-rich` 與 `app.js?v=content-architecture-20260825-rich`；DOM 實際為 13 張卡片，順序為台股、美股、ETF、債券、基金、外匯、商品原物料、期貨、選擇權、虛擬貨幣、房地產、總體經濟、實戰交易。filter 計數為 13／3／2／2／5／1，active 為全部 13；桌面 viewport 1280 時 `scrollWidth=1272`，無水平溢出。正式首頁截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-03_9966.webp`。
+
+
+## e79cd65 正式實戰交易指南回歸（2026-08-25）
+
+正式 URL：`https://academy.gugopro.com/guides/trading-strategy.html?v=e79cd65&refresh=20260825-0740`。live DOM 實際為 5 個 `guide-module`、5 個 SVG、5 個 anchors：`#technical-system`、`#risk-expectancy`、`#pair-trading`、`#grid-mechanics`、`#position-sizing`；active sidebar 為 `13 · 實戰交易`，前 13 類順序包含第 10 類虛擬貨幣與第 11 類房地產。五個 inline CTA href 依序連到 R:R、R:R、風險／配對檢查、Grid、R:R；桌面 1280 時 `scrollWidth=1272`，頁面資產已使用 `content-architecture-20260825-rich`。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-36-36_6197.webp`。
+
+
+## e79cd65 正式 ETF 指南回歸（2026-08-25）
+
+正式 URL：`https://academy.gugopro.com/guides/etf.html?v=e79cd65&refresh=20260825-0742`。live DOM 實際為 4 個 modules、4 個 SVG、4 個 anchors（`#etf-foundation`、`#etf-metrics`、`#etf-practice`、`#etf-risk`）；active sidebar 為 `03 · ETF`。四個 inline CTA 全部直接連到 `../tools/etf-dividend-calculator.html`，形成 ETF 指南至 DRIP 工具的直接導流；桌面 1280 時 `scrollWidth=1272`，資產使用 `content-architecture-20260825-rich`。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-09_8644.webp`。
+
+
+## e79cd65 正式房地產指南回歸（2026-08-25）
+
+正式 URL：`https://academy.gugopro.com/guides/real-estate.html?v=e79cd65&refresh=20260825-0744`。live DOM 實際為 4 個 modules、4 個 SVG、4 個 anchors（`#real-estate-foundation`、`#real-estate-metrics`、`#real-estate-practice`、`#real-estate-risk`）；active sidebar 為 `11 · 房地產`，四個 inline CTA 連到資產配置／退休工具工作台；桌面 1280 時 `scrollWidth=1272`，無水平溢出。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-37-42_9725.webp`。
+
+
+## e79cd65 正式總體經濟指南回歸（2026-08-25）
+
+正式 URL：`https://academy.gugopro.com/guides/macro-economics.html?v=e79cd65&refresh=20260825-0746`。live DOM 實際為 4 個 modules、4 個 SVG、4 個 anchors（`#macro-economics-foundation`、`#macro-economics-metrics`、`#macro-economics-practice`、`#macro-economics-risk`）；active sidebar 為 `12 · 總體經濟`，四個 inline CTA 連到債券／久期工具工作台；桌面 1280 時 `scrollWidth=1272`，無水平溢出。正式截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-38-17_1104.webp`。
