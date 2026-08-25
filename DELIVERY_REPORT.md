@@ -419,3 +419,27 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | R:R／Grid 保護 | R:R／Grid 四個專用 HTML／JS 檔案本輪 `git diff` 行數為 0，既有功能未改動 |
 
 本地畫面證據：台股指南 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-31-43_6734.webp`；首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-33-13_8102.webp`。
+
+
+## 二十六、13 類知識樹 rich modules 全面重構（2026-08-25）
+
+本輪依最高優先級規格完成全站知識內容重構，主分類順序為 **01 台股／股票、02 美股、03 ETF、04 債券、05 基金、06 外匯、07 商品原物料、08 期貨、09 選擇權、10 虛擬貨幣、11 房地產、12 總體經濟、13 實戰交易**。首頁已同步為 13 張分類卡、股票市場 3、固定收益 2、衍生品 2、宏觀與另類 5、實戰交易 1 的篩選架構；所有指南 sidebar 也會由 `app.js` 依 pathname 標示目前 active 類別。
+
+`build_guides.py` 現在使用可重用的模組與 SVG 生成模型。最終輸出 **16 篇指南**：13 篇主分類加上 R:R、Grid、ETF DRIP 三篇工具專題；12 篇四模組頁、實戰交易五模組頁，總計 65 個模組與 65 個 inline SVG research maps。每個模組包含概念／市場結構、指標或公式、案例／實戰流程、風險情境或比較表、跨模組檢核與高對比工具 CTA；每頁頂端均有可平滑跳轉的 chapter pill navigation。
+
+台股頁完成四個指定深度模組：三大法人、融資融券／券資比、分點與 TDCC 股權分散；5MA／20MA 扣抵、量價、KD／RSI／MACD／布林；營收 MoM／YoY、三率、PE／PEG、殖利率與除權息；盤中零股、逐筆／集合競價、10% 漲跌幅、價格穩定、當沖、交易稅／手續費、T+2 與風控。實戰交易頁則完成五個模組：價格行為與技術分析、R:R 與期望值、配對／價差交易、動態網格、資金與部位管理；其中 `#risk-expectancy` 直連 R:R、`#grid-mechanics` 直連 Grid、`#pair-trading` 連到風險檢查，ETF 四個模組均直連 ETF DRIP 試算機。
+
+| 驗證項目 | 結果 |
+|---|---|
+| 生成建置 | `python3 build_guides.py` 成功，輸出 16 篇指南 |
+| Rich 結構 | 65 modules、65 SVG maps、每頁至少 4 個 inline CTA 與 chapter nav |
+| Taxonomy | 首頁／sidebar／文件均為 13 類；第 10 類虛擬貨幣、第 11 類房地產 |
+| 首頁互動 | 13 張卡；宏觀與另類 5 張；實戰交易 filter 1 張；搜尋房地產 1 張；清除恢復 13 張 |
+| 台股頁 | 4 modules、4 SVG、4 anchors；四指定 anchor 均可跳轉 |
+| 實戰交易頁 | 5 modules、5 SVG、5 anchors；R:R／Grid／風險工具 CTA 均存在 |
+| 390×844 | 16/16 指南通過；一般頁 `scrollWidth=382`，實戰交易 5／5／5 |
+| 375×667 | 16/16 指南通過；一般頁 `scrollWidth=367`，實戰交易 5／5／5 |
+| 靜態品質 | `validate_site.py` `errors=0`；Python／JavaScript syntax check 與 `git diff --check` 通過 |
+| R:R／Grid 保護 | 四個 R:R／Grid 核心 HTML／JS `git diff --numstat` 無輸出，未改動既有行情、Scanner、原生圖表、watchlist、拖曳與網格實作 |
+
+本輪本地視覺證據：首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_06-06-12_4789.webp`；實戰交易 rich guide `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_06-05-38_9111.webp`。內容引用台股制度來源與各頁官方教育資料；正式交易前仍須核對 TWSE／TDCC、券商、交易所與所在地法規的最新版本。全部內容僅供教育與研究參考，不構成投資、稅務、法律或個人化交易建議。

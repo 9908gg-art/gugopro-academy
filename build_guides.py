@@ -56,7 +56,7 @@ categories = [
         'slug': 'etf', 'index': '03', 'group': '股票市場', 'title': 'ETF',
         'eyebrow': 'PASSIVE / ETF',
         'intro': '從 0050、00919、VOO、QQQ 到債券型 ETF，先理解指數、NAV、費用、折溢價與追蹤差異，再比較配息與總報酬。',
-        'tool': ('前往 ETF 內扣費用工具', '../tools/index.html#etf-panel'),
+        'tool': ('開啟 ETF 現金流與 DRIP 試算機', '../tools/etf-dividend-calculator.html'),
         'concept_title': 'ETF 是結構，不是自動分散的保證',
         'concept': '''<p>ETF 把一籃子股票、債券或其他資產包裝成可在交易所買賣的份額。投資人購買的是基金資產的比例權益，而不是保證收益。SEC Investor.gov 說明，ETF 的市場價格可能高於或低於淨資產價值（NAV），而 ETF 的分散程度取決於指數、成分權重、產業集中與再平衡規則。[1] 這表示「買 ETF」仍然需要理解底層資產。</p><p>高股息 ETF 的配息可能來自企業股利、債券利息或資產實現，配息時的價格調整不等於額外創造報酬。0050、00919、VOO、QQQ 的目標、地區、產業與權重結構不同，不能只用配息率或過去一年報酬判斷優劣。新手常見誤區是把配息當作利息、忽略總費用率與買賣價差，或把過去績效直接外推。</p><div class="guide-callout"><strong>核心觀念：</strong>先寫「我想取得哪種曝險」，再挑 ETF；不要從產品名稱倒推投資理由。</div>''',
         'metrics_title': 'NAV、費用與總報酬公式',
@@ -179,25 +179,26 @@ categories = [
         'references': [('FINRA Options Investor Education','https://www.finra.org/investors/investing/investment-products/options')]
     },
     {
-        'slug': 'warrants', 'index': '10', 'group': '衍生品', 'title': '權證',
-        'eyebrow': 'OPTION-LIKE / WARRANTS',
-        'intro': '理解認購／認售、槓桿倍數、實際槓桿、時間價值耗損、隱含波動率與流動性，避免只看價差倍率。',
-        'tool': ('前往交易風控工具', '../tools/index.html#risk-panel'),
-        'concept_title': '權證是有期限與發行條件的選擇權曝險',
-        'concept': '''<p>權證通常給予持有人在期限內依約定條件取得標的上漲或下跌曝險的權利，認購偏向看多，認售偏向看空。它的價格不只由標的方向決定，還受到履約價、剩餘天數、隱含波動率、轉換比例、發行人條件和買賣價差影響。槓桿使投入資金較小，但也讓時間價值和波動率變化對本金的影響更大。</p><p>新手常見誤區是用「權證漲很多」當作未來仍會上漲的理由，忽略過去的漲幅可能已反映在 IV；或把成交量等同於可在任何價格平倉的流動性。權證可能接近到期、深度價外或因標的波動改變而快速耗損，即使標的方向最後正確，持有者也未必獲利。</p><div class="guide-callout"><strong>核心觀念：</strong>先比較權證的理論敏感度與實際買賣價，再決定它是否比直接持有標的更符合風險預算。</div>''',
-        'metrics_title': '槓桿與時間價值評估',
-        'metrics': '''<p>名目槓桿常見寫法是 <code>標的價格 ÷ 權證價格 ÷ 轉換比例</code>，但更能反映小幅變動的指標是實際槓桿，約為 <code>Delta × 名目槓桿</code>。權證理論價格可拆成內含價值與時間價值；價外權證幾乎全是時間價值，接近到期時可能快速耗損。</p><p>研究時可觀察剩餘天數、價內外程度、IV、Delta、買賣價差和造市報價。用成交量判斷流動性前，還要看報價深度和實際成交，因為盤中量能可能集中在少數時段。權證的成本除了價差，也包含時間價值與發行條件的隱性成本。</p>''',
-        'example': '''<p>假設標的 100 元、權證 2 元、轉換比例 0.1，名目槓桿約為 5 倍；但若 Delta 只有 0.35，實際槓桿約 1.75 倍。當標的上漲 1%，權證並不必然上漲 5%，因為 Delta、IV、時間與買賣價差會同時變動。若剩餘時間很短，Theta 可能使權證價格即使跟著標的上升仍未能回收成本。</p>''',
-        'practice_title': '權證篩選與交易流程',
-        'practice': '''<p>先決定要取得的標的方向與持有期限，再從到期日、履約價、轉換比例、Delta、IV、實際槓桿、買賣價差和發行人資料篩選。設定最大投入金額與最大損失，不用槓桿倍數替代停損。交易前記錄標的失效價、權證可接受成交價與最晚離場時間。</p><p>持有中檢查標的與權證的敏感度是否仍符合原先假設，並將時間價值耗損視為會隨時間發生的成本。若流動性惡化或造市報價不穩定，平倉優先順序要高於等待「回本」。盤竭盡量能分析只能提供觀察框架，不是保證反轉。</p>''',
-        'compare_title': '權證情境優缺點與風險',
-        'compare_rows': [('價內權證','Delta 較高、方向曝險較接近標的','資金需求與時間成本仍存在','標的橫盤且 IV 下滑造成時間價值損失'),('價外權證','投入資金低、理論槓桿高','歸零與流動性風險高','標的未在期限內大幅移動而價值快速耗損'),('認售權證','可取得下跌或避險曝險','方向、IV 與借券替代成本複雜','市場急跌但 IV 與價差異常造成成交困難')],
-        'checklist': '''<p>確認發行人、最後交易日、履約價、轉換比例、Delta、IV、實際槓桿、價差、成交深度、停損與最大損失。不要把券商顯示的理論價格視為一定能成交的價格；以可執行的買賣價和最壞滑價測試策略。</p>''',
-        'tool_note': '使用風報比工具限制權證交易的單筆損失，再以 TradingView 分析標的價格、成交量與事件時間軸。',
-        'references': [('FINRA Options Investor Education','https://www.finra.org/investors/investing/investment-products/options')]
+        'slug': 'real-estate', 'index': '11', 'group': '宏觀與另類', 'title': '房地產',
+        'eyebrow': 'REAL ASSET / REAL ESTATE',
+        'intro': '從租金現金流、Cap Rate、房貸本息、槓桿與區域供需出發，建立不把房價上漲當成唯一報酬來源的房地產研究框架。',
+        'tool': ('前往資產配置與退休工具', '../tools/index.html#allocation-panel'),
+        'concept_title': '房地產是現金流、資產價值與融資條件的交集',
+        'concept': '''<p>房地產研究不能只看成交單價。自住、出租、商用與 REITs 的現金流、稅費、維修、空置、流動性與槓桿結構都不同；同一個區域的平均房價也不能直接代表一間物件的可投資價值。研究前先分清使用目的、持有期限、資金來源與退出方式，才不會把自住消費和投資報酬混在一起。</p><p>房價上升可能來自所得、人口、供給限制、利率與信用擴張，也可能只是交易量低時的少數成交。出租物件還要把租金收現、空置、管理、修繕、保險、稅費和資本支出拆開；REITs 則是有價證券，除了房產現金流，還會受到利率、資本市場與經理團隊影響。新手常見誤區是用毛租金除以房價就宣稱報酬率，忽略所有持有成本。</p><div class="guide-callout"><strong>核心觀念：</strong>先把每月現金流和一次性交易成本列完整，再討論房價情境與槓桿。</div>''',
+        'metrics_title': 'Cap Rate、現金報酬與房貸公式',
+        'metrics': '''<p>資本化率可近似寫成 <code>Cap Rate = NOI ÷ 物業價值</code>，其中 NOI 是扣除正常營運費但尚未扣融資成本的淨營運收入。若年租金 360,000 元、空置與營運費後 NOI 為 240,000 元、物業價值 8,000,000 元，Cap Rate 約為 3%。槓桿後的現金報酬率應改用 <code>年度稅前現金流 ÷ 實際投入自有資金</code>，不能直接把 Cap Rate 當成股東報酬。</p><p>等額本息月付可用 <code>M = P × r(1+r)^n ÷ [(1+r)^n−1]</code> 估算，P 為貸款本金、r 為月利率、n 為期數。壓力測試至少要放入利率上升、租金下降、空置延長、修繕與房價下跌，並檢查債務服務覆蓋率，而不是只看銀行願意核准多少額度。</p>''',
+        'example': '''<p>假設總價 10,000,000 元、年租金 420,000 元，扣除空置、管理、維修與稅費後 NOI 為 270,000 元，毛租金率是 4.2%，但 Cap Rate 只有 2.7%。若自有資金 3,000,000 元、年度利息與本金壓力 180,000 元，現金流只剩 90,000 元，現金報酬約 3%；一旦空置增加或修繕發生，槓桿會放大現金流變化。</p>''',
+        'practice_title': '看屋、估值與融資決策流程',
+        'practice': '''<p>先確認產權、用途、屋況、法規、管理、租客與周邊供給，再用至少三組可比交易和租金資料建立價格區間。出租評估要把空置率、修繕準備、管理費、保險、稅、裝修折舊與出售成本列入；自住則另外列入通勤、生活品質與替代租金，不要硬套投資報酬。</p><p>融資前比較固定／浮動利率、寬限期、提前清償、成數、鑑價、月付與總利息；將收入中斷、利率上升與房價下跌放進家庭流動性壓力測試。持有後每季重算租金現金流、債務比率與資產集中度，若必須靠持續加槓桿才能維持，就代表原始模型已失效。</p>''',
+        'compare_title': '房地產方式優缺點與風險情境',
+        'compare_rows': [('自有出租物件','可控制資產與租賃現金流','流動性低、管理與集中度高','空置、修繕或利率上升使現金流轉負'),('REITs／不動產基金','分散、交易便利、可取得租金曝險','利率、經理人與市場價格風險','升息造成資產估值與融資成本同時承壓'),('自住住宅','提供居住服務、可降低租屋不確定','交易成本、不可分散與自住效用難量化','收入中斷時仍需承擔房貸與維護支出')],
+        'checklist': '''<p>購入前確認總價、交易稅費、裝修、持有成本、租金來源、空置、利率、貸款條件、退出時間與最壞現金流。不要用未實現房價上漲支付固定支出；若資產占比過高，應先建立流動性和集中度上限。</p>''',
+        'tool_note': '用資產配置與退休工具檢查房地產占比、現金流與壓力情境，再用公開成交與租金資料核對估值假設。',
+        'references': [('CFPB Owning a Home','https://www.consumerfinance.gov/owning-a-home/'), ('SEC REIT Investor Bulletin','https://www.investor.gov/introduction-investing/investing-basics/investment-products/real-estate-investment-trusts-reits')]
     },
+
     {
-        'slug': 'crypto', 'index': '11', 'group': '宏觀與另類', 'title': '虛擬貨幣',
+        'slug': 'crypto', 'index': '10', 'group': '宏觀與另類', 'title': '虛擬貨幣',
         'eyebrow': '24 / 7 / CRYPTO',
         'intro': '從比特幣、以太幣、錢包保管、交易所、網格與質押出發，建立鏈上、對手方與市場風險的多層防線。',
         'tool': ('前往蒙地卡羅風險工具', '../tools/index.html#mc-panel'),
@@ -215,47 +216,60 @@ categories = [
         'references': [('CFTC Digital Asset Fraud Advisory','https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/watch_out_for_digital_fraud.html')]
     },
     {
-        'slug': 'cfd-indices', 'index': '12', 'group': '宏觀與另類', 'title': 'CFD／指數',
-        'eyebrow': 'GLOBAL / CFD & INDICES',
-        'intro': '辨識差價合約的槓桿、點差、隔夜利息、報價與追繳風險，並以全球主要指數建立交易前檢查單。',
-        'tool': ('前往風報比工具', '../tools/index.html#risk-panel'),
-        'concept_title': 'CFD 是差價結算的槓桿合約',
-        'concept': '''<p>差價合約通常不讓交易人擁有標的現貨，而是依開倉和平倉價格差額結算損益。交易人繳付保證金後取得名目曝險，槓桿會把小幅價格變動放大到帳戶權益。平台的強平、負餘額保護、報價來源、交易時段與隔夜利息規則，會直接影響最壞結果。</p><p>全球指數也不是單純的數字：NASDAQ 受到科技與成長估值影響，S&amp;P 500 反映大型股廣度，日經、恆生與歐洲指數還包含不同貨幣、產業與交易時段。新手常見誤區是只比較平台宣稱的槓桿倍數、忽略點差與隔夜費，或把指數上漲視為 CFD 多單必然獲利。</p><div class="guide-callout"><strong>核心觀念：</strong>由可承擔的每筆損失反推部位，不要由平台提供的最大槓桿反推交易規模。</div>''',
-        'metrics_title': '點差、隔夜費與實際損益',
-        'metrics': '''<p>交易成本可近似拆成 <code>點差 + 手續費 + 隔夜利息 × 持倉天數 + 滑價</code>。價格風險則為 <code>|進場 − 停損| × 單位數</code>，再加上事件跳空的壓力幅度。若名目部位 100,000 元、價格不利 1%，未計成本就是 1,000 元；以 10% 保證金開倉不會把損失限制在 10,000 元或保證金以內。</p><p>研究指數時分辨現貨、期貨、總報酬指數與平台 CFD 報價，注意股息調整、基差與非交易時段跳空。把隔夜費按實際持有天數放進盈虧平衡點；短線策略若預期波動很小，點差占比可能反而成為主要風險。</p>''',
-        'example': '''<p>假設進場價 100、停損 95、目標 115，單位數 1,000，價格風險為 5,000、潛在獲利為 15,000，未計成本的風報比為 3R。若持有期間點差、隔夜與滑價合計 1,500 元，實際風險報酬會比表面 3R 差；若發生跳空跌到 92，實際損失也會超過原先以 95 計算的停損。</p>''',
-        'practice_title': 'CFD 與指數交易流程',
-        'practice': '''<p>開倉前確認平台法律實體、報價來源、交易時段、保證金、強平、隔夜利息、負餘額與出金規則。把指數的波動區間、重大數據、財報集中日與非交易時段列入日曆。使用固定風險百分比計算單位數，並在下單前設定硬停損和最大日損失。</p><p>持倉中不要因保證金尚有餘額就加碼攤平。每晚重新估算成本、跳空與相關部位曝險；若平台報價或流動性異常，優先減少名目部位。交易紀錄至少包含原始假設、進出價、實際成本、滑價、持倉時數和結果，才能辨別策略優勢或只是運氣。</p>''',
-        'compare_title': 'CFD／指數方式優缺點與風險',
-        'compare_rows': [('低槓桿指數曝險','可快速取得全球市場方向、資金效率較高','仍有點差、隔夜與平台風險','隔夜事件或跳空造成停損穿越'),('高槓桿短線','名目資金需求低、可雙向交易','損失速度快、強平與滑價','小幅逆向波動觸發連續減倉'),('現貨／ETF 替代','結構較透明、無 CFD 強平機制','資金占用、交易時段與稅費不同','市場下跌仍有價格風險但不一定被迫平倉')],
-        'checklist': '''<p>逐項確認槓桿、名目部位、單筆風險、點差、隔夜費、滑價、交易時段、強平與最壞跳空。指數只是一個觀察標的，產品條件才決定你實際承擔的風險。若無法在壓力情境下維持帳戶流動性，便應降低部位或不交易。</p>''',
-        'tool_note': '用風報比工具將價格距離、帳戶資金與風險百分比轉成單位上限，再用 TradingView 對照全球指數和事件時段。',
-        'references': [('SEC Investment Options','https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/learn-about-investment-options')]
+        'slug': 'macro-economics', 'index': '12', 'group': '宏觀與另類', 'title': '總體經濟',
+        'eyebrow': 'MACRO / ECONOMICS',
+        'intro': '把 CPI、就業、利率、殖利率曲線與景氣循環放回同一張宏觀地圖，避免用單一數據預測所有資產的方向。',
+        'tool': ('前往債券價格與久期工具', '../tools/index.html#bond-panel'),
+        'concept_title': '總體數據是狀態訊號，不是單一買賣按鈕',
+        'concept': '''<p>總體經濟研究把家庭、企業、政府、金融條件與外部貿易放在同一個系統觀察。CPI 描述一籃子消費價格變化，就業數據反映勞動市場，政策利率影響融資條件，殖利率曲線則把不同期限的利率和市場預期放在一起。這些指標有不同發布頻率、修訂與滯後，不能看到一個數字就直接推出股市或匯市方向。</p><p>同一個宏觀事件對不同資產的傳導也不同：通膨上升可能推高名目利率，但企業定價能力、信用利差、美元與供給衝擊會改變結果；失業上升可能壓低需求，也可能促使政策轉向。新手常見誤區是把「數據高於預期」等同於永遠利多或利空，忽略市場已反映多少與資產原本的估值。</p><div class="guide-callout"><strong>核心觀念：</strong>先判斷數據代表的經濟狀態與政策反應，再檢查資產價格是否已提前反映。</div>''',
+        'metrics_title': 'CPI、就業、政策利率與曲線讀法',
+        'metrics': '''<p>通膨年增率可近似為 <code>CPI YoY =（本期 CPI ÷ 去年同期 CPI）−1</code>；月增率為 <code>CPI MoM =（本期 CPI ÷ 上期 CPI）−1</code>。研究時分開總體、核心、商品與服務項目，並觀察基期效應。殖利率曲線利差可用 <code>10Y−2Y = 十年期殖利率 − 兩年期殖利率</code>，負值代表曲線倒掛，但不代表經濟衰退的時間或股市必然走勢。</p><p>宏觀資料應搭配實質與名目口徑、預期與實際、領先與落後指標。政策利率是工具，不是完整金融條件；信用利差、美元、資產負債表與銀行放貸也會影響企業和家庭。用情境矩陣取代單一路徑：通膨高／低、成長強／弱各有不同的資產反應。</p>''',
+        'example': '''<p>假設 CPI 年增由 3% 降至 2.5%，但核心服務仍黏著、就業市場沒有明顯降溫，市場可能同時交易「通膨改善」與「降息延後」兩種敘事。長債價格未必只因 CPI 回落就上漲；若十年期殖利率上升 50 bp，修正久期 7 年的債券價格第一階近似仍可能下跌約 3.5%。這是用傳導鏈做壓力測試，不是方向預測。</p>''',
+        'practice_title': '建立宏觀情境與資產配置流程',
+        'practice': '''<p>先建立資料日曆，記錄發布時間、預期、前值、修訂與市場當時的部位。每次數據發布後依序問：經濟狀態變了嗎？政策反應函數會變嗎？利率、美元、信用與獲利預期如何傳導？資產價格是否已提前反映？若答案不完整，保持原配置或降低風險通常比追逐標題更可重複。</p><p>配置時可用成長／通膨兩軸建立四象限，再把股票、債券、現金、商品與外匯的曝險標上去。每月或每季檢查情境是否改變，並設定再平衡區間與最大損失；不要因單一非農或 CPI 就把長期組合全部切換。</p>''',
+        'compare_title': '宏觀情境與工具優缺點',
+        'compare_rows': [('成長強／通膨降','獲利與實質收入較有支撐、利率壓力可能下降','估值可能已提前上修','數據反轉或政策延後造成估值回撤'),('成長弱／通膨降','政策可能轉向、長債可能受益','信用與獲利下修、衰退風險','企業違約或流動性壓力壓過降息利多'),('成長弱／通膨高','現金與實質資產的配置價值上升','政策兩難、波動與相關性上升','滯脹造成股票、債券同步承壓'),('成長強／通膨高','名目營收與部分商品可能受益','升息、美元與估值壓力升高','利率快速上升造成多資產重新定價')],
+        'checklist': '''<p>每次宏觀判斷記錄資料來源、發布時間、預期／實際／修訂、傳導機制、已反映程度、資產曝險與失效條件。不要把曲線倒掛、CPI 或就業單獨當成交易訊號；先檢查自身期限、流動性與能承受的回撤。</p>''',
+        'tool_note': '用債券價格與久期工具量化利率變動，再以資產配置與退休工具比較宏觀情境下的組合權重；圖表只協助驗證，不取代政策與資料閱讀。',
+        'references': [('U.S. Bureau of Labor Statistics CPI','https://www.bls.gov/cpi/'), ('Federal Reserve Monetary Policy','https://www.federalreserve.gov/monetarypolicy.htm'), ('NBER Business Cycle Dating','https://www.nber.org/research/business-cycle-dating')]
     },
+
 ]
+
+# 以顯示編號作為唯一排序依據，確保第 10／11 類永遠符合規格。
+categories.sort(key=lambda topic: int(topic['index']))
 
 strategy = {
     'slug': 'trading-strategy', 'index': '13', 'group': '實戰交易', 'title': '實戰交易',
     'eyebrow': 'EXECUTION / TRADING STRATEGY',
-    'intro': '把技術分析、價格行為與資金管理放進同一個交易流程：先定義情境，再設失效點，最後用部位大小控制損失。',
-    'tool': ('前往風報比與部位工具', '../tools/index.html#risk-panel'),
-    'chapter_nav': [('technical-system', '📈 技術分析體系'), ('price-action', '🕯️ 價格行為'), ('position-sizing', '🛡️ 資金與部位管理')],
+    'intro': '把價格行為、風報比、配對交易、動態網格與部位管理串成一套可重複的交易前流程：先定義情境，再設失效點，最後控制損失。',
+    'tool': ('開啟 R:R 即時 K 線分析儀', '../tools/risk-reward-calculator.html'),
+    'chapter_nav': [('technical-system', '📈 價格行為與技術分析'), ('risk-expectancy', '🎯 風報比與期望值'), ('pair-trading', '⚖️ 配對與價差交易'), ('grid-mechanics', '▦ 動態網格策略'), ('position-sizing', '🛡️ 資金與部位管理')],
     'module_sections': [
         {
-            'id': 'technical-system', 'kicker': 'MODULE 01 / TECHNICAL SYSTEM', 'title': '技術分析體系：從市場狀態到可執行觸發',
-            'body': '''<p>一套可重複的技術分析，應先判斷市場狀態，再選擇與狀態相容的工具。趨勢市場可以觀察高低點結構、均線斜率與回測；區間市場則要先畫出支撐、壓力與波動邊界；事件行情則需要把跳空、流動性與成交成本列為優先。指標不是訊號販賣機，而是對價格、成交量與波動的不同壓縮方式。</p><p>實作時固定資料週期與參數，例如日線用 20／60 日趨勢、4 小時用 20／50 根 K 棒，並在進場前寫下「什麼條件算突破、什麼條件算失敗」。均線可以描述方向，RSI／KD 可以描述動能，布林通道可以描述波動收縮，但至少要讓價格結構、風險距離和成交流動性互相驗證。回測時分開樣本內與樣本外，避免為了讓歷史曲線漂亮而過度調參。</p><div class="guide-callout"><strong>流程：</strong>市場狀態 → 關鍵價位 → 觸發條件 → 失效條件 → 成交與風險成本。少一層，策略就容易變成事後解釋。</div><table class="guide-table"><thead><tr><th>市場狀態</th><th>主要觀察</th><th>可測試觸發</th><th>不適合的做法</th></tr></thead><tbody><tr><td>上升趨勢</td><td>高低點墊高、均線上彎</td><td>突破後回測不破</td><td>只因短線超買就逆勢放空</td></tr><tr><td>區間盤整</td><td>支撐壓力與波動邊界</td><td>邊界反應或假突破</td><td>把每次穿越均線當趨勢</td></tr><tr><td>事件行情</td><td>跳空、量能、價差與波動</td><td>等待波動收斂後再定義區間</td><td>用平常停損距離追逐第一根長 K</td></tr></tbody></table>'''
+            'id': 'technical-system', 'kicker': 'MODULE 01 / PRICE ACTION & TECHNICAL ANALYSIS', 'title': '價格行為與技術分析：從市場狀態到可執行觸發', 'tool': ('開啟 R:R 即時 K 線分析儀', '../tools/risk-reward-calculator.html'),
+            'body': '''<p>一套可重複的技術分析，先判斷市場狀態，再選與狀態相容的工具。趨勢市場觀察高低點、均線斜率與回測；區間市場先畫支撐、壓力與波動邊界；事件行情則把跳空、流動性與成交成本放在優先。支撐／阻力是價格反應區，不是保證不跌的線；流動性清算區與訂單塊可作為研究假設，但不能把圖上的區塊當成必然反轉。</p><p>把突破寫成可驗證規則：收盤突破關鍵區、成交量高於 20 日均量、下一根回踩後守住；若只在盤中刺穿就追價，容易把 Fakeout 當成趨勢起點。回測要分開樣本內／樣本外，並記錄觸發、失效、滑價與交易時段。</p><div class="guide-callout"><strong>流程：</strong>市場狀態 → 關鍵價位 → 觸發條件 → 失效條件 → 成交與風險成本。</div><table class="guide-table"><thead><tr><th>狀態</th><th>觀察</th><th>確認</th><th>避免</th></tr></thead><tbody><tr><td>趨勢</td><td>高低點與均線斜率</td><td>突破後回踩不破</td><td>只因超買就逆勢</td></tr><tr><td>區間</td><td>支撐、壓力、波動</td><td>邊界反應或假突破</td><td>把每次穿線當趨勢</td></tr><tr><td>事件</td><td>跳空、量能、價差</td><td>波動收斂後再定義</td><td>追逐第一根長 K</td></tr></tbody></table>'''
         },
         {
-            'id': 'price-action', 'kicker': 'MODULE 02 / PRICE ACTION', 'title': '價格行為：用 K 棒與位置判斷多空是否真的承擔風險',
-            'body': '''<p>價格行為不是背 K 棒名稱，而是觀察「在哪裡、用多少成交量、收在哪裡、下一根是否確認」。同一根長紅在支撐區的意義，和高位壓力區的意義不同；長上影可能是獲利了結、流動性掃單或單純的事件噪音。把形狀放回位置與後續反應，才有可驗證的訊息。</p><p>可用三步寫成交易假設：一、標出前高、前低、缺口、密集成交區或整數關卡；二、定義觸發，例如收盤突破並且成交量高於 20 日均量；三、定義失敗，例如收盤重新跌回區間且下一根無法收復。若只在盤中看到刺穿就追價，容易把假突破當成趨勢起點。對台股還要把漲跌幅限制、逐筆／集合競價與成交量集中時段放進解讀。</p><p>「支撐」不是一條保證不跌的線，「壓力」也不是一定反轉的天花板。可以把它們視為一段價格區，並用 <code>風險距離 = |進場價 − 失效價|</code>、<code>潛在報酬距離 = |目標價 − 進場價|</code> 轉成風報比，再決定是否值得執行。</p><div class="guide-callout"><strong>案例：</strong>突破 100 元後收盤 101 元，隔日最低回測 100.2 元並收在 102 元，這比盤中一度刺穿 100 元但收回 99 元更接近「突破被承接」的可觀察證據；兩者仍都需要事先定義停損。</div>'''
+            'id': 'risk-expectancy', 'kicker': 'MODULE 02 / RISK-REWARD & EXPECTANCY', 'title': '風險報酬比與期望值：破除高勝率迷思', 'tool': ('開啟 R:R 即時 K 線分析儀', '../tools/risk-reward-calculator.html'),
+            'body': '''<p>把進場到停損的距離定義為 1R，再將進場到目標的距離換算成 R 倍數。忽略成本時，期望值為 <code>E = 勝率 × 平均獲利 − 敗率 × 平均虧損</code>；例如勝率 35%、平均獲利 3R、平均虧損 1R，理論期望值為 0.40R。交易成本、跳空、提前止盈和部分成交會把紙面優勢削弱。</p><p>高勝率策略可能靠大量小利換取少數大損；低勝率策略也可能因獲利單足夠大而有正期望值。交易前同時寫下失效位置、目標區間、單位風險、最大連敗與可承擔損失，才不會以放遠停損掩蓋錯誤。</p><div class="guide-callout"><strong>工具鏈接：</strong>使用 R:R 即時 K 線分析儀，把進場／停損／目標、風報比、支撐壓力與部位大小放回同一張圖檢查。</div>'''
         },
         {
-            'id': 'position-sizing', 'kicker': 'MODULE 03 / POSITION SIZING', 'title': '資金與部位管理：先決定最多能失去多少，再決定買多少',
-            'body': '''<p>部位管理把想法轉成帳戶可承受的數字。最基本的固定風險法是先設定單筆風險比例 <code>r</code>，風險金額為 <code>R = 帳戶資金 × r</code>；再以進場與停損的每單位距離加上成本和滑價，估算單位數：<code>部位數 = floor(R ÷（|進場 − 停損| × 每單位價值 + 單位成本）)</code>。若結果為 0，代表交易條件與風險預算不相容，而不是應該把停損任意放遠。</p><p>例如帳戶 300,000 元、單筆風險 0.75%，風險預算是 2,250 元；進場 100 元、失效 95 元、每股成本與滑價壓力估 0.20 元，則每股壓力損失約 5.20 元，理論股數為 floor(2,250 ÷ 5.20) = 432 股，再依交易單位、流動性和券商規則調整。若台股普通交易以整張為單位，432 股可能要改用零股或降低單筆曝險，不能把數學結果直接當成可成交數量。</p><p>Kelly 公式可用於研究長期優勢的上限，但估計勝率與盈虧比的誤差很大，實務上常採用分數 Kelly 或更低的固定風險比例。部位總風險還要檢查相關性：三檔半導體股各自 0.75% 風險，不代表組合只承擔 0.75%；若同一事件會同時打穿停損，應用組合風險上限、產業上限與每日損失上限管理。</p><table class="guide-table"><thead><tr><th>層級</th><th>公式／規則</th><th>要記錄的資料</th><th>失效後動作</th></tr></thead><tbody><tr><td>單筆</td><td>風險金額＝資金×風險%</td><td>進場、停損、成本、滑價</td><td>不攤平超過預先上限</td></tr><tr><td>組合</td><td>相關部位風險加總與壓力測試</td><td>產業、因子、事件集中度</td><td>減少重複曝險或調整權重</td></tr><tr><td>日／週</td><td>累積損失達門檻即停手檢討</td><td>實現損益、滑價、規則偏離</td><td>暫停新倉、回看交易紀錄</td></tr></tbody></table>'''
+            'id': 'pair-trading', 'kicker': 'MODULE 03 / PAIR & SPREAD TRADING', 'title': '統計套利與配對交易：先驗證價差，再談均值回歸', 'tool': ('開啟風險與配對檢查', '../tools/index.html#risk-panel'),
+            'body': '''<p>配對交易不是看到兩條線靠近就做多一檔、放空另一檔，而是先確認兩個序列的經濟關係與統計性質。價差可寫成 <code>Spread = P_A − βP_B</code>；在估計對沖係數 β 後，再計算滾動均值與標準差，<code>Z =（Spread − μ）÷ σ</code>。Z-Score 偏離只是候選訊號，還要檢查協整性、交易成本、借券、流動性與結構改變。</p><p>臺指期與富台期、同產業龍頭股等配對可能有基本面連結，但相關性不等於協整，短期共同上漲也不代表價差一定回歸。進場前固定樣本區間、觸發 Z、退出 Z、最大持有期與失效條件；兩腿任何一邊無法成交，都要以組合風險而非單腿直覺管理。</p><table class="guide-table"><thead><tr><th>步驟</th><th>要估計的內容</th><th>主要風險</th><th>失效動作</th></tr></thead><tbody><tr><td>選配對</td><td>經濟關係、β、資料頻率</td><td>結構斷裂</td><td>停止新增部位</td></tr><tr><td>定義價差</td><td>均值、波動、Z-Score</td><td>非平穩與過度擬合</td><td>改用樣本外驗證</td></tr><tr><td>執行</td><td>兩腿同步、費用與借券</td><td>腿部滑價與流動性</td><td>降低名目曝險或平倉</td></tr></tbody></table>'''
+        },
+        {
+            'id': 'grid-mechanics', 'kicker': 'MODULE 04 / DYNAMIC GRID MECHANICS', 'title': '動態網格與區間震盪：把庫存風險寫進策略', 'tool': ('開啟 BTC/USDT 動態網格工作台', '../tools/grid-trading-calculator.html'),
+            'body': '''<p>網格把價格區間切成多個層級，在下穿時買入、上穿時賣出，適合研究區間內反覆波動；它不會消除單邊趨勢風險。等差網格固定價格差，等比網格維持較接近的比例差；費後單格利潤要扣除買賣雙邊手續費、滑價、最小下單量與可能的轉帳成本。</p><p>啟動前先寫上下限、網格數、模式、總資金、現金／基礎資產分配、止損、止盈與停機後處理。歷史回放要觀察成交回合、期末庫存、最大回撤、資金利用率與觸及邊界，而不是只看獲利交易次數。</p><div class="guide-callout"><strong>工具鏈接：</strong>使用 BTC/USDT 動態網格工作台直接調整上下限、網格數、模式、費後單格利潤與破網距離。</div>'''
+        },
+        {
+            'id': 'position-sizing', 'kicker': 'MODULE 05 / POSITION SIZING & CAPITAL ALLOCATION', 'title': '資金管理與部位規模：先決定最多能失去多少', 'tool': ('開啟 R:R 與部位工具', '../tools/risk-reward-calculator.html'),
+            'body': '''<p>固定百分比風險法先設定單筆風險比例 <code>r</code>，風險預算為 <code>R = 帳戶資金 × r</code>；部位數可寫成 <code>floor(R ÷（|進場 − 停損| × 每單位價值 + 單位成本）)</code>。若結果為 0，表示交易條件和風險預算不相容，不應任意放遠停損。</p><p>Kelly 可用來研究長期優勢上限，但勝率與盈虧比估計誤差很大，實務常採分數 Kelly 或更低固定風險。組合還要檢查相關性、產業集中、事件集中、每日損失與最大回撤；三檔同產業各自 0.75% 風險，不代表組合只承擔 0.75%。</p><div class="guide-callout"><strong>交易前檢核：</strong>資料日期、觸發、失效、成本、流動性、最大單筆損失、連敗壓力與組合上限都要能被寫成數字。</div>'''
         }
     ],
-    'references': [('TWSE 集中市場交易制度', 'https://www.twse.com.tw/zh/products/system/trading.html'), ('TWSE 當日沖銷交易專區', 'https://www.twse.com.tw/zh/products/system/day-trading.html')]
+    'references': [('TWSE 集中市場交易制度', 'https://www.twse.com.tw/zh/products/system/trading.html'), ('CME Futures Education', 'https://www.cmegroup.com/education.html'), ('FINRA Investor Education', 'https://www.finra.org/investors')]
 }
+
 
 risk = {
     'slug': 'risk-reward-ratio', 'index': 'RR', 'group': '交易風控', 'title': '交易風險報酬比（R:R）',
@@ -314,6 +328,62 @@ drip = {
     'references': [('SEC Fund Distributions Investor Bulletin','https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/fund-distributions-investor-bulletin'), ('Invesco Total Return Education','https://www.invesco.com/qqq-etf/en/innovation/dividends-and-capital-appreciation-understanding-total-return.html'), ('SEC ETF Investor Bulletin','https://www.sec.gov/investor/alerts/etfs.pdf')]
 }
 
+
+VISUAL_LABELS = {
+    'taiwan-stocks': ['法人流向', '均線／量價', '財報估值', '交易制度'],
+    'us-stocks': ['公司收入', '美元曝險', '財報現金流', '估值情境'],
+    'etf': ['底層指數', 'NAV／費用', '配息總報酬', '追蹤差異'],
+    'bonds': ['票息現金流', '殖利率', 'Duration', '曲線情境'],
+    'funds': ['基金目標', '費用扣除', '基準比較', '經理流程'],
+    'forex': ['貨幣對', 'Pip／點差', '利率差', '避險比例'],
+    'commodities': ['供需庫存', '現貨價格', '期貨曲線', '展期成本'],
+    'futures': ['契約乘數', '保證金', '基差', '結算風險'],
+    'options': ['方向', '權利金', 'Greeks', '到期壓力'],
+    'crypto': ['網路／代幣', '錢包保管', '交易流動性', '出界風險'],
+    'real-estate': ['土地／物件', '租金 NOI', '貸款槓桿', '退出流動性'],
+    'macro-economics': ['CPI／就業', '利率政策', '曲線利差', '資產傳導'],
+    'risk-reward-ratio': ['進場', '失效', '目標', '期望值'],
+    'grid-trading': ['下限', '網格層級', '費後利潤', '破網'],
+    'etf-dividend-drip': ['投入', '分配', '再投入', '總報酬'],
+}
+
+MODULE_TITLES = [
+    ('foundation', 'MODULE 01 / FOUNDATION', '概念與市場結構'),
+    ('metrics', 'MODULE 02 / METRICS & FORMULAS', '指標、公式與計算'),
+    ('practice', 'MODULE 03 / PRACTICE FLOW', '實戰流程與案例'),
+    ('risk', 'MODULE 04 / RISK & COMPARISON', '風險情境與比較'),
+]
+
+def svg_illustration(topic, slot):
+    labels = VISUAL_LABELS.get(topic['slug'], ['概念', '指標', '執行', '風險'])
+    accent = ['#ff9f43', '#58d6c0', '#8e9dff', '#f16f80'][slot % 4]
+    title = escape(topic['title'])
+    cells = []
+    for i, label in enumerate(labels):
+        x = 18 + i * 176
+        opacity = '0.95' if i <= slot else '0.58'
+        cells.append(f'<g opacity="{opacity}"><rect x="{x}" y="72" width="148" height="74" rx="10" fill="#131a28" stroke="{accent}" stroke-opacity=".36"/><text x="{x + 14}" y="101" fill="#f5f7fb" font-size="13" font-weight="700">{escape(label)}</text><text x="{x + 14}" y="124" fill="#8e9aab" font-size="10">{escape(topic["group"])} · {i + 1:02d}</text></g>')
+    points = ' '.join(f'{42 + i * 176},{62 - ((i + slot) % 3) * 10}' for i in range(4))
+    return f"""<figure class="guide-figure"><svg viewBox="0 0 720 170" role="img" aria-label="{title}：{escape(labels[slot % 4])}結構示意圖" preserveAspectRatio="xMidYMid meet"><rect width="720" height="170" rx="14" fill="#0d1420"/><text x="18" y="25" fill="{accent}" font-size="10" letter-spacing="1.6" font-weight="700">VISUAL MAP / {escape(topic["slug"].upper())}</text><text x="18" y="46" fill="#dce3ed" font-size="12">{escape(labels[slot % 4])} → 資料 → 判斷 → 執行</text><polyline points="{points}" fill="none" stroke="{accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><line x1="42" y1="62" x2="570" y2="62" stroke="#283347" stroke-width="1" stroke-dasharray="4 6"/>{''.join(f'<circle cx="{42 + i * 176}" cy="{62 - ((i + slot) % 3) * 10}" r="5" fill="{accent}"/>' for i in range(4))}{''.join(cells)}</svg><figcaption>以「{escape(labels[slot % 4])}」為起點的本頁研究路徑示意；圖形是教育模型，不是行情預測。</figcaption></figure>"""
+
+def generic_modules(topic):
+    row_markup = ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{d}</td><td>{e}</td></tr>' for a, b, d, e in topic['compare_rows'])
+    specs = [
+        ('foundation', 'MODULE 01 / FOUNDATION', topic['concept_title'], topic['concept']),
+        ('metrics', 'MODULE 02 / METRICS & FORMULAS', topic['metrics_title'], topic['metrics'] + topic['example']),
+        ('practice', 'MODULE 03 / PRACTICE FLOW', f'實戰：{topic["practice_title"]}', topic['practice']),
+        ('risk', 'MODULE 04 / RISK & COMPARISON', topic['compare_title'], f'<table class="guide-table"><thead><tr><th>方式／情境</th><th>優點</th><th>主要限制</th><th>風險情境</th></tr></thead><tbody>{row_markup}</tbody></table>{topic["checklist"]}<div class="guide-callout">{topic["tool_note"]}</div>'),
+    ]
+    modules = []
+    for key, kicker, title, body in specs:
+        modules.append({'id': f'{topic["slug"]}-{key}', 'kicker': kicker, 'title': title, 'body': body})
+    topic['chapter_nav'] = [(m['id'], label) for m, (_, _, label) in zip(modules, MODULE_TITLES)]
+    return modules
+
+for topic in categories + [risk, grid, drip]:
+    if not topic.get('module_sections'):
+        topic['module_sections'] = generic_modules(topic)
+
 all_topics = categories + [strategy, risk, grid, drip]
 sidebar = ''.join(f'<a href="{c["slug"]}.html">{c["index"]} · {escape(c["title"])}</a>' for c in all_topics)
 
@@ -332,13 +402,13 @@ def chapter_navigation(topic):
 def module_sections(topic):
     if not topic.get('module_sections'):
         return ''
-    return ''.join(f'<section id="{escape(module["id"])}" class="guide-module"><div class="section-kicker">{escape(module["kicker"])}</div><h2>{escape(module["title"])}</h2>{module["body"]}</section>' for module in topic['module_sections'])
+    return ''.join(f'<section id="{escape(module["id"])}" class="guide-module"><div class="section-kicker">{escape(module["kicker"])}</div><h2>{escape(module["title"])}</h2>{svg_illustration(topic, i)}{module["body"]}<div class="guide-inline-cta"><a href="{escape(module.get("tool", topic["tool"])[1], quote=True)}"><i class="fa-solid fa-arrow-up-right-from-square"></i> {escape(module.get("tool", topic["tool"])[0])}</a><span>把本模組假設放進瀏覽器工具檢查</span></div></section>' for i, module in enumerate(topic['module_sections']))
 
 for c in all_topics:
     chapter_nav_markup = chapter_navigation(c)
     if c.get('module_sections'):
         sections = f'''{chapter_nav_markup}{module_sections(c)}
-<section class="guide-checklist-section"><h2>跨模組實戰檢核</h2><p>把籌碼、價格、基本面與交易制度放在同一張交易前表格：先寫資料日期與假設，再列出觸發、失效、成本、流動性與最大損失。只有當四個模組的結論沒有互相矛盾，才進一步使用工具做情境比較；若資料不足，結論應停留在「待驗證」，而不是補上沒有證據的故事。</p><ol class="guide-checklist"><li>資料是否有來源、日期與一致的計算口徑？</li><li>進場、停損、目標與部位大小是否能在壓力情境下成立？</li><li>交易制度、成本、流動性與交割限制是否已寫進計畫？</li></ol></section>'''
+<section class="guide-checklist-section"><h2>跨模組實戰檢核</h2><p>把 {c['title']} 的概念、指標、執行與風險放在同一張交易前表格：先寫資料日期與假設，再列出觸發、失效、成本、流動性與最大損失。只有當各模組的結論沒有互相矛盾，才進一步使用工具做情境比較；若資料不足，結論應停留在「待驗證」，而不是補上沒有證據的故事。</p><ol class="guide-checklist"><li>資料是否有來源、日期與一致的計算口徑？</li><li>進場、停損、目標與部位大小是否能在壓力情境下成立？</li><li>交易制度、成本、流動性與交割限制是否已寫進計畫？</li></ol></section>'''
     else:
         sections = f'''<section><h2>{c['concept_title']}</h2>{c['concept']}</section>
 <section><h2>{c['metrics_title']}</h2>{c['metrics']}{c['example']}</section>
@@ -355,13 +425,13 @@ for c in all_topics:
   <title>{escape(c['title'])}｜GugoPro 財經學院</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=global-compact-20260825">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=content-architecture-20260825-rich">
 </head>
 <body class="{body_class}">
 <header class="site-header"><div class="nav-container"><a href="../index.html" class="logo" aria-label="GugoPro 財經學院首頁"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><nav class="primary-nav" aria-label="主要導覽"><a href="../index.html#knowledge-tree">知識樹</a><a href="../tools/index.html">實戰工具</a><a href="../index.html#reading-room">閱讀室</a></nav><div class="nav-actions"><a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a><div class="lang-selector"><button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button><div class="lang-dropdown"><a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a><a href="#" onclick="changeLanguage('zh-cn')">简体中文</a><a href="#" onclick="changeLanguage('en')">English</a></div></div><button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div></div></header>
 <main><div class="guide-layout"><aside class="guide-sidebar"><div class="section-kicker">13 + 3 TOPICS</div>{sidebar}<a href="../tools/index.html" class="guide-sidebar-tool">開啟工具工作台 →</a></aside><article class="guide-content"><header class="guide-hero"><div class="eyebrow"><span class="eyebrow-dot"></span>{c['eyebrow']}</div><h1>{escape(c['title'])}：先理解，再計算，最後管理風險。</h1><p>{c['intro']}</p><div class="guide-meta"><span>{c['group']}</span><span>深度專題</span><span>教育用途</span></div></header><div class="guide-body">{sections}{ref_section}<div class="guide-tool-launch"><div class="guide-tool-launch-copy"><span class="section-kicker">PRACTICE DESK / APPLY THE FRAMEWORK</span><h2>讀完就把假設放進工具檢查</h2><p>先用本頁的概念與風險框架建立條件，再用對應試算工具保留輸入、比較情境，最後回到文章檢查假設是否仍成立。</p></div><div class="guide-tool-launch-grid"><a class="guide-tool-card is-primary" href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i><strong>{c['tool'][0]}</strong><span>使用本主題專屬工具</span></a><a class="guide-tool-card" href="../tools/risk-reward-calculator.html"><i class="fa-solid fa-chart-line"></i><strong>風報比 K 線分析儀</strong><span>價格結構與部位風控</span></a><a class="guide-tool-card" href="../tools/etf-dividend-calculator.html"><i class="fa-solid fa-coins"></i><strong>ETF 現金流試算機</strong><span>DRIP 與領現金比較</span></a><a class="guide-tool-card" href="../tools/grid-trading-calculator.html"><i class="fa-solid fa-border-all"></i><strong>BTC 動態網格工作台</strong><span>費後間距與破網風險</span></a></div></div><div class="guide-tools"><a href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i> {c['tool'][0]}</a><a href="../tools/index.html"><i class="fa-solid fa-compass"></i> 回到工具工作台</a><a href="../index.html#knowledge-tree"><i class="fa-solid fa-book-open"></i> 回到知識樹</a></div><div class="guide-cta"><div><h3>把這篇文章放回圖表驗證</h3><p>TradingView 可用來觀察全球市場、建立指標與回測假設；優惠內容以合作頁與所在地區規則為準。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div><p class="tool-disclaimer">本頁內容僅供教育與研究參考，不構成投資、稅務或法律建議。金融商品可能產生本金損失，請依自身情況審慎評估。</p></div></article></div></main>
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">13 類知識樹</a><a href="../tools/index.html">實戰工具庫</a><a href="../index.html#reading-room">閱讀室</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
-<script src="/app.js?v=global-compact-20260825"></script>
+<script src="/app.js?v=content-architecture-20260825-rich"></script>
 </body></html>'''
     (OUT / f'{c["slug"]}.html').write_text(html, encoding='utf-8')
 

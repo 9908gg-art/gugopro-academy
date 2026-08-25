@@ -629,3 +629,16 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 本地瀏覽器回歸：台股桌面 1280px 顯示 4 個章節錨點與 4 個模組，點擊「技術分析實戰」後 URL hash 變為 `#technical-analysis`；左側 `13 · 實戰交易` 入口存在。390×844 與 375×667 的台股頁均無水平溢出，`scrollWidth` 分別為 382／367，active 為 `01 · 台股／股票`；實戰交易頁同樣無溢出，active 為 `13 · 實戰交易`，章節數為 3。首頁點選「實戰交易」後只保留實戰交易卡，`aria-selected=true`，清除後恢復 13 張卡且無水平溢出。
 
 本地畫面證據：台股指南 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-31-43_6734.webp`；首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-33-13_8102.webp`。
+
+
+## 2026-08-25：13 類 rich knowledge architecture 最終回歸
+
+本輪在上一個台股／實戰交易初版之上完成全站內容架構深化。最終主分類順序固定為：01 台股／股票、02 美股、03 ETF、04 債券、05 基金、06 外匯、07 商品原物料、08 期貨、09 選擇權、10 虛擬貨幣、11 房地產、12 總體經濟、13 實戰交易；首頁、生成器 sidebar、生成檔與 `knowledge-tree-spec.md` 已同步。首頁實際有 13 張卡片，宏觀與另類篩選為 5 張，實戰交易篩選為 1 張。
+
+`build_guides.py` 已抽象出可重用的 `generic_modules()`、`svg_illustration()` 與 per-module tool CTA。重新建置輸出 16 篇指南：13 篇主分類加上 R:R、Grid、ETF DRIP 三篇工具專題。12 篇四模組主分類與 3 篇特殊指南各有 4 個模組，實戰交易有 5 個模組，總計 65 個 rich modules／65 個 inline SVG structure maps；每頁均有高對比 chapter pill navigation、跨模組檢核、來源與工具 launch 卡。實戰交易五模組的 inline CTA 已分別覆蓋 R:R、風險工具、Grid 與部位檢查；ETF 指南四個模組直接連到 ETF DRIP calculator。
+
+內容深化保留台股四個指定模組：三大法人／融資融券／券資比／分點與 TDCC 股權分散；MA 扣抵／量價／KD／RSI／MACD／布林；營收 MoM／YoY／三率／PE／PEG／殖利率與除權息；零股、逐筆／集合競價、10% 漲跌幅、價格穩定、當沖、成本與 T+2。制度數字與交易規則以 [TWSE 集中市場交易制度](https://www.twse.com.tw/zh/products/system/trading.html)、[TWSE 盤中零股](https://accessibility.twse.com.tw/zh/products/system/intraday-odd-trading.html)、[TWSE 當日沖銷](https://www.twse.com.tw/zh/products/system/day-trading.html)、[TWSE 三大法人](https://www.twse.com.tw/zh/trading/foreign/t86.html) 與 [TDCC 股權分散](https://www.tdcc.com.tw/portal/zh/smWeb/qryStock) 交叉核對；交易時間、稅率、資格與產品規則仍須以最新公告為準。
+
+最終本地驗證如下：`python3 build_guides.py` 成功；`python3 validate_site.py` 回報 `errors=0`；`python3 -m py_compile build_guides.py`、`node --check`（app、advanced tools、ETF、R:R、Grid、watchlist）與 `git diff --check` 全部通過。受保護的 R:R／Grid 四個核心 HTML／JS 檔案 `git diff --numstat` 無輸出。首頁 1280px 無水平溢出；同源 iframe 批次測試 390×844 與 375×667 的 16 篇指南均為 16/16 通過，所有頁面至少 4 個模組、SVG 數不低於模組數、至少 4 個章節連結、active sidebar 恰為 1 個，390px `scrollWidth=382`、375px `scrollWidth=367`。實戰交易頁為 5／5／5（模組／SVG／anchors）。
+
+本輪修正前初版紀錄曾將實戰交易描述為 3 個模組；那是台股任務的中間里程碑，最終 rich 版本已更新為 5 個模組。所有指南仍是教育與研究內容，不構成投資、稅務或法律建議；金融規則、費率與市場資料可能更新，使用者應在實際交易前核對官方與券商最新資訊。
