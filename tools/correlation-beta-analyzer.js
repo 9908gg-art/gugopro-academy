@@ -119,11 +119,14 @@
   let modalActiveIndex = -1;
   let modalLastFocus = null;
   const EXTENDED_CATALOG_URLS = {
-    stocks: 'data/global-symbol-catalog-stocks.json',
-    forex: 'data/global-symbol-catalog-forex.json',
-    crypto: 'data/global-symbol-catalog-crypto.json'
+    stocks: 'data/global-symbol-catalog-stocks.json?v=20260826-full1',
+    funds: 'data/global-symbol-catalog-funds.json?v=20260826-full1',
+    indices: 'data/global-symbol-catalog-indices.json?v=20260826-full1',
+    moneymarkets: 'data/global-symbol-catalog-moneymarkets.json?v=20260826-full1',
+    forex: 'data/global-symbol-catalog-forex.json?v=20260826-full1',
+    crypto: 'data/global-symbol-catalog-crypto.json?v=20260826-full1'
   };
-  const EXTENDED_CATEGORY_LABELS = { stocks: '全球股票／ETF', forex: '全球外匯', crypto: '全球加密貨幣' };
+  const EXTENDED_CATEGORY_LABELS = { stocks: '全球股票／ETF', funds: '全球基金', indices: '全球指數', moneymarkets: '貨幣市場', forex: '全球外匯', crypto: '全球加密貨幣' };
   const extendedCatalogState = { entries: [], loaded: new Set(), loading: new Map(), errors: new Map() };
   const EXTENDED_META_BY_SYMBOL = new Map();
   const MODAL_ROW_HEIGHT = 76;
@@ -505,7 +508,7 @@
 
   const PICKER_CATEGORY_LABELS = {
     all: '全部商品', twstocks: '台股／ETF', foreignstocks: '國外股票', twfutures: '台股期貨',
-    globalfutures: '國外期貨', commodities: '黃金／原物料', forex: '外匯', crypto: '加密貨幣'
+    globalfutures: '國外期貨', commodities: '黃金／原物料', funds: '基金／貨幣市場', indices: '全球指數', forex: '外匯', crypto: '加密貨幣'
   };
   const modalCategoryFor = (item) => item.pickerCategory || (item.category === 'tw' || item.category === 'us' ? 'foreignstocks' : item.category === 'global' ? (item.symbol === 'DXY' ? 'forex' : 'commodities') : item.category);
   const modalExchangeFor = (item) => {
@@ -548,10 +551,10 @@
   function normalizeExtendedEntry(item) {
     const symbol = String(item.symbol || '').trim().toUpperCase();
     if (!symbol) return null;
-    const sourceCategory = item.modalCategory || 'stocks';
+    const sourceCategory = item.modalCategory || item.assetType || 'stocks';
     const country = item.country || '🌐';
-    const isTaiwan = /\.(TW|TWO)$/.test(symbol) || country === '🇹🇼' || /TWSE|TAIEX|TAIFEX|Taiwan/i.test(`${item.exchange || ''} ${item.market || ''}`);
-    const pickerCategory = sourceCategory === 'stocks' ? (isTaiwan ? 'twstocks' : 'foreignstocks') : sourceCategory;
+    const isTaiwan = sourceCategory === 'stocks' && (/\.(TW|TWO)$/.test(symbol) || country === '🇹🇼' || /TWSE|TAIEX|TAIFEX|Taiwan/i.test(`${item.exchange || ''} ${item.market || ''}`));
+    const pickerCategory = sourceCategory === 'stocks' ? (isTaiwan ? 'twstocks' : 'foreignstocks') : (sourceCategory === 'moneymarkets' ? 'funds' : sourceCategory);
     const binance = item.binance === true;
     const yahoo = item.yahoo || (sourceCategory === 'forex' ? `${symbol}=X` : symbol);
     return {
@@ -577,7 +580,7 @@
     const combined = [...SYMBOL_SEARCH_CATALOG, ...extendedCatalogState.entries.filter((entry) => !curatedKeys.has(`${entry.symbol}|${entry.modalCategory}`))];
     const unique = new Map();
     combined.forEach((entry) => {
-      const key = `${entry.symbol}|${entry.modalCategory}|${entry.exchange}|${entry.country}`;
+      const key = `${entry.symbol}|${entry.modalCategory}|${entry.assetType || ''}|${entry.exchange}|${entry.country}`;
       if (!unique.has(key)) unique.set(key, entry);
     });
     return [...unique.values()];
@@ -594,9 +597,9 @@
       status.textContent = `全球商品目錄載入中：${loading.map((category) => EXTENDED_CATEGORY_LABELS[category] || category).join('、')}；內建熱門商品仍可立即選擇。`;
     } else if (loaded.length) {
       const suffix = errors.length ? `；${errors.map((category) => EXTENDED_CATEGORY_LABELS[category] || category).join('、')} 暫時無法載入` : '';
-      status.textContent = `FinanceDatabase／MIT 全球識別資料已載入 ${count} 筆${suffix}；正式行情仍以公開端點支援度為準。`;
+      status.textContent = `FinanceDatabase／MIT 全球識別資料已載入 ${count} 筆${suffix}；長尾商品保留來源官方名稱，資產類型與市場以繁中標示；行情仍以公開端點支援度為準。`;
     } else {
-      status.textContent = '全部商品會載入全球股票／ETF、外匯與加密貨幣識別資料；分類快速選擇可立即使用。';
+      status.textContent = '全部商品會載入全球股票／ETF、基金、指數、貨幣市場、外匯與加密貨幣識別資料；分類快速選擇可立即使用。';
     }
   }
 
@@ -607,7 +610,7 @@
       .then((response) => { if (!response.ok) throw new Error(`公開目錄 HTTP ${response.status}`); return response.json(); })
       .then((payload) => {
         const entries = (payload.entries || []).map(normalizeExtendedEntry).filter(Boolean);
-        extendedCatalogState.entries.push(...entries);
+        entries.forEach((entry) => extendedCatalogState.entries.push(entry));
         entries.forEach((entry) => { if (!EXTENDED_META_BY_SYMBOL.has(entry.symbol)) EXTENDED_META_BY_SYMBOL.set(entry.symbol, entry); });
         extendedCatalogState.loaded.add(category);
         extendedCatalogState.errors.delete(category);
@@ -622,22 +625,26 @@
   function catalogCategoriesForFilter(filter) {
     if (filter === 'all') return Object.keys(EXTENDED_CATALOG_URLS);
     if (filter === 'twstocks' || filter === 'foreignstocks') return ['stocks'];
+    if (filter === 'funds') return ['funds', 'moneymarkets'];
     return EXTENDED_CATALOG_URLS[filter] ? [filter] : [];
   }
 
   async function ensureCatalogForFilter(filter) {
     const categories = catalogCategoriesForFilter(filter);
     if (!categories.length) return;
-    await Promise.all(categories.map((category) => loadExtendedCatalog(category)));
+    for (const category of categories) await loadExtendedCatalog(category);
     if (!$('cba-symbol-modal')?.hidden) renderSymbolModal();
   }
 
   function modalAssetTypeLabel(entry) {
-    return { equities: '股票', etfs: 'ETF', forex: '外匯', crypto: '加密貨幣' }[entry.assetType] || '全球商品';
+    return { equities: '股票', etfs: 'ETF', funds: '基金', indices: '指數', moneymarkets: '貨幣市場', forex: '外匯', crypto: '加密貨幣' }[entry.assetType] || '全球商品';
   }
 
   function modalDetailFor(entry) {
-    if (entry.catalogOnly) return `${modalAssetTypeLabel(entry)} · ${entry.market || '全球市場'} · 公開識別資料`;
+    if (entry.catalogOnly) {
+      const market = entry.modalCategory === 'indices' ? '全球指數' : entry.modalCategory === 'funds' ? '共同基金／貨幣市場' : entry.market || '全球市場';
+      return `${modalAssetTypeLabel(entry)} · ${market} · 公開識別資料`;
+    }
     return entry.market || '可用公開行情';
   }
 
