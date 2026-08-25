@@ -396,3 +396,26 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | 375×667 | top=58、height=447、bottom=505 | h1 top=107、height=57；第一行 height=30、nowrap | top=310、height=174、bottom=484 | `scrollWidth=367`，無溢出 |
 
 互動回歸中，點選「固定收益」顯示 2 張卡片；再輸入 `ETF` 後組合條件正確顯示 0 張；清除搜尋並回到「全部 12」後恢復 12 張。標題等待 350ms 前後量測均為 top=117、height=90、bottom=206，判定沒有載入後漂移。primary CTA 與 active filter 仍分別為橘底白字；`python3 validate_site.py`、既有 JavaScript syntax check 與 `git diff --check` 均通過。
+
+
+## 二十五、台股四模組與實戰交易知識架構重構（2026-08-25）
+
+本輪以台股作為內容深化範本，並將「實戰交易」正式加入全站知識架構。指南生成器 `build_guides.py` 新增可重用的 `chapter_nav` 與 `module_sections` 資料模型，重新生成 16 篇指南；所有文章側欄統一為 `13 + 3 TOPICS`，目前文章由 `app.js` 依 pathname 自動標示 active／`aria-current="page"`。
+
+`guides/taiwan-stocks.html` 現在是一個四模組主題庫，而非單篇簡介。模組一處理三大法人、土洋對做、融資融券、券資比、分點券商與 TDCC 股權分散；模組二處理 5MA／20MA 扣抵、突破放量、窒息量、KD／RSI／MACD／布林通道及指標盲點；模組三處理每月營收、MoM／YoY、毛利率／營業利益率／稅後淨利率、PE／PEG、殖利率、除權息與填息；模組四處理盤中零股、逐筆／集合競價、10% 漲跌幅、價格穩定措施、現股當沖、手續費、交易稅、T+2 與交易前風控。每個模組均有公式、案例、表格或檢核內容。
+
+台股頁頂部提供四個緊湊章節錨點：`#chips-analysis`、`#technical-analysis`、`#fundamentals-analysis`、`#trading-rules`；點擊後平滑跳轉，模組使用 `scroll-margin-top` 避免被 header 遮蔽。頁尾仍保留複利、R:R、ETF DRIP、Grid 與 TradingView 工具 CTA。新增 `guides/trading-strategy.html`，包含技術分析體系、價格行為、資金與部位管理三個實戰章節，並由首頁第 13 張「實戰交易」卡與 `strategy` 篩選入口導入。
+
+內容引用的制度來源保存於 `tw-stock-official-sources-20260825.md`，包含 TWSE 集中市場交易制度、盤中零股、當沖、三大法人、臺灣投資指南及 TDCC 集保戶股權分散表。本文仍是教育與研究內容；交易時間、稅率、資格與商品規則可能依公告更新，實際執行前應以交易所、券商與法規最新版本為準。
+
+| 驗證項目 | 結果 |
+|---|---|
+| 生成建置 | `python3 build_guides.py` 成功，輸出 16 篇指南；台股 4 模組、實戰交易 3 模組 |
+| 靜態品質 | `python3 validate_site.py`：`errors=0`；所有既有 JavaScript `node --check` 通過；`git diff --check` 通過 |
+| 台股桌面 | 1280px 顯示 4 個章節快選與 4 個模組；點選技術分析後 hash 變為 `#technical-analysis`；sidebar 含 `13 · 實戰交易` |
+| 台股手機 | 390×844：`scrollWidth=382`；375×667：`scrollWidth=367`；兩者均無水平溢出，active 為 `01 · 台股／股票` |
+| 實戰交易手機 | 390／375px 均無水平溢出，active 為 `13 · 實戰交易`，章節快選 3 個 |
+| 首頁分類 | 實戰交易 filter 點選後只顯示新卡、`aria-selected=true`；清除後恢復 13 張卡，無水平溢出 |
+| R:R／Grid 保護 | R:R／Grid 四個專用 HTML／JS 檔案本輪 `git diff` 行數為 0，既有功能未改動 |
+
+本地畫面證據：台股指南 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-31-43_6734.webp`；首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-33-13_8102.webp`。

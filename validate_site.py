@@ -36,16 +36,24 @@ for anchor in ['knowledge-tree', 'tool-deck', 'reading-room', 'support']:
     if f'id="{anchor}"' not in root_text: errors.append(f'root missing #{anchor}')
 for href in ['tools/risk-reward-calculator.html', 'tools/etf-dividend-calculator.html', 'tools/grid-trading-calculator.html']:
     if href not in root_text: errors.append(f'root missing tool link {href}')
-for root_marker in ['global-compact-20260825', 'homepage-density-20260825', 'role="tab"', 'aria-selected="true"', 'aria-selected="false"']:
+for root_marker in ['content-architecture-20260825', 'role="tab"', 'aria-selected="true"', 'aria-selected="false"', 'data-category="strategy"', 'guides/trading-strategy.html', '13 個核心分類']:
     if root_marker not in root_text: errors.append(f'root missing knowledge-tree marker {root_marker}')
 
-expected_guides = ['taiwan-stocks','us-stocks','etf','bonds','funds','forex','commodities','futures','options','warrants','crypto','cfd-indices','risk-reward-ratio','grid-trading','etf-dividend-drip']
+expected_guides = ['taiwan-stocks','us-stocks','etf','bonds','funds','forex','commodities','futures','options','warrants','crypto','cfd-indices','trading-strategy','risk-reward-ratio','grid-trading','etf-dividend-drip']
 for slug in expected_guides:
     if not (ROOT / 'guides' / f'{slug}.html').exists(): errors.append(f'missing guide {slug}')
 for guide_path in sorted((ROOT / 'guides').glob('*.html')):
     guide_text = guide_path.read_text(encoding='utf-8')
     for guide_marker in ['/style.css?v=global-compact-20260825', '/app.js?v=global-compact-20260825']:
         if guide_marker not in guide_text: errors.append(f'{guide_path.relative_to(ROOT)} missing global compact asset marker {guide_marker}')
+taiwan_text = (ROOT / 'guides' / 'taiwan-stocks.html').read_text(encoding='utf-8')
+for marker in ['guide-topic-hub', 'guide-chapter-nav', 'id="chips-analysis"', 'id="technical-analysis"', 'id="fundamentals-analysis"', 'id="trading-rules"', '券資比', 'MA_n', 'MoM', 'T+2', 'TWSE 集中市場交易制度', 'TDCC 集保戶股權分散表']:
+    if marker not in taiwan_text: errors.append(f'taiwan-stocks.html missing content marker {marker}')
+strategy_text = (ROOT / 'guides' / 'trading-strategy.html').read_text(encoding='utf-8')
+for marker in ['guide-topic-hub', 'id="technical-system"', 'id="price-action"', 'id="position-sizing"', '技術分析體系', '價格行為', '資金與部位管理']:
+    if marker not in strategy_text: errors.append(f'trading-strategy.html missing content marker {marker}')
+if not (ROOT / 'build_guides.py').exists(): errors.append('missing build_guides.py generator')
+
 required_files = [
     'privacy.html', 'terms.html', 'about.html',
     'tools/risk-reward-calculator.html', 'tools/risk-reward-calculator.js',
@@ -145,10 +153,12 @@ for forbidden_file in [
         if forbidden in forbidden_text: errors.append(f'{forbidden_file.relative_to(ROOT)} still contains forbidden API key marker {forbidden}')
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')
-print('deep_guides_expected=15')
+print('deep_guides_expected=16')
 print('workbench_panels=9')
 print('advanced_tools=3')
 print('default_symbols=15_global')
+print('knowledge_tree_categories=13')
+print('guide_modules=taiwan-4-plus-strategy-3')
 print('standalone_rr=chart-enabled')
 print(f'errors={len(errors)}')
 for error in errors: print(f'ERROR: {error}')

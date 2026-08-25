@@ -2788,3 +2788,117 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
     padding-top: 8px;
   }
 }
+
+
+/* Content architecture: chapter quick-jumps and topic-hub modules */
+.guide-page .guide-chapter-nav {
+  position: sticky;
+  top: 76px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 20px;
+  padding: 9px 10px;
+  border: 1px solid rgba(255,159,67,.24);
+  border-radius: 11px;
+  background: rgba(12,18,28,.94);
+  box-shadow: 0 8px 24px rgba(0,0,0,.16);
+  backdrop-filter: blur(12px);
+}
+.guide-page .guide-chapter-label {
+  flex: 0 0 auto;
+  color: var(--orange, #ff9f43);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 7px;
+}
+.guide-page .guide-chapter-nav a {
+  flex: 0 0 auto;
+  color: var(--copy-soft, #c2ccda);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 7px;
+  padding: 6px 9px;
+  font-size: .76rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+}
+.guide-page .guide-chapter-nav a:hover,
+.guide-page .guide-chapter-nav a:focus-visible {
+  color: #fff;
+  border-color: rgba(255,159,67,.72);
+  background: rgba(255,159,67,.14);
+  outline: none;
+}
+.guide-page .guide-module {
+  scroll-margin-top: 94px;
+  padding-top: 2px;
+}
+.guide-page .guide-module + .guide-module {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.guide-page .guide-module > .section-kicker {
+  margin-bottom: 8px;
+  color: var(--orange, #ff9f43);
+}
+.guide-page .guide-module h2 {
+  max-width: 900px;
+  margin-top: 0;
+}
+.guide-page .guide-checklist-section {
+  padding-top: 4px;
+}
+.guide-page .guide-checklist-section h2 {
+  margin-top: 0;
+}
+@media (max-width: 820px) {
+  .guide-page .guide-chapter-nav {
+    position: static;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-bottom: 14px;
+    padding: 7px;
+    scrollbar-width: thin;
+  }
+  .guide-page .guide-chapter-nav a {
+    font-size: .72rem;
+    white-space: nowrap;
+  }
+  .guide-page .guide-module + .guide-module {
+    margin-top: 24px;
+    padding-top: 22px;
+  }
+}
+@media (max-width: 560px) {
+  .guide-page .guide-chapter-label {
+    font-size: .62rem;
+  }
+  .guide-page .guide-chapter-nav a {
+    padding: 6px 8px;
+  }
+}
+
+/* The knowledge tree now includes an execution-focused thirteenth topic. */
+.home-page .knowledge-card[data-category="strategy"] .card-icon {
+  color: #ff887a;
+  background: rgba(255,136,122,.12);
+}
+.home-page .knowledge-card[data-category="strategy"] .text-link,
+.home-page .knowledge-card[data-category="strategy"] h3 {
+  color: #ff887a;
+}
+.home-page .knowledge-card[data-category="strategy"] .topic-tags span {
+  border-color: rgba(255,136,122,.24);
+}
+@media (max-width: 560px) {
+  .home-page .knowledge-card[data-category="strategy"] .text-link {
+    color: #ffaaa0;
+  }
+}

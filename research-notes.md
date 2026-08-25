@@ -616,3 +616,16 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 首頁 CSS cache 更新為 `style.css?v=homepage-density-20260825`。本地 1280×1100：Hero height=316px（上一版 479px），h1 height=90px、font-size=42.24px，第一行 height=44px 且 `white-space=nowrap`；Hero lede 14.4px、42px 高；Console height=241px、transform=`none`、title 24px；知識樹 top=374px，第一張卡片 top=590px、height=214px；primary CTA 維持橘底白字，active filter 維持橘底白字，無水平溢出。
 
 本地 390×844 與 375×667：兩者 Hero 均 top=58、height=447、bottom=505；slogan h1 top=107、height=57，第一行 height=30 且 `white-space=nowrap`；Console top=310、height=174、bottom=484；knowledge tree top=505；`scrollWidth` 分別為 382 與 367，均無水平溢出。分類／搜尋互動回歸：點選「固定收益」顯示 2 張卡，與 ETF 搜尋組合正確顯示 0 張，清除條件後恢復 12 張且 active 回到「全部 12」；標題等待 350ms 前後量測均為 top=117、height=90、bottom=206，判定無漂移。
+
+
+## 2026-08-25：台股四模組與實戰交易知識架構重構
+
+本輪將 `build_guides.py` 從單篇通用指南模板擴充為可支援主題庫與章節錨點的資料模型。`taiwan-stocks.html` 現在包含四個可平滑跳轉的模組：籌碼面深度解析、台股核心技術分析、基本面與財報、台股交易制度與風控。每個模組均有實務段落、公式、案例或檢核表；內容涵蓋三大法人、融資融券與券資比、分點與集保股權分散、MA 扣抵與量價、KD／RSI／MACD／布林、MoM／YoY／三率／PE／PEG／殖利率，以及零股、逐筆交易、漲跌幅、當沖、手續費與交易稅等主題。
+
+同步新增 `guides/trading-strategy.html` 作為第 13 類「實戰交易」，分成技術分析體系、價格行為、資金與部位管理三個模組；首頁知識樹新增第 13 張入口卡與 `strategy` filter，所有 16 篇指南 sidebar 統一顯示 `13 + 3 TOPICS`，並由 `app.js` 依 pathname 自動標示當前文章 active／`aria-current`。指南生成器輸出的 CSS／JS cache 使用 `global-compact-20260825`，首頁本輪內容架構資產使用 `content-architecture-20260825`。
+
+官方制度來源保存於 `/home/ubuntu/tw-stock-official-sources-20260825.md`，正文引用 TWSE 集中市場交易制度、盤中零股、當沖、三大法人、臺灣投資指南與 TDCC 集保戶股權分散資料。生成後指南數量為 16、台股模組為 4、實戰交易模組為 3；`python3 validate_site.py` 回報 `errors=0`，所有既有 JS 語法檢查與 `git diff --check` 通過，R:R／Grid 四個專用 HTML／JS 差異行數為 0。
+
+本地瀏覽器回歸：台股桌面 1280px 顯示 4 個章節錨點與 4 個模組，點擊「技術分析實戰」後 URL hash 變為 `#technical-analysis`；左側 `13 · 實戰交易` 入口存在。390×844 與 375×667 的台股頁均無水平溢出，`scrollWidth` 分別為 382／367，active 為 `01 · 台股／股票`；實戰交易頁同樣無溢出，active 為 `13 · 實戰交易`，章節數為 3。首頁點選「實戰交易」後只保留實戰交易卡，`aria-selected=true`，清除後恢復 13 張卡且無水平溢出。
+
+本地畫面證據：台股指南 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-31-43_6734.webp`；首頁 13 類入口 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_04-33-13_8102.webp`。
