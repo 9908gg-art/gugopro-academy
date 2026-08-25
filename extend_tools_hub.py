@@ -1,10 +1,14 @@
-from pathlib import Path
 import re
+from pathlib import Path
 
-path = Path(__file__).parent / 'tools' / 'index.html'
+from chapter_tool_specs import TOOLS
+
+ROOT = Path(__file__).parent
+path = ROOT / 'tools' / 'index.html'
 text = path.read_text(encoding='utf-8')
 marker = '<p class="tools-hub-empty" id="tool-library-empty" hidden>'
-cards = [
+
+GLOBAL_CARDS = [
 ('18','us-earnings-tracker.html','us','02 · 美股','財報與估值','fa-file-invoice-dollar','美股財報成長與 EPS 驚喜分析儀','抓取公開行情與 SEC XBRL facts，觀察 EPS、營收成長與財報窗口價格反應。','us-earnings'),
 ('19','us-sec-insider-flow.html','us','02 · 美股','SEC 申報','fa-user-shield','美股內部人持股與 SEC 申報流向儀','整理 SEC submissions 的 Form 4、13F 申報密度與 accession 查證入口，不以筆數偽造交易方向。','us-sec-insider'),
 ('20','etf-nav-premium-tracker.html','etf','03 · ETF','淨值與費用','fa-layer-group','ETF 淨值折溢價與費用率分析儀','以公開市場價格與 adjusted-close NAV 代理，觀察折溢價、追蹤差與正式 NAV 查證位置。','etf-nav'),
@@ -21,23 +25,32 @@ cards = [
 ('31','trade-risk-kelly-criterion.html','strategy','13 · 實戰交易','Kelly／R:R','fa-shield-halved','Kelly 部位管理、R:R 與破產機率儀','以真實交易紀錄的勝率與盈虧比計算 Kelly、風險股數與可重現回撤路徑。','trade-risk-kelly'),
 ]
 
-def card(item):
-    if len(item) == 8:
-        index, href, category, tag, kicker, icon, title, desc = item
-        ident = ''
-    else:
-        index, href, category, tag, kicker, icon, title, desc, ident = item
-    search = f'{tag} {kicker} {title} {desc} {ident}'
-    return f'<a class="tool-hub-card" href="{href}" data-tool-card data-global-tool-card data-tool-category="{category}" data-tool-search="{search}"><span class="tool-hub-card-top"><span class="tool-hub-index">{index}</span><span class="tool-hub-tag">{tag}</span><i class="fa-solid {icon}" aria-hidden="true"></i></span><span class="tool-hub-card-kicker">{kicker}</span><strong>{title}</strong><span class="tool-hub-description">{desc}</span><span class="tool-hub-card-action">開啟真實資料工具 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></a>'
 
-block = ''.join(card(item) for item in cards)
-text = re.sub(r'<a class="tool-hub-card"[^>]*data-global-tool-card[^>]*>.*?</a>', '', text, flags=re.S)
+def anchor_card(index, href, category, tag, kicker, icon, title, desc, marker='data-global-tool-card', action='開啟公開資料工具'):
+    search = f'{tag} {kicker} {title} {desc} {href}'
+    return f'<a class="tool-hub-card" href="{href}" data-tool-card {marker} data-tool-category="{category}" data-tool-search="{search}"><span class="tool-hub-card-top"><span class="tool-hub-index">{index}</span><span class="tool-hub-tag">{tag}</span><i class="fa-solid {icon}" aria-hidden="true"></i></span><span class="tool-hub-card-kicker">{kicker}</span><strong>{title}</strong><span class="tool-hub-description">{desc}</span><span class="tool-hub-card-action">{action} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></a>'
+
+
+def global_card(item):
+    index, href, category, tag, kicker, icon, title, desc, ident = item
+    return anchor_card(index, href, category, tag, kicker, icon, title, desc, 'data-global-tool-card', '開啟公開資料工具')
+
+
+def chapter_card(index, spec):
+    tag = f"{spec['kicker'].split()[0]} · {spec['kicker'].split()[1]}"
+    return anchor_card(index, spec['file'], spec['category'], tag, spec['label'], 'fa-calculator', spec['title'], spec['description'], 'data-chapter-tool-card', '開啟章節工具')
+
 if marker not in text:
     raise SystemExit('card marker not found')
-text = text.replace(marker, block + marker, 1)
-text = text.replace('<strong>17</strong><span>可探索工具</span>', '<strong>31</strong><span>可探索工具</span>', 1)
-text = re.sub(r'13 類市場導航(?: · 14 張公開資料工具)+', '13 類市場導航 · 14 張公開資料工具', text, count=1)
-text = text.replace('QUICK CALCULATORS / 09 PANELS', 'QUICK CALCULATORS / 23 PANELS', 1)
-text = text.replace('上方「在本頁計算」卡片', '上方「在本頁計算」或「開啟真實資料」卡片', 1)
+
+text = re.sub(r'<a class="tool-hub-card"[^>]*data-global-tool-card[^>]*>.*?</a>', '', text, flags=re.S)
+text = re.sub(r'<a class="tool-hub-card"[^>]*data-chapter-tool-card[^>]*>.*?</a>', '', text, flags=re.S)
+global_block = ''.join(global_card(item) for item in GLOBAL_CARDS)
+chapter_block = ''.join(chapter_card(32 + i, spec) for i, spec in enumerate(TOOLS))
+text = text.replace(marker, global_block + chapter_block + marker, 1)
+hero = '<strong id="tool-library-total">—</strong><span>可探索工具</span><small><span id="tool-library-category-count">—</span> 類市場導航 · <span id="tool-library-public-count">—</span> 張公開資料工具 · <span id="tool-library-chapter-count">—</span> 章節工具</small>'
+text = re.sub(r'<strong(?: id="tool-library-total")?>[^<]*</strong><span>可探索工具</span><small>.*?</small>', hero, text, count=1, flags=re.S)
+text = re.sub(r'QUICK CALCULATORS / \d+ PANELS', 'QUICK CALCULATORS / 23 PANELS', text, count=1)
+text = text.replace('上方「在本頁計算」卡片', '上方「在本頁計算」或「開啟工具」卡片', 1)
 path.write_text(text, encoding='utf-8')
-print('added', len(cards), 'cards; hub total 31')
+print(f'added {len(GLOBAL_CARDS)} public-data cards and {len(TOOLS)} chapter cards; hub total is computed from DOM')

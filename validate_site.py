@@ -2,6 +2,7 @@ from pathlib import Path
 from html.parser import HTMLParser
 import re
 from urllib.parse import urlparse
+from chapter_tool_specs import TOOLS
 
 ROOT = Path(__file__).parent
 
@@ -94,8 +95,11 @@ required_files = [
     'tools/us-earnings-tracker.html', 'tools/us-sec-insider-flow.html', 'tools/etf-nav-premium-tracker.html', 'tools/etf-drip-backtester.html',
     'tools/bond-yield-curve-tracker.html', 'tools/fund-sharpe-drawdown-analyzer.html', 'tools/forex-interest-carry-calc.html', 'tools/commodity-gold-oil-ratio.html',
     'tools/futures-basis-term-structure.html', 'tools/options-implied-volatility-rank.html', 'tools/crypto-funding-rate-liquidations.html',
-    'tools/real-estate-roi-cap-rate.html', 'tools/macro-liquidity-cpi-tracker.html', 'tools/trade-risk-kelly-criterion.html'
+    'tools/real-estate-roi-cap-rate.html', 'tools/macro-liquidity-cpi-tracker.html', 'tools/trade-risk-kelly-criterion.html',
+    'chapter_tool_specs.py', 'build_chapter_tools.py', 'patch_chapter_guide_links.py',
+    'tools/chapter-tools.css', 'tools/chapter-tools-runtime.js'
 ]
+required_files.extend(f'tools/{tool["file"]}' for tool in TOOLS)
 for required in required_files:
     if not (ROOT / required).exists(): errors.append(f'missing required file {required}')
 
@@ -135,9 +139,15 @@ for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'gri
 for hub_marker in ['tools-hub-layout', 'tools-hub-sidebar', 'tools-hub-filters', 'tool-library-search', 'tool-library-grid', 'data-tool-filter', 'data-tool-card', 'tools-hub.js', '全市場工具', '01 · 台股／股票']:
     if hub_marker not in workbench_text: errors.append(f'workbench missing Tools Hub marker {hub_marker}')
 if workbench_text.count('data-tool-filter=') != 14: errors.append('workbench must contain 14 tool hub filter buttons')
-if workbench_text.count('data-tool-card') != 31: errors.append('workbench must contain exactly 31 tool cards')
+expected_tool_cards = 31 + len(TOOLS)
+if workbench_text.count('data-tool-card') != expected_tool_cards: errors.append(f'workbench must contain exactly {expected_tool_cards} tool cards')
 if workbench_text.count('data-global-tool-card') != 14: errors.append('workbench must contain exactly 14 global public-data cards')
-if workbench_text.count('13 類市場導航 · 14 張公開資料工具') != 1: errors.append('workbench hero must contain one public-data summary')
+if workbench_text.count('data-chapter-tool-card') != len(TOOLS): errors.append(f'workbench must contain exactly {len(TOOLS)} chapter tool cards')
+for hero_marker in ['id="tool-library-total"', 'id="tool-library-category-count"', 'id="tool-library-public-count"', 'id="tool-library-chapter-count"']:
+    if hero_marker not in workbench_text: errors.append(f'workbench hero missing dynamic marker {hero_marker}')
+for tool in TOOLS:
+    if f'href="{tool["file"]}"' not in workbench_text: errors.append(f'Hub missing chapter tool href {tool["file"]}')
+    if f'<strong>{tool["title"]}</strong>' not in workbench_text: errors.append(f'Hub missing chapter tool title {tool["file"]}')
 global_card_contracts = [
     ('us-earnings-tracker.html', '財報與估值', 'fa-file-invoice-dollar', '美股財報成長與 EPS 驚喜分析儀'),
     ('us-sec-insider-flow.html', 'SEC 申報', 'fa-user-shield', '美股內部人持股與 SEC 申報流向儀'),
@@ -240,6 +250,25 @@ for guide_file, tool_hrefs in {
         if tool_href not in guide_text: errors.append(f'{guide_file} missing global tool link {tool_href}')
     if guide_text.count('data-global-inline-tool') < len(tool_hrefs): errors.append(f'{guide_file} missing global inline tool marker')
     if guide_text.count('data-global-tool-cta') < len(tool_hrefs): errors.append(f'{guide_file} missing global chapter CTA marker')
+chapter_tools_by_guide = {}
+for tool in TOOLS:
+    chapter_tools_by_guide.setdefault(tool['guide'], []).append(tool)
+for guide_file, tool_specs in chapter_tools_by_guide.items():
+    guide_text = (ROOT / 'guides' / guide_file).read_text(encoding='utf-8')
+    for tool in tool_specs:
+        href = f'../tools/{tool["file"]}'
+        if href not in guide_text: errors.append(f'{guide_file} missing chapter tool link {href}')
+    if guide_text.count('data-chapter-inline-tool') < len(tool_specs): errors.append(f'{guide_file} missing chapter inline tool markers')
+    if guide_text.count('data-chapter-tool-cta') < len(tool_specs): errors.append(f'{guide_file} missing chapter tool CTA markers')
+for tool in TOOLS:
+    tool_path = ROOT / 'tools' / tool['file']
+    if not tool_path.exists(): continue
+    tool_text = tool_path.read_text(encoding='utf-8')
+    guide_href = f'../guides/{tool["guide"]}#{tool["chapter"]}'
+    for marker in ['chapter-tool-page', 'real-data-tool-page', 'chapter-tools.css', 'chapter-tools-runtime.js', 'global-market-data.js', 'chart.umd.min.js', 'PRACTICAL TOOL', 'TRANSPARENT MODEL', 'chapter-status', 'chapter-retry', 'chapter-run', 'chapter-chart', 'chapter-result', 'chapter-bottom-guide']:
+        if marker not in tool_text: errors.append(f'{tool["file"]} missing chapter tool marker {marker}')
+    if guide_href not in tool_text: errors.append(f'{tool["file"]} missing guide backlink {guide_href}')
+    if 'INPUT / SCENARIO' in tool_text or '教育用情境' in tool_text or '假資料' in tool_text: errors.append(f'{tool["file"]} still contains obsolete fake scenario marker')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older','rr-watchlist-options','rr-watchlist-add','rr-watchlist-manage','rr-watchlist-count','rr-watchlist-panel','rr-watchlist-close','rr-watchlist-items','rr-watchlist-feedback','rr-watchlist-clear']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')

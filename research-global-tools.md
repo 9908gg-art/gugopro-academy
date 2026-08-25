@@ -87,3 +87,67 @@ Yahoo r4 loader 直接測試：`GlobalMarket.yahooHistory('NVDA','2y','1d')` 透
 Production 美股財報回歸（c0bc06f）：`us-earnings-tracker.html?qa=c0bc06f` 取得 Yahoo + SEC XBRL，NVDA 最新收盤 US$212.15、近一年價格報酬 23.69%、SEC EPS 2.39 USD、營收 YoY 74.60%，Chart.js 價格／EPS 圖正常。財報窗口因申報日期不可得維持破折號，未補值。
 
 Production 390×844 最終回歸（c0bc06f）：同源 iframe 的 Tools Hub 有 31 張卡／14 張全球卡，`scrollWidth=382`；NVDA 美股財報頁狀態「資料已更新」、`scrollWidth=382`、canvas 約 340×250；ETF DRIP 頁取得 Yahoo 11 筆公開股利事件、狀態「資料已更新」、結果長度 161、`scrollWidth=382`、canvas 約 340×250。
+
+## 2026-08-26 章節工具擴充研究
+
+本次重新盤點時確認，現有 16 篇指南中第 02–13 類各有多個實質章節，但多數章節仍共用同一個工具入口，未達「每章節一個可操作實務工具」的閉環要求。正式 Tools Hub 目前有 31 張卡，但 13 個分類 badge 的數字是整個 Hub 卡片的分類歸屬計數；部分類別包含跨類既有工具，需在 UI 明確說明並以實際 `data-tool-category` DOM 計數為準。
+
+FRED 官方 API 說明指出，FRED／ALFRED 可透過 HTTPS REST 以 XML 或 JSON 查詢資料；後續實作將保留公開序列的日期、頻率與缺值狀態，不在端點失敗時填入殖利率或宏觀數字。[FRED API Overview](https://fred.stlouisfed.org/docs/api/fred/overview.html)
+
+SEC 官方 Developer Resources 說明，company submissions 與 extracted XBRL data 可透過 `data.sec.gov` 的 REST API 取得 JSON；官方同時要求有效率地下載、只取必要內容並控制請求速率。新增美股工具將維持 filing date、form、accession 與 XBRL fiscal period 的區分，不以申報密度推測買賣方向。[SEC Developer Resources](https://www.sec.gov/about/developer-resources)
+
+Binance 文件頁由舊 URL 導向新版 catalog 路徑；既有 runtime 已驗證受限地區回傳 `{code,msg}` 時會顯示明確限制，而不是把錯誤物件當作陣列。新增或擴充加密工具仍只採成功解析的 public REST 欄位，清算不可得時維持破折號。[Binance USDⓈ-M Futures documentation](https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api)
+
+## 第 02–13 類章節覆蓋稽核
+
+指南目前已具備實質章節，但多數章節仍只共用一個工具入口：美股 4 章、ETF 4 章、債券 4 章、基金 4 章、外匯 4 章、商品 4 章、期貨 4 章、選擇權 4 章、加密資產 4 章、房地產 4 章、總經 4 章、實戰交易 5 章。需要改成每個章節至少有一個與該章公式／流程對應的工具，並保留跨章共用的 R:R／Grid 連結。
+
+實際 canonical section ID：美股 `us-stocks-foundation/us-stocks-metrics/us-stocks-practice/us-stocks-risk`；ETF `etf-foundation/etf-metrics/etf-practice/etf-risk`；債券 `bonds-foundation/bonds-metrics/bonds-practice/bonds-risk`；基金 `funds-foundation/funds-metrics/funds-practice/funds-risk`；外匯 `forex-foundation/forex-carry/forex-hedging/forex-risk`；商品 `commodities-foundation/commodities-metrics/commodities-practice/commodities-risk`；期貨 `futures-foundation/futures-metrics/futures-practice/futures-risk`；選擇權 `options-foundation/options-metrics/options-practice/options-risk`；加密資產 `crypto-foundation/crypto-metrics/crypto-practice/crypto-risk`；房地產 `real-estate-foundation/real-estate-metrics/real-estate-practice/real-estate-risk`；總經 `macro-economics-foundation/macro-economics-metrics/macro-economics-practice/macro-economics-risk`；實戰交易 `technical-system/risk-expectancy/pair-trading/grid-mechanics/position-sizing`。
+
+
+## 2026-08-26 Hub 與章節工具修正回歸（r2）
+
+修正 `tools-hub.js` 的初始化時序後，正式頁面載入後不再停留在 0：Hero 顯示 80 個工具、14 張公開資料工具、49 張章節工具；13 類 badge 由實際卡片 DOM 計算。逐一點選 equity、us、etf、fixed、funds、forex、commodities、futures、options、crypto、real-estate、macro、strategy，badge、依 `data-tool-category` 計算的 expected count 與可見卡數全部一致，分別為 9、8、11、8、9、8、6、10、9、7、9、8、13。
+
+`us-market-structure.html` 本地點擊執行 SPY 成功：Yahoo Finance chart 取得 1,255 筆日線，最新收盤 764.84、50 日均線 752.73、200 日均線 708.42、歷史最大回撤 -25.36%，Canvas 圖表正常，頁面有原始資料口徑、錯誤狀態與指南 backlink。
+
+章節工具批量稽核 `audit_chapter_tools.py`：49 specs／49 pages／0 errors；`validate_site.py`：errors=0。配對價差 action 已補入 runtime，均線回測文字代號誤當數值的驗證錯誤亦已修正。
+
+
+`options-black-scholes.html` 本地數學回歸成功：以標的 100、履約價 100、年化波動率 25%、無風險利率 4%、剩餘 30 天的測試條件執行後，Call 理論權利金 3.02、Delta 0.533、Gamma 0.05548、Vega 0.114；Chart.js bar chart 正常，狀態為「計算完成」，頁面明確揭露歐式、固定波動率、無跳躍等限制，不使用行情假值。
+
+
+`fund-exposure-compare.html` 本地回歸：執行 VTI／SPY 後，雙 Yahoo 公開查詢在該瀏覽器窗口最終轉為「無法完成」，訊息為公開端點／備援 abort；HUD、結果與圖表維持空值，重試按鈕可用，沒有以假績效補值。這是目前資料層對多端點受限的透明錯誤路徑，與先前單標的 SPY 成功結果分開記錄。
+
+
+`strategy-trade-journal.html` 本地數學回歸成功：以已結束交易紀錄摘要 60 勝／40 負、平均獲利 1.8R、平均虧損 1R、每筆成本 0.1R 執行，結果為勝率 60.00%、成本後期望值 0.580R、損益平衡勝率 39.29%、Profit factor 2.70；Chart.js 圖表正常，頁面明確要求使用者填入自己的交易日誌，不將測試條件當作市場資料。
+
+
+`strategy-pair-spread.html` 本地公開資料回歸成功：以 SPY／QQQ 與 60 日 Z-score 窗口執行，Yahoo chart 取得 1,255 個共同交易日，報酬相關係數 0.948、目前 Z-score 1.02、normalized 價差均值 -2.44、歷史最大 |Z| 3.99；Chart.js 三條路徑正常。頁面明確說明相關係數不等於協整，仍須檢查 hedge ratio、借券、成本、結構斷裂與樣本外表現。
+
+
+`strategy-pair-spread.html` 完成後 DOM 回歸：桌面 viewport 1280、`scrollWidth=1272`、Canvas client 732×290、`window.__chapterErrors=[]`；390×844 同源 iframe 回歸交易日誌章節工具，`scrollWidth=382`、viewport=390、5 個輸入、Canvas 336×240，無水平溢位。第一次 iframe 測試因 onload 綁定順序漏接而由測試自身逾時，修正順序後成功完成，未視為網站故障。
+
+
+本輪章節工具回歸補充：`strategy-pair-spread.html` 的 SPY／QQQ 60 日窗口取得 1,255 個共同交易日，相關係數 0.948、目前 Z-score 1.02、最大 |Z| 3.99；桌面 Canvas 732×290、`scrollWidth=1272`、無章節 runtime JavaScript 錯誤。章節工具稽核維持 49 specs／49 pages／0 errors，Hub 分類逐項 badge 與可見卡數一致。
+
+
+跨類別章節工具 390×844 同源 iframe sweep 成功：`us-valuation-sensitivity.html` 狀態計算完成、結果長度 125；`crypto-liquidation.html` 計算完成、結果長度 113；`macro-inflation-purchasing.html` 計算完成、結果長度 105；`strategy-position-sizing.html` 計算完成、結果長度 100；`strategy-grid-risk.html` 計算完成、結果長度 110。五頁均 `scrollWidth=382`、Canvas 336×240、`errors=[]`，並各自維持公式限制與無假行情說明。
+
+
+跨類別章節工具第二輪 390×844 iframe sweep 成功：`options-payoff.html` 計算完成、結果長度 93；`crypto-portfolio-risk.html` 計算完成、結果長度 116；`realestate-rent-buy.html` 計算完成、結果長度 114；`macro-regime-quadrant.html` 框架完成、結果長度 110。四頁均 `scrollWidth=382`、Canvas 336×240、`errors=[]`；總經象限頁明確要求以官方原始序列交叉驗證，不自動產生資產配置答案。
+
+
+Hub 重建後回歸結果：Hero 實際顯示 80 個工具、14 張公開資料工具、49 張章節工具；逐一點擊 13 類後，badge 與可見卡片數完全一致（equity 9、us 8、etf 11、fixed 8、funds 9、forex 8、commodities 6、futures 10、options 9、crypto 7、real-estate 9、macro 8、strategy 13），每列 `ok=true`。所有數字由卡片 DOM 計算，初始 HTML 改以 `—` 等待 runtime，避免無 JavaScript 時顯示假 0。
+
+
+章節工具第三輪 390×844 iframe sweep 成功：`bond-duration-convexity.html` 計算完成、結果長度 131；`forex-pip-value.html` 計算完成、結果長度 108；`commodity-carry.html` 計算完成、結果長度 112；`futures-notional-risk.html` 計算完成、結果長度 103；`fund-fee-impact.html` 計算完成、結果長度 102。五頁均 `scrollWidth=382`、Canvas 336×240、`errors=[]`。另以 SPY、20／60 日均線與 0.1% 換手成本測試 `strategy-rule-backtest.html`，Yahoo 取得 1,255 筆日線，策略報酬 13.13%、買入持有 70.38%、策略最大回撤 -29.00%、23 次換手，頁面清楚標示簡化回測限制。
+
+
+`guides/forex.html` 本地閉環回歸成功：4 個章節 section ID（forex-foundation、forex-carry、forex-hedging、forex-risk），4 個 `data-chapter-inline-tool`、4 個 `data-chapter-tool-cta`，對應 Pip、Carry、避險比例與保證金工具；`scrollWidth=1272`、viewport=1280，工具 href 均可解析，保留既有 R:R／DRIP／Grid 交叉學習連結。
+
+章節工具回歸補充：美股／ETF 390px 批次 8 頁均核心 DOM 齊全、scrollWidth=382、無 runtime errors；Yahoo 美股市場結構成功取得 1,255 筆日線。美股 DCF 以 FCF=100、成長 5%、折現 10%、終值成長 2%、5 年、100 股、現價 80 完成；ETF 再平衡以 60／30／10 目標權重完成。債券／基金 8 頁批次均 DOM 齊全、scrollWidth=382、無 runtime errors；兩個基金多 Yahoo 工具延長等待後均成功取得 1,255 個共同交易日（不再停留處理中）。
+
+章節工具全量回歸收尾：外匯／商品 8 頁均以有效欄位值完成，390px scrollWidth=382、無 runtime errors；商品季節性成功取得 GC=F 1,257 筆日線。期貨／選擇權／虛擬貨幣 12 頁均核心 DOM 齊全、數學結果有內容、390px scrollWidth=382、無 runtime errors。房地產／總體／策略 13 頁中，12 頁有效輸入完成且 scrollWidth=382；FRED 衰退儀表板在 12 秒後明確轉為 Failed to fetch／備援 abort 的可見錯誤，沒有補值；Yahoo 均線回測完成 1,255 筆日線，Yahoo 配對價差完成 1,255 個共同交易日。全量 49 頁均已由靜態 audit 驗證核心標記與 guide backlink，公開資料終態採成功或透明錯誤均可接受。
+
+Hub 最終本地回歸：80 張卡片、14 張公開資料卡、49 張章節卡；Hero 動態顯示 80／14／49、13 類市場導航。以卡片原生 `hidden` 狀態逐一點擊 13 個分類，badge 與實際可見卡片完全 parity：all 80、equity 9、us 8、etf 11、fixed 8、funds 9、forex 8、commodities 6、futures 10、options 9、crypto 7、real-estate 9、macro 8、strategy 13。所有卡片為 `<a>` 或 `<button>`，側欄明確說明「數量來自實際卡片；跨市場工具可同時計入多類」。390×844 iframe 顯示 80／14／49，點擊 crypto 後可見 7 張、badge=7，scrollWidth=382，無水平溢位。
