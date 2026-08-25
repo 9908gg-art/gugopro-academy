@@ -467,3 +467,29 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 文件同步提交 **227285c** 已推送至 `main`，GitHub Pages [Run 98](https://github.com/9908gg-art/gugopro-academy/actions/runs/32822649505) 對應 head `227285c`，公開 API 最終回報 `status=completed`、`conclusion=success`。因此正式站最終 main 版本以 227285c 為準；rich overhaul 功能本體與使用者指定 commit 仍以 **e79cd65** 為核心提交。
 
 正式首頁以 [227285c cache-bust URL](https://academy.gugopro.com/index.html?v=227285c&refresh=20260825-0748#knowledge-tree) 核對成功，13 類卡片、10／11 類排序、filter 計數與 `content-architecture-20260825-rich` 資產均正常。上一節已核對的實戰交易、ETF、房地產與總體經濟指南均由同一 Pages artifact 發布；R:R／Grid 核心工具在 e79cd65 前後均沒有本輪 source diff。
+
+
+## 二十九、本輪長篇百科指南全面重構（2026-08-25）
+
+本輪依新的最高優先級規格，將 `build_guides.py` 與 16 篇生成指南由「短段落＋重複 wireframe」改為可自然垂直閱讀的 long-form encyclopedia。文章頁使用獨立的 `guide-longform` 版型，不套用工具頁的 single-screen compact 規則；工具操作區仍維持原有緊湊 HUD。每一篇主分類至少四個實質章節，實戰交易保留五章；章節標題直接描述內容，不再使用泛化的「模組 01／模組 02」作為讀者導覽。
+
+新內容層 `guide_deep_content.py` 將每章拆成定義與範圍、機制或術語、公式與 worked example、實戰流程、常見盲點或壓力情境。外匯頁特別補足 Base／Quote Currency、Pip／pipette、Pip Value、Bid／Ask、Spread、Carry Trade、Swap、Forward、NDF、Margin、Stop Out、Slippage 與週末跳空；並以 CFTC 外匯客戶提示與 BIS 2025 OTC FX 統計作為官方資料來源。[7] [8] 其他類別同步補足 NAV／追蹤差異、Duration／曲線、NOI／Cap Rate、β／Z-Score、Greeks、代幣／錢包、CPI／實質利率等名詞，並在正文以 h3 直接解釋。
+
+原 `VISUAL MAP / ...` 橘色折線與四個重複方塊已從生成輸出移除。新 renderer 只輸出與章節主題相符的概念解析圖，例如貨幣對與 pip 點值、K 線確認／失效區、配息與避險後淨結果、期貨基差、選擇權 payoff、網格上下限、NOI 現金流與宏觀傳導。圖表不是行情預測，caption 明確標註教育用途；長表則包入 `guide-table-wrap`，確保手機可讀。
+
+| 驗證項目 | 本輪結果 |
+|---|---|
+| 生成結果 | `python3 build_guides.py` 生成 16 篇指南；一般頁 4 chapters／4 diagrams，實戰交易 5／5；新頁面均為 `guide-longform`。 |
+| 內容深度 | 一般頁約 16–17 個正文 h3、32–39 個段落；台股 17 h3／51 段落；實戰交易 21 h3／36 段落；外匯正文 16 h3／33 段落。 |
+| 舊圖移除 | 16/16 頁 `VISUAL MAP`、`guide-figure` 與「資料 → 判斷 → 執行」舊 marker 均不存在。 |
+| 本地 390×844 | 16/16 `allNoOverflow=true`；一般頁 `scrollWidth=382`，實戰交易 5 diagrams／5 nav；scrollHeight 約 6,402–11,232px。 |
+| 本地 375×667 | 16/16 `allNoOverflow=true` 且 `allLongerThanViewport=true`；`scrollWidth=367`，文章可自然向下閱讀，未被 single-screen 截斷。 |
+| 外匯桌面 | 4 chapters／4 diagrams／16 h3／19 段 module prose，文章 `scrollHeight=6118`，舊 marker false。 |
+| 外匯 390px | `scrollHeight=8517`、`scrollWidth=382`、`overflow=false`，4 chapters／4 diagrams。 |
+| 長文工具閉環 | 每章保留明確 inline CTA；R:R、Grid、ETF DRIP 與主題工具 launcher 仍可由指南進入，工具核心檔案未修改。 |
+| 靜態品質 | `validate_site.py` `errors=0`；Python／JavaScript syntax check、`git diff --check` 通過。 |
+
+[7]: https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html "CFTC Customer Advisory: Eight Things You Should Know Before Trading Forex"
+[8]: https://www.bis.org/statistics/rpfx25_fx.htm "BIS OTC foreign exchange turnover in April 2025"
+
+本輪內容仍為教育與研究用途，不構成投資、交易、稅務或法律建議。外匯報價、利差、稅費、交易制度、基金分配、貸款條件與工具輸出可能變動；實際操作前應查閱所在地主管機關、交易所、券商、基金／債券文件與最新公告。

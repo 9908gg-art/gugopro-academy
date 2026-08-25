@@ -3074,3 +3074,267 @@ body.is-dragging-price { cursor: ns-resize; user-select: none; }
     transition: none;
   }
 }
+
+
+/* =========================================================
+   Long-form knowledge encyclopedia · 2026-08-25
+   Article pages intentionally scroll; compact single-screen rules
+   remain scoped to .tools-library-page / .compact-* tool pages.
+   ========================================================= */
+.guide-longform main {
+  max-width: 1220px;
+  padding-top: 38px;
+  padding-bottom: 64px;
+}
+.guide-longform .guide-layout {
+  grid-template-columns: 238px minmax(0, 900px);
+  justify-content: center;
+  gap: 24px;
+}
+.guide-longform .guide-sidebar {
+  top: 84px;
+  padding: 15px;
+}
+.guide-longform .guide-content {
+  min-width: 0;
+}
+.guide-longform .guide-hero {
+  padding: 27px 31px 25px;
+}
+.guide-longform .guide-hero h1 {
+  max-width: 850px;
+  margin: 11px 0 12px;
+  font-size: clamp(1.8rem, 3.1vw, 3rem);
+  line-height: 1.14;
+  letter-spacing: -.045em;
+}
+.guide-longform .guide-hero p {
+  max-width: 820px;
+  font-size: .98rem;
+  line-height: 1.78;
+}
+.guide-longform .guide-body {
+  margin-top: 12px;
+  padding: 26px 31px 34px;
+  overflow: visible;
+}
+.guide-longform .guide-chapter-nav {
+  position: sticky;
+  top: 72px;
+  margin: 0 0 25px;
+  padding: 9px 10px;
+  background: rgba(11, 17, 28, .96);
+  border-color: rgba(255, 159, 67, .34);
+}
+.guide-longform .guide-chapter-label {
+  color: #ffb56d;
+  font-size: .68rem;
+  white-space: nowrap;
+}
+.guide-longform .guide-chapter-nav a {
+  color: #f2f6fb;
+  border-color: rgba(255, 255, 255, .16);
+  padding: 7px 10px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+.guide-longform .guide-chapter-nav a:hover,
+.guide-longform .guide-chapter-nav a:focus-visible {
+  color: #fff;
+  background: #f97316;
+  border-color: #f97316;
+}
+.guide-longform .guide-module {
+  scroll-margin-top: 108px;
+  margin: 0;
+  padding: 0 0 30px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.guide-longform .guide-module + .guide-module {
+  margin-top: 8px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(148, 163, 184, .2);
+}
+.guide-longform .guide-module > .section-kicker {
+  margin-bottom: 9px;
+  color: #ff9f43;
+  font-size: .7rem;
+  letter-spacing: .1em;
+}
+.guide-longform .guide-module h2 {
+  max-width: 850px;
+  margin: 0 0 17px;
+  font-size: clamp(1.42rem, 2.35vw, 2.05rem);
+  line-height: 1.24;
+  letter-spacing: -.035em;
+}
+.guide-longform .guide-prose {
+  max-width: 850px;
+}
+.guide-longform .guide-prose h3 {
+  margin: 24px 0 9px;
+  color: #f2f6fb;
+  font-size: 1.08rem;
+  line-height: 1.38;
+  letter-spacing: -.015em;
+}
+.guide-longform .guide-prose h3:first-child {
+  margin-top: 0;
+}
+.guide-longform .guide-prose p {
+  margin: 0 0 15px;
+  color: #cbd5e1;
+  font-size: .98rem;
+  line-height: 1.88;
+}
+.guide-longform .guide-prose p:last-child {
+  margin-bottom: 0;
+}
+.guide-longform .guide-prose code {
+  padding: 2px 5px;
+  border: 1px solid rgba(126, 214, 176, .25);
+  border-radius: 4px;
+  color: #b7f2da;
+  background: rgba(16, 46, 43, .7);
+  font-family: 'Space Grotesk', monospace;
+  font-size: .92em;
+}
+.guide-diagram {
+  max-width: 860px;
+  margin: 0 0 24px;
+  padding: 9px;
+  border: 1px solid rgba(126, 146, 177, .22);
+  border-radius: 14px;
+  background: #0b111c;
+  overflow: hidden;
+}
+.guide-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.guide-diagram figcaption {
+  margin: 8px 5px 1px;
+  color: #93a4b9;
+  font-size: .76rem;
+  line-height: 1.55;
+}
+.guide-longform .guide-table {
+  width: 100%;
+  min-width: 680px;
+  margin: 17px 0 24px;
+  font-size: .88rem;
+  line-height: 1.6;
+}
+.guide-longform .guide-table th,
+.guide-longform .guide-table td {
+  padding: 10px 12px;
+}
+.guide-longform .guide-callout {
+  max-width: 850px;
+  margin: 20px 0;
+  font-size: .92rem;
+  line-height: 1.75;
+}
+.guide-longform .guide-inline-cta {
+  max-width: 850px;
+  margin-top: 21px;
+  padding: 12px 0 0;
+}
+.guide-longform .guide-inline-cta a {
+  color: #ffb56d;
+  font-size: .86rem;
+}
+.guide-longform .guide-inline-cta a:hover,
+.guide-longform .guide-inline-cta a:focus-visible {
+  color: #fff;
+}
+.guide-longform .guide-checklist-section {
+  margin-top: 12px;
+  padding: 22px 24px;
+}
+.guide-longform .guide-checklist-section h2,
+.guide-longform .guide-references h2 {
+  margin-top: 0;
+}
+@media (max-width: 900px) {
+  .guide-longform main {
+    padding-top: 24px;
+  }
+  .guide-longform .guide-layout {
+    grid-template-columns: 1fr;
+  }
+  .guide-longform .guide-sidebar {
+    position: static;
+  }
+  .guide-longform .guide-sidebar nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .guide-longform .guide-sidebar a {
+    flex: 1 1 180px;
+  }
+}
+@media (max-width: 700px) {
+  .guide-longform .guide-hero,
+  .guide-longform .guide-body {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+  .guide-longform .guide-hero h1 {
+    font-size: clamp(1.65rem, 7vw, 2.2rem);
+  }
+  .guide-longform .guide-hero p,
+  .guide-longform .guide-prose p {
+    font-size: .94rem;
+    line-height: 1.82;
+  }
+  .guide-longform .guide-chapter-nav {
+    position: sticky;
+    top: 56px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: thin;
+  }
+  .guide-longform .guide-chapter-label,
+  .guide-longform .guide-chapter-nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .guide-longform .guide-module {
+    scroll-margin-top: 112px;
+    padding-bottom: 24px;
+  }
+  .guide-longform .guide-module + .guide-module {
+    padding-top: 25px;
+  }
+  .guide-longform .guide-module h2 {
+    font-size: 1.36rem;
+  }
+  .guide-longform .guide-prose h3 {
+    margin-top: 20px;
+    font-size: 1.03rem;
+  }
+  .guide-diagram {
+    margin-bottom: 19px;
+    padding: 6px;
+  }
+  .guide-diagram figcaption {
+    font-size: .7rem;
+  }
+  .guide-longform .guide-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .guide-longform .guide-table {
+    min-width: 640px;
+    font-size: .82rem;
+  }
+  .guide-longform .guide-checklist-section {
+    padding: 17px 15px;
+  }
+}

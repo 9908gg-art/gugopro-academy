@@ -690,3 +690,22 @@ Run 97 workflow API 已回報 `status=completed`、`conclusion=success`、head S
 ## 227285c 最終 main 正式首頁核對（2026-08-25）
 
 文件同步 Pages Run 98（workflow `32822649505`）公開 API 已回報 `status=completed`、`conclusion=success`、head SHA `227285c`。正式首頁 `https://academy.gugopro.com/index.html?v=227285c&refresh=20260825-0748#knowledge-tree` live DOM 仍為 13 張卡片，順序為 01 台股／股票、02 美股、03 ETF、04 債券、05 基金、06 外匯、07 商品原物料、08 期貨、09 選擇權、10 虛擬貨幣、11 房地產、12 總體經濟、13 實戰交易；filter 計數為全部 13、股票市場 3、固定收益 2、衍生品 2、宏觀與另類 5、實戰交易 1；資產使用 `content-architecture-20260825-rich`，桌面 1280 時 `scrollWidth=1272`。最終 main 截圖：`/home/ubuntu/screenshots/academy_gugopro_2026-08-25_07-41-13_4196.webp`。
+
+
+## 長篇指南重構：外匯權威來源摘錄（2026-08-25）
+
+為外匯百科正文補充兩個官方來源。CFTC 的 [Customer Advisory: Eight Things You Should Know Before Trading Forex](https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html) 說明 OTC 散戶外匯是與 dealer 交易、dealer 控制平台價格與成交條件；保證金會放大損益，CFTC 以 2% margin、100,000 美元名目部位只需 2,000 美元保證金作為槓桿示例，並提醒可能損失全部保證金甚至超過初始存款，且應核對 CFTC／NFA 註冊與帳戶協議。BIS [OTC foreign exchange turnover in April 2025](https://www.bis.org/statistics/rpfx25_fx.htm) 說明 2025 年 4 月 OTC FX 平均每日成交約 9.6 兆美元；spot 約 31%、outright forwards 約 19%、FX swaps 約 42%，forward 可用來鎖定未來匯率，FX swaps 通常結合即期與稍後的 forward，廣泛用於資金流動性與匯率避險。正文只把這些數字作市場背景，並註明資料可能修訂、不是收益預測。
+
+
+## 長篇百科本地回歸：外匯（2026-08-25）
+
+本地 `guides/forex.html?v=longform-encyclopedia-20260825` 已改為 `guide-page guide-longform`。瀏覽器 DOM 確認 4 個實質章節 anchors（報價、Pip 與交易成本；利差交易與 Swap；外幣配置與避險比例；槓桿、強平與交易制度）、4 個主題化 `.guide-diagram`、16 個正文 h3、19 段 module prose，以及每章 R:R 工具 CTA。文章 `scrollHeight=6118`、viewport height=1100，證明不再是 single-screen；`oldVisualMap=false`。桌面 `scrollWidth=1272`、viewport width=1280，無水平溢出。
+
+
+390×844 mobile iframe 回歸：外匯頁 `viewportWidth=390`、`viewportHeight=844`、`scrollWidth=382`、`scrollHeight=8517`、`overflow=false`，4 modules／4 diagrams／4 chapter links，body class 為 `guide-page guide-longform`。文章在手機上保持長頁自然滾動，沒有被工具 single-screen CSS 截斷。
+
+
+第二輪 390×844 批次回歸（表格容器修正後）：16/16 指南 `allNoOverflow=true`，每篇 4 diagrams／4 chapter links，實戰交易 5 diagrams／5 chapter links；所有頁面 `oldMap=false`。scrollHeight 範圍約 6,402–11,232px（基金 7,896px、外匯 8,517px、台股 11,232px、實戰交易 8,335px），均為可自然滾動的長文，不是 single-screen。每頁 scrollWidth=382，390px viewport 無水平溢出。
+
+
+375×667 mobile batch：16/16 指南 `allLongerThanViewport=true` 且 `allNoOverflow=true`，每頁 4 diagrams／4 nav links，實戰交易 5 diagrams／5 nav links；scrollWidth=367，scrollHeight 約 6,491–11,577px。桌面實戰交易頁 live view 顯示 5 個實質章節（價格行為與技術分析、風報比與期望值、配對／價差與協整、動態網格、資金／Kelly／MDD），其中各自可直接進入 R:R、Grid 或風險檢查工具。

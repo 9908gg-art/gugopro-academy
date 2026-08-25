@@ -51,22 +51,29 @@ for slug in expected_guides:
     if not (ROOT / 'guides' / f'{slug}.html').exists(): errors.append(f'missing guide {slug}')
 for guide_path in sorted((ROOT / 'guides').glob('*.html')):
     guide_text = guide_path.read_text(encoding='utf-8')
-    for guide_marker in ['/style.css?v=content-architecture-20260825-rich', '/app.js?v=content-architecture-20260825-rich']:
-        if guide_marker not in guide_text: errors.append(f'{guide_path.relative_to(ROOT)} missing rich content architecture asset marker {guide_marker}')
+    for guide_marker in ['/style.css?v=longform-encyclopedia-20260825', '/app.js?v=longform-encyclopedia-20260825']:
+        if guide_marker not in guide_text: errors.append(f'{guide_path.relative_to(ROOT)} missing longform encyclopedia asset marker {guide_marker}')
     module_count = guide_text.count('class="guide-module"')
-    svg_count = guide_text.count('class="guide-figure"')
-    if module_count < 4: errors.append(f'{guide_path.relative_to(ROOT)} has fewer than 4 deep modules: {module_count}')
-    if svg_count < module_count: errors.append(f'{guide_path.relative_to(ROOT)} SVG map count {svg_count} is below module count {module_count}')
-    if guide_text.count('class="guide-inline-cta"') < module_count: errors.append(f'{guide_path.relative_to(ROOT)} has fewer inline tool CTAs than modules')
-    for guide_marker in ['class="guide-chapter-nav"', 'class="guide-inline-cta"', 'PRACTICE DESK / APPLY THE FRAMEWORK']:
+    diagram_count = guide_text.count('class="guide-diagram"')
+    h3_count = guide_text.count('<h3')
+    paragraph_count = guide_text.count('<p')
+    if module_count < 4: errors.append(f'{guide_path.relative_to(ROOT)} has fewer than 4 deep chapters: {module_count}')
+    if diagram_count < module_count: errors.append(f'{guide_path.relative_to(ROOT)} concept diagram count {diagram_count} is below chapter count {module_count}')
+    if h3_count < 12: errors.append(f'{guide_path.relative_to(ROOT)} has insufficient defined subtopics: {h3_count} h3')
+    if paragraph_count < 20: errors.append(f'{guide_path.relative_to(ROOT)} has insufficient long-form prose: {paragraph_count} paragraphs')
+    if guide_text.count('class="guide-inline-cta"') < module_count: errors.append(f'{guide_path.relative_to(ROOT)} has fewer inline tool CTAs than chapters')
+    for guide_marker in ['guide-longform', 'class="guide-chapter-nav"', 'class="guide-diagram"', 'class="guide-prose"', 'class="guide-inline-cta"', 'PRACTICE DESK / APPLY THE FRAMEWORK']:
         if guide_marker not in guide_text: errors.append(f'{guide_path.relative_to(ROOT)} missing architecture marker {guide_marker}')
+    for forbidden_guide_marker in ['VISUAL MAP', 'class="guide-figure"', 'MODULE 01 /', '資料 → 判斷 → 執行']:
+        if forbidden_guide_marker in guide_text: errors.append(f'{guide_path.relative_to(ROOT)} still contains obsolete generic visual marker {forbidden_guide_marker}')
 taiwan_text = (ROOT / 'guides' / 'taiwan-stocks.html').read_text(encoding='utf-8')
-for marker in ['guide-topic-hub', 'guide-chapter-nav', 'id="chips-analysis"', 'id="technical-analysis"', 'id="fundamentals-analysis"', 'id="trading-rules"', '券資比', 'MA_n', 'MoM', 'T+2', 'TWSE 集中市場交易制度', 'TDCC 集保戶股權分散表']:
+for marker in ['guide-longform', 'guide-diagram', 'guide-prose', 'guide-chapter-nav', 'id="chips-analysis"', 'id="technical-analysis"', 'id="fundamentals-analysis"', 'id="trading-rules"', '券資比', 'MA_n', 'MoM', 'T+2', 'TWSE 集中市場交易制度', 'TDCC 集保戶股權分散表']:
     if marker not in taiwan_text: errors.append(f'taiwan-stocks.html missing content marker {marker}')
 strategy_text = (ROOT / 'guides' / 'trading-strategy.html').read_text(encoding='utf-8')
-for marker in ['guide-topic-hub', 'id="technical-system"', 'id="risk-expectancy"', 'id="pair-trading"', 'id="grid-mechanics"', 'id="position-sizing"', '價格行為', '風險報酬比', '配對交易', '動態網格', '資金與部位管理']:
+for marker in ['guide-longform', 'guide-diagram', 'guide-prose', 'id="technical-system"', 'id="risk-expectancy"', 'id="pair-trading"', 'id="grid-mechanics"', 'id="position-sizing"', '價格行為', '風險報酬比', '配對交易', '動態網格', '資金與部位管理']:
     if marker not in strategy_text: errors.append(f'trading-strategy.html missing content marker {marker}')
-if strategy_text.count('class="guide-module"') != 5: errors.append('trading-strategy.html must contain exactly 5 modules')
+if strategy_text.count('class="guide-module"') != 5: errors.append('trading-strategy.html must contain exactly 5 chapters')
+if strategy_text.count('<h3') < 15: errors.append('trading-strategy.html must contain detailed subtopics')
 for strategy_tool in ['../tools/risk-reward-calculator.html','../tools/grid-trading-calculator.html','../tools/index.html#risk-panel']:
     if strategy_tool not in strategy_text: errors.append(f'trading-strategy.html missing direct tool link {strategy_tool}')
 etf_guide_text = (ROOT / 'guides' / 'etf.html').read_text(encoding='utf-8')
@@ -161,7 +168,7 @@ css_text = (ROOT / 'style.css').read_text(encoding='utf-8')
 app_text = (ROOT / 'app.js').read_text(encoding='utf-8')
 for app_marker in ['function initGuideNavigation', 'aria-current', "sidebar.querySelectorAll('a[href]')"]:
     if app_marker not in app_text: errors.append(f'app.js missing guide navigation marker {app_marker}')
-for css_marker in ['.home-page .hero-shell', '.home-page .hero-copy h1 .hero-title-line', '.home-page .tool-feature-card', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', 'white-space: nowrap', 'transform: none', '@media (max-width: 390px)']:
+for css_marker in ['.home-page .hero-shell', '.home-page .hero-copy h1 .hero-title-line', '.home-page .tool-feature-card', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', '.guide-longform main', '.guide-longform .guide-module', '.guide-diagram', '.guide-table-wrap', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', 'white-space: nowrap', 'transform: none', '@media (max-width: 390px)']:
     if css_marker not in css_text: errors.append(f'style missing {css_marker}')
 for forbidden_file in [
     ROOT / 'tools/index.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/etf-dividend-calculator.html',

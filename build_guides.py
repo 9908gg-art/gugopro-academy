@@ -1,6 +1,8 @@
 from pathlib import Path
 from html import escape
 
+from guide_deep_content import DEEP_APPEND, config_modules
+
 ROOT = Path(__file__).parent
 OUT = ROOT / 'guides'
 OUT.mkdir(exist_ok=True)
@@ -122,7 +124,7 @@ categories = [
         'compare_rows': [('外幣現鈔／存款','用途直接、結構容易理解','利息低、匯差與流動性成本','匯率貶值抵銷利息收益'),('遠期／換匯避險','可鎖定未來匯率、降低預算不確定','有展期、保證金與對手方成本','市場反向移動時放棄部分有利變化'),('槓桿外匯交易','資本效率高、可雙向交易','強平、隔夜費、跳空與高損失速度','小幅不利波動超過風險預算')],
         'checklist': '''<p>檢查報價方向、持有期限、總名目部位、保證金、隔夜費、最大損失、點差與流動性；同時記錄原幣與本幣績效。若匯率部位只是附帶在股票或債券投資中，仍要在資產配置表中顯示它，避免無意中累積同一種貨幣曝險。</p>''',
         'tool_note': '用風報比工具先固定最大損失，再以 TradingView 觀察匯率、美元指數與利率事件的時間軸。',
-        'references': [('SEC Investment Options','https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/learn-about-investment-options')]
+        'references': [('CFTC Customer Advisory: Eight Things You Should Know Before Trading Forex','https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html'), ('BIS OTC foreign exchange turnover in April 2025','https://www.bis.org/statistics/rpfx25_fx.htm'), ('NFA Forex Regulatory Guide','https://www.nfa.futures.org/members/member-resources/files/forex-regulatory-guide.html')]
     },
     {
         'slug': 'commodities', 'index': '07', 'group': '宏觀與另類', 'title': '商品原物料',
@@ -329,80 +331,126 @@ drip = {
 }
 
 
-VISUAL_LABELS = {
-    'taiwan-stocks': ['法人流向', '均線／量價', '財報估值', '交易制度'],
-    'us-stocks': ['公司收入', '美元曝險', '財報現金流', '估值情境'],
-    'etf': ['底層指數', 'NAV／費用', '配息總報酬', '追蹤差異'],
-    'bonds': ['票息現金流', '殖利率', 'Duration', '曲線情境'],
-    'funds': ['基金目標', '費用扣除', '基準比較', '經理流程'],
-    'forex': ['貨幣對', 'Pip／點差', '利率差', '避險比例'],
-    'commodities': ['供需庫存', '現貨價格', '期貨曲線', '展期成本'],
-    'futures': ['契約乘數', '保證金', '基差', '結算風險'],
-    'options': ['方向', '權利金', 'Greeks', '到期壓力'],
-    'crypto': ['網路／代幣', '錢包保管', '交易流動性', '出界風險'],
-    'real-estate': ['土地／物件', '租金 NOI', '貸款槓桿', '退出流動性'],
-    'macro-economics': ['CPI／就業', '利率政策', '曲線利差', '資產傳導'],
-    'risk-reward-ratio': ['進場', '失效', '目標', '期望值'],
-    'grid-trading': ['下限', '網格層級', '費後利潤', '破網'],
-    'etf-dividend-drip': ['投入', '分配', '再投入', '總報酬'],
+DIAGRAM_TITLES = {
+    'flow': '資料流與決策分層', 'candles': 'K 線、支撐與確認條件', 'fundamentals': '收入、利潤與現金流關係', 'execution': '制度到下單的執行流程',
+    'fund-structure': '基金 mandate、資產與投資人', 'fund-metrics': '費用、基準與風險指標', 'fund-process': '基金盡職調查流程', 'fund-risk': '基金壓力情境矩陣',
+    'forex-quote': '貨幣對報價與 pip 點值', 'forex-carry': '利差交易與 swap 反轉', 'forex-hedge': '未避險與避險後報酬', 'forex-risk': '保證金與強平緩衝',
+    'us-market': '公司、指數與美元三層曝險', 'us-valuation': '收入、FCF 與估值敏感度', 'us-process': '財報事件與交易流程', 'us-risk': '美股風險來源分解',
+    'etf-structure': 'ETF 底層資產與市場價格', 'etf-metrics': 'NAV、費用與追蹤差異', 'etf-cashflow': '配息、再投入與總報酬', 'etf-risk': 'ETF 類型與壓力情境',
+    'bond-cashflow': '債券票息與本金現金流', 'bond-duration': '殖利率變動與價格敏感度', 'bond-curve': '期限結構與再投資', 'bond-risk': '利率、信用與流動性',
+    'commodity-supply': '供需、庫存與金融條件', 'commodity-curve': '現貨、期貨與展期', 'commodity-gold-oil': '黃金與原油驅動因子', 'commodity-risk': '商品產品結構風險',
+    'futures-contract': '契約、乘數與到期', 'futures-margin': '名目曝險與保證金', 'futures-basis': '現貨、期貨與基差', 'futures-risk': '追繳、轉倉與跳空',
+    'options-payoff': 'Call、Put 與到期損益', 'options-greeks': 'Delta、Gamma、Theta、Vega', 'options-strategy': '方向、波動與價差', 'options-risk': '到期、指派與尾部風險',
+    'crypto-chain': '鏈、共識與代幣供給', 'crypto-wallet': '私鑰、錢包與授權', 'crypto-yield': '現貨、質押與網格', 'crypto-risk': '市場、合約與交易所風險',
+    'realestate-market': '土地、物件與租賃現金流', 'realestate-valuation': 'NOI、Cap Rate 與估值', 'realestate-cashflow': '貸款、租金與現金流', 'realestate-risk': '利率、空置與退出',
+    'macro-cycle': 'CPI、就業與景氣循環', 'macro-rates': '政策利率與殖利率曲線', 'macro-regime': '成長／通膨四象限', 'macro-risk': '資料、政策與傳導失效',
+    'strategy-price': '價格行為與流動性', 'strategy-expectancy': '勝率、R 倍數與期望值', 'strategy-pair': '兩腿價差與 Z-Score', 'strategy-grid': '網格層級與庫存', 'strategy-sizing': '風險預算與回撤',
+    'rr-definition': '進場、失效與目標區間', 'rr-matrix': '勝率與盈虧分布', 'rr-position': '風險預算與部位', 'rr-review': '交易日誌與壓力測試',
+    'grid-range': '網格上下限與庫存', 'grid-formula': '單格間距與費用', 'grid-practice': '參數設定與歷史回放', 'grid-risk': '破網與停機規則',
+    'drip-distribution': '配息、除息與 NAV', 'drip-formula': 'DRIP 份額與複利', 'drip-practice': '高股息 ETF 選擇', 'drip-risk': '現金流與總報酬風險',
 }
 
-MODULE_TITLES = [
-    ('foundation', 'MODULE 01 / FOUNDATION', '概念與市場結構'),
-    ('metrics', 'MODULE 02 / METRICS & FORMULAS', '指標、公式與計算'),
-    ('practice', 'MODULE 03 / PRACTICE FLOW', '實戰流程與案例'),
-    ('risk', 'MODULE 04 / RISK & COMPARISON', '風險情境與比較'),
-]
 
-def svg_illustration(topic, slot):
-    labels = VISUAL_LABELS.get(topic['slug'], ['概念', '指標', '執行', '風險'])
-    accent = ['#ff9f43', '#58d6c0', '#8e9dff', '#f16f80'][slot % 4]
-    title = escape(topic['title'])
-    cells = []
-    for i, label in enumerate(labels):
-        x = 18 + i * 176
-        opacity = '0.95' if i <= slot else '0.58'
-        cells.append(f'<g opacity="{opacity}"><rect x="{x}" y="72" width="148" height="74" rx="10" fill="#131a28" stroke="{accent}" stroke-opacity=".36"/><text x="{x + 14}" y="101" fill="#f5f7fb" font-size="13" font-weight="700">{escape(label)}</text><text x="{x + 14}" y="124" fill="#8e9aab" font-size="10">{escape(topic["group"])} · {i + 1:02d}</text></g>')
-    points = ' '.join(f'{42 + i * 176},{62 - ((i + slot) % 3) * 10}' for i in range(4))
-    return f"""<figure class="guide-figure"><svg viewBox="0 0 720 170" role="img" aria-label="{title}：{escape(labels[slot % 4])}結構示意圖" preserveAspectRatio="xMidYMid meet"><rect width="720" height="170" rx="14" fill="#0d1420"/><text x="18" y="25" fill="{accent}" font-size="10" letter-spacing="1.6" font-weight="700">VISUAL MAP / {escape(topic["slug"].upper())}</text><text x="18" y="46" fill="#dce3ed" font-size="12">{escape(labels[slot % 4])} → 資料 → 判斷 → 執行</text><polyline points="{points}" fill="none" stroke="{accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><line x1="42" y1="62" x2="570" y2="62" stroke="#283347" stroke-width="1" stroke-dasharray="4 6"/>{''.join(f'<circle cx="{42 + i * 176}" cy="{62 - ((i + slot) % 3) * 10}" r="5" fill="{accent}"/>' for i in range(4))}{''.join(cells)}</svg><figcaption>以「{escape(labels[slot % 4])}」為起點的本頁研究路徑示意；圖形是教育模型，不是行情預測。</figcaption></figure>"""
+def _svg_frame(title, label, body):
+    return f'''<figure class="guide-diagram"><svg viewBox="0 0 860 260" role="img" aria-label="{escape(title)}：{escape(label)}" preserveAspectRatio="xMidYMid meet"><rect width="860" height="260" rx="16" fill="#0b111c" stroke="#26364d"/><text x="28" y="34" fill="#ffb56d" font-size="12" letter-spacing="1.4" font-weight="700">CONCEPT DIAGRAM / {escape(label.upper())}</text><text x="28" y="60" fill="#f2f6fb" font-size="18" font-weight="700">{escape(title)}</text>{body}</svg><figcaption>概念解析圖：協助拆解定義、計算與風險關係；不代表行情預測或收益承諾。</figcaption></figure>'''
 
-def generic_modules(topic):
-    row_markup = ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{d}</td><td>{e}</td></tr>' for a, b, d, e in topic['compare_rows'])
-    specs = [
-        ('foundation', 'MODULE 01 / FOUNDATION', topic['concept_title'], topic['concept']),
-        ('metrics', 'MODULE 02 / METRICS & FORMULAS', topic['metrics_title'], topic['metrics'] + topic['example']),
-        ('practice', 'MODULE 03 / PRACTICE FLOW', f'實戰：{topic["practice_title"]}', topic['practice']),
-        ('risk', 'MODULE 04 / RISK & COMPARISON', topic['compare_title'], f'<table class="guide-table"><thead><tr><th>方式／情境</th><th>優點</th><th>主要限制</th><th>風險情境</th></tr></thead><tbody>{row_markup}</tbody></table>{topic["checklist"]}<div class="guide-callout">{topic["tool_note"]}</div>'),
-    ]
-    modules = []
-    for key, kicker, title, body in specs:
-        modules.append({'id': f'{topic["slug"]}-{key}', 'kicker': kicker, 'title': title, 'body': body})
-    topic['chapter_nav'] = [(m['id'], label) for m, (_, _, label) in zip(modules, MODULE_TITLES)]
-    return modules
 
-for topic in categories + [risk, grid, drip]:
-    if not topic.get('module_sections'):
-        topic['module_sections'] = generic_modules(topic)
+def _boxes(items, y=112, width=220, gap=22, fill='#111c2c'):
+    markup = []
+    for i, item in enumerate(items):
+        x = 28 + i * (width + gap)
+        markup.append(f'<rect x="{x}" y="{y}" width="{width}" height="82" rx="12" fill="{fill}" stroke="#41546e"/><text x="{x + 16}" y="{y + 31}" fill="#f5f7fb" font-size="14" font-weight="700">{escape(item[0])}</text><text x="{x + 16}" y="{y + 56}" fill="#aebbd0" font-size="11">{escape(item[1])}</text>')
+        if i < len(items) - 1:
+            ax = x + width + 5
+            markup.append(f'<path d="M {ax} {y + 41} H {ax + gap - 10}" stroke="#ff9f43" stroke-width="2"/><path d="M {ax + gap - 14} {y + 35} L {ax + gap - 5} {y + 41} L {ax + gap - 14} {y + 47}" fill="none" stroke="#ff9f43" stroke-width="2"/>')
+    return ''.join(markup)
+
+
+def diagram_svg(topic, module_data):
+    kind = module_data.get('diagram', 'flow')
+    title = DIAGRAM_TITLES.get(kind, module_data.get('title', topic['title']))
+    if kind in {'candles', 'strategy-price', 'rr-definition'}:
+        body = '<line x1="42" y1="198" x2="820" y2="198" stroke="#33465f"/><line x1="42" y1="116" x2="820" y2="116" stroke="#7ed6b0" stroke-dasharray="7 7"/><text x="690" y="108" fill="#9cebc5" font-size="11">確認區</text><line x1="42" y1="164" x2="820" y2="164" stroke="#ff8d87" stroke-dasharray="7 7"/><text x="690" y="157" fill="#ffaaa0" font-size="11">失效區</text>'
+        candles = [(88, 169, 142, 122, '#7ed6b0'), (145, 151, 176, 105, '#7ed6b0'), (202, 128, 232, 90, '#ff8d87'), (259, 142, 289, 112, '#ff8d87'), (316, 132, 346, 84, '#7ed6b0'), (373, 118, 403, 74, '#7ed6b0'), (430, 106, 460, 92, '#ff9f43'), (487, 126, 517, 98, '#7ed6b0'), (544, 114, 574, 72, '#7ed6b0'), (601, 102, 631, 62, '#7ed6b0'), (658, 120, 688, 86, '#ff8d87')]
+        for x, top, bottom, wick, color in candles:
+            body += f'<line x1="{x + 15}" y1="{wick - 12}" x2="{x + 15}" y2="{bottom + 10}" stroke="{color}" stroke-width="2"/><rect x="{x}" y="{top}" width="30" height="{max(10, bottom - top)}" fill="{color}" opacity=".82" rx="3"/>'
+        body += '<text x="48" y="226" fill="#aebbd0" font-size="11">觸發：收盤＋量能＋回踩</text><text x="552" y="226" fill="#aebbd0" font-size="11">停損：結構失效而非任意百分比</text>'
+    elif kind in {'forex-quote'}:
+        body = '<rect x="42" y="100" width="290" height="105" rx="14" fill="#111c2c" stroke="#3f5875"/><text x="64" y="132" fill="#aebbd0" font-size="12">BASE / QUOTE</text><text x="64" y="170" fill="#f5f7fb" font-size="27" font-weight="700">EUR / USD</text><text x="64" y="192" fill="#ffb56d" font-size="12">1 EUR = 1.0850 USD</text><path d="M 365 151 H 490" stroke="#ff9f43" stroke-width="3"/><path d="M 482 144 L 494 151 L 482 158" fill="none" stroke="#ff9f43" stroke-width="3"/><rect x="520" y="100" width="300" height="105" rx="14" fill="#111c2c" stroke="#3f5875"/><text x="544" y="132" fill="#aebbd0" font-size="12">BID / ASK / PIP</text><text x="544" y="169" fill="#9cebc5" font-size="22" font-weight="700">1.0849 / 1.0851</text><text x="544" y="192" fill="#f5f7fb" font-size="12">Spread = 2 pips；非日圓 pip = 0.0001</text>'
+    elif kind in {'forex-carry', 'macro-rates', 'bond-curve'}:
+        body = '<line x1="92" y1="208" x2="780" y2="208" stroke="#33465f"/><line x1="92" y1="92" x2="92" y2="208" stroke="#33465f"/><rect x="150" y="130" width="70" height="78" fill="#7ed6b0" opacity=".82"/><rect x="260" y="112" width="70" height="96" fill="#7ed6b0" opacity=".82"/><rect x="370" y="151" width="70" height="57" fill="#ff9f43" opacity=".82"/><rect x="480" y="96" width="70" height="112" fill="#8e9dff" opacity=".82"/><rect x="590" y="122" width="70" height="86" fill="#ff8d87" opacity=".82"/><text x="140" y="232" fill="#aebbd0" font-size="11">低利率</text><text x="360" y="232" fill="#aebbd0" font-size="11">預期轉折</text><text x="580" y="232" fill="#aebbd0" font-size="11">平倉壓力</text><path d="M 186 122 C 290 88, 420 164, 635 106" fill="none" stroke="#f5f7fb" stroke-width="2" stroke-dasharray="6 6"/><text x="650" y="98" fill="#f5f7fb" font-size="11">政策／曲線</text>'
+    elif kind in {'forex-hedge', 'etf-cashflow', 'drip-distribution', 'drip-formula', 'realestate-cashflow'}:
+        body = '<rect x="40" y="102" width="170" height="86" rx="12" fill="#111c2c" stroke="#3f5875"/><text x="60" y="135" fill="#f5f7fb" font-size="14" font-weight="700">原始資產</text><text x="60" y="161" fill="#aebbd0" font-size="11">價格／配息／租金</text><path d="M 228 124 H 380" stroke="#7ed6b0" stroke-width="3"/><path d="M 228 166 H 380" stroke="#ff9f43" stroke-width="3"/><path d="M 372 118 L 386 124 L 372 130" fill="none" stroke="#7ed6b0" stroke-width="3"/><path d="M 372 160 L 386 166 L 372 172" fill="none" stroke="#ff9f43" stroke-width="3"/><rect x="405" y="94" width="185" height="104" rx="12" fill="#102522" stroke="#7ed6b0"/><text x="425" y="128" fill="#9cebc5" font-size="14" font-weight="700">再投入／避險</text><text x="425" y="155" fill="#aebbd0" font-size="11">份額、forward 或緩衝</text><rect x="615" y="94" width="190" height="104" rx="12" fill="#2a1b1e" stroke="#ff8d87"/><text x="635" y="128" fill="#ffaaa0" font-size="14" font-weight="700">淨結果</text><text x="635" y="155" fill="#aebbd0" font-size="11">總報酬／現金流／成本</text>'
+    elif kind in {'forex-risk', 'futures-margin', 'strategy-sizing', 'rr-position', 'rr-matrix', 'rr-review', 'grid-risk', 'drip-risk', 'macro-risk', 'fund-risk'}:
+        body = '<rect x="54" y="102" width="230" height="92" rx="14" fill="#111c2c" stroke="#3f5875"/><text x="78" y="134" fill="#aebbd0" font-size="12">風險預算／資產</text><text x="78" y="170" fill="#f5f7fb" font-size="25" font-weight="700">100%</text><rect x="318" y="126" width="360" height="24" rx="12" fill="#243248"/><rect x="318" y="126" width="220" height="24" rx="12" fill="#7ed6b0"/><line x1="552" y1="116" x2="552" y2="160" stroke="#ff9f43" stroke-width="3"/><text x="318" y="180" fill="#aebbd0" font-size="11">可承受損失</text><text x="574" y="180" fill="#ffb56d" font-size="11">追繳／出界門檻</text><rect x="708" y="102" width="98" height="92" rx="14" fill="#2a1b1e" stroke="#ff8d87"/><text x="730" y="134" fill="#ffaaa0" font-size="12">壓力</text><text x="730" y="170" fill="#f5f7fb" font-size="24" font-weight="700">MDD</text>'
+    elif kind in {'options-payoff', 'options-greeks', 'options-strategy'}:
+        body = '<line x1="70" y1="204" x2="800" y2="204" stroke="#33465f"/><line x1="110" y1="80" x2="110" y2="218" stroke="#33465f"/><path d="M 112 196 L 350 196 L 675 98" fill="none" stroke="#7ed6b0" stroke-width="4"/><path d="M 112 110 L 350 196 L 675 196" fill="none" stroke="#ff8d87" stroke-width="4"/><line x1="350" y1="80" x2="350" y2="210" stroke="#ff9f43" stroke-dasharray="6 6"/><text x="324" y="230" fill="#ffb56d" font-size="11">履約價／損益平衡</text><text x="122" y="100" fill="#9cebc5" font-size="12">買方 payoff</text><text x="122" y="122" fill="#ffaaa0" font-size="12">賣方尾部</text>'
+    elif kind in {'grid-range', 'grid-formula', 'grid-practice', 'strategy-grid'}:
+        body = '<line x1="92" y1="210" x2="790" y2="210" stroke="#33465f"/><line x1="92" y1="94" x2="92" y2="210" stroke="#33465f"/><rect x="150" y="120" width="560" height="76" fill="#112c2b" opacity=".72" stroke="#7ed6b0"/><line x1="150" y1="136" x2="710" y2="136" stroke="#ff8d87" stroke-dasharray="5 5"/><line x1="150" y1="180" x2="710" y2="180" stroke="#7ed6b0" stroke-dasharray="5 5"/><text x="164" y="116" fill="#ffaaa0" font-size="12">上限／賣出層</text><text x="164" y="200" fill="#9cebc5" font-size="12">下限／買入層</text>' + ''.join(f'<line x1="{190 + i * 72}" y1="132" x2="{190 + i * 72}" y2="184" stroke="#8799b3" stroke-dasharray="4 5"/>' for i in range(7)) + '<path d="M 250 154 C 340 180, 410 132, 500 168 S 640 140, 690 155" fill="none" stroke="#ffb56d" stroke-width="3"/><text x="500" y="102" fill="#f5f7fb" font-size="12">區間內回合 ≠ 單邊趨勢安全</text>'
+    elif kind in {'crypto-chain', 'crypto-wallet', 'crypto-yield', 'crypto-risk'}:
+        body = _boxes([('鏈／協議', '共識與安全'), ('資產／錢包', '私鑰與授權'), ('交易／收益', '費用與流動性')], width=245, gap=35)
+        body += '<text x="300" y="232" fill="#ffb56d" font-size="11">每一層都有不同的失效條件</text>'
+    elif kind in {'realestate-market', 'realestate-valuation'}:
+        body = _boxes([('土地／物件', '位置、用途、狀況'), ('NOI', '租金−營運費'), ('估值／退出', 'Cap Rate、流動性')], width=245, gap=35)
+        body += '<text x="294" y="232" fill="#ffb56d" font-size="11">從租賃現金流而非單一房價敘事開始</text>'
+    else:
+        body = _boxes([('定義', '先界定範圍'), ('資料', '確認口徑與日期'), ('判斷', '寫出條件與反證')], width=245, gap=35)
+        body += '<text x="292" y="232" fill="#ffb56d" font-size="11">視覺化用於理解關係，不替代完整研究</text>'
+    return _svg_frame(title, kind, body)
+
+
+def prepare_deep_modules(topic):
+    deep = DEEP_APPEND.get(topic['slug'])
+    if isinstance(deep, dict):
+        topic['module_sections'] = config_modules(topic, deep)
+    elif deep:
+        topic['module_sections'] = deep
+        topic['chapter_nav'] = [(item['id'], item.get('nav', item['title'])) for item in deep]
+    else:
+        topic['module_sections'] = []
+    return topic
+
 
 all_topics = categories + [strategy, risk, grid, drip]
+for topic in all_topics:
+    prepare_deep_modules(topic)
+
 sidebar = ''.join(f'<a href="{c["slug"]}.html">{c["index"]} · {escape(c["title"])}</a>' for c in all_topics)
+
 
 def table_rows(rows):
     return ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>' for a, b, c, d in rows)
 
+
 def reference_links(refs):
     return ''.join(f'<li><a href="{url}" target="_blank" rel="noopener noreferrer">{escape(label)}</a></li>' for label, url in refs)
 
+
 def chapter_navigation(topic):
-    if not topic.get('chapter_nav'):
-        return ''
-    links = ''.join(f'<a href="#{anchor}">{escape(label)}</a>' for anchor, label in topic['chapter_nav'])
-    return f'<nav class="guide-chapter-nav" aria-label="章節快選"><span class="guide-chapter-label">本頁章節</span>{links}</nav>'
+    links = ''.join(f'<a href="#{escape(anchor)}">{escape(label)}</a>' for anchor, label in topic.get('chapter_nav', []))
+    return f'<nav class="guide-chapter-nav" aria-label="章節快選"><span class="guide-chapter-label">本篇實質章節</span>{links}</nav>' if links else ''
+
+
+def render_subsection(item):
+    html = item['html']
+    if '<table class="guide-table">' in html:
+        html = html.replace('<table class="guide-table">', '<div class="guide-table-wrap"><table class="guide-table">', 1)
+        html = html.replace('</table>', '</table></div>', 1)
+    return html if html.lstrip().startswith('<h3>') else f'<h3>{escape(item["title"])}</h3>{html}'
+
 
 def module_sections(topic):
-    if not topic.get('module_sections'):
-        return ''
-    return ''.join(f'<section id="{escape(module["id"])}" class="guide-module"><div class="section-kicker">{escape(module["kicker"])}</div><h2>{escape(module["title"])}</h2>{svg_illustration(topic, i)}{module["body"]}<div class="guide-inline-cta"><a href="{escape(module.get("tool", topic["tool"])[1], quote=True)}"><i class="fa-solid fa-arrow-up-right-from-square"></i> {escape(module.get("tool", topic["tool"])[0])}</a><span>把本模組假設放進瀏覽器工具檢查</span></div></section>' for i, module in enumerate(topic['module_sections']))
+    rendered = []
+    for module_data in topic.get('module_sections', []):
+        sections_html = ''.join(render_subsection(item) for item in module_data.get('sections', []))
+        legacy_body = module_data.get('body', '')
+        tool = module_data.get('tool') or topic.get('tool')
+        cta = ''
+        if tool:
+            cta = f'<div class="guide-inline-cta"><a href="{escape(tool[1], quote=True)}"><i class="fa-solid fa-arrow-up-right-from-square"></i> {escape(tool[0])}</a><span>將本章的假設、公式與風險放進工具交叉檢查</span></div>'
+        rendered.append(f'<section id="{escape(module_data["id"])}" class="guide-module"><div class="section-kicker">{escape(module_data.get("kicker", "CHAPTER"))}</div><h2>{escape(module_data["title"])}</h2>{diagram_svg(topic, module_data)}<div class="guide-prose">{sections_html or legacy_body}</div>{cta}</section>')
+    return ''.join(rendered)
+
 
 for c in all_topics:
     chapter_nav_markup = chapter_navigation(c)
@@ -416,7 +464,7 @@ for c in all_topics:
 <section><h2>{c['compare_title']}</h2><table class="guide-table"><thead><tr><th>方式／情境</th><th>優點</th><th>主要限制</th><th>風險情境</th></tr></thead><tbody>{table_rows(c['compare_rows'])}</tbody></table></section>
 <section><h2>交易前檢查清單與延伸工具</h2>{c['checklist']}<div class="guide-callout">{c['tool_note']}</div><ol class="guide-checklist"><li>把假設、期限、成本與最壞情境寫下來。</li><li>使用工具做情境試算，並保留輸入條件與結果。</li><li>用公開資料或圖表驗證，而不是只依賴單一訊號。</li></ol></section>'''
     ref_section = f'''<section class="guide-references"><h2>延伸閱讀與資料來源</h2><p>以下來源用於概念與風險教育；實際交易仍應閱讀商品文件、交易所規則與所在地法規。</p><ul>{reference_links(c['references'])}</ul></section>'''
-    body_class = 'guide-page guide-topic-hub' if c.get('module_sections') else 'guide-page'
+    body_class = 'guide-page guide-longform' if c.get('module_sections') else 'guide-page'
     html = f'''<!doctype html>
 <html lang="zh-Hant">
 <head>
@@ -425,13 +473,13 @@ for c in all_topics:
   <title>{escape(c['title'])}｜GugoPro 財經學院</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=content-architecture-20260825-rich">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/style.css?v=longform-encyclopedia-20260825">
 </head>
 <body class="{body_class}">
 <header class="site-header"><div class="nav-container"><a href="../index.html" class="logo" aria-label="GugoPro 財經學院首頁"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><nav class="primary-nav" aria-label="主要導覽"><a href="../index.html#knowledge-tree">知識樹</a><a href="../tools/index.html">實戰工具</a><a href="../index.html#reading-room">閱讀室</a></nav><div class="nav-actions"><a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a><div class="lang-selector"><button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button><div class="lang-dropdown"><a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a><a href="#" onclick="changeLanguage('zh-cn')">简体中文</a><a href="#" onclick="changeLanguage('en')">English</a></div></div><button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div></div></header>
 <main><div class="guide-layout"><aside class="guide-sidebar"><div class="section-kicker">13 + 3 TOPICS</div>{sidebar}<a href="../tools/index.html" class="guide-sidebar-tool">開啟工具工作台 →</a></aside><article class="guide-content"><header class="guide-hero"><div class="eyebrow"><span class="eyebrow-dot"></span>{c['eyebrow']}</div><h1>{escape(c['title'])}：先理解，再計算，最後管理風險。</h1><p>{c['intro']}</p><div class="guide-meta"><span>{c['group']}</span><span>深度專題</span><span>教育用途</span></div></header><div class="guide-body">{sections}{ref_section}<div class="guide-tool-launch"><div class="guide-tool-launch-copy"><span class="section-kicker">PRACTICE DESK / APPLY THE FRAMEWORK</span><h2>讀完就把假設放進工具檢查</h2><p>先用本頁的概念與風險框架建立條件，再用對應試算工具保留輸入、比較情境，最後回到文章檢查假設是否仍成立。</p></div><div class="guide-tool-launch-grid"><a class="guide-tool-card is-primary" href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i><strong>{c['tool'][0]}</strong><span>使用本主題專屬工具</span></a><a class="guide-tool-card" href="../tools/risk-reward-calculator.html"><i class="fa-solid fa-chart-line"></i><strong>風報比 K 線分析儀</strong><span>價格結構與部位風控</span></a><a class="guide-tool-card" href="../tools/etf-dividend-calculator.html"><i class="fa-solid fa-coins"></i><strong>ETF 現金流試算機</strong><span>DRIP 與領現金比較</span></a><a class="guide-tool-card" href="../tools/grid-trading-calculator.html"><i class="fa-solid fa-border-all"></i><strong>BTC 動態網格工作台</strong><span>費後間距與破網風險</span></a></div></div><div class="guide-tools"><a href="{c['tool'][1]}"><i class="fa-solid fa-calculator"></i> {c['tool'][0]}</a><a href="../tools/index.html"><i class="fa-solid fa-compass"></i> 回到工具工作台</a><a href="../index.html#knowledge-tree"><i class="fa-solid fa-book-open"></i> 回到知識樹</a></div><div class="guide-cta"><div><h3>把這篇文章放回圖表驗證</h3><p>TradingView 可用來觀察全球市場、建立指標與回測假設；優惠內容以合作頁與所在地區規則為準。</p></div><a href="https://www.tradingview.com/?aff_id=168714" target="_blank" rel="noopener noreferrer" class="button button-light">領取優惠註冊 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div><p class="tool-disclaimer">本頁內容僅供教育與研究參考，不構成投資、稅務或法律建議。金融商品可能產生本金損失，請依自身情況審慎評估。</p></div></article></div></main>
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">13 類知識樹</a><a href="../tools/index.html">實戰工具庫</a><a href="../index.html#reading-room">閱讀室</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
-<script src="/app.js?v=content-architecture-20260825-rich"></script>
+<script src="/app.js?v=longform-encyclopedia-20260825"></script>
 </body></html>'''
     (OUT / f'{c["slug"]}.html').write_text(html, encoding='utf-8')
 
