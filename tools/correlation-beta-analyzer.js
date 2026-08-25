@@ -77,6 +77,13 @@
   let modalFilter = 'all';
   let modalActiveIndex = -1;
   let modalLastFocus = null;
+  const EXTENDED_CATALOG_URLS = {
+    stocks: 'data/global-symbol-catalog-stocks.json',
+    forex: 'data/global-symbol-catalog-forex.json',
+    crypto: 'data/global-symbol-catalog-crypto.json'
+  };
+  const extendedCatalogState = { entries: [], loaded: new Set(), loading: new Map(), errors: new Map() };
+  const EXTENDED_META_BY_SYMBOL = new Map();
 
   function cleanSymbol(value) {
     const raw = String(value || '').trim().toUpperCase().replace(/\s+/g, '');
@@ -96,6 +103,8 @@
     const symbol = cleanSymbol(value);
     const known = CATALOG.find((item) => item.symbol === symbol);
     if (known) return { ...known };
+    const extended = EXTENDED_META_BY_SYMBOL.get(symbol);
+    if (extended) return { ...extended };
     const crypto = binancePattern.test(symbol);
     const yahoo = tvOverrides[symbol] || (symbol === 'BTCUSD' ? 'BTC-USD' : symbol);
     return {
@@ -485,31 +494,119 @@
     isin: item.isin || ISIN_BY_SYMBOL[item.symbol] || ''
   }));
 
+  function normalizeExtendedEntry(item) {
+    const symbol = String(item.symbol || '').trim().toUpperCase();
+    if (!symbol) return null;
+    const modalCategory = item.modalCategory || 'stocks';
+    const binance = item.binance === true || (item.binance === undefined && binancePattern.test(symbol));
+    const yahoo = item.yahoo || (modalCategory === 'forex' ? `${symbol}=X` : symbol);
+    const category = modalCategory === 'stocks' ? (/\.(TW|TWO|HK|SS|SZ)$/.test(symbol) ? 'tw' : 'us') : modalCategory;
+    return {
+      ...item,
+      symbol,
+      name: item.name || symbol,
+      market: item.market || '全球市場',
+      category,
+      modalCategory,
+      exchange: item.exchange || 'PUBLIC',
+      country: item.country || '🌐',
+      badge: item.badge || symbol.replace(/[^A-Z0-9]/g, '').slice(0, 4),
+      isin: item.isin || '',
+      yahoo,
+      binance,
+      catalogOnly: true
+    };
+  }
+
+  function modalEntries() {
+    const combined = [...SYMBOL_SEARCH_CATALOG, ...extendedCatalogState.entries];
+    return [...new Map(combined.map((entry) => [`${entry.symbol}|${entry.modalCategory}`, entry])).values()];
+  }
+
+  function updateCatalogSourceNote() {
+    const note = $('cba-modal-source-note');
+    if (!note) return;
+    const loaded = [...extendedCatalogState.loaded];
+    const loading = [...extendedCatalogState.loading.keys()];
+    const errors = [...extendedCatalogState.errors.keys()];
+    const count = extendedCatalogState.entries.length.toLocaleString('zh-TW');
+    if (loading.length) {
+      note.innerHTML = `<strong>公開目錄：</strong>正在載入 FinanceDatabase／MIT 的 ${escapeHtml(loading.join('、'))} 分片；內建商品仍可立即選擇。`;
+    } else if (loaded.length) {
+      const suffix = errors.length ? `；${escapeHtml(errors.join('、'))} 分片暫時無法載入` : '';
+      note.innerHTML = `<strong>公開目錄：</strong>FinanceDatabase／MIT 已載入 ${count} 筆識別資料${suffix}；目前只顯示搜尋結果前 120 筆，行情支援度仍以公開端點為準。`;
+    } else {
+      note.innerHTML = '<strong>公開目錄：</strong>輸入至少 2 個字元會延遲載入 FinanceDatabase 的全球分類資料；內建清單則可立即使用。';
+    }
+  }
+
+  async function loadExtendedCatalog(category) {
+    if (!EXTENDED_CATALOG_URLS[category] || extendedCatalogState.loaded.has(category)) return;
+    if (extendedCatalogState.loading.has(category)) return extendedCatalogState.loading.get(category);
+    const promise = fetchWithTimeout(EXTENDED_CATALOG_URLS[category], 45000, { cache: 'force-cache' })
+      .then((response) => { if (!response.ok) throw new Error(`公開目錄 HTTP ${response.status}`); return response.json(); })
+      .then((payload) => {
+        const entries = (payload.entries || []).map(normalizeExtendedEntry).filter(Boolean);
+        extendedCatalogState.entries.push(...entries);
+        entries.forEach((entry) => { if (!EXTENDED_META_BY_SYMBOL.has(entry.symbol)) EXTENDED_META_BY_SYMBOL.set(entry.symbol, entry); });
+        extendedCatalogState.loaded.add(category);
+        extendedCatalogState.errors.delete(category);
+      })
+      .catch((error) => {
+        extendedCatalogState.errors.set(category, error?.message || '公開目錄無法載入');
+      })
+      .finally(() => {
+        extendedCatalogState.loading.delete(category);
+        updateCatalogSourceNote();
+      });
+    extendedCatalogState.loading.set(category, promise);
+    updateCatalogSourceNote();
+    return promise;
+  }
+
+  function catalogCategoriesForQuery(raw) {
+    if (modalFilter !== 'all') return [modalFilter];
+    if (/USDT$|^(BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK|SUI)/.test(raw)) return ['crypto'];
+    if (/^(AED|AUD|BRL|CAD|CHF|CNY|EUR|GBP|HKD|INR|JPY|KRW|MXN|NOK|NZD|PLN|SEK|SGD|THB|TRY|TWD|USD|ZAR)/.test(raw)) return ['forex'];
+    return ['stocks'];
+  }
+
+  async function ensureCatalogForQuery(raw) {
+    const categories = (raw.length >= 2 ? catalogCategoriesForQuery(raw) : (modalFilter !== 'all' ? [modalFilter] : []))
+      .filter((category) => EXTENDED_CATALOG_URLS[category]);
+    if (!categories.length) return;
+    await Promise.all(categories.map((category) => loadExtendedCatalog(category)));
+    if (!$('cba-symbol-modal')?.hidden) renderSymbolModal();
+  }
+
   function modalMatches(entry, query) {
     if (!query) return true;
-    const haystack = `${entry.symbol} ${entry.name} ${entry.market} ${entry.exchange} ${entry.isin}`.toUpperCase();
+    const haystack = `${entry.symbol} ${entry.name} ${entry.market} ${entry.exchange} ${entry.isin} ${entry.country}`.toUpperCase();
     return haystack.includes(query);
   }
 
   function renderSymbolModal() {
     const list = $('cba-symbol-list'); const empty = $('cba-modal-empty'); if (!list || !empty) return;
     const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase();
-    const filtered = SYMBOL_SEARCH_CATALOG.filter((entry) => (modalFilter === 'all' || entry.modalCategory === modalFilter) && modalMatches(entry, raw));
+    const useExtendedSource = raw.length >= 2 || (modalFilter !== 'all' && extendedCatalogState.loaded.has(modalFilter));
+    const source = useExtendedSource ? modalEntries() : SYMBOL_SEARCH_CATALOG;
+    const filtered = source.filter((entry) => (modalFilter === 'all' || entry.modalCategory === modalFilter) && modalMatches(entry, raw));
     const normalized = cleanSymbol(raw);
-    const exact = SYMBOL_SEARCH_CATALOG.some((entry) => entry.symbol === normalized || (entry.isin && entry.isin.toUpperCase() === raw));
-    const entries = filtered.slice(0, 80);
+    const exact = source.some((entry) => entry.symbol === normalized || (entry.isin && entry.isin.toUpperCase() === raw));
+    const entries = filtered.slice(0, useExtendedSource ? 120 : 80);
     if (raw.length >= 2 && !exact) {
       const custom = findMeta(raw);
       const exchange = custom.binance ? { name: 'BINANCE', country: '🪙' } : { name: 'AUTO', country: '自訂代碼' };
       entries.unshift({ ...custom, modalCategory: 'custom', exchange: exchange.name, country: exchange.country, badge: 'ADD', isin: '', custom: true });
     }
     list.innerHTML = entries.map((entry, index) => {
-      const detail = entry.isin ? `ISIN ${entry.isin}` : entry.custom ? '搜尋自訂代碼 · 公開端點自動判斷' : `公開行情 · ${entry.modalCategory.toUpperCase()}`;
+      const detail = entry.isin ? `ISIN ${entry.isin}` : entry.custom ? '搜尋自訂代碼 · 公開端點自動判斷' : entry.catalogOnly ? `公開目錄 · ${entry.modalCategory.toUpperCase()} · 識別資料` : `公開行情 · ${entry.modalCategory.toUpperCase()}`;
       return `<button class="cba-symbol-row${index === modalActiveIndex ? ' is-active' : ''}" type="button" role="option" aria-selected="${index === modalActiveIndex}" data-symbol="${escapeHtml(entry.symbol)}"><span class="cba-symbol-badge category-${escapeHtml(entry.modalCategory)}">${escapeHtml(entry.badge)}</span><span class="cba-symbol-copy"><strong>${escapeHtml(entry.symbol)}</strong><small>${escapeHtml(entry.name)}</small><em>${escapeHtml(detail)}</em></span><span class="cba-symbol-market"><strong>${escapeHtml(entry.exchange)}</strong><small>${escapeHtml(entry.country)}</small></span></button>`;
     }).join('');
     empty.hidden = entries.length > 0;
     if (!entries.length) empty.textContent = raw ? `找不到「${raw}」。請修改搜尋，或使用自訂代碼直接載入。` : '此分類目前沒有可顯示的商品。';
     modalActiveIndex = entries.length ? Math.min(Math.max(modalActiveIndex, 0), entries.length - 1) : -1;
+    updateCatalogSourceNote();
   }
 
   function openSymbolModal() {
@@ -616,7 +713,7 @@
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openModal(); }
     });
     document.querySelectorAll('[data-cba-modal-close]').forEach((element) => element.addEventListener('click', closeSymbolModal));
-    $('cba-modal-search')?.addEventListener('input', () => { modalActiveIndex = -1; renderSymbolModal(); });
+    $('cba-modal-search')?.addEventListener('input', () => { modalActiveIndex = -1; renderSymbolModal(); const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase(); ensureCatalogForQuery(raw); });
     $('cba-modal-search')?.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowDown') { event.preventDefault(); moveModalActive(1); }
       else if (event.key === 'ArrowUp') { event.preventDefault(); moveModalActive(-1); }
@@ -631,7 +728,9 @@
       const tab = event.target.closest('[data-symbol-filter]'); if (!tab) return;
       modalFilter = tab.dataset.symbolFilter || 'all'; modalActiveIndex = -1;
       document.querySelectorAll('[data-symbol-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); });
+      const list = $('cba-symbol-list'); if (list) list.scrollTop = 0;
       renderSymbolModal();
+      const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase(); ensureCatalogForQuery(raw);
     });
     $('cba-symbol-list')?.addEventListener('click', (event) => {
       const row = event.target.closest('button[data-symbol]'); if (row) selectModalSymbol(row.dataset.symbol);

@@ -69,23 +69,26 @@
     .cba-modal[hidden] { display:none; }
     .cba-modal { position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:20px; }
     .cba-modal-backdrop { position:absolute; inset:0; background:rgba(3,7,13,.78); backdrop-filter:blur(8px); }
-    .cba-modal-dialog { position:relative; display:flex; flex-direction:column; width:min(760px,100%); max-height:min(720px,calc(100vh - 40px)); overflow:hidden; color:#f5f7ff; background:#141824; border:1px solid rgba(148,163,184,.28); border-radius:18px; box-shadow:0 24px 80px rgba(0,0,0,.55); }
-    .cba-modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:17px 18px 13px; border-bottom:1px solid rgba(148,163,184,.16); }
+    .cba-modal-dialog { position:relative; display:flex; flex-direction:column; min-height:0; width:min(760px,100%); height:min(720px,calc(100dvh - 40px)); max-height:min(720px,calc(100dvh - 40px)); overflow:hidden; color:#f5f7ff; background:#141824; border:1px solid rgba(148,163,184,.28); border-radius:18px; box-shadow:0 24px 80px rgba(0,0,0,.55); }
+    .cba-modal-fixed-controls { flex:0 0 auto; position:relative; z-index:5; background:#141824; }
+    .cba-modal-head { flex:0 0 auto; position:relative; z-index:4; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:17px 18px 13px; border-bottom:1px solid rgba(148,163,184,.16); background:#141824; }
     .cba-modal-head h2 { margin:5px 0 0; color:#fff; font:700 1.25rem/1.1 "Space Grotesk", sans-serif; }
     .cba-modal-head p { margin:5px 0 0; color:#9da8bc; font-size:.7rem; }
     .cba-modal-close { display:grid; place-items:center; width:32px; height:32px; border:1px solid rgba(148,163,184,.25); border-radius:8px; color:#cbd5e1; background:transparent; font-size:1.1rem; cursor:pointer; }
     .cba-modal-close:hover { color:#fff; background:#1e2332; }
-    .cba-modal-search-row { padding:13px 18px 9px; }
+    .cba-modal-search-row { flex:0 0 auto; position:relative; z-index:4; padding:13px 18px 9px; background:#141824; }
     .cba-modal-search-label { display:block; color:#9da8bc; font-size:.67rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
     .cba-modal-search-wrap { position:relative; margin-top:6px; }
     .cba-modal-search-wrap > i { position:absolute; top:12px; left:12px; color:#8f9bb1; pointer-events:none; }
     #cba-modal-search { width:100%; min-height:42px; padding:10px 12px 10px 34px; border:1px solid rgba(148,163,184,.3); border-radius:9px; color:#fff; background:#1e2332; outline:none; font:600 .86rem "DM Sans", sans-serif; }
     #cba-modal-search:focus { border-color:#f97316; box-shadow:0 0 0 3px rgba(249,115,22,.14); }
-    .cba-modal-tabs { display:flex; gap:6px; overflow-x:auto; padding:0 18px 11px; scrollbar-width:thin; }
+    .cba-modal-source-note { margin:6px 0 0; color:#718099; font-size:.61rem; line-height:1.4; }
+    .cba-modal-source-note strong { color:#aeb8c9; font-weight:700; }
+    .cba-modal-tabs { flex:0 0 auto; position:relative; z-index:4; display:flex; gap:6px; overflow-x:auto; padding:0 18px 11px; border-bottom:1px solid rgba(148,163,184,.14); background:#141824; scrollbar-width:thin; }
     .cba-modal-tab { flex:none; min-height:31px; padding:6px 12px; border:1px solid rgba(148,163,184,.2); border-radius:999px; color:#aeb8c9; background:transparent; font:700 .71rem "DM Sans", sans-serif; cursor:pointer; }
     .cba-modal-tab:hover { color:#fff; background:#1e2332; }
     .cba-modal-tab.is-active { border-color:#f97316; color:#fff; background:#f97316; }
-    .cba-symbol-list { flex:1 1 auto; min-height:170px; overflow:auto; padding:3px 12px 14px; overscroll-behavior:contain; }
+    .cba-symbol-list { flex:1 1 0; min-height:0; overflow-y:auto; overflow-x:hidden; padding:3px 12px 14px; overscroll-behavior:contain; scrollbar-gutter:stable; }
     .cba-symbol-row { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; width:100%; gap:11px; padding:10px 9px; border:1px solid transparent; border-radius:10px; color:#e9eef8; background:transparent; text-align:left; cursor:pointer; }
     .cba-symbol-row:hover, .cba-symbol-row:focus, .cba-symbol-row.is-active { border-color:rgba(249,115,22,.32); background:#1e2332; outline:none; }
     .cba-symbol-badge { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; color:#fff; background:#475569; font:800 .58rem "Space Grotesk", sans-serif; letter-spacing:-.03em; }
@@ -163,6 +166,21 @@
     .cba-method-card strong { display:block; color:var(--cba-orange); font:700 .82rem "Space Grotesk", sans-serif; }
     .cba-method-card code { color:#d5f2e2; font-size:.68rem; }
     .cba-method-card p { margin:5px 0 0; color:var(--cba-muted); font-size:.68rem; line-height:1.45; }
+    .cba-explanation { margin-top:14px; padding:17px; border:1px solid var(--cba-line); border-radius:15px; background:linear-gradient(135deg,rgba(18,37,32,.9),rgba(12,28,24,.76)); box-shadow:var(--cba-shadow); }
+    .cba-explanation-head { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; border-bottom:1px solid var(--cba-line); padding-bottom:11px; }
+    .cba-explanation-head h2 { margin:4px 0 0; font:700 1.14rem/1.15 "Space Grotesk", sans-serif; }
+    .cba-explanation-head p { max-width:640px; margin:4px 0 0; color:var(--cba-muted); font-size:.7rem; line-height:1.5; }
+    .cba-explanation-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+    .cba-explanation-card { padding:13px; border:1px solid rgba(173,226,199,.13); border-radius:11px; background:rgba(255,255,255,.025); }
+    .cba-explanation-card h3 { margin:0; color:var(--cba-orange); font:700 .83rem/1.2 "Space Grotesk", sans-serif; }
+    .cba-explanation-card .cba-formula { display:inline-block; margin:7px 0 2px; padding:4px 6px; border-radius:5px; color:#d5f2e2; background:rgba(126,214,176,.08); font:600 .68rem "DM Sans",sans-serif; }
+    .cba-explanation-card p { margin:5px 0 0; color:#a9c0b4; font-size:.68rem; line-height:1.58; }
+    .cba-explanation-card b { color:#e7f5ee; }
+    .cba-parameter-table { width:100%; margin-top:12px; border-collapse:collapse; }
+    .cba-parameter-table th, .cba-parameter-table td { padding:8px 9px; border-top:1px solid rgba(173,226,199,.10); font-size:.66rem; line-height:1.45; text-align:left; vertical-align:top; }
+    .cba-parameter-table th { color:var(--cba-orange); font-weight:700; white-space:nowrap; }
+    .cba-parameter-table td { color:#a9c0b4; }
+    .cba-explanation-foot { margin:11px 0 0; color:#78998b; font-size:.64rem; line-height:1.55; }
     .cba-disclaimer { margin:15px 2px 0; color:#78998b; font-size:.68rem; line-height:1.55; }
     .cba-page .site-footer { background:#07110f; border-top:1px solid var(--cba-line); }
     @media (max-width: 1050px) {
@@ -198,10 +216,14 @@
       .cba-method-card { padding:9px; }
       .cba-method-card p { font-size:.63rem; }
       .cba-modal { align-items:end; padding:0; }
-      .cba-modal-dialog { width:100%; max-height:calc(100vh - 12px); border-radius:18px 18px 0 0; }
+      .cba-modal-dialog { width:100%; height:calc(100dvh - 12px); max-height:calc(100dvh - 12px); border-radius:18px 18px 0 0; }
       .cba-modal-head, .cba-modal-search-row { padding-inline:14px; }
       .cba-modal-tabs { padding-inline:14px; }
-      .cba-symbol-list { padding-inline:8px; }
+      .cba-symbol-list { max-height:none; padding-inline:8px; }
+      .cba-explanation { padding:13px; }
+      .cba-explanation-head { display:block; }
+      .cba-explanation-grid { grid-template-columns:1fr; gap:7px; }
+      .cba-parameter-table th, .cba-parameter-table td { padding:7px 5px; font-size:.62rem; }
       .cba-symbol-row { grid-template-columns:38px minmax(0,1fr) auto; gap:8px; padding:9px 7px; }
       .cba-symbol-badge { width:32px; height:32px; font-size:.54rem; }
       .cba-symbol-market { min-width:70px; }
@@ -245,9 +267,11 @@
     <div id="cba-symbol-modal" class="cba-modal" hidden>
       <div class="cba-modal-backdrop" data-cba-modal-close></div>
       <section class="cba-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cba-modal-title">
-        <header class="cba-modal-head"><div><div class="cba-kicker">TRADINGVIEW STYLE / SYMBOL SEARCH</div><h2 id="cba-modal-title">選擇標的</h2><p>搜尋代碼、中文／英文名稱或 ISIN；點擊商品後立即開始分析。</p></div><button id="cba-modal-close" class="cba-modal-close" type="button" data-cba-modal-close aria-label="關閉商品搜尋彈窗"><i class="fa-solid fa-xmark"></i></button></header>
-        <div class="cba-modal-search-row"><label class="cba-modal-search-label" for="cba-modal-search">商品搜尋 Symbol / Name / ISIN</label><div class="cba-modal-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input id="cba-modal-search" type="search" autocomplete="off" spellcheck="false" placeholder="例如 MNQ、台積電、Micro E-mini 或 US0378331005" aria-controls="cba-symbol-list"></div></div>
-        <div id="cba-modal-tabs" class="cba-modal-tabs" role="tablist" aria-label="市場分類"><button class="cba-modal-tab is-active" type="button" role="tab" aria-selected="true" data-symbol-filter="all">全部 All</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="futures">期貨 Futures</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="stocks">股票／ETF Stocks</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="forex">外匯 Forex</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="crypto">加密貨幣 Crypto</button></div>
+        <div class="cba-modal-fixed-controls">
+          <header class="cba-modal-head"><div><div class="cba-kicker">TRADINGVIEW STYLE / SYMBOL SEARCH</div><h2 id="cba-modal-title">選擇標的</h2><p>搜尋代碼、中文／英文名稱或 ISIN；點擊商品後立即開始分析。</p></div><button id="cba-modal-close" class="cba-modal-close" type="button" data-cba-modal-close aria-label="關閉商品搜尋彈窗"><i class="fa-solid fa-xmark"></i></button></header>
+          <div class="cba-modal-search-row"><label class="cba-modal-search-label" for="cba-modal-search">商品搜尋 Symbol / Name / ISIN</label><div class="cba-modal-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input id="cba-modal-search" type="search" autocomplete="off" spellcheck="false" placeholder="例如 MNQ、台積電、Micro E-mini 或 US0378331005" aria-controls="cba-symbol-list"></div><p id="cba-modal-source-note" class="cba-modal-source-note"><strong>公開目錄：</strong>切換股票／ETF、外匯或加密貨幣分類，或輸入至少 2 個字元，即會延遲載入 FinanceDatabase 的全球識別資料；內建期貨與熱門商品可立即使用。</p></div>
+          <div id="cba-modal-tabs" class="cba-modal-tabs" role="tablist" aria-label="市場分類"><button class="cba-modal-tab is-active" type="button" role="tab" aria-selected="true" data-symbol-filter="all">全部 All</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="futures">期貨 Futures</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="stocks">股票／ETF Stocks</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="forex">外匯 Forex</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="crypto">加密貨幣 Crypto</button></div>
+        </div>
         <div id="cba-symbol-list" class="cba-symbol-list" role="listbox" aria-label="可選商品列表"></div><div id="cba-modal-empty" class="cba-modal-empty" hidden>找不到符合的商品。請修改搜尋，或使用自訂代碼直接載入。</div>
       </section>
     </div>
@@ -264,11 +288,12 @@
         <div class="cba-kpi-row"><div class="cba-kpi"><span>Target 區間報酬</span><strong id="cba-target-return">—</strong></div><div class="cba-kpi"><span>Benchmark 超額報酬 Alpha</span><strong id="cba-selected-alpha">—</strong></div><div class="cba-kpi"><span>最新價差 Z-Score</span><strong id="cba-selected-z">—</strong></div></div>
       </section>
     </section>
-    <section class="cba-method-grid" aria-label="計算方法說明"><div class="cba-method-card"><strong>Pearson r</strong><p><code>Cov(Rᵢ,Rₘ) ÷ σᵢσₘ</code>，以共同日期報酬衡量同步性；越接近 −1 越具對沖觀察價值。</p></div><div class="cba-method-card"><strong>Beta β</strong><p><code>Cov(Rᵢ,Rₘ) ÷ Var(Rₘ)</code>，以 Target 報酬作基準；β 大於 1 表示相對敏感。</p></div><div class="cba-method-card"><strong>Relative Strength</strong><p><code>Alpha = Rᵢ − Rₘ</code>，顯示區間內對基準的超額報酬，不是預測保證。</p></div><div class="cba-method-card"><strong>Spread Z-Score</strong><p>以 <code>價格比 = Pᵢ ÷ Pₘ</code> 的平均與標準差標準化，|Z| ≥ 2 僅代表偏離警示。</p></div></section>
+    <section class="cba-method-grid" aria-label="計算方法速覽"><div class="cba-method-card"><strong>Pearson r</strong><p><code>Cov(Rᵢ,Rₘ) ÷ σᵢσₘ</code>，以共同日期報酬衡量同步性；越接近 −1 越具對沖觀察價值。</p></div><div class="cba-method-card"><strong>Beta β</strong><p><code>Cov(Rᵢ,Rₘ) ÷ Var(Rₘ)</code>，以 Target 報酬作基準；β 大於 1 表示相對敏感。</p></div><div class="cba-method-card"><strong>Relative Strength</strong><p><code>Alpha = Rᵢ − Rₘ</code>，顯示區間內對基準的超額報酬，不是預測保證。</p></div><div class="cba-method-card"><strong>Spread Z-Score</strong><p>以 <code>價格比 = Pᵢ ÷ Pₘ</code> 的平均與標準差標準化，|Z| ≥ 2 僅代表偏離警示。</p></div></section>
+    <section class="cba-explanation" aria-labelledby="cba-explanation-title"><div class="cba-explanation-head"><div><div class="cba-kicker">HOW TO READ / QUANT PARAMETERS</div><h2 id="cba-explanation-title">完整參數解讀：從數值到研究問題</h2></div><p>這個工具不是只給排名；以下說明每個欄位的計算口徑、實務用途與不能忽略的限制。</p></div><div class="cba-explanation-grid"><article class="cba-explanation-card"><h3>Pearson Correlation · r</h3><span class="cba-formula">r = Cov(Rᵢ, Rₘ) ÷ (σᵢ × σₘ)</span><p>將兩個商品的每日報酬配對後計算線性同步程度，範圍為 −1 至 +1。<b>+1</b> 代表同向、<b>−1</b> 代表反向、接近 0 代表沒有穩定線性關係。它回答「兩個商品是否一起動」，不是因果關係，也不保證下一段期間仍相同。</p></article><article class="cba-explanation-card"><h3>Beta · β</h3><span class="cba-formula">β = Cov(Rᵢ, Rₘ) ÷ Var(Rₘ)</span><p>本頁把目前 Target 當作基準，因此 β 衡量「排行榜中的 Benchmark 對 Target 報酬的敏感度」。<b>β = 1</b> 約等於同幅度、<b>β &gt; 1</b> 表示波動放大、<b>0 &lt; β &lt; 1</b> 表示較鈍化、<b>β &lt; 0</b> 表示方向相反。β 會受區間與極端報酬影響。</p></article><article class="cba-explanation-card"><h3>Relative Strength · Alpha</h3><span class="cba-formula">Alpha = Rᵢ − Rₘ</span><p>Alpha 是共同樣本區間內 Benchmark 報酬減去 Target 報酬的超額報酬。<b>正值</b>表示 Benchmark 相對強於 Target，<b>負值</b>表示相對弱於 Target；它是回顧性比較，不是投資報酬承諾，也沒有扣除交易成本、匯率與滑價。</p></article><article class="cba-explanation-card"><h3>Spread Z-Score · 價差偏離</h3><span class="cba-formula">Ratio = Pᵢ ÷ Pₘ；Z = (Ratio − μ) ÷ σ</span><p>本工具使用價格比的平均與標準差估算最新偏離程度。<b>|Z| ≥ 2</b> 是統計警示門檻，不代表必然回歸；非平穩商品、結構變動或交易日錯位都可能讓 Z-Score 失真。正式配對交易仍需檢驗協整與風險。</p></article><article class="cba-explanation-card"><h3>Lookback · 回溯區間</h3><span class="cba-formula">30D / 60D / 120D / 250D</span><p>回溯值代表最多取最近的共同交易日樣本：30D 偏短線動能、60D 偏波段、120D 看半年結構、250D 看年線週期。不同市場休市日不同，實際樣本會因「共同日期」而少於選定天數。</p></article><article class="cba-explanation-card"><h3>Universe／Ranking／Sample</h3><span class="cba-formula">池別 × 排序方向 × 可用樣本</span><p>比對池決定候選商品來源；Top Positive 依 r 由高到低，Top Negative 依 r 由低到高；樣本欄是實際共同日期報酬數。排行只在同一個池別、回溯區間與資料狀態下可比較。</p></article></div><table class="cba-parameter-table"><thead><tr><th>欄位</th><th>看什麼</th><th>使用時的提醒</th></tr></thead><tbody><tr><th>Target</th><td>你要研究的基準商品。</td><td>可用代碼、名稱或 ISIN 搜尋；跨市場比較時先確認幣別與交易時間。</td></tr><tr><th>Benchmark</th><td>被選入圖表與 KPI 的對標商品。</td><td>點排行列或下拉選單即可切換；不是「最佳買入」推薦。</td></tr><tr><th>r／β／Alpha／Z</th><td>同步性、敏感度、超額報酬與價格比偏離。</td><td>應同時閱讀，不要只用單一指標下結論。</td></tr><tr><th>資料來源</th><td>Yahoo Finance／CORS fallback 或 Binance REST 公開歷史收盤。</td><td>可能延遲、缺值、限流或受休市與代理服務影響；結果僅供研究教育。</td></tr></tbody></table><p class="cba-explanation-foot"><i class="fa-solid fa-database"></i> 全球商品目錄採「內建可立即搜尋 + 公開目錄 lazy search」策略：FinanceDatabase 主要提供分類與識別 metadata，不等於即時行情；選到未被行情端點支援的商品時，工具會保留自訂代碼流程並顯示資料不足，而不偽造數值。</p></section>
     <p class="cba-disclaimer"><i class="fa-solid fa-circle-info"></i> 本工具完全在瀏覽器端執行，公開行情可能延遲、休市或受 CORS 限制；不同市場的交易日不完全一致，結果僅供研究與教育參考，不構成投資、交易或統計套利建議。</p>
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r6" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r7" defer></script>
 </body>
 </html>
