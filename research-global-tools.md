@@ -79,3 +79,11 @@ Yahoo r4 loader 直接測試：`GlobalMarket.yahooHistory('NVDA','2y','1d')` 透
 ## 390px RWD 回歸
 
 在 390×844 同源 iframe：`tools/index.html` 有 31 張卡、14 張新公開資料卡，`scrollWidth=382`；`etf-nav-premium-tracker.html` 與 `etf-drip-backtester.html` 均為 `scrollWidth=382`、canvas 約 340×250，且兩者狀態為資料已更新。`guides/etf.html` 有 2 個 global inline links 與 2 個 global CTAs，`scrollWidth=382`；既有 `risk-reward-calculator.html` 與 `grid-trading-calculator.html` 同樣為 382px，保留風報比／網格內容，未因新批次產生水平溢位。
+
+## Production Hub hotfix 回歸
+
+在 `https://academy.gugopro.com/tools/index.html?qa=c0bc06f`：DOM 驗證 31 張卡、14 張全球卡、14 個分類 tab；每張全球卡為直接 `.html` href，icon／kicker／title metadata 均正常，hero 的「13 類市場導航 · 14 張公開資料工具」只出現一次。搜尋 `財報、淨值、Sharpe、Carry、金油、Basis、IV、Funding、Cap Rate、CPI、Kelly` 逐一 render 後各命中 1 張（Kelly 命中 2 張，因既有與新工具同時相關）；點選 02 美股分類命中 4 張；1280px `scrollWidth=1272`。
+
+Production 美股財報回歸（c0bc06f）：`us-earnings-tracker.html?qa=c0bc06f` 取得 Yahoo + SEC XBRL，NVDA 最新收盤 US$212.15、近一年價格報酬 23.69%、SEC EPS 2.39 USD、營收 YoY 74.60%，Chart.js 價格／EPS 圖正常。財報窗口因申報日期不可得維持破折號，未補值。
+
+Production 390×844 最終回歸（c0bc06f）：同源 iframe 的 Tools Hub 有 31 張卡／14 張全球卡，`scrollWidth=382`；NVDA 美股財報頁狀態「資料已更新」、`scrollWidth=382`、canvas 約 340×250；ETF DRIP 頁取得 Yahoo 11 筆公開股利事件、狀態「資料已更新」、結果長度 161、`scrollWidth=382`、canvas 約 340×250。
