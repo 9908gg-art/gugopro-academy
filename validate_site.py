@@ -137,6 +137,7 @@ for hub_marker in ['tools-hub-layout', 'tools-hub-sidebar', 'tools-hub-filters',
 if workbench_text.count('data-tool-filter=') != 14: errors.append('workbench must contain 14 tool hub filter buttons')
 if workbench_text.count('data-tool-card') != 31: errors.append('workbench must contain exactly 31 tool cards')
 if workbench_text.count('data-global-tool-card') != 14: errors.append('workbench must contain exactly 14 global public-data cards')
+if workbench_text.count('13 類市場導航 · 14 張公開資料工具') != 1: errors.append('workbench hero must contain one public-data summary')
 global_card_contracts = [
     ('us-earnings-tracker.html', '財報與估值', 'fa-file-invoice-dollar', '美股財報成長與 EPS 驚喜分析儀'),
     ('us-sec-insider-flow.html', 'SEC 申報', 'fa-user-shield', '美股內部人持股與 SEC 申報流向儀'),

@@ -36,7 +36,7 @@ if marker not in text:
     raise SystemExit('card marker not found')
 text = text.replace(marker, block + marker, 1)
 text = text.replace('<strong>17</strong><span>可探索工具</span>', '<strong>31</strong><span>可探索工具</span>', 1)
-text = text.replace('13 類市場導航', '13 類市場導航 · 14 張公開資料工具', 1)
+text = re.sub(r'13 類市場導航(?: · 14 張公開資料工具)+', '13 類市場導航 · 14 張公開資料工具', text, count=1)
 text = text.replace('QUICK CALCULATORS / 09 PANELS', 'QUICK CALCULATORS / 23 PANELS', 1)
 text = text.replace('上方「在本頁計算」卡片', '上方「在本頁計算」或「開啟真實資料」卡片', 1)
 path.write_text(text, encoding='utf-8')
