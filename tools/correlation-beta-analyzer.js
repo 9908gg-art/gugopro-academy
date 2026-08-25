@@ -536,7 +536,7 @@
       const suffix = errors.length ? `；${escapeHtml(errors.join('、'))} 分片暫時無法載入` : '';
       note.innerHTML = `<strong>公開目錄：</strong>FinanceDatabase／MIT 已載入 ${count} 筆識別資料${suffix}；目前只顯示搜尋結果前 120 筆，行情支援度仍以公開端點為準。`;
     } else {
-      note.innerHTML = '<strong>公開目錄：</strong>輸入至少 2 個字元會延遲載入 FinanceDatabase 的全球分類資料；內建清單則可立即使用。';
+      note.innerHTML = '<strong>公開目錄：</strong>切換股票／ETF、外匯或加密貨幣分類，或輸入至少 2 個字元，即會延遲載入 FinanceDatabase 的全球識別資料；內建期貨與熱門商品可立即使用。';
     }
   }
 
