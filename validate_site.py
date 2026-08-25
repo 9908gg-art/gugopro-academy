@@ -88,7 +88,7 @@ required_files = [
     'tools/tw-institutional-tracker.html', 'tools/tw-institutional-tracker.js',
     'tools/tw-ma-deduction-calculator.html', 'tools/tw-ma-deduction-calculator.js',
     'tools/tw-stock-valuation.html', 'tools/tw-stock-valuation.js',
-    'tools/tw-day-trading-fee-calc.html', 'tools/tw-day-trading-fee-calc.js', 'tools/tools-hub.js'
+    'tools/tw-day-trading-fee-calc.html', 'tools/tw-day-trading-fee-calc.js', 'tools/tw-market-data.js', 'tools/tools-hub.js'
 ]
 for required in required_files:
     if not (ROOT / required).exists(): errors.append(f'missing required file {required}')
@@ -146,18 +146,30 @@ for guide_slug, tool_href in [('risk-reward-ratio','../tools/risk-reward-calcula
 for tool_page, guide_href in [('risk-reward-calculator.html','../guides/risk-reward-ratio.html'), ('etf-dividend-calculator.html','../guides/etf-dividend-drip.html'), ('grid-trading-calculator.html','../guides/grid-trading.html')]:
     tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
     if guide_href not in tool_text: errors.append(f'{tool_page} missing guide link {guide_href}')
-for tool_page, guide_href, markers in [
-    ('tw-institutional-tracker.html', '../guides/taiwan-stocks.html#chips-analysis', ['tw-inst-calc', 'tw-inst-foreign', 'tw-inst-margin', 'tw-institutional-tracker.js']),
-    ('tw-ma-deduction-calculator.html', '../guides/taiwan-stocks.html#technical-analysis', ['tw-ma-calc', 'tw-ma-prices', 'tw-ma-rsi-pill', 'tw-ma-deduction-calculator.js']),
-    ('tw-stock-valuation.html', '../guides/taiwan-stocks.html#fundamentals-analysis', ['tw-val-calc', 'tw-val-eps', 'tw-val-valuation-chart', 'tw-stock-valuation.js']),
-    ('tw-day-trading-fee-calc.html', '../guides/taiwan-stocks.html#trading-rules', ['tw-fee-calc', 'tw-fee-mode', 'tw-fee-discount', 'tw-day-trading-fee-calc.js']),
+for tool_page, guide_href, markers, forbidden_markers in [
+    ('tw-institutional-tracker.html', '../guides/taiwan-stocks.html#chips-analysis', ['tw-inst-load', 'tw-inst-symbol-select', 'tw-inst-lookback', 'tw-inst-chart', 'tw-inst-status', 'tw-inst-result', 'tw-inst-source', 'tw-market-data.js', 'chart.umd.min.js', 'REAL PUBLIC DATA', 'METHOD / FIELD GUIDE'], ['INPUT / SCENARIO', '教育用情境', '情境名稱', 'tw-inst-foreign', 'tw-inst-margin']),
+    ('tw-ma-deduction-calculator.html', '../guides/taiwan-stocks.html#technical-analysis', ['tw-ma-load', 'tw-ma-symbol-select', 'tw-ma-horizon', 'tw-ma-chart', 'tw-ma-indicator-chart', 'tw-ma-status', 'tw-ma-result', 'tw-ma-source', 'tw-market-data.js', 'chart.umd.min.js', 'REAL PUBLIC DATA', 'METHOD / FIELD GUIDE'], ['INPUT / SCENARIO', '教育用情境', '情境名稱', 'tw-ma-prices']),
+    ('tw-stock-valuation.html', '../guides/taiwan-stocks.html#fundamentals-analysis', ['tw-val-load', 'tw-val-symbol-select', 'tw-val-chart', 'tw-val-dividend-chart', 'tw-val-status', 'tw-val-result', 'tw-val-source', 'tw-market-data.js', 'chart.umd.min.js', 'REAL PUBLIC DATA', 'METHOD / FIELD GUIDE'], ['INPUT / SCENARIO', '教育用情境', '情境名稱', 'tw-val-eps', 'tw-val-pe-low', 'tw-val-growth', 'tw-val-dividends']),
+    ('tw-day-trading-fee-calc.html', '../guides/taiwan-stocks.html#trading-rules', ['tw-fee-load', 'tw-fee-symbol-select', 'tw-fee-mode', 'tw-fee-discount', 'tw-fee-chart', 'tw-fee-status', 'tw-fee-result', 'tw-market-data.js', 'chart.umd.min.js', 'REAL PUBLIC DATA', 'METHOD / FIELD GUIDE'], ['INPUT / SCENARIO', '教育用情境', '情境名稱']),
 ]:
     tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
     if guide_href not in tool_text: errors.append(f'{tool_page} missing guide backlink {guide_href}')
     for marker in markers:
         if marker not in tool_text: errors.append(f'{tool_page} missing tool marker {marker}')
+    for forbidden_marker in forbidden_markers:
+        if forbidden_marker in tool_text: errors.append(f'{tool_page} still contains obsolete manual/fake-data marker {forbidden_marker}')
 for chapter, tool_href in [('chips-analysis', '../tools/tw-institutional-tracker.html'), ('technical-analysis', '../tools/tw-ma-deduction-calculator.html'), ('fundamentals-analysis', '../tools/tw-stock-valuation.html'), ('trading-rules', '../tools/tw-day-trading-fee-calc.html')]:
     if tool_href not in taiwan_text: errors.append(f'taiwan-stocks.html missing chapter tool link {tool_href}')
+if not (ROOT / 'tools' / 'tw-market-data.js').exists(): errors.append('missing shared Taiwan real-data module')
+for script_name, script_markers in {
+    'tw-institutional-tracker.js': ['TWMarketData', 'priceHistory', 'institutional', 'margin', 'drawInstitutionalChart', 'FinMind'],
+    'tw-ma-deduction-calculator.js': ['TWMarketData', 'priceHistory', 'drawTechnicalChart', 'RSI', 'MACD'],
+    'tw-stock-valuation.js': ['TWMarketData', 'priceHistory', 'per', 'dividend', 'financial', 'drawValuationChart', 'fillDays'],
+    'tw-day-trading-fee-calc.js': ['TWMarketData', 'priceHistory', 'drawCostChart', 'Math.max(20', 'taxRate', "mode === 'etf'"]
+}.items():
+    script_text = (ROOT / 'tools' / script_name).read_text(encoding='utf-8')
+    for marker in script_markers:
+        if marker not in script_text: errors.append(f'{script_name} missing real-data marker {marker}')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older','rr-watchlist-options','rr-watchlist-add','rr-watchlist-manage','rr-watchlist-count','rr-watchlist-panel','rr-watchlist-close','rr-watchlist-items','rr-watchlist-feedback','rr-watchlist-clear']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')

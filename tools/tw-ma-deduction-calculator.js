@@ -1,63 +1,26 @@
 (function () {
   'use strict';
-
+  var md = window.TWMarketData;
   var $ = function (id) { return document.getElementById(id); };
-  var number = function (value) { return Number(value); };
-  var format = function (value) { return Number(value).toLocaleString('zh-TW', { maximumFractionDigits: 2, minimumFractionDigits: 2 }); };
-  var parsePrices = function () { return $('tw-ma-prices').value.split(/[\s,，;；]+/).map(number).filter(function (value) { return Number.isFinite(value) && value > 0; }); };
+  var state = { data: null, loading: false };
 
-  function average(values) { return values.reduce(function (sum, value) { return sum + value; }, 0) / values.length; }
-  function maAt(values, period, offset) {
-    var end = values.length + offset;
-    var series = values.slice();
-    while (series.length < end) series.push(values[values.length - 1]);
-    return average(series.slice(end - period, end));
+  function setStatus(main, detail, error) { var node = $('tw-ma-status'); if (!node) return; node.classList.toggle('is-error', Boolean(error)); $('tw-ma-status-main').textContent = main; $('tw-ma-status-detail').textContent = detail || ''; }
+  function average(values) { return values.length ? values.reduce(function (sum, value) { return sum + value; }, 0) / values.length : NaN; }
+  function ma(values, period) { return average(values.slice(-period)); }
+  function rsi(values) { var changes = [], start = Math.max(1, values.length - 14); for (var i = start; i < values.length; i += 1) changes.push(values[i] - values[i - 1]); var gains = changes.filter(function (v) { return v > 0; }); var losses = changes.filter(function (v) { return v < 0; }).map(Math.abs); if (!losses.length) return gains.length ? 100 : 50; var rs = average(gains) / average(losses); return 100 - 100 / (1 + rs); }
+  function stochastic(values) { var window = values.slice(-9), low = Math.min.apply(Math, window), high = Math.max.apply(Math, window); return high === low ? 50 : (values[values.length - 1] - low) / (high - low) * 100; }
+  function ema(values, period) { var alpha = 2 / (period + 1), current = values[0]; values.slice(1).forEach(function (value) { current = alpha * value + (1 - alpha) * current; }); return current; }
+  function macd(values) { return ema(values, 12) - ema(values, 26); }
+  function status(newValue, removed) { if (newValue > removed) return '<span class="tw-status-up">扣低助漲</span>'; if (newValue < removed) return '<span class="tw-status-down">扣高助跌</span>'; return '<span class="tw-status-flat">持平觀察</span>'; }
+  function render(data) {
+    var horizon = Math.min(3, Math.max(1, Number($('tw-ma-horizon').value) || 3)); var rows = data.price.slice(-80); if (rows.length < 60) throw new Error('日 K 歷史資料不足 60 筆，無法計算 60MA');
+    var closes = rows.map(function (row) { return row.close; }), latest = closes[closes.length - 1], five = ma(closes, 5), twenty = ma(closes, 20), sixty = ma(closes, 60), volume = rows[rows.length - 1].volume, volume20 = average(rows.slice(-20).map(function (row) { return row.volume; }));
+    var removed5 = closes[closes.length - 5], removed20 = closes[closes.length - 20], future = []; for (var day = 0; day <= horizon; day += 1) { var idx5 = Math.max(0, closes.length - 5 + day), idx20 = Math.max(0, closes.length - 20 + day); future.push({ day: day, five: five, twenty: twenty, fiveRemoved: closes[Math.min(closes.length - 1, idx5)], twentyRemoved: closes[Math.min(closes.length - 1, idx20)] }); }
+    var rsiValue = rsi(closes), k = stochastic(closes), d = stochastic(closes.slice(0, -1)), macdValue = macd(closes), volumeMultiple = volume20 ? volume / volume20 : NaN;
+    $('tw-ma-hud-symbol').textContent = data.symbol; $('tw-ma-hud-price').textContent = 'NT$ ' + md.formatPrice(latest); $('tw-ma-hud-date').textContent = md.formatDate(rows[rows.length - 1].date); $('tw-ma-hud-5').textContent = md.formatPrice(five); $('tw-ma-hud-20').textContent = md.formatPrice(twenty); $('tw-ma-hud-60').textContent = md.formatPrice(sixty); $('tw-ma-hud-deduct').textContent = md.formatPrice(removed5) + '／' + md.formatPrice(removed20); $('tw-ma-hud-volume').textContent = md.formatNumber(volumeMultiple, 2) + '×'; $('tw-ma-hud-rsi').textContent = md.formatNumber(rsiValue, 2); $('tw-ma-hud-kd').textContent = md.formatNumber(k, 2) + '／' + md.formatNumber(d, 2); $('tw-ma-hud-macd').textContent = md.formatNumber(macdValue, 2);
+    $('tw-ma-result').innerHTML = '<p class="tw-result-lead"><strong>' + md.escapeHtml(data.symbol) + '</strong> 最新日 K 為 ' + md.formatDate(rows[rows.length - 1].date) + '，收盤 NT$ ' + md.formatPrice(latest) + '；5MA／20MA／60MA 分別為 NT$ ' + md.formatPrice(five) + '／' + md.formatPrice(twenty) + '／' + md.formatPrice(sixty) + '。</p><div class="tw-stat-grid"><div><span>5MA 扣抵價</span><strong>' + md.formatPrice(removed5) + ' · ' + (latest > removed5 ? '助漲' : '助跌') + '</strong></div><div><span>20MA 扣抵價</span><strong>' + md.formatPrice(removed20) + ' · ' + (latest > removed20 ? '助漲' : '助跌') + '</strong></div><div><span>今日量／20日均量</span><strong>' + md.formatNumber(volumeMultiple, 2) + '×</strong></div><div><span>RSI(14)</span><strong>' + md.formatNumber(rsiValue, 2) + '</strong></div><div><span>K／D(9)</span><strong>' + md.formatNumber(k, 2) + '／' + md.formatNumber(d, 2) + '</strong></div><div><span>MACD(12,26)</span><strong class="tw-result-highlight">' + md.formatNumber(macdValue, 2) + '</strong></div></div><div class="tw-table-wrap"><table class="tw-result-table"><thead><tr><th>時點</th><th>5MA</th><th>5MA 扣抵</th><th>5MA 診斷</th><th>20MA</th><th>20MA 扣抵</th><th>20MA 診斷</th></tr></thead><tbody>' + future.map(function (row) { return '<tr><th>' + (row.day ? '第 ' + row.day + ' 日' : '今日') + '</th><td>' + md.formatPrice(row.five) + '</td><td>' + md.formatPrice(row.fiveRemoved) + '</td><td>' + status(latest, row.fiveRemoved) + '</td><td>' + md.formatPrice(row.twenty) + '</td><td>' + md.formatPrice(row.twentyRemoved) + '</td><td>' + status(latest, row.twentyRemoved) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="tw-result-explain">未來扣抵以已抓到的歷史序列向前移動，未對未來收盤做假設；扣抵只描述均線斜率，不能視為價格預測或交易指令。</p>';
+    md.drawTechnicalChart($('tw-ma-chart'), rows); md.drawIndicatorChart($('tw-ma-indicator-chart'), rows); $('tw-ma-chart-caption').textContent = data.symbol + ' · ' + md.formatDate(rows[0].date) + ' → ' + md.formatDate(rows[rows.length - 1].date) + ' · 收盤、5MA、20MA 與成交量'; $('tw-ma-indicator-caption').textContent = data.symbol + ' · RSI、KD 與標準化 MACD 動能副圖'; $('tw-ma-source').textContent = '資料來源：FinMind TaiwanStockPrice · 查詢 ' + new Date().toLocaleString('zh-TW');
   }
-  function rsi(values) {
-    var window = values.slice(-15); var gains = 0; var losses = 0;
-    for (var i = 1; i < window.length; i += 1) { var change = window[i] - window[i - 1]; if (change >= 0) gains += change; else losses -= change; }
-    if (!losses) return gains ? 100 : 50;
-    var rs = (gains / 14) / (losses / 14);
-    return 100 - (100 / (1 + rs));
-  }
-  function stochasticK(values, period) {
-    var window = values.slice(-period); var low = Math.min.apply(Math, window); var high = Math.max.apply(Math, window);
-    return high === low ? 50 : (values[values.length - 1] - low) / (high - low) * 100;
-  }
-  function macd(values) {
-    var ema = function (period) { var alpha = 2 / (period + 1); var current = values[0]; values.slice(1).forEach(function (price) { current = alpha * price + (1 - alpha) * current; }); return current; };
-    var line = ema(12) - ema(26);
-    var recent = values.slice(-10); var signal = 0; var alpha = 2 / 10;
-    recent.forEach(function (_, index) { var prefix = values.slice(0, values.length - recent.length + index + 1); var point = (function () { var a = 2 / 13; var fast = prefix[0]; var slow = prefix[0]; prefix.slice(1).forEach(function (price) { fast = 2 / 13 * price + (1 - 2 / 13) * fast; slow = 2 / 27 * price + (1 - 2 / 27) * slow; }); return fast - slow; }()); signal = index === 0 ? point : alpha * point + (1 - alpha) * signal; });
-    return { line: line, signal: signal };
-  }
-  function status(incoming, deducted) {
-    if (incoming > deducted) return '<span class="tw-status-up">扣低助漲</span>';
-    if (incoming < deducted) return '<span class="tw-status-down">扣高助跌</span>';
-    return '<span class="tw-status-flat">持平觀察</span>';
-  }
-
-  function calculate() {
-    var prices = parsePrices(); var result = $('tw-ma-deduction-calculator-result');
-    if (prices.length < 20) { result.classList.add('is-warning'); result.textContent = '至少需要 20 筆有效收盤價，才能同時比較 5MA 與 20MA。'; return; }
-    result.classList.remove('is-warning');
-    var latest = prices[prices.length - 1]; var horizon = Math.min(3, Math.max(1, Math.floor(Number($('tw-ma-horizon').value) || 3))); var rows = [];
-    for (var day = 0; day <= horizon; day += 1) {
-      var ma5 = maAt(prices, 5, day); var ma20 = maAt(prices, 20, day); var fiveIndex = prices.length + day - 5; var twentyIndex = prices.length + day - 20;
-      var fiveDeduct = prices[Math.max(0, Math.min(prices.length - 1, fiveIndex))]; var twentyDeduct = prices[Math.max(0, Math.min(prices.length - 1, twentyIndex))];
-      rows.push('<tr><th>' + (day === 0 ? '今日' : '第 ' + day + ' 日') + '</th><td>' + format(ma5) + '</td><td>' + format(fiveDeduct) + '</td><td>' + status(latest, fiveDeduct) + '</td><td>' + format(ma20) + '</td><td>' + format(twentyDeduct) + '</td><td>' + status(latest, twentyDeduct) + '</td></tr>');
-    }
-    var rsiValue = rsi(prices); var kValue = stochasticK(prices, 9); var dValue = (stochasticK(prices.slice(0, -2), 9) + stochasticK(prices.slice(0, -1), 9) + kValue) / 3; var macdValue = macd(prices); var macdState = macdValue.line >= macdValue.signal ? '動能偏強' : '動能偏弱';
-    $('tw-ma-rsi-pill').textContent = 'RSI ' + format(rsiValue) + (rsiValue >= 70 ? '｜高檔' : rsiValue <= 30 ? '｜低檔' : '｜中性');
-    $('tw-ma-kd-pill').textContent = 'KD K ' + format(kValue) + '／D ' + format(dValue);
-    $('tw-ma-macd-pill').textContent = 'MACD ' + format(macdValue.line) + '／' + macdState;
-    result.innerHTML = '<p class="tw-result-lead">最新收盤 <strong>' + format(latest) + '</strong>；以下未來情境假設收盤持平，重點是看「新值」與「被扣除值」的相對位置。</p><div class="tw-table-wrap"><table class="tw-result-table"><thead><tr><th>時點</th><th>5MA</th><th>5MA 扣抵</th><th>5MA 診斷</th><th>20MA</th><th>20MA 扣抵</th><th>20MA 診斷</th></tr></thead><tbody>' + rows.join('') + '</tbody></table></div><p class="tw-result-explain">扣抵值升高或降低只描述均線斜率；仍需搭配收盤位置、成交量、回踩與失效價。RSI、KD、MACD 是過濾器，不是單獨的買賣指令。</p>';
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var button = $('tw-ma-calc'); if (!button) return;
-    button.addEventListener('click', calculate);
-    document.querySelectorAll('#tw-ma-symbol, #tw-ma-horizon, #tw-ma-prices').forEach(function (input) { input.addEventListener('input', calculate); });
-    calculate();
-  });
+  function load() { if (state.loading) return; var code = md.cleanSymbol($('tw-ma-symbol').value); if (!/^\d{4}$/.test(code)) { setStatus('等待有效代號', '請輸入四位台股代號，例如 2330、2454 或 0050。', true); return; } $('tw-ma-symbol').value = code + '.TW'; state.loading = true; setStatus('載入中', '正在抓取 ' + code + ' 的日 K 與成交量…'); $('tw-ma-result').innerHTML = '<p class="tw-loading"><i class="fa-solid fa-spinner fa-spin"></i> 正在載入真實日 K 並計算指標。</p>'; md.priceHistory(code, 260).then(function (prices) { state.data = { code: code, symbol: md.displaySymbol(code), price: prices }; render(state.data); setStatus('資料已更新', 'FinMind 日 K · ' + new Date().toLocaleTimeString('zh-TW')); }).catch(function (error) { setStatus('資料載入失敗', error.message || '公開端點暫時無法回應，請稍後重試。', true); $('tw-ma-result').innerHTML = '<p class="tw-error"><i class="fa-solid fa-triangle-exclamation"></i> 無法取得 ' + md.escapeHtml(code) + ' 的真實日 K。請確認代號或稍後重試；本工具不使用手動收盤價替代。</p>'; }).finally(function () { state.loading = false; }); }
+  document.addEventListener('DOMContentLoaded', function () { if (!$('tw-ma-load')) return; $('tw-ma-load').addEventListener('click', load); $('tw-ma-symbol-select').addEventListener('change', function () { $('tw-ma-symbol').value = this.value; load(); }); $('tw-ma-horizon').addEventListener('change', function () { if (state.data) render(state.data); }); $('tw-ma-symbol').addEventListener('keydown', function (event) { if (event.key === 'Enter') load(); }); window.addEventListener('resize', function () { if (state.data) { var rows = state.data.price.slice(-80); md.drawTechnicalChart($('tw-ma-chart'), rows); md.drawIndicatorChart($('tw-ma-indicator-chart'), rows); } }); load(); });
 }());
