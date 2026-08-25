@@ -1,5 +1,6 @@
 from pathlib import Path
 from html.parser import HTMLParser
+import re
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).parent
@@ -136,6 +137,25 @@ for hub_marker in ['tools-hub-layout', 'tools-hub-sidebar', 'tools-hub-filters',
 if workbench_text.count('data-tool-filter=') != 14: errors.append('workbench must contain 14 tool hub filter buttons')
 if workbench_text.count('data-tool-card') != 31: errors.append('workbench must contain exactly 31 tool cards')
 if workbench_text.count('data-global-tool-card') != 14: errors.append('workbench must contain exactly 14 global public-data cards')
+global_card_contracts = [
+    ('us-earnings-tracker.html', '財報與估值', 'fa-file-invoice-dollar', '美股財報成長與 EPS 驚喜分析儀'),
+    ('us-sec-insider-flow.html', 'SEC 申報', 'fa-user-shield', '美股內部人持股與 SEC 申報流向儀'),
+    ('etf-nav-premium-tracker.html', '淨值與費用', 'fa-layer-group', 'ETF 淨值折溢價與費用率分析儀'),
+    ('etf-drip-backtester.html', '股息回測', 'fa-coins', 'ETF 股息再投入 DRIP 回測儀'),
+    ('bond-yield-curve-tracker.html', '殖利率曲線', 'fa-chart-area', '美國公債殖利率曲線與倒掛預警儀'),
+    ('fund-sharpe-drawdown-analyzer.html', 'Sharpe／MDD', 'fa-chart-line', '基金與投資組合 Sharpe、Sortino、MDD 分析儀'),
+    ('forex-interest-carry-calc.html', 'Carry／Swap', 'fa-money-bill-transfer', '主要貨幣對利差交易與匯率波動儀'),
+    ('commodity-gold-oil-ratio.html', '金銀比／金油比', 'fa-gem', '金銀比、金油比與通膨週期監控儀'),
+    ('futures-basis-term-structure.html', 'Basis／轉倉', 'fa-arrows-left-right-to-line', '期現貨實質價差與期限結構儀'),
+    ('options-implied-volatility-rank.html', 'IV Rank／PCR', 'fa-wave-square', '隱含波動率 IV Rank 與 Put／Call Ratio 儀'),
+    ('crypto-funding-rate-liquidations.html', 'Funding／清算', 'fa-bitcoin', '永續合約資金費率與多空清算儀'),
+    ('real-estate-roi-cap-rate.html', 'Cap Rate／房貸', 'fa-house', '不動產 Cap Rate 與房貸壓力測試儀'),
+    ('macro-liquidity-cpi-tracker.html', 'M2／CPI／流動性', 'fa-earth-americas', '全球流動性、M2 與 CPI 通膨指標儀'),
+    ('trade-risk-kelly-criterion.html', 'Kelly／R:R', 'fa-shield-halved', 'Kelly 部位管理、R:R 與破產機率儀'),
+]
+for href, kicker, icon, title in global_card_contracts:
+    pattern = rf'<a class="tool-hub-card" href="{re.escape(href)}"[^>]*data-global-tool-card[^>]*>.*?<i class="fa-solid {re.escape(icon)}"[^>]*>.*?<span class="tool-hub-card-kicker">{re.escape(kicker)}</span>.*?<strong>{re.escape(title)}</strong>'
+    if not re.search(pattern, workbench_text, re.S): errors.append(f'global Hub card metadata mismatch: {href}')
 compact_pages = {
     'tools/index.html': ['tools-library-page', 'single-screen-tools-20260825'],
     'tools/compound-interest.html': ['compact-calculator-page', 'single-screen-tools-20260825'],
