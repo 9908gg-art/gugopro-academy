@@ -43,6 +43,20 @@
     { symbol: 'COPPER', name: 'Copper Futures', market: '原物料', category: 'global', yahoo: 'HG=F' },
     { symbol: 'NG', name: 'Natural Gas Futures', market: '原物料', category: 'global', yahoo: 'NG=F' },
     { symbol: 'DXY', name: 'U.S. Dollar Index', market: '全球指數', category: 'global', yahoo: 'DX-Y.NYB' },
+    { symbol: 'TXF', name: '台指期', market: 'TAIFEX 台指期', category: 'futures', yahoo: '^TWII' },
+    { symbol: 'MXF', name: '小台指', market: 'TAIFEX 小型台指', category: 'futures', yahoo: '^TWII' },
+    { symbol: 'TMF', name: '微型台指', market: 'TAIFEX 微型台指', category: 'futures', yahoo: '^TWII' },
+    { symbol: 'MNQ', name: 'Micro E-mini Nasdaq-100 Futures', market: 'CME 微型那指', category: 'futures', yahoo: 'NQ=F' },
+    { symbol: 'MES', name: 'Micro E-mini S&P 500 Futures', market: 'CME 微型 S&P', category: 'futures', yahoo: 'ES=F' },
+    { symbol: 'GC', name: 'Gold Futures', market: 'COMEX 黃金期貨', category: 'futures', yahoo: 'GC=F' },
+    { symbol: 'MGC', name: 'Micro Gold Futures', market: 'COMEX 微型黃金', category: 'futures', yahoo: 'GC=F' },
+    { symbol: 'CL', name: 'Crude Oil Futures', market: 'NYMEX 原油期貨', category: 'futures', yahoo: 'CL=F' },
+    { symbol: 'FTX', name: '富台期', market: 'TAIFEX 富台期', category: 'futures', yahoo: '^TWII' },
+    { symbol: 'HSI', name: 'Hang Seng Index Futures', market: 'HKEX 恆生期貨', category: 'futures', yahoo: '^HSI' },
+    { symbol: 'EURUSD', name: 'Euro / U.S. Dollar', market: 'FX 歐元兌美元', category: 'forex', yahoo: 'EURUSD=X' },
+    { symbol: 'USDJPY', name: 'U.S. Dollar / Japanese Yen', market: 'FX 美元兌日圓', category: 'forex', yahoo: 'JPY=X' },
+    { symbol: 'GBPUSD', name: 'British Pound / U.S. Dollar', market: 'FX 英鎊兌美元', category: 'forex', yahoo: 'GBPUSD=X' },
+    { symbol: 'AUDUSD', name: 'Australian Dollar / U.S. Dollar', market: 'FX 澳幣兌美元', category: 'forex', yahoo: 'AUDUSD=X' },
     { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', market: '加密貨幣', category: 'crypto', binance: true },
     { symbol: 'ETHUSDT', name: 'Ethereum / Tether', market: '加密貨幣', category: 'crypto', binance: true },
     { symbol: 'SOLUSDT', name: 'Solana / Tether', market: '加密貨幣', category: 'crypto', binance: true },
@@ -60,6 +74,9 @@
   let activeSelection = null;
   let runSequence = 0;
   let suggestionIndex = -1;
+  let modalFilter = 'all';
+  let modalActiveIndex = -1;
+  let modalLastFocus = null;
 
   function cleanSymbol(value) {
     const raw = String(value || '').trim().toUpperCase().replace(/\s+/g, '');
@@ -432,31 +449,98 @@
     quick.value = isKnown ? normalized : '';
   }
 
-  function activateSuggestion(symbol) {
-    const meta = findMeta(symbol);
-    const input = $('cba-symbol-search');
-    if (input) input.value = meta.symbol;
-    syncQuickSelection(meta.symbol);
-    $('cba-suggestions')?.classList.remove('is-visible');
-    if (input) input.setAttribute('aria-expanded', 'false');
-    suggestionIndex = -1;
-    runAnalysis();
+  const modalCategoryFor = (item) => item.category === 'tw' || item.category === 'us' ? 'stocks' : item.category === 'global' ? (item.symbol === 'DXY' ? 'forex' : 'futures') : item.category;
+  const modalExchangeFor = (item) => {
+    const symbol = item.symbol;
+    if (item.binance) return { name: 'BINANCE', country: '🪙' };
+    if (modalCategoryFor(item) === 'forex') return { name: symbol === 'DXY' ? 'ICE' : 'FX', country: symbol === 'DXY' ? '🇺🇸' : '🌐' };
+    if (modalCategoryFor(item) === 'futures') {
+      if (['TXF', 'MXF', 'TMF', 'FTX'].includes(symbol)) return { name: 'TAIFEX', country: '🇹🇼' };
+      if (symbol === 'HSI') return { name: 'HKEX', country: '🇭🇰' };
+      if (['GC', 'MGC', 'GOLD', 'SILVER', 'COPPER'].includes(symbol)) return { name: 'COMEX', country: '🇺🇸' };
+      if (['CL', 'OIL', 'NG'].includes(symbol)) return { name: 'NYMEX', country: '🇺🇸' };
+      return { name: 'CME', country: '🇺🇸' };
+    }
+    if (/\.TW$/.test(symbol)) return { name: 'TWSE', country: '🇹🇼' };
+    return { name: ['SPY', 'QQQ', 'SOXX', 'TLT'].includes(symbol) ? 'NYSE ARCA' : 'NASDAQ', country: '🇺🇸' };
+  };
+  const modalBadgeFor = (item) => {
+    if (item.binance) return item.symbol.replace(/USDT$/, '').slice(0, 3);
+    if (item.category === 'futures') return ['GC', 'MGC', 'GOLD', 'SILVER', 'COPPER'].includes(item.symbol) ? 'GC' : item.symbol.slice(0, 3);
+    if (modalCategoryFor(item) === 'forex') return item.symbol.slice(0, 3);
+    return item.symbol.replace(/[^A-Z0-9]/g, '').slice(0, 3);
+  };
+  const ISIN_BY_SYMBOL = {
+    '2330.TW': 'TW0002330008', '2317.TW': 'TW0002317005', '2454.TW': 'TW0002454007', '0050.TW': 'TW0000050004',
+    '0056.TW': 'TW0000056001', '00878.TW': 'TW0000087801', '00919.TW': 'TW0000091902', '00929.TW': 'TW0000092900',
+    NVDA: 'US67066G1040', TSLA: 'US88160R1014', AAPL: 'US0378331005', MSFT: 'US5949181045', AMZN: 'US0231351067', GOOGL: 'US02079K3059',
+    SPY: 'US78462F1030', QQQ: 'US46090E1038', SOXX: 'US4642875235', TLT: 'US4642874655'
+  };
+  const SYMBOL_SEARCH_CATALOG = CATALOG.map((item) => ({
+    ...item,
+    modalCategory: modalCategoryFor(item),
+    exchange: modalExchangeFor(item).name,
+    country: modalExchangeFor(item).country,
+    badge: modalBadgeFor(item),
+    isin: item.isin || ISIN_BY_SYMBOL[item.symbol] || ''
+  }));
+
+  function modalMatches(entry, query) {
+    if (!query) return true;
+    const haystack = `${entry.symbol} ${entry.name} ${entry.market} ${entry.exchange} ${entry.isin}`.toUpperCase();
+    return haystack.includes(query);
   }
 
-  function renderSuggestions() {
-    const input = $('cba-symbol-search'); const box = $('cba-suggestions'); if (!input || !box) return;
-    const query = cleanSymbol(input.value);
-    const raw = String(input.value || '').trim().toUpperCase();
-    if (!raw) { box.classList.remove('is-visible'); input.setAttribute('aria-expanded', 'false'); return; }
-    const matches = CATALOG.filter((item) => `${item.symbol} ${item.name} ${item.market}`.toUpperCase().includes(raw)).slice(0, 8);
-    const free = findMeta(raw);
-    const normalizedKnown = CATALOG.find((item) => item.symbol === free.symbol);
-    if (!matches.length && normalizedKnown) matches.push(normalizedKnown);
-    const known = Boolean(normalizedKnown);
-    const items = matches.map((item) => `<button class="cba-suggestion" type="button" role="option" data-symbol="${escapeHtml(item.symbol)}"><span><strong>${escapeHtml(item.symbol)}</strong><small>${escapeHtml(item.name)}</small></span><em>${escapeHtml(item.market)}</em></button>`);
-    if (raw.length >= 2 && !known) items.push(`<button class="cba-suggestion" type="button" role="option" data-symbol="${escapeHtml(query)}"><span><strong>${escapeHtml(query)}</strong><small>自訂代碼 · 公開端點自動判斷</small></span><em>Yahoo／Binance</em></button>`);
-    box.innerHTML = items.join('');
-    box.classList.toggle('is-visible', items.length > 0); input.setAttribute('aria-expanded', items.length > 0 ? 'true' : 'false'); suggestionIndex = -1;
+  function renderSymbolModal() {
+    const list = $('cba-symbol-list'); const empty = $('cba-modal-empty'); if (!list || !empty) return;
+    const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase();
+    const filtered = SYMBOL_SEARCH_CATALOG.filter((entry) => (modalFilter === 'all' || entry.modalCategory === modalFilter) && modalMatches(entry, raw));
+    const normalized = cleanSymbol(raw);
+    const exact = SYMBOL_SEARCH_CATALOG.some((entry) => entry.symbol === normalized || (entry.isin && entry.isin.toUpperCase() === raw));
+    const entries = filtered.slice(0, 80);
+    if (raw.length >= 2 && !exact) {
+      const custom = findMeta(raw);
+      const exchange = custom.binance ? { name: 'BINANCE', country: '🪙' } : { name: 'AUTO', country: '自訂代碼' };
+      entries.unshift({ ...custom, modalCategory: 'custom', exchange: exchange.name, country: exchange.country, badge: 'ADD', isin: '', custom: true });
+    }
+    list.innerHTML = entries.map((entry, index) => {
+      const detail = entry.isin ? `ISIN ${entry.isin}` : entry.custom ? '搜尋自訂代碼 · 公開端點自動判斷' : `公開行情 · ${entry.modalCategory.toUpperCase()}`;
+      return `<button class="cba-symbol-row${index === modalActiveIndex ? ' is-active' : ''}" type="button" role="option" aria-selected="${index === modalActiveIndex}" data-symbol="${escapeHtml(entry.symbol)}"><span class="cba-symbol-badge category-${escapeHtml(entry.modalCategory)}">${escapeHtml(entry.badge)}</span><span class="cba-symbol-copy"><strong>${escapeHtml(entry.symbol)}</strong><small>${escapeHtml(entry.name)}</small><em>${escapeHtml(detail)}</em></span><span class="cba-symbol-market"><strong>${escapeHtml(entry.exchange)}</strong><small>${escapeHtml(entry.country)}</small></span></button>`;
+    }).join('');
+    empty.hidden = entries.length > 0;
+    if (!entries.length) empty.textContent = raw ? `找不到「${raw}」。請修改搜尋，或使用自訂代碼直接載入。` : '此分類目前沒有可顯示的商品。';
+    modalActiveIndex = entries.length ? Math.min(Math.max(modalActiveIndex, 0), entries.length - 1) : -1;
+  }
+
+  function openSymbolModal() {
+    const modal = $('cba-symbol-modal'); const search = $('cba-modal-search'); if (!modal || !search) return;
+    modalLastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('cba-modal-open');
+    modalFilter = 'all'; modalActiveIndex = -1; search.value = '';
+    document.querySelectorAll('[data-symbol-filter]').forEach((tab) => { const active = tab.dataset.symbolFilter === modalFilter; tab.classList.toggle('is-active', active); tab.setAttribute('aria-selected', String(active)); });
+    renderSymbolModal();
+    window.requestAnimationFrame(() => search.focus());
+  }
+
+  function closeSymbolModal() {
+    const modal = $('cba-symbol-modal'); if (!modal || modal.hidden) return;
+    modal.hidden = true; document.body.classList.remove('cba-modal-open'); modalActiveIndex = -1;
+    if (modalLastFocus && typeof modalLastFocus.focus === 'function') modalLastFocus.focus();
+    modalLastFocus = null;
+  }
+
+  function selectModalSymbol(symbol) {
+    const normalized = cleanSymbol(symbol); const input = $('cba-symbol-search');
+    if (input) input.value = normalized;
+    syncQuickSelection(normalized); closeSymbolModal(); runAnalysis();
+  }
+
+  function moveModalActive(step) {
+    const options = [...document.querySelectorAll('#cba-symbol-list button[data-symbol]')]; if (!options.length) return;
+    modalActiveIndex = (modalActiveIndex + step + options.length) % options.length;
+    options.forEach((option, index) => { const active = index === modalActiveIndex; option.classList.toggle('is-active', active); option.setAttribute('aria-selected', String(active)); });
+    options[modalActiveIndex]?.focus();
   }
 
   async function runAnalysis() {
@@ -524,35 +608,47 @@
     $('cba-selected')?.addEventListener('change', renderSelection);
     $('cba-limit')?.addEventListener('change', renderRanking);
     $('cba-rank-mode')?.addEventListener('change', renderRanking);
-    $('cba-symbol-search')?.addEventListener('input', (event) => {
-      syncQuickSelection(event.target.value);
-      renderSuggestions();
+
+    const openModal = () => openSymbolModal();
+    $('cba-open-symbol-modal')?.addEventListener('click', openModal);
+    $('cba-search-trigger')?.addEventListener('click', openModal);
+    $('cba-search-trigger')?.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openModal(); }
     });
-    $('cba-symbol-search')?.addEventListener('focus', renderSuggestions);
-    $('cba-symbol-search')?.addEventListener('keydown', (event) => {
-      const box = $('cba-suggestions'); const options = box ? [...box.querySelectorAll('button[data-symbol]')] : [];
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        if (!box?.classList.contains('is-visible')) renderSuggestions();
-        const next = event.key === 'ArrowDown' ? suggestionIndex + 1 : suggestionIndex - 1;
-        suggestionIndex = (next + options.length) % Math.max(1, options.length);
-        options.forEach((option, index) => option.setAttribute('aria-selected', index === suggestionIndex ? 'true' : 'false'));
-        options[suggestionIndex]?.focus(); event.preventDefault();
-      } else if (event.key === 'Enter') {
+    document.querySelectorAll('[data-cba-modal-close]').forEach((element) => element.addEventListener('click', closeSymbolModal));
+    $('cba-modal-search')?.addEventListener('input', () => { modalActiveIndex = -1; renderSymbolModal(); });
+    $('cba-modal-search')?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') { event.preventDefault(); moveModalActive(1); }
+      else if (event.key === 'ArrowUp') { event.preventDefault(); moveModalActive(-1); }
+      else if (event.key === 'Enter') {
         event.preventDefault();
-        const active = options[suggestionIndex >= 0 ? suggestionIndex : 0];
-        if (active && box?.classList.contains('is-visible')) activateSuggestion(active.dataset.symbol); else runAnalysis();
-      } else if (event.key === 'Escape') {
-        box?.classList.remove('is-visible'); event.target.setAttribute('aria-expanded', 'false');
-      }
+        const options = [...document.querySelectorAll('#cba-symbol-list button[data-symbol]')];
+        const active = options[modalActiveIndex >= 0 ? modalActiveIndex : 0];
+        if (active) selectModalSymbol(active.dataset.symbol);
+      } else if (event.key === 'Escape') closeSymbolModal();
     });
-    $('cba-suggestions')?.addEventListener('click', (event) => { const option = event.target.closest('button[data-symbol]'); if (option) activateSuggestion(option.dataset.symbol); });
-    document.addEventListener('click', (event) => { if (!event.target.closest('.cba-search-box')) { $('cba-suggestions')?.classList.remove('is-visible'); $('cba-symbol-search')?.setAttribute('aria-expanded', 'false'); } });
+    $('cba-modal-tabs')?.addEventListener('click', (event) => {
+      const tab = event.target.closest('[data-symbol-filter]'); if (!tab) return;
+      modalFilter = tab.dataset.symbolFilter || 'all'; modalActiveIndex = -1;
+      document.querySelectorAll('[data-symbol-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); });
+      renderSymbolModal();
+    });
+    $('cba-symbol-list')?.addEventListener('click', (event) => {
+      const row = event.target.closest('button[data-symbol]'); if (row) selectModalSymbol(row.dataset.symbol);
+    });
+    $('cba-symbol-list')?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); moveModalActive(event.key === 'ArrowDown' ? 1 : -1); }
+      else if (event.key === 'Enter') { const row = event.target.closest('button[data-symbol]'); if (row) { event.preventDefault(); selectModalSymbol(row.dataset.symbol); } }
+    });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !$('cba-symbol-modal')?.hidden) closeSymbolModal(); });
+
     $('cba-results-body')?.addEventListener('click', (event) => { const row = event.target.closest('tr[data-cba-select]'); if (row && !event.target.closest('a')) { if ($('cba-selected')) $('cba-selected').value = row.dataset.cbaSelect; renderSelection(); } });
     document.querySelectorAll('[data-lookback]').forEach((button) => button.addEventListener('click', () => { currentLookback = Number(button.dataset.lookback) || 60; document.querySelectorAll('[data-lookback]').forEach((item) => item.classList.toggle('is-active', item === button)); runAnalysis(); }));
     window.addEventListener('resize', () => { if (activeSelection) { drawOverlay(activeSelection); drawScatter(activeSelection); } });
     const params = new URLSearchParams(window.location.search); const requested = params.get('symbol'); if (requested) { targetMeta = findMeta(requested); if ($('cba-symbol-search')) $('cba-symbol-search').value = targetMeta.symbol; }
     if ($('cba-symbol-search') && !$('cba-symbol-search').value) $('cba-symbol-search').value = targetMeta.symbol;
     syncQuickSelection($('cba-symbol-search')?.value || targetMeta.symbol);
+    renderSymbolModal();
     window.setTimeout(runAnalysis, 180);
   }
 

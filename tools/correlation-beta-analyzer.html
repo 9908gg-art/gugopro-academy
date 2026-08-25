@@ -48,8 +48,13 @@
     .cba-input, .cba-select { width:100%; min-height:38px; padding:9px 10px; color:var(--cba-ink); background:#0d211c; border:1px solid rgba(173,226,199,.22); border-radius:8px; outline:none; font:600 .82rem "DM Sans", sans-serif; }
     #analyzer-quick-select { min-width:0; background:#1a1f2c; color:#ffffff; color-scheme:dark; border-color:rgba(138,215,232,.3); }
     #analyzer-quick-select option, #analyzer-quick-select optgroup { background:#1a1f2c; color:#ffffff; }
-    .cba-target-pickers { display:grid; grid-template-columns:minmax(124px,.82fr) minmax(0,1.18fr); gap:6px; min-width:0; }
+    .cba-target-pickers { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px; min-width:0; }
     .cba-target-pickers .cba-search-box { min-width:0; }
+    .cba-search-trigger { cursor:pointer; }
+    .cba-search-trigger .cba-input { cursor:pointer; }
+    .cba-open-symbol-modal { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:38px; padding:9px 12px; border:1px solid rgba(249,115,22,.45); border-radius:8px; color:#fff; background:#f97316; font:700 .76rem "DM Sans", sans-serif; white-space:nowrap; cursor:pointer; transition:filter .16s ease, transform .16s ease; }
+    .cba-open-symbol-modal:hover { filter:brightness(1.08); }
+    .cba-open-symbol-modal:active { transform:scale(.97); }
     .cba-input:focus, .cba-select:focus { border-color:var(--cba-green); box-shadow:0 0 0 3px rgba(126,214,176,.11); }
     .cba-search-box .cba-input { padding-right:34px; }
     .cba-search-box > i { position:absolute; right:11px; top:12px; color:var(--cba-muted); pointer-events:none; }
@@ -60,6 +65,44 @@
     .cba-suggestion strong { display:block; font-size:.78rem; }
     .cba-suggestion small { color:var(--cba-muted); font-size:.68rem; }
     .cba-suggestion em { color:var(--cba-orange); font-size:.64rem; font-style:normal; white-space:nowrap; }
+    body.cba-modal-open { overflow:hidden; }
+    .cba-modal[hidden] { display:none; }
+    .cba-modal { position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:20px; }
+    .cba-modal-backdrop { position:absolute; inset:0; background:rgba(3,7,13,.78); backdrop-filter:blur(8px); }
+    .cba-modal-dialog { position:relative; display:flex; flex-direction:column; width:min(760px,100%); max-height:min(720px,calc(100vh - 40px)); overflow:hidden; color:#f5f7ff; background:#141824; border:1px solid rgba(148,163,184,.28); border-radius:18px; box-shadow:0 24px 80px rgba(0,0,0,.55); }
+    .cba-modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:17px 18px 13px; border-bottom:1px solid rgba(148,163,184,.16); }
+    .cba-modal-head h2 { margin:5px 0 0; color:#fff; font:700 1.25rem/1.1 "Space Grotesk", sans-serif; }
+    .cba-modal-head p { margin:5px 0 0; color:#9da8bc; font-size:.7rem; }
+    .cba-modal-close { display:grid; place-items:center; width:32px; height:32px; border:1px solid rgba(148,163,184,.25); border-radius:8px; color:#cbd5e1; background:transparent; font-size:1.1rem; cursor:pointer; }
+    .cba-modal-close:hover { color:#fff; background:#1e2332; }
+    .cba-modal-search-row { padding:13px 18px 9px; }
+    .cba-modal-search-label { display:block; color:#9da8bc; font-size:.67rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .cba-modal-search-wrap { position:relative; margin-top:6px; }
+    .cba-modal-search-wrap > i { position:absolute; top:12px; left:12px; color:#8f9bb1; pointer-events:none; }
+    #cba-modal-search { width:100%; min-height:42px; padding:10px 12px 10px 34px; border:1px solid rgba(148,163,184,.3); border-radius:9px; color:#fff; background:#1e2332; outline:none; font:600 .86rem "DM Sans", sans-serif; }
+    #cba-modal-search:focus { border-color:#f97316; box-shadow:0 0 0 3px rgba(249,115,22,.14); }
+    .cba-modal-tabs { display:flex; gap:6px; overflow-x:auto; padding:0 18px 11px; scrollbar-width:thin; }
+    .cba-modal-tab { flex:none; min-height:31px; padding:6px 12px; border:1px solid rgba(148,163,184,.2); border-radius:999px; color:#aeb8c9; background:transparent; font:700 .71rem "DM Sans", sans-serif; cursor:pointer; }
+    .cba-modal-tab:hover { color:#fff; background:#1e2332; }
+    .cba-modal-tab.is-active { border-color:#f97316; color:#fff; background:#f97316; }
+    .cba-symbol-list { flex:1 1 auto; min-height:170px; overflow:auto; padding:3px 12px 14px; overscroll-behavior:contain; }
+    .cba-symbol-row { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; width:100%; gap:11px; padding:10px 9px; border:1px solid transparent; border-radius:10px; color:#e9eef8; background:transparent; text-align:left; cursor:pointer; }
+    .cba-symbol-row:hover, .cba-symbol-row:focus, .cba-symbol-row.is-active { border-color:rgba(249,115,22,.32); background:#1e2332; outline:none; }
+    .cba-symbol-badge { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; color:#fff; background:#475569; font:800 .58rem "Space Grotesk", sans-serif; letter-spacing:-.03em; }
+    .cba-symbol-badge.category-futures { background:#2563eb; }
+    .cba-symbol-badge.category-stocks { background:#0f766e; }
+    .cba-symbol-badge.category-forex { background:#7c3aed; }
+    .cba-symbol-badge.category-crypto { background:linear-gradient(135deg,#f59e0b,#d97706); }
+    .cba-symbol-badge.category-custom { background:#475569; }
+    .cba-symbol-copy { min-width:0; }
+    .cba-symbol-copy strong { display:block; overflow:hidden; color:#fff; font:800 .85rem/1.2 "Space Grotesk", sans-serif; text-overflow:ellipsis; white-space:nowrap; }
+    .cba-symbol-copy small { display:block; overflow:hidden; margin-top:3px; color:#aab5c8; font-size:.68rem; text-overflow:ellipsis; white-space:nowrap; }
+    .cba-symbol-copy em { display:block; overflow:hidden; margin-top:3px; color:#64748b; font-size:.59rem; font-style:normal; text-overflow:ellipsis; white-space:nowrap; }
+    .cba-symbol-market { min-width:88px; text-align:right; }
+    .cba-symbol-market strong { display:block; color:#e7edf7; font-size:.68rem; white-space:nowrap; }
+    .cba-symbol-market small { display:block; margin-top:3px; color:#8793a7; font-size:.6rem; }
+    .cba-modal-empty { padding:42px 20px; color:#9da8bc; text-align:center; font-size:.74rem; }
+    .cba-modal-empty[hidden] { display:none; }
     .cba-run { min-height:38px; padding:9px 15px; border:1px solid rgba(255,178,95,.44); border-radius:8px; color:#182017; background:var(--cba-orange); font:700 .78rem "DM Sans", sans-serif; white-space:nowrap; transition:transform .16s ease, filter .16s ease; }
     .cba-run:hover { filter:brightness(1.08); }
     .cba-run:active { transform:scale(.97); }
@@ -137,7 +180,7 @@
       .cba-control-panel { padding:9px; border-radius:12px; }
       .cba-control-grid { grid-template-columns:1fr 1fr; gap:7px; }
       .cba-control-grid .cba-field:first-child { grid-column:1 / -1; }
-      .cba-target-pickers { grid-template-columns:minmax(132px,.82fr) minmax(0,1.18fr); }
+      .cba-target-pickers { grid-template-columns:minmax(0,1fr) auto; }
       .cba-control-grid .cba-run { grid-column:1 / -1; }
       .cba-lookback-row { padding-top:8px; }
       .cba-lookback-row .cba-control-label { width:100%; }
@@ -154,12 +197,21 @@
       .cba-method-grid { grid-template-columns:1fr 1fr; gap:6px; }
       .cba-method-card { padding:9px; }
       .cba-method-card p { font-size:.63rem; }
+      .cba-modal { align-items:end; padding:0; }
+      .cba-modal-dialog { width:100%; max-height:calc(100vh - 12px); border-radius:18px 18px 0 0; }
+      .cba-modal-head, .cba-modal-search-row { padding-inline:14px; }
+      .cba-modal-tabs { padding-inline:14px; }
+      .cba-symbol-list { padding-inline:8px; }
+      .cba-symbol-row { grid-template-columns:38px minmax(0,1fr) auto; gap:8px; padding:9px 7px; }
+      .cba-symbol-badge { width:32px; height:32px; font-size:.54rem; }
+      .cba-symbol-market { min-width:70px; }
+      .cba-open-symbol-modal { padding-inline:10px; }
     }
     @media (max-width: 410px) {
       .cba-main { width:calc(100% - 14px); }
       .cba-control-grid { grid-template-columns:1fr; }
       .cba-control-grid .cba-field:first-child, .cba-control-grid .cba-run { grid-column:auto; }
-      .cba-target-pickers { grid-template-columns:minmax(112px,.82fr) minmax(0,1.18fr); }
+      .cba-target-pickers { grid-template-columns:minmax(0,1fr) auto; }
       .cba-lookback-buttons { width:100%; }
       .cba-lookback { flex:1; min-width:0; padding-inline:4px; }
       .cba-method-grid { grid-template-columns:1fr; }
@@ -182,15 +234,25 @@
     </section>
     <section class="cba-control-panel" aria-label="分析控制列">
       <div class="cba-control-grid">
-        <label class="cba-field"><span>基準標的 Target · 快速選擇</span><div class="cba-target-pickers"><select id="analyzer-quick-select" class="cba-select" aria-label="分類快選商品"><option value="" selected>自訂代碼 / Custom</option><optgroup label="🇹🇼 台股與熱門 ETF · Taiwan Stocks &amp; ETFs"><option value="2330.TW">2330.TW · 台積電</option><option value="2317.TW">2317.TW · 鴻海</option><option value="2454.TW">2454.TW · 聯發科</option><option value="0050.TW">0050.TW · 元大台灣50</option><option value="0056.TW">0056.TW · 元大高股息</option><option value="00878.TW">00878.TW · 國泰永續高股息</option><option value="00919.TW">00919.TW · 群益台灣精選高息</option><option value="00929.TW">00929.TW · 復華台灣科技優息</option></optgroup><optgroup label="🇺🇸 美股與指數 ETF · US Equities &amp; Index ETFs"><option value="SPY">SPY · S&amp;P 500</option><option value="QQQ">QQQ · 那斯達克</option><option value="NVDA">NVDA · 輝達</option><option value="AAPL">AAPL · 蘋果</option><option value="MSFT">MSFT · 微軟</option><option value="TSLA">TSLA · 特斯拉</option><option value="AMZN">AMZN · 亞馬遜</option><option value="GOOGL">GOOGL · 谷歌</option><option value="SOXX">SOXX · 半導體 ETF</option><option value="TLT">TLT · 20年美債 ETF</option></optgroup><optgroup label="🌍 全球期貨與原物料 · Futures &amp; Commodities"><option value="GOLD">GOLD · 黃金現貨／期貨</option><option value="OIL">OIL · 原油／WTI</option><option value="NQ">NQ · 那斯達克期貨</option><option value="ES">ES · S&amp;P 期貨</option><option value="DXY">DXY · 美元指數</option></optgroup><optgroup label="🪙 加密貨幣主流資產 · Crypto Assets"><option value="BTCUSDT">BTCUSDT · 比特幣</option><option value="ETHUSDT">ETHUSDT · 以太幣</option><option value="SOLUSDT">SOLUSDT · 索拉納</option><option value="BNBUSDT">BNBUSDT · 幣安幣</option><option value="DOGEUSDT">DOGEUSDT · 狗狗幣</option></optgroup></select><div class="cba-search-box"><input id="cba-symbol-search" class="cba-input" type="search" autocomplete="off" spellcheck="false" placeholder="搜尋或輸入任意代碼" aria-autocomplete="list" aria-controls="cba-suggestions" aria-expanded="false"><i class="fa-solid fa-magnifying-glass"></i><div id="cba-suggestions" class="cba-suggestions" role="listbox" aria-label="商品搜尋建議"></div></div></div></label>
+        <div class="cba-field"><span>基準標的 Target · Symbol Search</span><div class="cba-target-pickers"><div id="cba-search-trigger" class="cba-search-box cba-search-trigger" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="cba-symbol-modal" aria-label="開啟商品搜尋彈窗"><input id="cba-symbol-search" class="cba-input" type="search" readonly autocomplete="off" spellcheck="false" placeholder="點擊搜尋商品、代碼或 ISIN"><i class="fa-solid fa-magnifying-glass"></i></div><button id="cba-open-symbol-modal" class="cba-open-symbol-modal" type="button"><i class="fa-solid fa-magnifying-glass"></i><span>選擇標的</span></button></div></div>
         <label class="cba-field"><span>比對池 Asset Universe</span><select id="cba-universe" class="cba-select"><option value="all">全市場綜合池</option><option value="tw">台股熱門池</option><option value="us">美股科技權值池</option><option value="global">全球期貨／原物料池</option><option value="crypto">加密貨幣主流池</option></select></label>
         <label class="cba-field"><span>排序模式 Ranking</span><select id="cba-rank-mode" class="cba-select"><option value="positive">正相關最高 Top Positive</option><option value="negative">負相關／避險 Top Negative</option></select></label>
         <label class="cba-field"><span>目前選取 Benchmark</span><select id="cba-selected" class="cba-select" aria-label="目前選取的對標商品"><option value="">分析完成後選取</option></select></label>
         <button id="cba-run" class="cba-run" type="button"><i class="fa-solid fa-bolt"></i> 開始分析</button>
       </div>
       <div class="cba-lookback-row"><span class="cba-control-label">回溯區間 Lookback</span><div class="cba-lookback-buttons" role="group" aria-label="回溯區間"><button type="button" class="cba-lookback" data-lookback="30">30D</button><button type="button" class="cba-lookback is-active" data-lookback="60">60D</button><button type="button" class="cba-lookback" data-lookback="120">120D</button><button type="button" class="cba-lookback" data-lookback="250">250D</button></div><span class="cba-control-label">短期動能／中期波段／半年結構／年線週期</span><div class="cba-rank-mode"><span class="cba-control-label">顯示筆數</span><select id="cba-limit" class="cba-select" aria-label="顯示前幾名"><option value="5">Top 5</option><option value="8" selected>Top 8</option><option value="12">Top 12</option></select></div></div>
-    </section>
-    <div id="cba-status" class="cba-status" role="status" aria-live="polite"><strong id="cba-status-main">準備就緒</strong><span id="cba-status-detail">選擇基準標的與回溯區間後開始分析。</span></div>
+        </section>
+    <div id="cba-symbol-modal" class="cba-modal" hidden>
+      <div class="cba-modal-backdrop" data-cba-modal-close></div>
+      <section class="cba-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cba-modal-title">
+        <header class="cba-modal-head"><div><div class="cba-kicker">TRADINGVIEW STYLE / SYMBOL SEARCH</div><h2 id="cba-modal-title">選擇標的</h2><p>搜尋代碼、中文／英文名稱或 ISIN；點擊商品後立即開始分析。</p></div><button id="cba-modal-close" class="cba-modal-close" type="button" data-cba-modal-close aria-label="關閉商品搜尋彈窗"><i class="fa-solid fa-xmark"></i></button></header>
+        <div class="cba-modal-search-row"><label class="cba-modal-search-label" for="cba-modal-search">商品搜尋 Symbol / Name / ISIN</label><div class="cba-modal-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input id="cba-modal-search" type="search" autocomplete="off" spellcheck="false" placeholder="例如 MNQ、台積電、Micro E-mini 或 US0378331005" aria-controls="cba-symbol-list"></div></div>
+        <div id="cba-modal-tabs" class="cba-modal-tabs" role="tablist" aria-label="市場分類"><button class="cba-modal-tab is-active" type="button" role="tab" aria-selected="true" data-symbol-filter="all">全部 All</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="futures">期貨 Futures</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="stocks">股票／ETF Stocks</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="forex">外匯 Forex</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="crypto">加密貨幣 Crypto</button></div>
+        <div id="cba-symbol-list" class="cba-symbol-list" role="listbox" aria-label="可選商品列表"></div><div id="cba-modal-empty" class="cba-modal-empty" hidden>找不到符合的商品。請修改搜尋，或使用自訂代碼直接載入。</div>
+      </section>
+    </div>
+    <div id="cba-status" class="cba-status" role="status" aria-live="polite">
+<strong id="cba-status-main">準備就緒</strong><span id="cba-status-detail">選擇基準標的與回溯區間後開始分析。</span></div>
     <section class="cba-dashboard" aria-label="Correlation Beta HUD 儀表板">
       <aside class="cba-panel" aria-labelledby="cba-ranking-title">
         <div class="cba-panel-head"><div><div class="cba-kicker">RANKING / RELATIONSHIP MATRIX</div><h2 id="cba-ranking-title">對標關係排行榜</h2><p>同時比較 r、Beta、Alpha 與價差 Z。</p></div><span id="cba-ranking-signal" class="cba-signal">等待分析</span></div>
@@ -207,6 +269,6 @@
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r5" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r6" defer></script>
 </body>
 </html>
