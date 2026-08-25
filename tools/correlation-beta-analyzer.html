@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GugoPro 全球商品相關係數、Beta、相對強弱與價差 Z-Score 純前端分析儀。支援台股、美股、期貨、原物料與加密貨幣。">
+  <title>全球商品 Correlation／Beta／RS 分析儀｜GugoPro 財經學院</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css?v=correlation-beta-analyzer-20260825">
+  <style>
+    :root {
+      --cba-ink: #e7f5ee;
+      --cba-muted: #91a99e;
+      --cba-panel: rgba(18, 37, 32, .94);
+      --cba-panel-2: rgba(23, 49, 41, .92);
+      --cba-line: rgba(173, 226, 199, .14);
+      --cba-green: #7ed6b0;
+      --cba-orange: #ffb25f;
+      --cba-red: #f47b6f;
+      --cba-cyan: #8ad7e8;
+      --cba-shadow: 0 20px 55px rgba(0, 0, 0, .22);
+    }
+    .cba-page { background: #081513; color: var(--cba-ink); }
+    .cba-page .site-header { background: rgba(8, 21, 19, .92); border-bottom-color: var(--cba-line); }
+    .cba-page .primary-nav a, .cba-page .support-link, .cba-page .lang-btn { color: #d6e9df; }
+    .cba-main { width: min(1440px, calc(100% - 32px)); margin: 0 auto; padding: 18px 0 56px; }
+    .cba-breadcrumb { display:flex; align-items:center; gap:8px; color:var(--cba-muted); font-size:.76rem; margin-bottom:14px; }
+    .cba-breadcrumb a { color:var(--cba-muted); text-decoration:none; }
+    .cba-breadcrumb a:hover { color:var(--cba-orange); }
+    .cba-hero { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:end; padding:18px 20px; margin-bottom:12px; background:linear-gradient(115deg, rgba(27, 61, 49, .94), rgba(11, 29, 25, .82)); border:1px solid var(--cba-line); border-radius:18px; box-shadow:var(--cba-shadow); }
+    .cba-eyebrow, .cba-kicker { color:var(--cba-orange); font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+    .cba-eyebrow { display:flex; align-items:center; gap:7px; }
+    .cba-eyebrow::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--cba-green); box-shadow:0 0 0 5px rgba(126, 214, 176, .11); }
+    .cba-hero h1 { margin:8px 0 5px; font:700 clamp(1.5rem, 3.2vw, 2.4rem)/1.05 "Space Grotesk", sans-serif; letter-spacing:-.04em; }
+    .cba-hero h1 span { color:var(--cba-orange); }
+    .cba-hero p { max-width:800px; margin:0; color:#bfd2c8; font-size:.84rem; line-height:1.55; }
+    .cba-badge { width:110px; padding:14px 12px; text-align:center; border:1px solid rgba(255, 178, 95, .34); border-radius:14px; background:rgba(255, 178, 95, .08); }
+    .cba-badge strong { display:block; color:var(--cba-orange); font:700 1.65rem/1 "Space Grotesk", sans-serif; }
+    .cba-badge span { display:block; margin-top:5px; color:#e7d1b3; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+    .cba-control-panel { position:relative; z-index:3; padding:12px; border:1px solid var(--cba-line); border-radius:15px; background:var(--cba-panel); box-shadow:var(--cba-shadow); }
+    .cba-control-grid { display:grid; grid-template-columns:minmax(250px, 1.35fr) minmax(165px, .8fr) minmax(170px, .85fr) minmax(165px, .8fr) auto; gap:9px; align-items:end; }
+    .cba-field { display:flex; flex-direction:column; gap:5px; min-width:0; }
+    .cba-field > span, .cba-control-label { color:var(--cba-muted); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .cba-search-box { position:relative; }
+    .cba-input, .cba-select { width:100%; min-height:38px; padding:9px 10px; color:var(--cba-ink); background:#0d211c; border:1px solid rgba(173,226,199,.22); border-radius:8px; outline:none; font:600 .82rem "DM Sans", sans-serif; }
+    .cba-input:focus, .cba-select:focus { border-color:var(--cba-green); box-shadow:0 0 0 3px rgba(126,214,176,.11); }
+    .cba-search-box .cba-input { padding-right:34px; }
+    .cba-search-box > i { position:absolute; right:11px; top:12px; color:var(--cba-muted); pointer-events:none; }
+    .cba-suggestions { display:none; position:absolute; z-index:20; top:calc(100% + 5px); left:0; right:0; padding:5px; border:1px solid rgba(126,214,176,.32); border-radius:10px; background:#102a23; box-shadow:0 16px 36px rgba(0,0,0,.35); }
+    .cba-suggestions.is-visible { display:block; }
+    .cba-suggestion { display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px; padding:8px 9px; border:0; border-radius:7px; color:var(--cba-ink); background:transparent; text-align:left; }
+    .cba-suggestion:hover, .cba-suggestion:focus { background:rgba(126,214,176,.12); outline:none; }
+    .cba-suggestion strong { display:block; font-size:.78rem; }
+    .cba-suggestion small { color:var(--cba-muted); font-size:.68rem; }
+    .cba-suggestion em { color:var(--cba-orange); font-size:.64rem; font-style:normal; white-space:nowrap; }
+    .cba-run { min-height:38px; padding:9px 15px; border:1px solid rgba(255,178,95,.44); border-radius:8px; color:#182017; background:var(--cba-orange); font:700 .78rem "DM Sans", sans-serif; white-space:nowrap; transition:transform .16s ease, filter .16s ease; }
+    .cba-run:hover { filter:brightness(1.08); }
+    .cba-run:active { transform:scale(.97); }
+    .cba-lookback-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:10px 2px 1px; }
+    .cba-lookback-buttons { display:flex; gap:4px; }
+    .cba-lookback { min-width:52px; padding:7px 9px; border:1px solid rgba(173,226,199,.17); border-radius:7px; color:var(--cba-muted); background:transparent; font:700 .74rem "DM Sans", sans-serif; }
+    .cba-lookback.is-active, .cba-lookback:hover { color:#102118; border-color:var(--cba-green); background:var(--cba-green); }
+    .cba-rank-mode { margin-left:auto; display:flex; align-items:center; gap:7px; }
+    .cba-rank-mode select { min-height:30px; padding:5px 8px; font-size:.72rem; }
+    .cba-status { display:flex; justify-content:space-between; gap:12px; min-height:32px; padding:9px 3px 8px; color:var(--cba-muted); font-size:.72rem; }
+    .cba-status strong { color:var(--cba-green); font-weight:700; }
+    .cba-status.is-error strong { color:var(--cba-red); }
+    .cba-dashboard { display:grid; grid-template-columns:minmax(360px, .9fr) minmax(0, 1.5fr); gap:12px; align-items:start; }
+    .cba-panel { border:1px solid var(--cba-line); border-radius:15px; background:var(--cba-panel); box-shadow:var(--cba-shadow); overflow:hidden; }
+    .cba-panel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px 15px 10px; border-bottom:1px solid var(--cba-line); }
+    .cba-panel-head h2 { margin:4px 0 0; font:700 1.08rem/1.15 "Space Grotesk", sans-serif; }
+    .cba-panel-head p { margin:4px 0 0; color:var(--cba-muted); font-size:.7rem; line-height:1.45; }
+    .cba-signal { flex:none; padding:5px 8px; border-radius:999px; color:#122219; background:var(--cba-green); font-size:.64rem; font-weight:800; letter-spacing:.04em; }
+    .cba-signal.negative { color:#ffe9df; background:rgba(244,123,111,.24); border:1px solid rgba(244,123,111,.38); }
+    .cba-table-wrap { overflow:auto; }
+    .cba-table { width:100%; min-width:650px; border-collapse:collapse; }
+    .cba-table th { padding:9px 10px; color:#7f9c90; background:rgba(255,255,255,.025); font-size:.64rem; font-weight:700; letter-spacing:.06em; text-align:right; text-transform:uppercase; white-space:nowrap; }
+    .cba-table th:first-child, .cba-table td:first-child { text-align:left; }
+    .cba-table td { padding:9px 10px; border-top:1px solid rgba(173,226,199,.09); color:#d5e8de; font-size:.72rem; text-align:right; vertical-align:middle; }
+    .cba-table tr.cba-selected-row td { background:rgba(126,214,176,.07); border-top-color:rgba(126,214,176,.22); }
+    .cba-asset { display:flex; align-items:center; gap:8px; min-width:130px; text-align:left; }
+    .cba-asset-mark { display:grid; place-items:center; width:26px; height:26px; border-radius:8px; color:#102219; background:linear-gradient(135deg, var(--cba-green), #b8f1d5); font-size:.62rem; font-weight:800; }
+    .cba-asset strong { display:block; color:#effbf5; font-size:.75rem; }
+    .cba-asset small { display:block; margin-top:2px; color:var(--cba-muted); font-size:.63rem; white-space:nowrap; }
+    .cba-positive { color:var(--cba-green) !important; }
+    .cba-negative { color:var(--cba-red) !important; }
+    .cba-z-alert { color:var(--cba-orange) !important; font-weight:800; }
+    .cba-action { padding:5px 7px; border:1px solid rgba(255,178,95,.34); border-radius:6px; color:var(--cba-orange); background:rgba(255,178,95,.05); font-size:.65rem; white-space:nowrap; text-decoration:none; }
+    .cba-action:hover { background:rgba(255,178,95,.14); }
+    .cba-empty { padding:34px 16px !important; color:var(--cba-muted) !important; text-align:center !important; line-height:1.5; }
+    .cba-visual-panel { display:grid; gap:12px; }
+    .cba-chart-card { min-width:0; padding:13px 15px 12px; border:1px solid var(--cba-line); border-radius:15px; background:var(--cba-panel); box-shadow:var(--cba-shadow); }
+    .cba-chart-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
+    .cba-chart-head h2 { margin:4px 0 0; font:700 1.02rem/1.15 "Space Grotesk", sans-serif; }
+    .cba-chart-head p { margin:4px 0 0; color:var(--cba-muted); font-size:.68rem; }
+    .cba-chart-legend { display:flex; gap:10px; flex-wrap:wrap; color:var(--cba-muted); font-size:.65rem; justify-content:flex-end; }
+    .cba-legend-item { display:flex; align-items:center; gap:4px; white-space:nowrap; }
+    .cba-legend-dot { width:8px; height:8px; border-radius:50%; background:var(--cba-green); }
+    .cba-legend-dot.orange { background:var(--cba-orange); }
+    .cba-chart-frame { position:relative; height:225px; border:1px solid rgba(173,226,199,.10); border-radius:10px; background:linear-gradient(180deg, rgba(126,214,176,.045), rgba(0,0,0,.1)); overflow:hidden; }
+    .cba-chart-frame.scatter { height:210px; }
+    .cba-chart-frame canvas { display:block; width:100%; height:100%; }
+    .cba-chart-empty { position:absolute; inset:0; display:grid; place-items:center; align-content:center; gap:5px; color:var(--cba-muted); font-size:.72rem; text-align:center; }
+    .cba-chart-empty i { color:var(--cba-orange); font-size:1.15rem; }
+    .cba-chart-empty[hidden] { display:none; }
+    .cba-chart-footer { display:flex; justify-content:space-between; gap:10px; margin-top:7px; color:#77978a; font-size:.62rem; }
+    .cba-kpi-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:10px; }
+    .cba-kpi { padding:9px 10px; border:1px solid rgba(173,226,199,.11); border-radius:9px; background:rgba(255,255,255,.025); }
+    .cba-kpi span { display:block; color:var(--cba-muted); font-size:.62rem; }
+    .cba-kpi strong { display:block; margin-top:3px; color:#eaf8f0; font:700 1rem/1.1 "Space Grotesk", sans-serif; }
+    .cba-method-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:9px; margin-top:12px; }
+    .cba-method-card { padding:12px; border:1px solid var(--cba-line); border-radius:12px; background:rgba(18,37,32,.75); }
+    .cba-method-card strong { display:block; color:var(--cba-orange); font:700 .82rem "Space Grotesk", sans-serif; }
+    .cba-method-card code { color:#d5f2e2; font-size:.68rem; }
+    .cba-method-card p { margin:5px 0 0; color:var(--cba-muted); font-size:.68rem; line-height:1.45; }
+    .cba-disclaimer { margin:15px 2px 0; color:#78998b; font-size:.68rem; line-height:1.55; }
+    .cba-page .site-footer { background:#07110f; border-top:1px solid var(--cba-line); }
+    @media (max-width: 1050px) {
+      .cba-control-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+      .cba-control-grid .cba-run { width:100%; }
+      .cba-dashboard { grid-template-columns:minmax(0, 1fr); }
+      .cba-visual-panel { grid-template-columns:1fr 1fr; align-items:start; }
+      .cba-method-grid { grid-template-columns:repeat(2, 1fr); }
+    }
+    @media (max-width: 680px) {
+      .cba-main { width:min(100% - 20px, 1440px); padding-top:10px; }
+      .cba-hero { grid-template-columns:1fr; gap:10px; padding:14px; border-radius:13px; }
+      .cba-badge { display:none; }
+      .cba-hero p { font-size:.75rem; }
+      .cba-control-panel { padding:9px; border-radius:12px; }
+      .cba-control-grid { grid-template-columns:1fr 1fr; gap:7px; }
+      .cba-control-grid .cba-field:first-child { grid-column:1 / -1; }
+      .cba-control-grid .cba-run { grid-column:1 / -1; }
+      .cba-lookback-row { padding-top:8px; }
+      .cba-lookback-row .cba-control-label { width:100%; }
+      .cba-rank-mode { width:100%; margin-left:0; justify-content:space-between; }
+      .cba-rank-mode select { flex:1; }
+      .cba-status { flex-direction:column; gap:3px; padding:7px 2px; font-size:.66rem; }
+      .cba-panel-head, .cba-chart-card { padding:11px; }
+      .cba-visual-panel { grid-template-columns:1fr; gap:9px; }
+      .cba-chart-frame { height:190px; }
+      .cba-chart-frame.scatter { height:180px; }
+      .cba-kpi-row { gap:5px; }
+      .cba-kpi { padding:8px 6px; }
+      .cba-kpi strong { font-size:.86rem; }
+      .cba-method-grid { grid-template-columns:1fr 1fr; gap:6px; }
+      .cba-method-card { padding:9px; }
+      .cba-method-card p { font-size:.63rem; }
+    }
+    @media (max-width: 410px) {
+      .cba-main { width:calc(100% - 14px); }
+      .cba-control-grid { grid-template-columns:1fr; }
+      .cba-control-grid .cba-field:first-child, .cba-control-grid .cba-run { grid-column:auto; }
+      .cba-lookback-buttons { width:100%; }
+      .cba-lookback { flex:1; min-width:0; padding-inline:4px; }
+      .cba-method-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="tools-page cba-page">
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="../index.html" class="logo" aria-label="GugoPro 財經學院首頁"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a>
+      <nav class="primary-nav" aria-label="主要導覽"><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html" aria-current="page">實戰工具</a><a href="../index.html#reading-room">閱讀室</a></nav>
+      <div class="nav-actions"><a class="support-link" data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-mug-hot"></i><span>支持學院</span></a><div class="lang-selector"><button class="lang-btn" type="button"><i class="fa-solid fa-globe"></i><span>繁中</span><i class="fa-solid fa-chevron-down"></i></button><div class="lang-dropdown"><a href="#" onclick="changeLanguage('zh-tw')">繁體中文</a><a href="#" onclick="changeLanguage('zh-cn')">简体中文</a><a href="#" onclick="changeLanguage('en')">English</a></div></div><button class="mobile-nav-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div>
+    </div>
+  </header>
+  <main class="cba-main">
+    <div class="cba-breadcrumb"><a href="../index.html#knowledge-tree">知識樹</a><span>/</span><a href="index.html">實戰工具</a><span>/</span><strong>Correlation／Beta 分析儀</strong></div>
+    <section class="cba-hero">
+      <div><div class="cba-eyebrow">QUANT DESK / CROSS-MARKET RELATIONSHIP</div><h1>看懂商品之間的 <span>連動、敏感度與強弱。</span></h1><p>以共同交易日的收盤報酬，在瀏覽器端計算 Pearson r、Beta、相對強弱 Alpha 與價差 Z-Score。資料只從公開行情端點讀取，不需要 API Key。</p></div>
+      <div class="cba-badge"><strong>r · β</strong><span>relative map</span></div>
+    </section>
+    <section class="cba-control-panel" aria-label="分析控制列">
+      <div class="cba-control-grid">
+        <label class="cba-field"><span>基準標的 Target</span><div class="cba-search-box"><input id="cba-symbol-search" class="cba-input" type="search" autocomplete="off" spellcheck="false" placeholder="2330.TW、NVDA、GOLD、BTCUSDT" aria-autocomplete="list" aria-controls="cba-suggestions" aria-expanded="false"><i class="fa-solid fa-magnifying-glass"></i><div id="cba-suggestions" class="cba-suggestions" role="listbox" aria-label="商品搜尋建議"></div></div></label>
+        <label class="cba-field"><span>比對池 Asset Universe</span><select id="cba-universe" class="cba-select"><option value="all">全市場綜合池</option><option value="tw">台股熱門池</option><option value="us">美股科技權值池</option><option value="global">全球期貨／原物料池</option><option value="crypto">加密貨幣主流池</option></select></label>
+        <label class="cba-field"><span>排序模式 Ranking</span><select id="cba-rank-mode" class="cba-select"><option value="positive">正相關最高 Top Positive</option><option value="negative">負相關／避險 Top Negative</option></select></label>
+        <label class="cba-field"><span>目前選取 Benchmark</span><select id="cba-selected" class="cba-select" aria-label="目前選取的對標商品"><option value="">分析完成後選取</option></select></label>
+        <button id="cba-run" class="cba-run" type="button"><i class="fa-solid fa-bolt"></i> 開始分析</button>
+      </div>
+      <div class="cba-lookback-row"><span class="cba-control-label">回溯區間 Lookback</span><div class="cba-lookback-buttons" role="group" aria-label="回溯區間"><button type="button" class="cba-lookback" data-lookback="30">30D</button><button type="button" class="cba-lookback is-active" data-lookback="60">60D</button><button type="button" class="cba-lookback" data-lookback="120">120D</button><button type="button" class="cba-lookback" data-lookback="250">250D</button></div><span class="cba-control-label">短期動能／中期波段／半年結構／年線週期</span><div class="cba-rank-mode"><span class="cba-control-label">顯示筆數</span><select id="cba-limit" class="cba-select" aria-label="顯示前幾名"><option value="5">Top 5</option><option value="8" selected>Top 8</option><option value="12">Top 12</option></select></div></div>
+    </section>
+    <div id="cba-status" class="cba-status" role="status" aria-live="polite"><strong id="cba-status-main">準備就緒</strong><span id="cba-status-detail">選擇基準標的與回溯區間後開始分析。</span></div>
+    <section class="cba-dashboard" aria-label="Correlation Beta HUD 儀表板">
+      <aside class="cba-panel" aria-labelledby="cba-ranking-title">
+        <div class="cba-panel-head"><div><div class="cba-kicker">RANKING / RELATIONSHIP MATRIX</div><h2 id="cba-ranking-title">對標關係排行榜</h2><p>同時比較 r、Beta、Alpha 與價差 Z。</p></div><span id="cba-ranking-signal" class="cba-signal">等待分析</span></div>
+        <div class="cba-table-wrap"><table class="cba-table"><thead><tr><th>標的</th><th>r</th><th>β</th><th>Alpha</th><th>Z</th><th>樣本</th><th>操作</th></tr></thead><tbody id="cba-results-body"><tr><td colspan="7" class="cba-empty"><i class="fa-solid fa-chart-network"></i><br>載入資料後顯示市場關係。</td></tr></tbody></table></div>
+      </aside>
+      <section class="cba-visual-panel" aria-label="走勢與分佈圖表">
+        <div class="cba-chart-card"><div class="cba-chart-head"><div><div class="cba-kicker">NORMALIZED OVERLAY / 100 BASE</div><h2>走勢正規化疊加圖</h2><p id="cba-overlay-caption">基準標的與對標商品的共同樣本走勢。</p></div><div class="cba-chart-legend"><span class="cba-legend-item"><i class="cba-legend-dot"></i><span id="cba-target-legend">Target</span></span><span class="cba-legend-item"><i class="cba-legend-dot orange"></i><span id="cba-benchmark-legend">Benchmark</span></span></div></div><div class="cba-chart-frame"><canvas id="cba-overlay-canvas" aria-label="正規化走勢疊加圖"></canvas><div id="cba-overlay-empty" class="cba-chart-empty"><i class="fa-solid fa-chart-line"></i><span>完成分析後繪製走勢</span></div></div><div class="cba-chart-footer"><span>起始值 = 100</span><span id="cba-overlay-range">—</span></div></div>
+        <div class="cba-chart-card"><div class="cba-chart-head"><div><div class="cba-kicker">RETURN DISTRIBUTION / REGRESSION</div><h2>報酬散點與 Beta 回歸</h2><p id="cba-scatter-caption">X 軸：Target 報酬；Y 軸：Benchmark 報酬。</p></div><span id="cba-scatter-beta" class="cba-signal">β —</span></div><div class="cba-chart-frame scatter"><canvas id="cba-scatter-canvas" aria-label="報酬散點與 Beta 回歸圖"></canvas><div id="cba-scatter-empty" class="cba-chart-empty"><i class="fa-solid fa-braille"></i><span>完成分析後繪製報酬分佈</span></div></div><div class="cba-chart-footer"><span>共同交易日報酬</span><span id="cba-scatter-corr">r —</span></div></div>
+        <div class="cba-kpi-row"><div class="cba-kpi"><span>Target 區間報酬</span><strong id="cba-target-return">—</strong></div><div class="cba-kpi"><span>Benchmark 超額報酬 Alpha</span><strong id="cba-selected-alpha">—</strong></div><div class="cba-kpi"><span>最新價差 Z-Score</span><strong id="cba-selected-z">—</strong></div></div>
+      </section>
+    </section>
+    <section class="cba-method-grid" aria-label="計算方法說明"><div class="cba-method-card"><strong>Pearson r</strong><p><code>Cov(Rᵢ,Rₘ) ÷ σᵢσₘ</code>，以共同日期報酬衡量同步性；越接近 −1 越具對沖觀察價值。</p></div><div class="cba-method-card"><strong>Beta β</strong><p><code>Cov(Rᵢ,Rₘ) ÷ Var(Rₘ)</code>，以 Target 報酬作基準；β 大於 1 表示相對敏感。</p></div><div class="cba-method-card"><strong>Relative Strength</strong><p><code>Alpha = Rᵢ − Rₘ</code>，顯示區間內對基準的超額報酬，不是預測保證。</p></div><div class="cba-method-card"><strong>Spread Z-Score</strong><p>以 <code>價格比 = Pᵢ ÷ Pₘ</code> 的平均與標準差標準化，|Z| ≥ 2 僅代表偏離警示。</p></div></section>
+    <p class="cba-disclaimer"><i class="fa-solid fa-circle-info"></i> 本工具完全在瀏覽器端執行，公開行情可能延遲、休市或受 CORS 限制；不同市場的交易日不完全一致，結果僅供研究與教育參考，不構成投資、交易或統計套利建議。</p>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
+  <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825" defer></script>
+</body>
+</html>
