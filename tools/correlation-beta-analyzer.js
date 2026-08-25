@@ -145,7 +145,7 @@
     } catch (directError) {
       const jinaUrl = `https://r.jina.ai/http://${url.slice('https://'.length)}`;
       const fallbackUrls = [
-        { url: jinaUrl, parser: (text) => JSON.parse(text.split('Markdown Content:\\n').slice(1).join('Markdown Content:\\n').trim()) },
+        { url: jinaUrl, parser: (text) => JSON.parse(text.split('Markdown Content:\n').slice(1).join('Markdown Content:\n').trim()) },
         { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(text) },
         { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(JSON.parse(text).contents) }
       ];
