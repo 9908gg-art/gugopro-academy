@@ -525,3 +525,19 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | 建置契約 | `python3 build_guides.py`、`validate_site.py`（`errors=0`）、語法檢查與 `git diff --check` 通過 |
 
 指南資產 query 已更新為 `longform-encyclopedia-scrollspy-20260825`，沒有觸碰 R:R／Grid 工具核心檔案。實際部署仍須以本輪指定 commit 完成後的 GitHub Pages workflow 與 cache-bust live DOM 為準。
+
+
+## 三十二、首頁知識樹整卡可點擊修正（2026-08-25）
+
+首頁 `#knowledge-grid` 原本只有卡片內的 `.text-link` 可以導覽。本輪在共用 `app.js` 新增 `initKnowledgeCardLinks()`：每張 `.knowledge-card` 會以其唯一的 `.text-link` 作為 canonical destination，初始化 `data-card-link`、`role="link"`、`tabindex="0"` 與描述性 `aria-label`。點擊卡片中不屬於既有互動元素的任何區域，會直接導向該指南；點擊原有文字連結則保留瀏覽器原生行為，避免重複觸發。鍵盤 focus 後按 Enter 或 Space 也會啟動同一指南連結。
+
+CSS 新增 `cursor: pointer` 與 `:focus-visible` 橘色輪廓／陰影，讓整卡可互動狀態清楚可見，且不變更首頁篩選器或卡片內文字連結版型。
+
+| 驗證項目 | 結果 |
+|---|---|
+| 卡片初始化 | 13/13 張卡片均取得 `role=link`、`tabindex=0`、`data-card-link` 與 aria label |
+| 桌面空白區點擊 | 點擊第一張卡片的 `.card-icon` 後導向 `guides/taiwan-stocks.html` |
+| 鍵盤操作 | 第一張卡片按 Enter 後導向 `guides/taiwan-stocks.html` |
+| 390×844 行動版 | `cards=13`、`cardLinkCount=13`、`clientWidth=382`、`scrollWidth=382`、無水平溢出 |
+| 靜態品質 | `node --check app.js`、`validate_site.py`（`errors=0`）、`git diff --check` 通過 |
+| 工具回歸 | R:R／Grid 核心 HTML／JS 未修改 |

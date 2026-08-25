@@ -3378,3 +3378,17 @@ html:has(body.guide-page) {
     scroll-behavior: auto;
   }
 }
+
+
+/* Whole knowledge cards are interactive; preserve the nested text link as the canonical destination. */
+.home-page .knowledge-card[data-card-link] {
+  cursor: pointer;
+}
+.home-page .knowledge-card[data-card-link]:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, .2), 0 14px 28px rgba(0, 0, 0, .2);
+}
+.home-page .knowledge-card[data-card-link]:active {
+  transform: translateY(1px);
+}

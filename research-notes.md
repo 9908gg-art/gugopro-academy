@@ -755,3 +755,9 @@ Scrollspy active style 本地核對：外匯頁「利差交易與 Swap」實際 
 
 
 Scrollspy 向下滾動補充回歸：本地外匯頁由 `#forex-carry` 手動滾到 `#forex-risk`，等待 smooth scroll 完成後 active／`aria-current=true` 已切換為唯一的「槓桿、強平與交易制度」，target top=108px、scrollY=3748。hash 保持前一次明確點擊的 `#forex-carry`，符合 scrollspy 僅同步閱讀狀態、不在每次手動滾動時改寫瀏覽歷史的設計。
+
+
+首頁整卡連結本地回歸：第一張卡片初始化後具有 `role="link"`、`tabindex="0"`、`aria-label="開啟台股／股票指南"`、`data-card-link="guides/taiwan-stocks.html"` 與 `data-card-link-bound="true"`。在同源 iframe 點擊卡片 `.card-icon` 空白／內容區域後，URL 成功導向 `guides/taiwan-stocks.html`；以 Enter 觸發卡片鍵盤操作也成功導向同一指南，證明不再只限點擊原本的文字連結。第一次行動 iframe 在鍵盤導航後讀取舊 document 導致 clientWidth=0，行動版 overflow 將以未導航 iframe 重新量測。
+
+
+首頁 390×844 回歸補充：以未導航同源 iframe 測得 `cards=13`、`cardLinkCount=13`、`clientWidth=382`、`scrollWidth=382`、`overflow=false`；第一張卡片的 `role="link"`、`tabindex="0"` 已正確初始化。console 僅有預期的 click／keyboard／mobile 回歸輸出，未見 JavaScript error。

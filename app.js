@@ -80,6 +80,32 @@
     render();
   }
 
+  function initKnowledgeCardLinks() {
+    var grid = document.getElementById('knowledge-grid');
+    if (!grid) return;
+    grid.querySelectorAll('.knowledge-card').forEach(function (card) {
+      var link = card.querySelector('a.text-link[href]');
+      if (!link || card.dataset.cardLinkBound === 'true') return;
+      card.dataset.cardLinkBound = 'true';
+      card.dataset.cardLink = link.getAttribute('href');
+      card.setAttribute('role', 'link');
+      card.setAttribute('tabindex', '0');
+      var heading = card.querySelector('h3');
+      card.setAttribute('aria-label', '開啟' + (heading ? heading.textContent.trim() : '此主題') + '指南');
+
+      card.addEventListener('click', function (event) {
+        var interactive = event.target && event.target.closest ? event.target.closest('a,button,input,select,textarea,label') : null;
+        if (interactive) return;
+        window.location.href = link.href;
+      });
+      card.addEventListener('keydown', function (event) {
+        if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
+        event.preventDefault();
+        link.click();
+      });
+    });
+  }
+
   function initGuideNavigation() {
     var sidebar = document.querySelector('.guide-sidebar');
     if (!sidebar) return;
@@ -215,6 +241,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     initDropdowns();
     initKnowledgeTree();
+    initKnowledgeCardLinks();
     initGuideNavigation();
     initGuideChapterScrollspy();
     initSiteConfig();
