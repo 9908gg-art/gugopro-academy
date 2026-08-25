@@ -88,7 +88,12 @@ required_files = [
     'tools/tw-institutional-tracker.html', 'tools/tw-institutional-tracker.js',
     'tools/tw-ma-deduction-calculator.html', 'tools/tw-ma-deduction-calculator.js',
     'tools/tw-stock-valuation.html', 'tools/tw-stock-valuation.js',
-    'tools/tw-day-trading-fee-calc.html', 'tools/tw-day-trading-fee-calc.js', 'tools/tw-market-data.js', 'tools/tools-hub.js'
+    'tools/tw-day-trading-fee-calc.html', 'tools/tw-day-trading-fee-calc.js', 'tools/tw-market-data.js', 'tools/tools-hub.js',
+    'tools/global-market-data.js', 'tools/global-tools-runtime.js', 'tools/global-tools.css',
+    'tools/us-earnings-tracker.html', 'tools/us-sec-insider-flow.html', 'tools/etf-nav-premium-tracker.html', 'tools/etf-drip-backtester.html',
+    'tools/bond-yield-curve-tracker.html', 'tools/fund-sharpe-drawdown-analyzer.html', 'tools/forex-interest-carry-calc.html', 'tools/commodity-gold-oil-ratio.html',
+    'tools/futures-basis-term-structure.html', 'tools/options-implied-volatility-rank.html', 'tools/crypto-funding-rate-liquidations.html',
+    'tools/real-estate-roi-cap-rate.html', 'tools/macro-liquidity-cpi-tracker.html', 'tools/trade-risk-kelly-criterion.html'
 ]
 for required in required_files:
     if not (ROOT / required).exists(): errors.append(f'missing required file {required}')
@@ -97,6 +102,7 @@ pages = [
     root, ROOT / 'tools/index.html', ROOT / 'tools/risk-reward-calculator.html',
     ROOT / 'tools/etf-dividend-calculator.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/grid-trading-calculator.html',
     ROOT / 'tools/tw-institutional-tracker.html', ROOT / 'tools/tw-ma-deduction-calculator.html', ROOT / 'tools/tw-stock-valuation.html', ROOT / 'tools/tw-day-trading-fee-calc.html',
+    *sorted((ROOT / 'tools').glob('*.html')),
     ROOT / 'privacy.html', ROOT / 'terms.html', ROOT / 'about.html',
     *sorted((ROOT / 'guides').glob('*.html'))
 ]
@@ -128,7 +134,8 @@ for link in ['risk-reward-calculator.html', 'etf-dividend-calculator.html', 'gri
 for hub_marker in ['tools-hub-layout', 'tools-hub-sidebar', 'tools-hub-filters', 'tool-library-search', 'tool-library-grid', 'data-tool-filter', 'data-tool-card', 'tools-hub.js', '全市場工具', '01 · 台股／股票']:
     if hub_marker not in workbench_text: errors.append(f'workbench missing Tools Hub marker {hub_marker}')
 if workbench_text.count('data-tool-filter=') != 14: errors.append('workbench must contain 14 tool hub filter buttons')
-if workbench_text.count('data-tool-card') != 17: errors.append('workbench must contain exactly 17 tool cards')
+if workbench_text.count('data-tool-card') != 31: errors.append('workbench must contain exactly 31 tool cards')
+if workbench_text.count('data-global-tool-card') != 14: errors.append('workbench must contain exactly 14 global public-data cards')
 compact_pages = {
     'tools/index.html': ['tools-library-page', 'single-screen-tools-20260825'],
     'tools/compound-interest.html': ['compact-calculator-page', 'single-screen-tools-20260825'],
@@ -170,6 +177,48 @@ for script_name, script_markers in {
     script_text = (ROOT / 'tools' / script_name).read_text(encoding='utf-8')
     for marker in script_markers:
         if marker not in script_text: errors.append(f'{script_name} missing real-data marker {marker}')
+global_tools = {
+    'us-earnings-tracker.html': '../guides/us-stocks.html#us-stocks-metrics',
+    'us-sec-insider-flow.html': '../guides/us-stocks.html#us-stocks-practice',
+    'etf-nav-premium-tracker.html': '../guides/etf.html#etf-metrics',
+    'etf-drip-backtester.html': '../guides/etf-dividend-drip.html#drip-practice',
+    'bond-yield-curve-tracker.html': '../guides/bonds.html#bonds-metrics',
+    'fund-sharpe-drawdown-analyzer.html': '../guides/funds.html#funds-metrics',
+    'forex-interest-carry-calc.html': '../guides/forex.html#forex-carry',
+    'commodity-gold-oil-ratio.html': '../guides/commodities.html#commodities-metrics',
+    'futures-basis-term-structure.html': '../guides/futures.html#futures-metrics',
+    'options-implied-volatility-rank.html': '../guides/options.html#options-metrics',
+    'crypto-funding-rate-liquidations.html': '../guides/crypto.html#crypto-metrics',
+    'real-estate-roi-cap-rate.html': '../guides/real-estate.html#real-estate-metrics',
+    'macro-liquidity-cpi-tracker.html': '../guides/macro-economics.html#macro-economics-metrics',
+    'trade-risk-kelly-criterion.html': '../guides/trading-strategy.html#position-sizing'
+}
+for tool_page, guide_href in global_tools.items():
+    tool_text = (ROOT / 'tools' / tool_page).read_text(encoding='utf-8')
+    for marker in ['global-tool-page', 'real-data-tool-page', 'global-market-data.js', 'global-tools-runtime.js', 'global-tools.css', 'chart.umd.min.js', 'REAL PUBLIC DATA', 'METHOD / FIELD GUIDE', 'global-status', 'global-retry', 'global-source', 'global-result', 'global-bottom-guide', 'data-global-tool=']:
+        if marker not in tool_text: errors.append(f'{tool_page} missing global real-data marker {marker}')
+    if guide_href not in tool_text: errors.append(f'{tool_page} missing guide backlink {guide_href}')
+    if 'INPUT / SCENARIO' in tool_text or '教育用情境' in tool_text or '假資料' in tool_text: errors.append(f'{tool_page} still contains obsolete fake scenario marker')
+for guide_file, tool_hrefs in {
+    'us-stocks.html': ['../tools/us-earnings-tracker.html', '../tools/us-sec-insider-flow.html'],
+    'etf.html': ['../tools/etf-nav-premium-tracker.html', '../tools/etf-drip-backtester.html'],
+    'etf-dividend-drip.html': ['../tools/etf-drip-backtester.html'],
+    'bonds.html': ['../tools/bond-yield-curve-tracker.html'],
+    'funds.html': ['../tools/fund-sharpe-drawdown-analyzer.html'],
+    'forex.html': ['../tools/forex-interest-carry-calc.html'],
+    'commodities.html': ['../tools/commodity-gold-oil-ratio.html'],
+    'futures.html': ['../tools/futures-basis-term-structure.html'],
+    'options.html': ['../tools/options-implied-volatility-rank.html'],
+    'crypto.html': ['../tools/crypto-funding-rate-liquidations.html'],
+    'real-estate.html': ['../tools/real-estate-roi-cap-rate.html'],
+    'macro-economics.html': ['../tools/macro-liquidity-cpi-tracker.html'],
+    'trading-strategy.html': ['../tools/trade-risk-kelly-criterion.html']
+}.items():
+    guide_text = (ROOT / 'guides' / guide_file).read_text(encoding='utf-8')
+    for tool_href in tool_hrefs:
+        if tool_href not in guide_text: errors.append(f'{guide_file} missing global tool link {tool_href}')
+    if guide_text.count('data-global-inline-tool') < len(tool_hrefs): errors.append(f'{guide_file} missing global inline tool marker')
+    if guide_text.count('data-global-tool-cta') < len(tool_hrefs): errors.append(f'{guide_file} missing global chapter CTA marker')
 rr_text = (ROOT / 'tools/risk-reward-calculator.html').read_text(encoding='utf-8')
 for field in ['rr-symbol-search','rr-quick-symbol','rr-load-symbol','rr-timeframe','rr-chart','rr-tv-widget','rr-entry-price','rr-stop-price','rr-target-price','rr-capital','rr-risk-percent','rr-reset-lines','rr-ratio','rr-position-size','rr-support-level','rr-resistance-level','rr-market-scanner','rr-scanner-timeframe','rr-scanner-lookback','rr-scanner-min-rr','rr-scanner-start','rr-scanner-body','rr-scanner-progress-bar','rr-scanner-success','rr-hud','rr-hud-live-price','rr-hud-position','rr-stream-status','rr-history-status','rr-load-older','rr-watchlist-options','rr-watchlist-add','rr-watchlist-manage','rr-watchlist-count','rr-watchlist-panel','rr-watchlist-close','rr-watchlist-items','rr-watchlist-feedback','rr-watchlist-clear']:
     if f'id="{field}"' not in rr_text: errors.append(f'rr calculator missing {field}')
@@ -200,7 +249,7 @@ if "$('grid-load-older')?.addEventListener" in grid_script: errors.append('grid 
 watchlist_script = (ROOT / 'tools/watchlist.js').read_text(encoding='utf-8')
 for marker in ['gugopro_academy_watchlist_v1', 'localStorage', 'CustomEvent', 'watchlist-panel', 'watchlist-remove', 'watchlist-clear']:
     if marker not in watchlist_script: errors.append(f'watchlist script missing {marker}')
-css_text = (ROOT / 'style.css').read_text(encoding='utf-8') + (ROOT / 'tools' / 'advanced-tools.css').read_text(encoding='utf-8')
+css_text = (ROOT / 'style.css').read_text(encoding='utf-8') + (ROOT / 'tools' / 'advanced-tools.css').read_text(encoding='utf-8') + (ROOT / 'tools' / 'global-tools.css').read_text(encoding='utf-8')
 app_text = (ROOT / 'app.js').read_text(encoding='utf-8')
 for app_marker in ['function initGuideNavigation', 'function initKnowledgeCardLinks', 'function initGuideChapterScrollspy', 'IntersectionObserver', "rootMargin: '-20% 0px -70% 0px'", 'scrollIntoView', 'aria-current', "sidebar.querySelectorAll('a[href]')", 'card.dataset.cardLink', "event.target.closest('a,button,input,select,textarea,label')"]:
     if app_marker not in app_text: errors.append(f'app.js missing guide navigation marker {app_marker}')
@@ -216,7 +265,8 @@ for forbidden_file in [
 
 print(f'guides={len(list((ROOT / "guides").glob("*.html")))}')
 print('deep_guides_expected=16')
-print('workbench_panels=9')
+print('workbench_panels=23')
+print('global_public_data_tools=14')
 print('advanced_tools=3')
 print('default_symbols=15_global')
 print('knowledge_tree_categories=13')
