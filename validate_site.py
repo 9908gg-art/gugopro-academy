@@ -36,7 +36,7 @@ for anchor in ['knowledge-tree', 'tool-deck', 'reading-room', 'support']:
     if f'id="{anchor}"' not in root_text: errors.append(f'root missing #{anchor}')
 for href in ['tools/risk-reward-calculator.html', 'tools/etf-dividend-calculator.html', 'tools/grid-trading-calculator.html']:
     if href not in root_text: errors.append(f'root missing tool link {href}')
-for root_marker in ['global-compact-20260825', 'role="tab"', 'aria-selected="true"', 'aria-selected="false"']:
+for root_marker in ['global-compact-20260825', 'homepage-density-20260825', 'role="tab"', 'aria-selected="true"', 'aria-selected="false"']:
     if root_marker not in root_text: errors.append(f'root missing knowledge-tree marker {root_marker}')
 
 expected_guides = ['taiwan-stocks','us-stocks','etf','bonds','funds','forex','commodities','futures','options','warrants','crypto','cfd-indices','risk-reward-ratio','grid-trading','etf-dividend-drip']
@@ -134,7 +134,7 @@ css_text = (ROOT / 'style.css').read_text(encoding='utf-8')
 app_text = (ROOT / 'app.js').read_text(encoding='utf-8')
 for app_marker in ['function initGuideNavigation', 'aria-current', "sidebar.querySelectorAll('a[href]')"]:
     if app_marker not in app_text: errors.append(f'app.js missing guide navigation marker {app_marker}')
-for css_marker in ['.home-page .hero-shell', '.home-page .tool-feature-card', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', '@media (max-width: 390px)']:
+for css_marker in ['.home-page .hero-shell', '.home-page .hero-copy h1 .hero-title-line', '.home-page .tool-feature-card', '.guide-page .guide-hero', '.guide-page .guide-sidebar a[aria-current="page"]', 'table-layout: fixed', 'padding:8px 10px 8px 36px', 'max-width:180px', 'background:#1a1f2c !important', 'background:#141824 !important', 'color:#f8fafc !important', '.grid-hud-search', '.rr-suggestion-main', 'z-index:100', '.watchlist-wrap', '.watchlist-panel', 'position:absolute', 'z-index:120', '.tools-library-page', '.compact-calculator-page', '.compact-tool-page', '.home-page #knowledge-tree .knowledge-grid', 'grid-template-columns: repeat(4', 'height: 38px', 'min-height: 0', 'background: #f97316', 'font-size: 13px', 'font-size: 16px', 'white-space: nowrap', 'transform: none', '@media (max-width: 390px)']:
     if css_marker not in css_text: errors.append(f'style missing {css_marker}')
 for forbidden_file in [
     ROOT / 'tools/index.html', ROOT / 'tools/compound-interest.html', ROOT / 'tools/etf-dividend-calculator.html',

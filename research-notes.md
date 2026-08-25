@@ -607,3 +607,12 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 指南頁共用 main、sidebar、Hero、正文、表格、tool-launch 與 CTA 均已收斂；桌面 ETF guide Hero 由 321px 收斂至 218px，正文卡片由 2469px 收斂至 1773px，main padding-top 由 55px 降至 20px。app.js 新增 `initGuideNavigation()`，依目前 pathname 自動加入 `active` 與 `aria-current="page"`；ETF 實測為橘色左側 accent、淡橘背景、白字。手機版 sidebar 改為 66px 高的可橫向瀏覽 topic rail，避免 16 個分類堆成長欄；指南表格在 390／375px 使用 fixed layout，15 篇指南均 `scrollWidth=382` 或 `367`、無水平溢出，且當前文章 active link 全數命中。
 
 本輪沒有修改 R:R／Grid 工具的圖表、HUD、watchlist 或行情邏輯；R:R／Grid 指南僅共用文章頁 compact layout。正式部署前已通過 `validate_site.py`、既有 JavaScript syntax check 與 `git diff --check`。
+
+
+## 2026-08-25：首頁首屏密度與穩定換行修正
+
+回應首頁 Hero 標題與 Learning Console 顯示跳動、文字過大、首屏能看到的內容不足等問題，本輪將 slogan 改成明確的兩個 DOM 行：`把市場雜訊，整理成一條` 與 `可走的路。`，第一行使用 `white-space: nowrap`，並保留固定 h1 節奏，避免字型載入或寬度變化造成換行回流。Learning Console 取消原本 `rotate(1.3deg)` 傾斜，改為水平穩定幾何；Console、標題、proof、按鈕與導覽列同步收斂。
+
+首頁 CSS cache 更新為 `style.css?v=homepage-density-20260825`。本地 1280×1100：Hero height=316px（上一版 479px），h1 height=90px、font-size=42.24px，第一行 height=44px 且 `white-space=nowrap`；Hero lede 14.4px、42px 高；Console height=241px、transform=`none`、title 24px；知識樹 top=374px，第一張卡片 top=590px、height=214px；primary CTA 維持橘底白字，active filter 維持橘底白字，無水平溢出。
+
+本地 390×844 與 375×667：兩者 Hero 均 top=58、height=447、bottom=505；slogan h1 top=107、height=57，第一行 height=30 且 `white-space=nowrap`；Console top=310、height=174、bottom=484；knowledge tree top=505；`scrollWidth` 分別為 382 與 367，均無水平溢出。分類／搜尋互動回歸：點選「固定收益」顯示 2 張卡，與 ETF 搜尋組合正確顯示 0 張，清除條件後恢復 12 張且 active 回到「全部 12」；標題等待 350ms 前後量測均為 top=117、height=90、bottom=206，判定無漂移。

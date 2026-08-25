@@ -382,3 +382,17 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 指南頁 main、sidebar、Hero、正文、表格、tool-launch 與 CTA 均已收斂。以 ETF 頁為例，桌面 Hero 由 321px 降至 218px，正文由 2469px 降至 1773px，main padding-top 由 55px 降至 20px；指南 desktop 保留 sidebar＋正文雙欄，手機則將 16 個主題導覽改為 66px 高的可橫向 topic rail。app.js 新增 `initGuideNavigation()`，依 pathname 自動為當前文章加入 `active` 與 `aria-current="page"`；ETF 實測為白字、淡橘背景與橘色左側 accent。指南表格在 390／375px 採 fixed layout，避免頁面被 681px 的表格內容拉寬。
 
 驗證結果：15 篇指南的 390px 同源 iframe 回歸全部通過，active 導覽 15/15 命中、15/15 無水平溢出；ETF 指南 390×844 與 375×667 的 `scrollWidth` 分別為 382 與 367，首頁相同尺寸亦無水平溢出。`python3 validate_site.py` 回報 `errors=0`；既有 JavaScript 語法檢查與 `git diff --check` 通過。指南 CSS／JS 資產 query 已同步至 `global-compact-20260825`，避免正式站命中舊版快取。
+
+
+## 二十四、首頁首屏密度與穩定換行修正（2026-08-25）
+
+本輪專注改善首頁 Hero 的兩個人性化問題：標題「把市場雜訊，整理成一條可走的路。」在不同尺寸或字型載入時可能產生換行／視覺跳動，以及首屏內容過大、同一畫面可見資訊不足。首頁 slogan 現改為兩個明確行級元素，第一行為「把市場雜訊，整理成一條」、第二行為橘色「可走的路。」；第一行固定 `white-space: nowrap`，避免文字回流造成上下跳動。Learning Console 取消 `rotate(1.3deg)`，改為水平穩定幾何，並同步減少 Console 內部 margin、padding、標題、步驟與 footer 間距。
+
+首頁新資產版本為 `style.css?v=homepage-density-20260825`。首頁 Header、Logo、導覽、Hero h1、說明文字、按鈕、proof 資訊與 Console 均在 `.home-page` scope 內縮小，不影響文章頁或 R:R／Grid 工具。桌面 1280×1100 實測 Hero height 由上一版 479px 降至 316px；Hero h1 42.24px、height 90px；第一行 height 44px 且 nowrap；lede 14.4px；Console height 241px、title 24px、transform=`none`。知識樹 top 提前至 374px，第一張卡片 top=590px、height=214px。
+
+| 測試視窗 | Hero | Slogan | Learning Console | 溢出 |
+|---|---:|---:|---:|---|
+| 390×844 | top=58、height=447、bottom=505 | h1 top=107、height=57；第一行 height=30、nowrap | top=310、height=174、bottom=484 | `scrollWidth=382`，無溢出 |
+| 375×667 | top=58、height=447、bottom=505 | h1 top=107、height=57；第一行 height=30、nowrap | top=310、height=174、bottom=484 | `scrollWidth=367`，無溢出 |
+
+互動回歸中，點選「固定收益」顯示 2 張卡片；再輸入 `ETF` 後組合條件正確顯示 0 張；清除搜尋並回到「全部 12」後恢復 12 張。標題等待 350ms 前後量測均為 top=117、height=90、bottom=206，判定沒有載入後漂移。primary CTA 與 active filter 仍分別為橘底白字；`python3 validate_site.py`、既有 JavaScript syntax check 與 `git diff --check` 均通過。
