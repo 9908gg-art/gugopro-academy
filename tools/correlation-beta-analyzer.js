@@ -14,57 +14,82 @@
   const tvOverrides = { GOLD: 'GC=F', OIL: 'CL=F', NQ: 'NQ=F', ES: 'ES=F', SILVER: 'SI=F', COPPER: 'HG=F', NG: 'NG=F', DXY: 'DX-Y.NYB', XAUUSD: 'GC=F', USOIL: 'CL=F', BTCUSD: 'BTC-USD', ETHUSD: 'ETH-USD' };
   const binancePattern = /(?:USDT|USDC|BUSD)$/;
   const CATALOG = [
-    { symbol: '2330.TW', name: '台積電 Taiwan Semiconductor', market: '台股', category: 'tw', yahoo: '2330.TW' },
-    { symbol: '0050.TW', name: '元大台灣 50 ETF', market: '台股 ETF', category: 'tw', yahoo: '0050.TW' },
-    { symbol: '0056.TW', name: '元大高股息 ETF', market: '台股 ETF', category: 'tw', yahoo: '0056.TW' },
-    { symbol: '00878.TW', name: '國泰永續高股息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00878.TW' },
-    { symbol: '00919.TW', name: '群益台灣精選高息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00919.TW' },
-    { symbol: '00929.TW', name: '復華台灣科技優息 ETF', market: '台股 ETF', category: 'tw', yahoo: '00929.TW' },
-    { symbol: '2317.TW', name: '鴻海 Hon Hai', market: '台股', category: 'tw', yahoo: '2317.TW' },
-    { symbol: '2454.TW', name: '聯發科 MediaTek', market: '台股', category: 'tw', yahoo: '2454.TW' },
-    { symbol: '2308.TW', name: '台達電 Delta Electronics', market: '台股', category: 'tw', yahoo: '2308.TW' },
-    { symbol: '2881.TW', name: '富邦金 Fubon Financial', market: '台股', category: 'tw', yahoo: '2881.TW' },
-    { symbol: 'NVDA', name: 'NVIDIA', market: '美股科技權值', category: 'us', yahoo: 'NVDA' },
-    { symbol: 'MSFT', name: 'Microsoft', market: '美股科技權值', category: 'us', yahoo: 'MSFT' },
-    { symbol: 'AAPL', name: 'Apple', market: '美股科技權值', category: 'us', yahoo: 'AAPL' },
-    { symbol: 'AMZN', name: 'Amazon', market: '美股科技權值', category: 'us', yahoo: 'AMZN' },
-    { symbol: 'META', name: 'Meta Platforms', market: '美股科技權值', category: 'us', yahoo: 'META' },
-    { symbol: 'TSLA', name: 'Tesla', market: '美股科技權值', category: 'us', yahoo: 'TSLA' },
-    { symbol: 'GOOGL', name: 'Alphabet Google', market: '美股科技權值', category: 'us', yahoo: 'GOOGL' },
-    { symbol: 'SOXX', name: 'iShares 半導體 ETF', market: '美股 ETF', category: 'us', yahoo: 'SOXX' },
-    { symbol: 'TLT', name: 'iShares 20 年美債 ETF', market: '美股 ETF', category: 'us', yahoo: 'TLT' },
-    { symbol: 'QQQ', name: 'Invesco Nasdaq-100 ETF', market: '美股 ETF', category: 'us', yahoo: 'QQQ' },
-    { symbol: 'SPY', name: 'SPDR S&P 500 ETF', market: '美股 ETF', category: 'us', yahoo: 'SPY' },
-    { symbol: 'NQ', name: 'Nasdaq-100 E-mini Futures', market: '全球期貨', category: 'global', yahoo: 'NQ=F' },
-    { symbol: 'ES', name: 'S&P 500 E-mini Futures', market: '全球期貨', category: 'global', yahoo: 'ES=F' },
-    { symbol: 'GOLD', name: 'Gold Futures / XAUUSD', market: '原物料', category: 'global', yahoo: 'GC=F' },
-    { symbol: 'OIL', name: 'Crude Oil / USOIL', market: '原物料', category: 'global', yahoo: 'CL=F' },
-    { symbol: 'SILVER', name: 'Silver Futures', market: '原物料', category: 'global', yahoo: 'SI=F' },
-    { symbol: 'COPPER', name: 'Copper Futures', market: '原物料', category: 'global', yahoo: 'HG=F' },
-    { symbol: 'NG', name: 'Natural Gas Futures', market: '原物料', category: 'global', yahoo: 'NG=F' },
-    { symbol: 'DXY', name: 'U.S. Dollar Index', market: '全球指數', category: 'global', yahoo: 'DX-Y.NYB' },
-    { symbol: 'TXF', name: '台指期', market: 'TAIFEX 台指期', category: 'futures', yahoo: '^TWII' },
-    { symbol: 'MXF', name: '小台指', market: 'TAIFEX 小型台指', category: 'futures', yahoo: '^TWII' },
-    { symbol: 'TMF', name: '微型台指', market: 'TAIFEX 微型台指', category: 'futures', yahoo: '^TWII' },
-    { symbol: 'MNQ', name: 'Micro E-mini Nasdaq-100 Futures', market: 'CME 微型那指', category: 'futures', yahoo: 'NQ=F' },
-    { symbol: 'MES', name: 'Micro E-mini S&P 500 Futures', market: 'CME 微型 S&P', category: 'futures', yahoo: 'ES=F' },
-    { symbol: 'GC', name: 'Gold Futures', market: 'COMEX 黃金期貨', category: 'futures', yahoo: 'GC=F' },
-    { symbol: 'MGC', name: 'Micro Gold Futures', market: 'COMEX 微型黃金', category: 'futures', yahoo: 'GC=F' },
-    { symbol: 'CL', name: 'Crude Oil Futures', market: 'NYMEX 原油期貨', category: 'futures', yahoo: 'CL=F' },
-    { symbol: 'FTX', name: '富台期', market: 'TAIFEX 富台期', category: 'futures', yahoo: '^TWII' },
-    { symbol: 'HSI', name: 'Hang Seng Index Futures', market: 'HKEX 恆生期貨', category: 'futures', yahoo: '^HSI' },
-    { symbol: 'EURUSD', name: 'Euro / U.S. Dollar', market: 'FX 歐元兌美元', category: 'forex', yahoo: 'EURUSD=X' },
-    { symbol: 'USDJPY', name: 'U.S. Dollar / Japanese Yen', market: 'FX 美元兌日圓', category: 'forex', yahoo: 'JPY=X' },
-    { symbol: 'GBPUSD', name: 'British Pound / U.S. Dollar', market: 'FX 英鎊兌美元', category: 'forex', yahoo: 'GBPUSD=X' },
-    { symbol: 'AUDUSD', name: 'Australian Dollar / U.S. Dollar', market: 'FX 澳幣兌美元', category: 'forex', yahoo: 'AUDUSD=X' },
-    { symbol: 'BTCUSDT', name: 'Bitcoin / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'ETHUSDT', name: 'Ethereum / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'SOLUSDT', name: 'Solana / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'BNBUSDT', name: 'BNB / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'XRPUSDT', name: 'XRP / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'DOGEUSDT', name: 'Dogecoin / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'ADAUSDT', name: 'Cardano / Tether', market: '加密貨幣', category: 'crypto', binance: true },
-    { symbol: 'AVAXUSDT', name: 'Avalanche / Tether', market: '加密貨幣', category: 'crypto', binance: true }
+    { symbol: '2330.TW', name: '台積電', market: '台股權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2330.TW' },
+    { symbol: '0050.TW', name: '元大台灣50 ETF', market: '台股大盤 ETF', category: 'tw', pickerCategory: 'twstocks', yahoo: '0050.TW' },
+    { symbol: '0056.TW', name: '元大高股息 ETF', market: '台股高股息 ETF', category: 'tw', pickerCategory: 'twstocks', yahoo: '0056.TW' },
+    { symbol: '00878.TW', name: '國泰永續高股息 ETF', market: '台股高股息 ETF', category: 'tw', pickerCategory: 'twstocks', yahoo: '00878.TW' },
+    { symbol: '00919.TW', name: '群益台灣精選高息 ETF', market: '台股高股息 ETF', category: 'tw', pickerCategory: 'twstocks', yahoo: '00919.TW' },
+    { symbol: '00929.TW', name: '復華台灣科技優息 ETF', market: '台股科技 ETF', category: 'tw', pickerCategory: 'twstocks', yahoo: '00929.TW' },
+    { symbol: '2317.TW', name: '鴻海', market: '台股電子權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2317.TW' },
+    { symbol: '2454.TW', name: '聯發科', market: '台股電子權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2454.TW' },
+    { symbol: '2308.TW', name: '台達電', market: '台股電子權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2308.TW' },
+    { symbol: '2881.TW', name: '富邦金', market: '台股金融權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2881.TW' },
+    { symbol: '2882.TW', name: '國泰金', market: '台股金融權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2882.TW' },
+    { symbol: '1301.TW', name: '台塑', market: '台股傳產權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '1301.TW' },
+    { symbol: '2002.TW', name: '中鋼', market: '台股傳產權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2002.TW' },
+    { symbol: '2886.TW', name: '兆豐金', market: '台股金融權值股', category: 'tw', pickerCategory: 'twstocks', yahoo: '2886.TW' },
+    { symbol: 'NVDA', name: '輝達', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'NVDA' },
+    { symbol: 'MSFT', name: '微軟', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'MSFT' },
+    { symbol: 'AAPL', name: '蘋果', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'AAPL' },
+    { symbol: 'AMZN', name: '亞馬遜', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'AMZN' },
+    { symbol: 'META', name: 'Meta 臉書母公司', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'META' },
+    { symbol: 'TSLA', name: '特斯拉', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'TSLA' },
+    { symbol: 'GOOGL', name: 'Google 母公司 Alphabet', market: '美股科技股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'GOOGL' },
+    { symbol: 'AVGO', name: '博通', market: '美股半導體股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'AVGO' },
+    { symbol: 'AMD', name: '超微半導體', market: '美股半導體股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'AMD' },
+    { symbol: 'JPM', name: '摩根大通', market: '美股金融股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'JPM' },
+    { symbol: 'V', name: 'Visa 維薩', market: '美股金融股', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'V' },
+    { symbol: 'SPY', name: '標普500 指數 ETF', market: '美股指數 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'SPY' },
+    { symbol: 'QQQ', name: '那斯達克100 指數 ETF', market: '美股指數 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'QQQ' },
+    { symbol: 'SOXX', name: '美國半導體 ETF', market: '美股產業 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'SOXX' },
+    { symbol: 'TLT', name: '美國20年期公債 ETF', market: '美股債券 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'TLT' },
+    { symbol: 'GLD', name: '黃金 ETF', market: '美股原物料 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'GLD' },
+    { symbol: 'SLV', name: '白銀 ETF', market: '美股原物料 ETF', category: 'us', pickerCategory: 'foreignstocks', yahoo: 'SLV' },
+    { symbol: 'NQ', name: '那斯達克100 期貨', market: '全球股指期貨', category: 'global', pickerCategory: 'globalfutures', yahoo: 'NQ=F' },
+    { symbol: 'ES', name: '標普500 期貨', market: '全球股指期貨', category: 'global', pickerCategory: 'globalfutures', yahoo: 'ES=F' },
+    { symbol: 'MNQ', name: '微型那斯達克100 期貨', market: 'CME 微型股指期貨', category: 'futures', pickerCategory: 'globalfutures', yahoo: 'NQ=F' },
+    { symbol: 'MES', name: '微型標普500 期貨', market: 'CME 微型股指期貨', category: 'futures', pickerCategory: 'globalfutures', yahoo: 'ES=F' },
+    { symbol: 'YM', name: '道瓊工業指數期貨', market: '全球股指期貨', category: 'global', pickerCategory: 'globalfutures', yahoo: 'YM=F' },
+    { symbol: 'RTY', name: '羅素2000 指數期貨', market: '全球股指期貨', category: 'global', pickerCategory: 'globalfutures', yahoo: 'RTY=F' },
+    { symbol: 'HSI', name: '恆生指數期貨', market: '香港股指期貨', category: 'futures', pickerCategory: 'globalfutures', yahoo: '^HSI' },
+    { symbol: 'TXF', name: '臺股期貨／大台', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
+    { symbol: 'MXF', name: '小型臺指期貨／小台', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
+    { symbol: 'TMF', name: '微型臺指期貨', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
+    { symbol: 'FTX', name: '富台指期貨', market: '臺灣期貨交易所', category: 'futures', pickerCategory: 'twfutures', yahoo: '^TWII' },
+    { symbol: 'GC', name: '黃金期貨', market: 'COMEX 黃金', category: 'futures', pickerCategory: 'commodities', yahoo: 'GC=F' },
+    { symbol: 'MGC', name: '微型黃金期貨', market: 'COMEX 黃金', category: 'futures', pickerCategory: 'commodities', yahoo: 'GC=F' },
+    { symbol: 'GOLD', name: '黃金現貨／黃金期貨代理', market: '黃金原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'GC=F' },
+    { symbol: 'SI', name: '白銀期貨', market: 'COMEX 白銀', category: 'global', pickerCategory: 'commodities', yahoo: 'SI=F' },
+    { symbol: 'SILVER', name: '白銀原物料', market: '白銀原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'SI=F' },
+    { symbol: 'HG', name: '銅期貨', market: 'COMEX 銅', category: 'global', pickerCategory: 'commodities', yahoo: 'HG=F' },
+    { symbol: 'COPPER', name: '銅原物料', market: '銅原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'HG=F' },
+    { symbol: 'CL', name: '西德州原油期貨', market: 'NYMEX 原油', category: 'futures', pickerCategory: 'commodities', yahoo: 'CL=F' },
+    { symbol: 'OIL', name: '原油／WTI', market: '原油原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'CL=F' },
+    { symbol: 'NG', name: '天然氣期貨', market: 'NYMEX 天然氣', category: 'global', pickerCategory: 'commodities', yahoo: 'NG=F' },
+    { symbol: 'PLATINUM', name: '白金期貨', market: '貴金屬原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'PL=F' },
+    { symbol: 'PALLADIUM', name: '鈀金期貨', market: '貴金屬原物料', category: 'global', pickerCategory: 'commodities', yahoo: 'PA=F' },
+    { symbol: 'COFFEE', name: '咖啡期貨', market: '農產品期貨', category: 'global', pickerCategory: 'commodities', yahoo: 'KC=F' },
+    { symbol: 'SUGAR', name: '原糖期貨', market: '農產品期貨', category: 'global', pickerCategory: 'commodities', yahoo: 'SB=F' },
+    { symbol: 'COTTON', name: '棉花期貨', market: '農產品期貨', category: 'global', pickerCategory: 'commodities', yahoo: 'CT=F' },
+    { symbol: 'DXY', name: '美元指數', market: '美元指數', category: 'global', pickerCategory: 'forex', yahoo: 'DX-Y.NYB' },
+    { symbol: 'EURUSD', name: '歐元／美元', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'EURUSD=X' },
+    { symbol: 'USDJPY', name: '美元／日圓', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'JPY=X' },
+    { symbol: 'GBPUSD', name: '英鎊／美元', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'GBPUSD=X' },
+    { symbol: 'AUDUSD', name: '澳幣／美元', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'AUDUSD=X' },
+    { symbol: 'USDCNH', name: '美元／離岸人民幣', market: '亞洲外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'CNH=X' },
+    { symbol: 'USDCHF', name: '美元／瑞士法郎', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'CHF=X' },
+    { symbol: 'USDCAD', name: '美元／加拿大幣', market: '主要外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'CAD=X' },
+    { symbol: 'USDTWD', name: '美元／新臺幣', market: '亞洲外匯', category: 'forex', pickerCategory: 'forex', yahoo: 'TWD=X' },
+    { symbol: 'BTCUSDT', name: '比特幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'ETHUSDT', name: '以太幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'SOLUSDT', name: '索拉納／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'BNBUSDT', name: '幣安幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'XRPUSDT', name: '瑞波幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'DOGEUSDT', name: '狗狗幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'ADAUSDT', name: '艾達幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'AVAXUSDT', name: '雪崩幣／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'LINKUSDT', name: '鏈結／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true },
+    { symbol: 'SUIUSDT', name: 'Sui 蘇伊／泰達幣', market: '加密貨幣', category: 'crypto', pickerCategory: 'crypto', binance: true }
   ];
 
   let targetMeta = findMeta('2330.TW');
@@ -77,13 +102,6 @@
   let modalFilter = 'all';
   let modalActiveIndex = -1;
   let modalLastFocus = null;
-  const EXTENDED_CATALOG_URLS = {
-    stocks: 'data/global-symbol-catalog-stocks.json',
-    forex: 'data/global-symbol-catalog-forex.json',
-    crypto: 'data/global-symbol-catalog-crypto.json'
-  };
-  const extendedCatalogState = { entries: [], loaded: new Set(), loading: new Map(), errors: new Map() };
-  const EXTENDED_META_BY_SYMBOL = new Map();
 
   function cleanSymbol(value) {
     const raw = String(value || '').trim().toUpperCase().replace(/\s+/g, '');
@@ -103,8 +121,6 @@
     const symbol = cleanSymbol(value);
     const known = CATALOG.find((item) => item.symbol === symbol);
     if (known) return { ...known };
-    const extended = EXTENDED_META_BY_SYMBOL.get(symbol);
-    if (extended) return { ...extended };
     const crypto = binancePattern.test(symbol);
     const yahoo = tvOverrides[symbol] || (symbol === 'BTCUSD' ? 'BTC-USD' : symbol);
     return {
@@ -458,25 +474,31 @@
     quick.value = isKnown ? normalized : '';
   }
 
-  const modalCategoryFor = (item) => item.category === 'tw' || item.category === 'us' ? 'stocks' : item.category === 'global' ? (item.symbol === 'DXY' ? 'forex' : 'futures') : item.category;
+  const PICKER_CATEGORY_LABELS = {
+    all: '全部商品', twstocks: '台股／ETF', foreignstocks: '國外股票', twfutures: '台股期貨',
+    globalfutures: '國外期貨', commodities: '黃金／原物料', forex: '外匯', crypto: '加密貨幣'
+  };
+  const modalCategoryFor = (item) => item.pickerCategory || (item.category === 'tw' || item.category === 'us' ? 'foreignstocks' : item.category === 'global' ? (item.symbol === 'DXY' ? 'forex' : 'commodities') : item.category);
   const modalExchangeFor = (item) => {
-    const symbol = item.symbol;
-    if (item.binance) return { name: 'BINANCE', country: '🪙' };
-    if (modalCategoryFor(item) === 'forex') return { name: symbol === 'DXY' ? 'ICE' : 'FX', country: symbol === 'DXY' ? '🇺🇸' : '🌐' };
-    if (modalCategoryFor(item) === 'futures') {
-      if (['TXF', 'MXF', 'TMF', 'FTX'].includes(symbol)) return { name: 'TAIFEX', country: '🇹🇼' };
-      if (symbol === 'HSI') return { name: 'HKEX', country: '🇭🇰' };
-      if (['GC', 'MGC', 'GOLD', 'SILVER', 'COPPER'].includes(symbol)) return { name: 'COMEX', country: '🇺🇸' };
+    const symbol = item.symbol; const category = modalCategoryFor(item);
+    if (item.binance) return { name: '幣安 Binance', country: '🪙' };
+    if (category === 'twstocks') return { name: '臺灣證交所', country: '🇹🇼' };
+    if (category === 'foreignstocks') return { name: ['SPY', 'QQQ', 'SOXX', 'TLT', 'GLD', 'SLV'].includes(symbol) ? 'NYSE Arca' : 'NASDAQ／NYSE', country: '🇺🇸' };
+    if (category === 'twfutures') return { name: '臺灣期貨交易所', country: '🇹🇼' };
+    if (category === 'globalfutures') return { name: symbol === 'HSI' ? '香港交易所' : 'CME 芝商所', country: symbol === 'HSI' ? '🇭🇰' : '🇺🇸' };
+    if (category === 'commodities') {
+      if (['GC', 'MGC', 'GOLD', 'SI', 'SILVER', 'HG', 'COPPER'].includes(symbol)) return { name: 'COMEX', country: '🇺🇸' };
       if (['CL', 'OIL', 'NG'].includes(symbol)) return { name: 'NYMEX', country: '🇺🇸' };
-      return { name: 'CME', country: '🇺🇸' };
+      return { name: 'ICE', country: '🌐' };
     }
-    if (/\.TW$/.test(symbol)) return { name: 'TWSE', country: '🇹🇼' };
-    return { name: ['SPY', 'QQQ', 'SOXX', 'TLT'].includes(symbol) ? 'NYSE ARCA' : 'NASDAQ', country: '🇺🇸' };
+    if (category === 'forex') return { name: symbol === 'DXY' ? 'ICE 美元指數' : '外匯市場', country: symbol === 'DXY' ? '🇺🇸' : '🌐' };
+    return { name: '公開市場', country: '🌐' };
   };
   const modalBadgeFor = (item) => {
+    const category = modalCategoryFor(item);
     if (item.binance) return item.symbol.replace(/USDT$/, '').slice(0, 3);
-    if (item.category === 'futures') return ['GC', 'MGC', 'GOLD', 'SILVER', 'COPPER'].includes(item.symbol) ? 'GC' : item.symbol.slice(0, 3);
-    if (modalCategoryFor(item) === 'forex') return item.symbol.slice(0, 3);
+    if (['twfutures', 'globalfutures', 'commodities'].includes(category)) return item.symbol.slice(0, 3);
+    if (category === 'forex') return item.symbol.slice(0, 3);
     return item.symbol.replace(/[^A-Z0-9]/g, '').slice(0, 3);
   };
   const ISIN_BY_SYMBOL = {
@@ -494,130 +516,32 @@
     isin: item.isin || ISIN_BY_SYMBOL[item.symbol] || ''
   }));
 
-  function normalizeExtendedEntry(item) {
-    const symbol = String(item.symbol || '').trim().toUpperCase();
-    if (!symbol) return null;
-    const modalCategory = item.modalCategory || 'stocks';
-    const binance = item.binance === true || (item.binance === undefined && binancePattern.test(symbol));
-    const yahoo = item.yahoo || (modalCategory === 'forex' ? `${symbol}=X` : symbol);
-    const category = modalCategory === 'stocks' ? (/\.(TW|TWO|HK|SS|SZ)$/.test(symbol) ? 'tw' : 'us') : modalCategory;
-    return {
-      ...item,
-      symbol,
-      name: item.name || symbol,
-      market: item.market || '全球市場',
-      category,
-      modalCategory,
-      exchange: item.exchange || 'PUBLIC',
-      country: item.country || '🌐',
-      badge: item.badge || symbol.replace(/[^A-Z0-9]/g, '').slice(0, 4),
-      isin: item.isin || '',
-      yahoo,
-      binance,
-      catalogOnly: true
-    };
-  }
-
-  function modalEntries() {
-    const combined = [...SYMBOL_SEARCH_CATALOG, ...extendedCatalogState.entries];
-    return [...new Map(combined.map((entry) => [`${entry.symbol}|${entry.modalCategory}`, entry])).values()];
-  }
-
-  function updateCatalogSourceNote() {
-    const note = $('cba-modal-source-note');
-    if (!note) return;
-    const loaded = [...extendedCatalogState.loaded];
-    const loading = [...extendedCatalogState.loading.keys()];
-    const errors = [...extendedCatalogState.errors.keys()];
-    const count = extendedCatalogState.entries.length.toLocaleString('zh-TW');
-    if (loading.length) {
-      note.innerHTML = `<strong>公開目錄：</strong>正在載入 FinanceDatabase／MIT 的 ${escapeHtml(loading.join('、'))} 分片；內建商品仍可立即選擇。`;
-    } else if (loaded.length) {
-      const suffix = errors.length ? `；${escapeHtml(errors.join('、'))} 分片暫時無法載入` : '';
-      note.innerHTML = `<strong>公開目錄：</strong>FinanceDatabase／MIT 已載入 ${count} 筆識別資料${suffix}；目前只顯示搜尋結果前 120 筆，行情支援度仍以公開端點為準。`;
-    } else {
-      note.innerHTML = '<strong>公開目錄：</strong>切換股票／ETF、外匯或加密貨幣分類，或輸入至少 2 個字元，即會延遲載入 FinanceDatabase 的全球識別資料；內建期貨與熱門商品可立即使用。';
-    }
-  }
-
-  async function loadExtendedCatalog(category) {
-    if (!EXTENDED_CATALOG_URLS[category] || extendedCatalogState.loaded.has(category)) return;
-    if (extendedCatalogState.loading.has(category)) return extendedCatalogState.loading.get(category);
-    const promise = fetchWithTimeout(EXTENDED_CATALOG_URLS[category], 45000, { cache: 'force-cache' })
-      .then((response) => { if (!response.ok) throw new Error(`公開目錄 HTTP ${response.status}`); return response.json(); })
-      .then((payload) => {
-        const entries = (payload.entries || []).map(normalizeExtendedEntry).filter(Boolean);
-        extendedCatalogState.entries.push(...entries);
-        entries.forEach((entry) => { if (!EXTENDED_META_BY_SYMBOL.has(entry.symbol)) EXTENDED_META_BY_SYMBOL.set(entry.symbol, entry); });
-        extendedCatalogState.loaded.add(category);
-        extendedCatalogState.errors.delete(category);
-      })
-      .catch((error) => {
-        extendedCatalogState.errors.set(category, error?.message || '公開目錄無法載入');
-      })
-      .finally(() => {
-        extendedCatalogState.loading.delete(category);
-        updateCatalogSourceNote();
-      });
-    extendedCatalogState.loading.set(category, promise);
-    updateCatalogSourceNote();
-    return promise;
-  }
-
-  function catalogCategoriesForQuery(raw) {
-    if (modalFilter !== 'all') return [modalFilter];
-    if (/USDT$|^(BTC|ETH|SOL|BNB|XRP|DOGE|ADA|AVAX|LINK|SUI)/.test(raw)) return ['crypto'];
-    if (/^(AED|AUD|BRL|CAD|CHF|CNY|EUR|GBP|HKD|INR|JPY|KRW|MXN|NOK|NZD|PLN|SEK|SGD|THB|TRY|TWD|USD|ZAR)/.test(raw)) return ['forex'];
-    return ['stocks'];
-  }
-
-  async function ensureCatalogForQuery(raw) {
-    const categories = (raw.length >= 2 ? catalogCategoriesForQuery(raw) : (modalFilter !== 'all' ? [modalFilter] : []))
-      .filter((category) => EXTENDED_CATALOG_URLS[category]);
-    if (!categories.length) return;
-    await Promise.all(categories.map((category) => loadExtendedCatalog(category)));
-    if (!$('cba-symbol-modal')?.hidden) renderSymbolModal();
-  }
-
-  function modalMatches(entry, query) {
-    if (!query) return true;
-    const haystack = `${entry.symbol} ${entry.name} ${entry.market} ${entry.exchange} ${entry.isin} ${entry.country}`.toUpperCase();
-    return haystack.includes(query);
-  }
 
   function renderSymbolModal() {
     const list = $('cba-symbol-list'); const empty = $('cba-modal-empty'); if (!list || !empty) return;
-    const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase();
-    const useExtendedSource = raw.length >= 2 || (modalFilter !== 'all' && extendedCatalogState.loaded.has(modalFilter));
-    const source = useExtendedSource ? modalEntries() : SYMBOL_SEARCH_CATALOG;
-    const filtered = source.filter((entry) => (modalFilter === 'all' || entry.modalCategory === modalFilter) && modalMatches(entry, raw));
-    const normalized = cleanSymbol(raw);
-    const exact = source.some((entry) => entry.symbol === normalized || (entry.isin && entry.isin.toUpperCase() === raw));
-    const entries = filtered.slice(0, useExtendedSource ? 120 : 80);
-    if (raw.length >= 2 && !exact) {
-      const custom = findMeta(raw);
-      const exchange = custom.binance ? { name: 'BINANCE', country: '🪙' } : { name: 'AUTO', country: '自訂代碼' };
-      entries.unshift({ ...custom, modalCategory: 'custom', exchange: exchange.name, country: exchange.country, badge: 'ADD', isin: '', custom: true });
-    }
+    const filtered = SYMBOL_SEARCH_CATALOG.filter((entry) => modalFilter === 'all' || entry.modalCategory === modalFilter);
+    const entries = filtered;
+    const categoryName = $('cba-modal-category-name');
+    if (categoryName) categoryName.textContent = `${PICKER_CATEGORY_LABELS[modalFilter] || PICKER_CATEGORY_LABELS.all}（${entries.length} 項）`;
     list.innerHTML = entries.map((entry, index) => {
-      const detail = entry.isin ? `ISIN ${entry.isin}` : entry.custom ? '搜尋自訂代碼 · 公開端點自動判斷' : entry.catalogOnly ? `公開目錄 · ${entry.modalCategory.toUpperCase()} · 識別資料` : `公開行情 · ${entry.modalCategory.toUpperCase()}`;
+      const detail = entry.market || '可用公開行情';
       return `<button class="cba-symbol-row${index === modalActiveIndex ? ' is-active' : ''}" type="button" role="option" aria-selected="${index === modalActiveIndex}" data-symbol="${escapeHtml(entry.symbol)}"><span class="cba-symbol-badge category-${escapeHtml(entry.modalCategory)}">${escapeHtml(entry.badge)}</span><span class="cba-symbol-copy"><strong>${escapeHtml(entry.symbol)}</strong><small>${escapeHtml(entry.name)}</small><em>${escapeHtml(detail)}</em></span><span class="cba-symbol-market"><strong>${escapeHtml(entry.exchange)}</strong><small>${escapeHtml(entry.country)}</small></span></button>`;
     }).join('');
     empty.hidden = entries.length > 0;
-    if (!entries.length) empty.textContent = raw ? `找不到「${raw}」。請修改搜尋，或使用自訂代碼直接載入。` : '此分類目前沒有可顯示的商品。';
+    if (!entries.length) empty.textContent = '此分類目前沒有可選商品。';
     modalActiveIndex = entries.length ? Math.min(Math.max(modalActiveIndex, 0), entries.length - 1) : -1;
-    updateCatalogSourceNote();
   }
 
   function openSymbolModal() {
-    const modal = $('cba-symbol-modal'); const search = $('cba-modal-search'); if (!modal || !search) return;
+    const modal = $('cba-symbol-modal'); if (!modal) return;
     modalLastFocus = document.activeElement;
     modal.hidden = false;
     document.body.classList.add('cba-modal-open');
-    modalFilter = 'all'; modalActiveIndex = -1; search.value = '';
+    modalFilter = 'all'; modalActiveIndex = -1;
     document.querySelectorAll('[data-symbol-filter]').forEach((tab) => { const active = tab.dataset.symbolFilter === modalFilter; tab.classList.toggle('is-active', active); tab.setAttribute('aria-selected', String(active)); });
+    const list = $('cba-symbol-list'); if (list) list.scrollTop = 0;
     renderSymbolModal();
-    window.requestAnimationFrame(() => search.focus());
+    window.requestAnimationFrame(() => document.querySelector('[data-symbol-filter="all"]')?.focus());
   }
 
   function closeSymbolModal() {
@@ -713,24 +637,13 @@
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openModal(); }
     });
     document.querySelectorAll('[data-cba-modal-close]').forEach((element) => element.addEventListener('click', closeSymbolModal));
-    $('cba-modal-search')?.addEventListener('input', () => { modalActiveIndex = -1; renderSymbolModal(); const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase(); ensureCatalogForQuery(raw); });
-    $('cba-modal-search')?.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowDown') { event.preventDefault(); moveModalActive(1); }
-      else if (event.key === 'ArrowUp') { event.preventDefault(); moveModalActive(-1); }
-      else if (event.key === 'Enter') {
-        event.preventDefault();
-        const options = [...document.querySelectorAll('#cba-symbol-list button[data-symbol]')];
-        const active = options[modalActiveIndex >= 0 ? modalActiveIndex : 0];
-        if (active) selectModalSymbol(active.dataset.symbol);
-      } else if (event.key === 'Escape') closeSymbolModal();
-    });
+
     $('cba-modal-tabs')?.addEventListener('click', (event) => {
       const tab = event.target.closest('[data-symbol-filter]'); if (!tab) return;
       modalFilter = tab.dataset.symbolFilter || 'all'; modalActiveIndex = -1;
       document.querySelectorAll('[data-symbol-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); });
       const list = $('cba-symbol-list'); if (list) list.scrollTop = 0;
       renderSymbolModal();
-      const raw = String($('cba-modal-search')?.value || '').trim().toUpperCase(); ensureCatalogForQuery(raw);
     });
     $('cba-symbol-list')?.addEventListener('click', (event) => {
       const row = event.target.closest('button[data-symbol]'); if (row) selectModalSymbol(row.dataset.symbol);

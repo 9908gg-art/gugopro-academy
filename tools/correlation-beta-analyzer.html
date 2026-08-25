@@ -76,24 +76,22 @@
     .cba-modal-head p { margin:5px 0 0; color:#9da8bc; font-size:.7rem; }
     .cba-modal-close { display:grid; place-items:center; width:32px; height:32px; border:1px solid rgba(148,163,184,.25); border-radius:8px; color:#cbd5e1; background:transparent; font-size:1.1rem; cursor:pointer; }
     .cba-modal-close:hover { color:#fff; background:#1e2332; }
-    .cba-modal-search-row { flex:0 0 auto; position:relative; z-index:4; padding:13px 18px 9px; background:#141824; }
-    .cba-modal-search-label { display:block; color:#9da8bc; font-size:.67rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-    .cba-modal-search-wrap { position:relative; margin-top:6px; }
-    .cba-modal-search-wrap > i { position:absolute; top:12px; left:12px; color:#8f9bb1; pointer-events:none; }
-    #cba-modal-search { width:100%; min-height:42px; padding:10px 12px 10px 34px; border:1px solid rgba(148,163,184,.3); border-radius:9px; color:#fff; background:#1e2332; outline:none; font:600 .86rem "DM Sans", sans-serif; }
-    #cba-modal-search:focus { border-color:#f97316; box-shadow:0 0 0 3px rgba(249,115,22,.14); }
-    .cba-modal-source-note { margin:6px 0 0; color:#718099; font-size:.61rem; line-height:1.4; }
-    .cba-modal-source-note strong { color:#aeb8c9; font-weight:700; }
-    .cba-modal-tabs { flex:0 0 auto; position:relative; z-index:4; display:flex; gap:6px; overflow-x:auto; padding:0 18px 11px; border-bottom:1px solid rgba(148,163,184,.14); background:#141824; scrollbar-width:thin; }
-    .cba-modal-tab { flex:none; min-height:31px; padding:6px 12px; border:1px solid rgba(148,163,184,.2); border-radius:999px; color:#aeb8c9; background:transparent; font:700 .71rem "DM Sans", sans-serif; cursor:pointer; }
+    .cba-modal-tabs { flex:0 0 auto; position:relative; z-index:4; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; padding:13px 18px 14px; border-bottom:1px solid rgba(148,163,184,.14); background:#141824; }
+    .cba-modal-tab { display:flex; align-items:center; justify-content:center; min-width:0; min-height:38px; padding:7px 8px; border:1px solid rgba(148,163,184,.2); border-radius:9px; color:#aeb8c9; background:#181d2a; font:700 .71rem/1.2 "DM Sans", sans-serif; cursor:pointer; }
     .cba-modal-tab:hover { color:#fff; background:#1e2332; }
     .cba-modal-tab.is-active { border-color:#f97316; color:#fff; background:#f97316; }
+    .cba-modal-tab small { display:block; margin-top:2px; color:#8290a6; font-size:.55rem; font-weight:500; }
+    .cba-modal-tab.is-active small { color:#fff1e5; }
+    .cba-modal-category-caption { padding:13px 18px 0; color:#9da8bc; font-size:.68rem; font-weight:700; letter-spacing:.08em; }
+    .cba-modal-category-caption strong { color:#fff; }
     .cba-symbol-list { flex:1 1 0; min-height:0; overflow-y:auto; overflow-x:hidden; padding:3px 12px 14px; overscroll-behavior:contain; scrollbar-gutter:stable; }
     .cba-symbol-row { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; width:100%; gap:11px; padding:10px 9px; border:1px solid transparent; border-radius:10px; color:#e9eef8; background:transparent; text-align:left; cursor:pointer; }
     .cba-symbol-row:hover, .cba-symbol-row:focus, .cba-symbol-row.is-active { border-color:rgba(249,115,22,.32); background:#1e2332; outline:none; }
     .cba-symbol-badge { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; color:#fff; background:#475569; font:800 .58rem "Space Grotesk", sans-serif; letter-spacing:-.03em; }
-    .cba-symbol-badge.category-futures { background:#2563eb; }
-    .cba-symbol-badge.category-stocks { background:#0f766e; }
+    .cba-symbol-badge.category-futures, .cba-symbol-badge.category-twfutures, .cba-symbol-badge.category-globalfutures { background:#2563eb; }
+    .cba-symbol-badge.category-stocks, .cba-symbol-badge.category-twstocks { background:#0f766e; }
+    .cba-symbol-badge.category-foreignstocks { background:#0891b2; }
+    .cba-symbol-badge.category-commodities { background:linear-gradient(135deg,#b45309,#f59e0b); }
     .cba-symbol-badge.category-forex { background:#7c3aed; }
     .cba-symbol-badge.category-crypto { background:linear-gradient(135deg,#f59e0b,#d97706); }
     .cba-symbol-badge.category-custom { background:#475569; }
@@ -217,8 +215,8 @@
       .cba-method-card p { font-size:.63rem; }
       .cba-modal { align-items:end; padding:0; }
       .cba-modal-dialog { width:100%; height:calc(100dvh - 12px); max-height:calc(100dvh - 12px); border-radius:18px 18px 0 0; }
-      .cba-modal-head, .cba-modal-search-row { padding-inline:14px; }
-      .cba-modal-tabs { padding-inline:14px; }
+      .cba-modal-head { padding-inline:14px; }
+      .cba-modal-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; padding-inline:14px; }
       .cba-symbol-list { max-height:none; padding-inline:8px; }
       .cba-explanation { padding:13px; }
       .cba-explanation-head { display:block; }
@@ -268,9 +266,9 @@
       <div class="cba-modal-backdrop" data-cba-modal-close></div>
       <section class="cba-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cba-modal-title">
         <div class="cba-modal-fixed-controls">
-          <header class="cba-modal-head"><div><div class="cba-kicker">TRADINGVIEW STYLE / SYMBOL SEARCH</div><h2 id="cba-modal-title">選擇標的</h2><p>搜尋代碼、中文／英文名稱或 ISIN；點擊商品後立即開始分析。</p></div><button id="cba-modal-close" class="cba-modal-close" type="button" data-cba-modal-close aria-label="關閉商品搜尋彈窗"><i class="fa-solid fa-xmark"></i></button></header>
-          <div class="cba-modal-search-row"><label class="cba-modal-search-label" for="cba-modal-search">商品搜尋 Symbol / Name / ISIN</label><div class="cba-modal-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input id="cba-modal-search" type="search" autocomplete="off" spellcheck="false" placeholder="例如 MNQ、台積電、Micro E-mini 或 US0378331005" aria-controls="cba-symbol-list"></div><p id="cba-modal-source-note" class="cba-modal-source-note"><strong>公開目錄：</strong>切換股票／ETF、外匯或加密貨幣分類，或輸入至少 2 個字元，即會延遲載入 FinanceDatabase 的全球識別資料；內建期貨與熱門商品可立即使用。</p></div>
-          <div id="cba-modal-tabs" class="cba-modal-tabs" role="tablist" aria-label="市場分類"><button class="cba-modal-tab is-active" type="button" role="tab" aria-selected="true" data-symbol-filter="all">全部 All</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="futures">期貨 Futures</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="stocks">股票／ETF Stocks</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="forex">外匯 Forex</button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="crypto">加密貨幣 Crypto</button></div>
+          <header class="cba-modal-head"><div><div class="cba-kicker">商品快速選擇</div><h2 id="cba-modal-title">選擇商品分類</h2><p>請先選擇市場分類，再點選要帶入分析的商品。</p></div><button id="cba-modal-close" class="cba-modal-close" type="button" data-cba-modal-close aria-label="關閉商品快速選擇"><i class="fa-solid fa-xmark"></i></button></header>
+          <div class="cba-modal-category-caption">目前分類：<strong id="cba-modal-category-name">全部商品</strong></div>
+          <div id="cba-modal-tabs" class="cba-modal-tabs" role="tablist" aria-label="商品市場分類"><button class="cba-modal-tab is-active" type="button" role="tab" aria-selected="true" data-symbol-filter="all">全部商品<small>熱門快速選擇</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="twstocks">台股／ETF<small>臺灣股票與 ETF</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="foreignstocks">國外股票<small>美股與海外 ETF</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="twfutures">台股期貨<small>臺灣期貨交易所</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="globalfutures">國外期貨<small>股指與海外期貨</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="commodities">黃金／原物料<small>貴金屬、能源、農產品</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="forex">外匯<small>主要貨幣匯率</small></button><button class="cba-modal-tab" type="button" role="tab" aria-selected="false" data-symbol-filter="crypto">加密貨幣<small>數位資產</small></button></div>
         </div>
         <div id="cba-symbol-list" class="cba-symbol-list" role="listbox" aria-label="可選商品列表"></div><div id="cba-modal-empty" class="cba-modal-empty" hidden>找不到符合的商品。請修改搜尋，或使用自訂代碼直接載入。</div>
       </section>
@@ -294,6 +292,6 @@
   </main>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../index.html" class="logo"><span class="logo-icon"><i class="fa-solid fa-chart-line"></i></span><span class="logo-copy"><span class="logo-text">GugoPro</span><span class="logo-tag">ACADEMY</span></span></a><p>把市場雜訊，整理成一條可走的路。</p></div><div class="footer-nav"><div><strong>探索</strong><a href="../index.html#knowledge-tree">知識樹</a><a href="index.html">實戰工具庫</a><a href="../guides/trading-strategy.html">交易策略指南</a></div><div><strong>支持</strong><a data-kofi-link href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi 贊助支持</a><a href="https://www.amazon.com/?tag=9908qq-20" target="_blank" rel="noopener noreferrer">Amazon Hub</a></div><div><strong>政策</strong><a href="/privacy.html">隱私權政策</a><a href="/terms.html">服務條款與免責</a><a href="/about.html">關於我們</a></div></div></div><div class="footer-bottom"><span>© 2026 GugoPro Academy</span><span>教育內容，不構成投資建議。</span></div></footer>
   <script src="/app.js?v=correlation-beta-analyzer-20260825"></script>
-  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r8" defer></script>
+  <script src="correlation-beta-analyzer.js?v=correlation-beta-analyzer-20260825-r10" defer></script>
 </body>
 </html>
