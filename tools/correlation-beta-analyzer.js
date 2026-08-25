@@ -145,7 +145,13 @@
     } catch (directError) {
       const jinaUrl = `https://r.jina.ai/http://${url.slice('https://'.length)}`;
       const fallbackUrls = [
-        { url: jinaUrl, parser: (text) => JSON.parse(text.split('Markdown Content:\n').slice(1).join('Markdown Content:\n').trim()) },
+        { url: jinaUrl, parser: (text) => {
+          const envelope = JSON.parse(text);
+          if (envelope?.chart?.result) return envelope;
+          if (typeof envelope?.data?.content === 'string') return JSON.parse(envelope.data.content);
+          const marker = 'Markdown Content:\n';
+          return JSON.parse(text.split(marker).slice(1).join(marker).trim());
+        } },
         { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(text) },
         { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(JSON.parse(text).contents) }
       ];
