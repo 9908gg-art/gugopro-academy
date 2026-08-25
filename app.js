@@ -80,6 +80,20 @@
     render();
   }
 
+  function initGuideNavigation() {
+    var sidebar = document.querySelector('.guide-sidebar');
+    if (!sidebar) return;
+    var current = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    sidebar.querySelectorAll('a[href]').forEach(function (link) {
+      var href = (link.getAttribute('href') || '').split('#')[0].split('?')[0];
+      var target = href.split('/').pop().toLowerCase();
+      if (target && target === current && /\.html$/.test(target)) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+  }
+
   function initSiteConfig() {
     fetch('/config.json', { cache: 'no-store' }).then(function (response) {
       if (!response.ok) throw new Error('config unavailable');
@@ -93,6 +107,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     initDropdowns();
     initKnowledgeTree();
+    initGuideNavigation();
     initSiteConfig();
     document.querySelectorAll('.sidebar-menu a').forEach(function (link) {
       link.addEventListener('click', function () {

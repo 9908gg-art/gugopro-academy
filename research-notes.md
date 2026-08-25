@@ -596,3 +596,14 @@ R:R 最新 375px RWD 回歸：同源隱藏 iframe 測得 viewport 375、`bodyScr
 隱藏 iframe 斷點回歸確認：390×844 為 2 欄、卡片寬約 163px、toolbar height 120px、search height 38px、scrollWidth=382，無水平溢出；800×900 為 3 欄、卡片寬約 241px、toolbar/search height 38px、scrollWidth=792，無水平溢出。兩個斷點點選「股票市場」均顯示 3 張卡片並同步 `aria-selected=true`，輸入 `ETF` 均顯示 1 張 ETF 卡片。最終 validator `errors=0`，全既有 JavaScript 語法檢查與 `git diff --check` 均通過。
 
 本地視覺截圖：改造後知識樹桌面 `/home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-35-08_1993.webp`；主頁 active「固定收益」`/home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-37-53_9848.webp`；搜尋 `ETF` ` /home/ubuntu/screenshots/127_0_0_1_2026-08-25_02-38-03_9246.webp`。
+
+
+## 2026-08-25：首頁與指南頁全站人性化緊湊化回歸
+
+本輪針對首頁 `index.html` 與 15 篇 `guides/*.html` 做全站 editorial compact pass，回應首屏大段空白、Hero／區塊交界拉開、工具與閱讀卡片過大、文章標題過胖，以及 ETF 側欄無法清楚辨識目前分類等問題。首頁 Hero 的本地 1280px 高度由 837px 收斂至 479px；首頁 body height 由 4681px 收斂至 3468px，約減少 25.9%。工具 deck margin-top 由 105px 收斂至 30px，reading room margin-top 同樣收斂至 30px；工具卡片與閱讀卡片改用較低 min-height、較小 padding，保留 4 欄知識樹與 13–17px 核心文字。
+
+首頁 primary CTA 與 knowledge-tree active filter 已強制白字：實測橘底按鈕背景 `rgb(255,159,67)`、文字 `rgb(255,255,255)`；active filter 背景 `rgb(249,115,22)`、文字 `rgb(255,255,255)`。首頁 390×844 與 375×667 皆無水平溢出，`scrollWidth` 分別為 382 與 367。
+
+指南頁共用 main、sidebar、Hero、正文、表格、tool-launch 與 CTA 均已收斂；桌面 ETF guide Hero 由 321px 收斂至 218px，正文卡片由 2469px 收斂至 1773px，main padding-top 由 55px 降至 20px。app.js 新增 `initGuideNavigation()`，依目前 pathname 自動加入 `active` 與 `aria-current="page"`；ETF 實測為橘色左側 accent、淡橘背景、白字。手機版 sidebar 改為 66px 高的可橫向瀏覽 topic rail，避免 16 個分類堆成長欄；指南表格在 390／375px 使用 fixed layout，15 篇指南均 `scrollWidth=382` 或 `367`、無水平溢出，且當前文章 active link 全數命中。
+
+本輪沒有修改 R:R／Grid 工具的圖表、HUD、watchlist 或行情邏輯；R:R／Grid 指南僅共用文章頁 compact layout。正式部署前已通過 `validate_site.py`、既有 JavaScript syntax check 與 `git diff --check`。

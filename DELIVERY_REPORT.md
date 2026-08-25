@@ -369,3 +369,16 @@ TradingView symbol mapping 已涵蓋 `NASDAQ:NVDA`、`CME_MINI:NQ1!`、`CME_MINI
 | 對比與互動 | 桌面與兩個響應式斷點點選「股票市場」均顯示 3 張卡片、`aria-selected=true`、完成 transition 後為橘底白字；輸入 `ETF` 均篩出 ETF 單一卡片。 |
 
 本地 validator `python3 validate_site.py` 回報 `errors=0`；`app.js`、`advanced-tools.js`、ETF、R:R、Grid、watchlist 等既有 JavaScript 均通過 `node --check`，`git diff --check` 亦通過。正式部署後將以版本化 URL 核對首頁 DOM、computed style、搜尋／分類互動與正式 Pages workflow；所有知識樹內容仍屬教育用途，不構成投資建議。
+
+
+## 二十三、全站人性化緊湊化與指南 active 導覽（2026-08-25）
+
+本輪回應首頁與文章頁的大片留白、區塊交界過寬、工具／閱讀卡片虛胖、文章標題過大，以及 ETF 側欄沒有清楚標示目前分類等問題。修改範圍為首頁 `index.html`、共享 `style.css`／`app.js` 與 15 篇 `guides/*.html`；既有 R:R／Grid 工具的 HUD、圖表、watchlist、行情與持久化邏輯未修改，R:R／Grid 指南僅套用文章頁的共享 compact layout。
+
+首頁 Hero 在本地 1280px 的高度由 837px 降至 479px；首頁 body height 由 4681px 降至 3468px，約減少 25.9%。工具 deck 與 reading room 的 margin-top 均由 105px 降至 30px；工具卡片第一張高度約 235px、閱讀卡片約 180px。首頁仍保留知識樹 4 欄 12 張卡片，商品標題約 17px、關鍵文字約 13px，緊湊化透過減少 padding、margin、line-height 與卡片 min-height 完成，而非將內容縮成難以閱讀的小字。
+
+首頁 primary CTA 與 knowledge-tree active filter 均強制白字：橘底按鈕實測背景 `rgb(255,159,67)`、文字 `rgb(255,255,255)`；active filter 實測背景 `rgb(249,115,22)`、文字 `rgb(255,255,255)`。桌面 1280px 採 4 欄，800px 採 3 欄，390／375px 採 2 欄；兩個手機尺寸均無水平溢出，`scrollWidth` 分別為 382 與 367。
+
+指南頁 main、sidebar、Hero、正文、表格、tool-launch 與 CTA 均已收斂。以 ETF 頁為例，桌面 Hero 由 321px 降至 218px，正文由 2469px 降至 1773px，main padding-top 由 55px 降至 20px；指南 desktop 保留 sidebar＋正文雙欄，手機則將 16 個主題導覽改為 66px 高的可橫向 topic rail。app.js 新增 `initGuideNavigation()`，依 pathname 自動為當前文章加入 `active` 與 `aria-current="page"`；ETF 實測為白字、淡橘背景與橘色左側 accent。指南表格在 390／375px 採 fixed layout，避免頁面被 681px 的表格內容拉寬。
+
+驗證結果：15 篇指南的 390px 同源 iframe 回歸全部通過，active 導覽 15/15 命中、15/15 無水平溢出；ETF 指南 390×844 與 375×667 的 `scrollWidth` 分別為 382 與 367，首頁相同尺寸亦無水平溢出。`python3 validate_site.py` 回報 `errors=0`；既有 JavaScript 語法檢查與 `git diff --check` 通過。指南 CSS／JS 資產 query 已同步至 `global-compact-20260825`，避免正式站命中舊版快取。
