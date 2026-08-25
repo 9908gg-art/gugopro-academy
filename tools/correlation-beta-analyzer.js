@@ -640,6 +640,10 @@
     return { equities: '股票', etfs: 'ETF', funds: '基金', indices: '指數', moneymarkets: '貨幣市場', forex: '外匯', crypto: '加密貨幣' }[entry.assetType] || '全球商品';
   }
 
+  function modalNameFor(entry) {
+    return entry.catalogOnly ? `${modalAssetTypeLabel(entry)}｜${entry.name}` : entry.name;
+  }
+
   function modalDetailFor(entry) {
     if (entry.catalogOnly) {
       const market = entry.modalCategory === 'indices' ? '全球指數' : entry.modalCategory === 'funds' ? '共同基金／貨幣市場' : entry.market || '全球市場';
@@ -650,7 +654,7 @@
 
   function modalRowHtml(entry, index) {
     const active = index === modalActiveIndex;
-    return `<button class="cba-symbol-row${active ? ' is-active' : ''}" type="button" role="option" aria-selected="${active}" aria-posinset="${index + 1}" data-index="${index}" data-symbol="${escapeHtml(entry.symbol)}"><span class="cba-symbol-badge category-${escapeHtml(entry.modalCategory)}">${escapeHtml(entry.badge)}</span><span class="cba-symbol-copy"><strong>${escapeHtml(entry.symbol)}</strong><small>${escapeHtml(entry.name)}</small><em>${escapeHtml(modalDetailFor(entry))}</em></span><span class="cba-symbol-market"><strong>${escapeHtml(entry.exchange)}</strong><small>${escapeHtml(entry.country)}</small></span></button>`;
+    return `<button class="cba-symbol-row${active ? ' is-active' : ''}" type="button" role="option" aria-selected="${active}" aria-posinset="${index + 1}" data-index="${index}" data-symbol="${escapeHtml(entry.symbol)}"><span class="cba-symbol-badge category-${escapeHtml(entry.modalCategory)}">${escapeHtml(entry.badge)}</span><span class="cba-symbol-copy"><strong>${escapeHtml(entry.symbol)}</strong><small>${escapeHtml(modalNameFor(entry))}</small><em>${escapeHtml(modalDetailFor(entry))}</em></span><span class="cba-symbol-market"><strong>${escapeHtml(entry.exchange)}</strong><small>${escapeHtml(entry.country)}</small></span></button>`;
   }
 
   function renderVisibleModalRows() {
