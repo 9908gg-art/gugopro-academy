@@ -114,10 +114,10 @@
     if ($('cba-status-detail')) $('cba-status-detail').textContent = detail;
   }
 
-  function fetchWithTimeout(url, timeout = 10000) {
+  function fetchWithTimeout(url, timeout = 10000, options = {}) {
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(), timeout);
-    return fetch(url, { signal: controller.signal, mode: 'cors', cache: 'no-store', headers: { Accept: 'application/json' } }).finally(() => window.clearTimeout(timer));
+    return fetch(url, { signal: controller.signal, mode: 'cors', cache: 'no-store', headers: { Accept: 'application/json', ...(options.headers || {}) }, ...options }).finally(() => window.clearTimeout(timer));
   }
 
   function parseBinanceRows(rows) {
@@ -145,20 +145,23 @@
     } catch (directError) {
       const jinaUrl = `https://r.jina.ai/http://${url.slice('https://'.length)}`;
       const fallbackUrls = [
-        { url: jinaUrl, parser: (text) => {
-          const envelope = JSON.parse(text);
+        { url: jinaUrl, timeout: 18000, options: { headers: { Accept: 'text/plain' } }, parser: (text) => {
+          let envelope = null;
+          try { envelope = JSON.parse(text); } catch (error) { /* plain Markdown envelope below */ }
           if (envelope?.chart?.result) return envelope;
           if (typeof envelope?.data?.content === 'string') return JSON.parse(envelope.data.content);
           const marker = 'Markdown Content:\n';
-          return JSON.parse(text.split(marker).slice(1).join(marker).trim());
+          const content = text.split(marker).slice(1).join(marker).trim();
+          if (!content) throw new Error('Jina response did not contain chart content');
+          return JSON.parse(content);
         } },
-        { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(text) },
-        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, parser: (text) => JSON.parse(JSON.parse(text).contents) }
+        { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, timeout: 8000, parser: (text) => JSON.parse(text) },
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, timeout: 8000, parser: (text) => JSON.parse(JSON.parse(text).contents) }
       ];
       let lastError = directError;
       for (const fallback of fallbackUrls) {
         try {
-          const fallbackResponse = await fetchWithTimeout(fallback.url, 10000);
+          const fallbackResponse = await fetchWithTimeout(fallback.url, fallback.timeout || 10000, fallback.options || {});
           if (!fallbackResponse.ok) throw new Error(`CORS fallback HTTP ${fallbackResponse.status}`);
           json = fallback.parser(await fallbackResponse.text());
           break;
