@@ -52,3 +52,13 @@ Local URL: `http://127.0.0.1:8129/tools/index.html?qa=dynamic-counts-r3`
 ## Boundary
 
 The count model is intentionally based on actual DOM cards, not a second hard-coded catalog. If a card is added, removed, or its category token changes, the runtime counts update on the next page load. Localized legacy workspace pages are not silently rewritten into the hub because they use a different DOM and are not the deployment source of `academy.gugopro.com/tools/index.html`.
+
+## Production smoke test
+
+- Commit: `33fa683ae810b527ce857efce8c2e37c15e152c2`.
+- GitHub Pages run: [33059813275](https://github.com/9908gg-art/gugopro-academy/actions/runs/33059813275), completed with `success`.
+- Cache-busted URL: `https://academy.gugopro.com/tools/index.html?qa=33fa683`.
+- Production runtime loaded `tools-hub.js?v=tools-hub-20260827-r3`.
+- Production counts matched the card scan: all 80; equity 9; us 8; etf 11; fixed 8; funds 9; forex 8; commodities 6; futures 10; options 9; crypto 7; real-estate 9; macro 8; strategy 13.
+- Production interaction passed: selecting strategy left 13 visible cards and every visible card contained the strategy token; searching `zzzz-no-match` left zero visible cards and showed the empty-state message; clearing search and selecting all restored 80 cards.
+- Production `document.documentElement.scrollWidth > document.documentElement.clientWidth` was false and no console error was observed during the final interaction smoke test.
