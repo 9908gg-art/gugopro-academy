@@ -3,17 +3,15 @@
   'use strict';
 
   function changeLanguage(lang) {
-    localStorage.setItem('user-language', lang);
-    var currentPath = window.location.pathname;
-    var langs = ['en', 'ja', 'ko', 'es', 'zh-cn', 'vi'];
-    var pathParts = currentPath.split('/');
-    if (pathParts[pathParts.length - 1] === '') pathParts[pathParts.length - 1] = 'index.html';
-    if (pathParts.length > 1 && langs.includes(pathParts[1].toLowerCase())) pathParts.splice(1, 1);
-    var targetPath = '';
-    if (lang === 'zh-tw') targetPath = pathParts.join('/');
-    else { pathParts.splice(1, 0, lang); targetPath = pathParts.join('/'); }
-    if (!targetPath || targetPath === '/') targetPath = lang === 'zh-tw' ? '/index.html' : '/' + lang + '/index.html';
-    window.location.href = targetPath;
+    var aliases = {
+      'zh-tw': 'zh-TW', 'zh-TW': 'zh-TW', 'zh-cn': 'zh-CN', 'zh-CN': 'zh-CN',
+      en: 'en', ja: 'ja', de: 'de', fr: 'fr', es: 'es', pt: 'pt'
+    };
+    var locale = aliases[lang] || 'zh-TW';
+    try { localStorage.setItem('gugopro_locale', locale); } catch (error) { /* private mode */ }
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', locale);
+    window.location.assign(url.toString());
   }
   window.changeLanguage = changeLanguage;
 
