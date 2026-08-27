@@ -62,3 +62,13 @@ The count model is intentionally based on actual DOM cards, not a second hard-co
 - Production counts matched the card scan: all 80; equity 9; us 8; etf 11; fixed 8; funds 9; forex 8; commodities 6; futures 10; options 9; crypto 7; real-estate 9; macro 8; strategy 13.
 - Production interaction passed: selecting strategy left 13 visible cards and every visible card contained the strategy token; searching `zzzz-no-match` left zero visible cards and showed the empty-state message; clearing search and selecting all restored 80 cards.
 - Production `document.documentElement.scrollWidth > document.documentElement.clientWidth` was false and no console error was observed during the final interaction smoke test.
+
+## Final production evidence commit
+
+The QA-only follow-up commit is `78521b4ef2aec694cbe697534784db9d274f49d5`. Its GitHub Pages run [33059989724](https://github.com/9908gg-art/gugopro-academy/actions/runs/33059989724) completed with `success`.
+
+Final URL: `https://academy.gugopro.com/tools/index.html?qa=78521b4`
+
+The final production DOM smoke test confirmed 80 cards and the same counts as the code-derived contract: all 80, equity 9, us 8, etf 11, fixed 8, funds 9, forex 8, commodities 6, futures 10, options 9, crypto 7, real-estate 9, macro 8, and strategy 13. It loaded `tools-hub.js?v=tools-hub-20260827-r3` and `style.css?v=tools-hub-20260827-r3`.
+
+Selecting strategy produced 13 visible cards and all visible cards contained the strategy token. Searching `zzzz-no-match` produced zero visible cards and a polite live empty-state. Clearing the search and selecting all restored 80 cards. Production horizontal-overflow check was false and no console error was observed during the final interaction smoke test.
